@@ -108,7 +108,7 @@ export const TERMS = {
     en: 'Cardiac electrical vector',
     plain: '某一瞬间，心脏里所有电流加在一起的"总方向和总大小"，可以画成一根箭头。箭头尖端在一次心跳里画出的轨迹，就是向量环。',
     pro: '瞬时综合心电向量。本站空间向量由 12 导联经 Kors 回归矩阵重建（X 向左、Y 向下、Z 向后），前后方向（Z）重建误差较大；额面向量直接由 I 与 aVF 计算，投影关系精确成立。',
-    refs: ['kors'],
+    refs: ['kors', 'durrer'],
   },
   sinusRhythm: {
     zh: '窦性心律',

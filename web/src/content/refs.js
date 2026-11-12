@@ -36,6 +36,11 @@ export const REFS = {
     note: '本站已用 PTB 数据库的真实 Frank 导联核对系数（见仓库 docs/数据核查.md）',
     status: 'listed',
   },
+  durrer: {
+    text: 'Durrer D, van Dam RT, Freud GE, Janse MJ, Meijler FL, Arzbaecher RC. Total excitation of the isolated human heart. Circulation. 1970;41:899–912.',
+    note: '心室除极顺序：左室面室间隔中部最早，左室后基底部最晚（本站 3D 示意心脏的依据）',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',

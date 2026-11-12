@@ -96,8 +96,11 @@
               <label><input type="checkbox" id="show-axes" checked /> 导联轴</label>
               <span class="muted">拖动旋转 · 滚轮缩放</span>
             </div>
+            <div id="planes" class="planes"></div>
             <p class="small muted">
-              心脏为示意模型，颜色表示"通电"顺序（示意）。空间向量由 12 导联推导（Kors 矩阵），前后方向误差较大。
+              向量环上的小箭头表示画线方向，每 10 ms（QRS）或 20 ms（P、T）一个，箭头密处向量走得慢。
+              空间向量由 12 导联推导（Kors 矩阵），前后方向误差较大。
+              心脏为示意模型：心室"通电"顺序按 Durrer 等（1970）离体人心标测结果示意，室间隔中部最早、后基底部最晚。
             </p>
           </section>
           <section class="card axes-card">

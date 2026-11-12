@@ -6,6 +6,7 @@ import { QTC_FORMULAS } from './ecg/measures.js';
 import { locate, beatWindow } from './ecg/beats.js';
 import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
+import { PlanesView } from './views/planes.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
 import { REFS } from './content/refs.js';
@@ -115,6 +116,7 @@ function renderLinked() {
   const { plane, readout } = renderAxes($('#axes-svg'), ctx);
   $('#axes-title').textContent = plane === 'frontal' ? '额面六轴系统（肢体导联）' : '水平面（胸导联，方向为示意）';
   renderNow(ctx, readout);
+  planes.update(ctx);
   heart?.update({ ...ctx, showAxes: state.show3d.axes, showHeart: state.show3d.heart });
 }
 
@@ -462,6 +464,7 @@ function openGlossary() {
 // ================================================================ 3D（懒加载，失败不影响其他功能）
 
 let heart = null;
+const planes = new PlanesView(document.querySelector('#planes'));
 let heartLoading = null;
 function loadHeart() {
   if (heart || heartLoading) return;

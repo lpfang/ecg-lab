@@ -15,6 +15,7 @@ import {
   leadValuesAt,
 } from '../vcg/vector.js';
 import { WAVE_COLORS } from '../ecg/paper.js';
+import { arrowMarks } from './planes.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const C = 140; // 中心
@@ -105,6 +106,9 @@ export function renderAxes(svg, ctx) {
       }),
     );
   }
+
+  // 画线方向
+  svg.append(...arrowMarks(pts.map((p) => ({ t: p.t, x: C + p.v.x * scale, y: C + p.v.y * scale })), beat, 4.5));
 
   // 此刻的向量
   const vals = leadValuesAt(ecg, t, baseline);

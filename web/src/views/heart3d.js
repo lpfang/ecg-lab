@@ -8,6 +8,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { FRONTAL_AXES, CHEST_AXES, korsVector, leadValuesAt } from '../vcg/vector.js';
 import { WAVE_COLORS } from '../ecg/paper.js';
+import { VENT, TOTAL_MS, activationTime, ventAnchors } from './activation.js';
 
 const REST = new THREE.Color('#ece6e2');
 const ACTIVE = new THREE.Color('#ea580c');
@@ -15,14 +16,14 @@ const SA_COLOR = new THREE.Color('#facc15');
 const PATH_COLOR = new THREE.Color('#a16207');
 
 /** 心尖方向：左、下、前 */
-const APEX_DIR = new THREE.Vector3(0.62, -0.58, 0.52).normalize();
+const APEX_DIR = new THREE.Vector3(...VENT.apexDir);
 
 function frankToThree(k, s) {
   return new THREE.Vector3(k.X * s, -k.Y * s, -k.Z * s);
 }
 
-/** 给几何体每个顶点算激动先后（0–1），返回 Float32Array */
-function activationOrder(geom, fn) {
+/** 给几何体每个顶点算激动先后（0–1），返回 Float32Array。scale 给定时按固定尺度换算，否则按最小 / 最大拉伸 */
+function activationOrder(geom, fn, scale) {
   const pos = geom.attributes.position;
   const order = new Float32Array(pos.count);
   const v = new THREE.Vector3();
@@ -34,7 +35,9 @@ function activationOrder(geom, fn) {
     lo = Math.min(lo, order[i]);
     hi = Math.max(hi, order[i]);
   }
-  for (let i = 0; i < pos.count; i++) order[i] = (order[i] - lo) / (hi - lo || 1);
+  for (let i = 0; i < pos.count; i++) {
+    order[i] = scale ? Math.min(1, Math.max(0, order[i] / scale)) : (order[i] - lo) / (hi - lo || 1);
+  }
   geom.setAttribute('color', new THREE.BufferAttribute(new Float32Array(pos.count * 3), 3));
   return order;
 }
@@ -62,7 +65,10 @@ export class Heart3D {
     container.append(this.labels.domElement);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+    // 正投影：没有近大远小，"正面 / 左侧 / 上面"看到的就是标准的平面投影
+    this.viewSize = 2.1;
+    this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+    this.fitCamera(w, h);
     this.setView('front');
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1.6));
@@ -101,6 +107,13 @@ export class Heart3D {
     tick();
   }
 
+  fitCamera(w, h) {
+    const k = this.viewSize;
+    const r = w / h;
+    Object.assign(this.camera, { left: -k * r, right: k * r, top: k, bottom: -k });
+    this.camera.updateProjectionMatrix();
+  }
+
   setView(v) {
     const d = 5.2;
     const pos = { front: [0, 0, d], left: [d, 0, 0], top: [0, d, 0.01] }[v] ?? [0, 0, d];
@@ -122,21 +135,21 @@ export class Heart3D {
     this.scene.add(this.heartGroup);
     // 心室：左室为主（左下前，指向心尖），右室在右前
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), APEX_DIR);
-    const lv = chamber(0.62, [0.85, 1.25, 0.85], [0.18, -0.12, -0.05], q);
-    const rv = chamber(0.5, [0.85, 1.05, 0.62], [-0.32, -0.08, 0.32], q);
+    const lv = chamber(VENT.lv.radius, VENT.lv.scale, VENT.lv.center, q);
+    const rv = chamber(VENT.rv.radius, VENT.rv.scale, VENT.rv.center, q);
     const ra = chamber(0.36, [1, 1, 1], [-0.62, 0.62, -0.05]);
     const la = chamber(0.33, [1, 0.9, 1], [0.32, 0.72, -0.42]);
 
     this.sa = new THREE.Vector3(-0.68, 0.98, 0.02);
     this.av = new THREE.Vector3(-0.12, 0.3, 0.0);
     const his = new THREE.Vector3(-0.02, 0.12, 0.05);
-    const apex = new THREE.Vector3(0.18, -0.12, -0.05).addScaledVector(APEX_DIR, 0.95);
-    const base = new THREE.Vector3(0, 0.35, 0);
+    const anchors = ventAnchors();
+    const anchor = (name) => new THREE.Vector3(...anchors.find((a) => a.name === name).pos);
 
-    // 激动顺序（示意）：心房按距窦房结的距离；心室先室间隔，再心尖，最后基底部
+    // 激动顺序（示意）：心房按距窦房结的距离（先右房后左房）；
+    // 心室按文献锚点插值（见 activation.js，Durrer 1970），0–80 ms
     const atrialOrder = (p) => p.distanceTo(this.sa);
-    // 离希氏束越远越晚；基底部额外推迟（最后除极）
-    const ventOrder = (p) => 0.45 * p.distanceTo(his) + 0.55 * p.distanceTo(apex) * (p.y > base.y - 0.2 ? 1.3 : 1);
+    const ventOrder = (p) => activationTime([p.x, p.y, p.z], anchors);
 
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true, transparent: true, opacity: 0.55, depthWrite: false });
     this.chambers = [];
@@ -146,7 +159,7 @@ export class Heart3D {
       [lv, 'vent', ventOrder],
       [rv, 'vent', ventOrder],
     ]) {
-      const order = activationOrder(g, fn);
+      const order = activationOrder(g, fn, kind === 'vent' ? TOTAL_MS : undefined);
       const m = new THREE.Mesh(g, mat);
       this.heartGroup.add(m);
       this.chambers.push({ mesh: m, kind, order });
@@ -158,13 +171,13 @@ export class Heart3D {
         new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, r, 8),
         new THREE.MeshLambertMaterial({ color: PATH_COLOR }),
       );
-    const lbbEnd = apex.clone().add(new THREE.Vector3(0.12, 0.05, -0.12));
-    const rbbEnd = apex.clone().add(new THREE.Vector3(-0.28, 0.12, 0.22));
+    // 左束支沿室间隔左室面下行（室间隔中部最先激动），再到左室心尖；
+    // 右束支沿室间隔右侧下行到右室心尖，经调节束到右室游离壁
     this.paths = {
       internodal: tube([this.sa, new THREE.Vector3(-0.42, 0.62, 0.05), this.av], 0.018),
       his: tube([this.av, his]),
-      lbb: tube([his, new THREE.Vector3(0.08, -0.25, 0.0), lbbEnd]),
-      rbb: tube([his, new THREE.Vector3(-0.1, -0.25, 0.12), rbbEnd]),
+      lbb: tube([his, anchor('左室面室间隔中部'), anchor('左室心尖')]),
+      rbb: tube([his, anchor('左室面室间隔中部').add(new THREE.Vector3(-0.12, 0.05, 0.12)), anchor('右室心尖'), anchor('右室游离壁中部')], 0.02),
     };
     Object.values(this.paths).forEach((m) => this.heartGroup.add(m));
     this.saMesh = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), new THREE.MeshBasicMaterial({ color: SA_COLOR }));
@@ -225,8 +238,7 @@ export class Heart3D {
     if (!w || !h) return;
     this.renderer.setSize(w, h);
     this.labels.setSize(w, h);
-    this.camera.aspect = w / h;
-    this.camera.updateProjectionMatrix();
+    this.fitCamera(w, h);
     this.draw();
   }
 
@@ -292,6 +304,41 @@ export class Heart3D {
     const loop = new THREE.Line(g, new THREE.LineBasicMaterial({ vertexColors: true, depthTest: false }));
     loop.renderOrder = 10;
     this.loopGroup.add(loop);
+    this.addDirectionMarks(s, pts);
+  }
+
+  /** 沿向量环放小箭头：QRS 每 10 ms、P / T 每 20 ms 一个，指向画线方向；间距按时间等分，所以箭头密处向量走得慢 */
+  addDirectionMarks(s, pts) {
+    const b = s.beat;
+    const waves = [
+      [b.P, 20, WAVE_COLORS.P.line],
+      [b.QRS, 10, WAVE_COLORS.QRS.line],
+      [b.T, 20, WAVE_COLORS.T.line],
+    ];
+    const cone = new THREE.ConeGeometry(0.035, 0.09, 10);
+    cone.rotateX(Math.PI / 2); // 圆锥尖指向 +z，便于用 lookAt 对准切线方向
+    const at = (t) => {
+      // pts 每 4 ms 一个，线性插值
+      const i = Math.min(pts.length - 2, Math.max(0, Math.floor((t - pts[0].t) / 4)));
+      const f = (t - pts[i].t) / 4;
+      const a = frankToThree(pts[i].k, this.loopScale);
+      const c = frankToThree(pts[i + 1].k, this.loopScale);
+      return a.lerp(c, Math.min(1, Math.max(0, f)));
+    };
+    for (const [w, step, color] of waves) {
+      if (!w) continue;
+      const mat = new THREE.MeshBasicMaterial({ color, depthTest: false });
+      for (let t = w.on + step / 2; t < w.off - 2; t += step) {
+        const p = at(t);
+        const ahead = at(t + 2);
+        if (p.distanceTo(ahead) < 0.004) continue; // 向量几乎不动时方向不确定，不画
+        const m = new THREE.Mesh(cone, mat);
+        m.position.copy(p);
+        m.lookAt(ahead);
+        m.renderOrder = 11;
+        this.loopGroup.add(m);
+      }
+    }
   }
 
   updateVector(s) {

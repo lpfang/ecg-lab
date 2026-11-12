@@ -747,3 +747,41 @@ p.nr-warn {
 p.nr-warn.show {
   visibility: visible;
 }
+
+/* 三平面对照 */
+.planes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.plane {
+  margin: 0;
+  text-align: center;
+}
+.plane svg {
+  width: 100%;
+  max-width: 150px;
+  background: #faf8f6;
+  border-radius: 4px;
+}
+.plane figcaption {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.pl-axis {
+  stroke: #ddd6cf;
+  stroke-width: 0.8;
+}
+.pl-dir {
+  font-size: 9px;
+  fill: #a8a29e;
+}
+.pl-vec {
+  stroke: var(--cursor);
+  stroke-width: 2;
+}
+.pl-dot {
+  fill: var(--cursor);
+}
