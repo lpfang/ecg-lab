@@ -414,10 +414,6 @@ details.pro-more summary {
   color: var(--muted);
   cursor: pointer;
 }
-.vec-read {
-  border-top: 1px dashed var(--line);
-  padding-top: 6px;
-}
 
 #axes-svg {
   width: 100%;
@@ -679,4 +675,75 @@ main.layout {
 }
 .diag-card p {
   margin: 3px 0;
+}
+
+/* "此刻"框：左讲解 + 右固定版式读数 */
+.now-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 18px;
+}
+.now-read {
+  border-left: 1px dashed var(--line);
+  padding-left: 16px;
+  font-size: 13px;
+}
+.nr-title {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.nr-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+}
+.nr-k {
+  color: var(--muted);
+}
+.nr-v {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 6.5em;
+  text-align: right;
+  white-space: nowrap;
+}
+.nr-badge {
+  display: inline-block;
+  width: 5.5em;
+  text-align: center;
+  border-radius: 10px;
+  padding: 1px 0;
+  font-size: 12.5px;
+  background: #f1f0ee;
+  color: var(--muted);
+}
+.nr-badge.pos {
+  background: #dcfce7;
+  color: #166534;
+}
+.nr-badge.neg {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.nr-badge.zero {
+  background: #eef2f7;
+  color: #475569;
+}
+p.nr-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 8px 0 0;
+}
+p.nr-warn {
+  font-size: 12px;
+  color: var(--warn);
+  line-height: 1.5;
+  margin: 6px 0 0;
+  visibility: hidden;
+}
+p.nr-warn.show {
+  visibility: visible;
 }

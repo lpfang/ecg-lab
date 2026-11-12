@@ -4,7 +4,7 @@ import { computeLayout, hitTest } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
 import { locate, beatWindow } from './ecg/beats.js';
-import { beatBaseline } from './vcg/vector.js';
+import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
@@ -118,64 +118,109 @@ function renderLinked() {
   heart?.update({ ...ctx, showAxes: state.show3d.axes, showHeart: state.show3d.heart });
 }
 
-function levelBlock(plain, pro) {
+// 通俗模式下"专业说明"是否展开：记住用户的选择，换时相重建文字后保持不变
+let proMoreOpen = false;
+
+function levelBlock(plain, pro, remember = false) {
+  const open = remember && proMoreOpen ? ' open' : '';
   return (
     `<p>${plain}</p>` +
-    (state.level === 'pro' ? `<p class="pro">${pro}</p>` : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${pro}</p></details>`)
+    (state.level === 'pro'
+      ? `<p class="pro">${pro}</p>`
+      : `<details class="pro-more"${open}${remember ? ' data-remember' : ''}><summary>专业说明</summary><p class="pro">${pro}</p></details>`)
   );
 }
 
+// "此刻"框分两部分，避免播放时文字忽长忽短造成抖动：
+//   左侧讲解：只在时相、心搏或讲解深度变化时重建（也不会把用户展开的"专业说明"收起）
+//   右侧读数：版式固定，每帧只更新数字和标记，数字等宽、带符号
+let nowKey = null;
+let readKey = null;
+
+/** 带符号、等宽的电压：+1.30 / −0.05（用真正的减号，与加号等宽） */
+const signed = (mV) => `${mV < 0 ? '−' : '+'}${Math.abs(mV).toFixed(2)}`;
+
 function renderNow(ctx, readout) {
   const box = $('#now-body');
-  if (state.cursorMs == null) {
-    box.innerHTML = '<p class="muted">点击心电图上的任意位置，看看那一刻心脏在做什么。</p>';
-    return;
+  const tTxt = state.cursorMs == null ? '' : `${(state.cursorMs / 1000).toFixed(3)} s`;
+  const key =
+    state.cursorMs == null ? 'none' : !ctx.loc ? 'unannotated' : `${ctx.loc.phase}|${ctx.loc.index}|${state.level}`;
+  if (key !== nowKey) {
+    nowKey = key;
+    box.innerHTML = nowText(ctx, tTxt);
   }
-  const tTxt = `${(state.cursorMs / 1000).toFixed(3)} s`;
+  const t = box.querySelector('.now-t');
+  if (t) t.textContent = tTxt;
+  renderReadout(readout);
+}
+
+function nowText(ctx, tTxt) {
+  if (state.cursorMs == null) return '<p class="muted">点击心电图上的任意位置，看看那一刻心脏在做什么。</p>';
   if (!ctx.loc) {
-    box.innerHTML = `<p class="muted">${tTxt}：这里没有可用的波形标注（记录首尾的心搏不完整）。</p>`;
-    return;
+    return `<p class="muted"><span class="now-t">${tTxt}</span>：这里没有可用的波形标注（记录首尾的心搏不完整）。</p>`;
   }
   const info = PHASE_INFO[ctx.loc.phase];
   const b = ctx.beat;
-  const dur = (w) => (w ? `${Math.round(w.off - w.on)} ms` : '—');
+  const ms = (x) => (x == null || Number.isNaN(x) ? '—' : `${Math.round(x)} ms`);
+  // 每个时相都给一条本次心搏的实测，行数固定
   const beatFacts = {
-    P: `本次心搏 P 波时限 ${dur(b.P)}`,
-    PR: b.P ? `本次心搏 PR 间期 ${Math.round(b.QRS.on - b.P.on)} ms` : '',
-    QRS: `本次心搏 QRS 时限 ${dur(b.QRS)}`,
-    ST: '',
-    T: b.T ? `本次心搏 QT 间期 ${Math.round(b.T.off - b.QRS.on)} ms` : '',
-    TP: '',
+    P: `本次心搏 P 波时限 ${ms(b.P && b.P.off - b.P.on)}`,
+    PR: `本次心搏 PR 间期 ${ms(b.P && b.QRS.on - b.P.on)}`,
+    QRS: `本次心搏 QRS 时限 ${ms(b.QRS.off - b.QRS.on)}`,
+    ST: `本次心搏 ST 段时长 ${ms(b.T && b.T.on - b.QRS.off)}`,
+    T: `本次心搏 QT 间期 ${ms(b.T && b.T.off - b.QRS.on)}`,
+    TP: `本次心搏 TP 段约 ${ms(b.T && ctx.loc.end - b.T.off)}`,
   }[ctx.loc.phase];
-
-  let vecTxt = '';
-  if (readout) {
-    const v = readout.actual_mV;
-    const tiny = Math.abs(v) < 0.05;
-    const dir = tiny ? '几乎为零，波形贴近基线' : v > 0 ? '为正，波形在基线上方' : '为负，波形在基线下方';
-    // 胸导联方向是示意，投影符号偶尔与实测相反（本例 QRS–T 期间约 0–7% 的时刻），如实说明
-    const mismatch = !readout.exact && !tiny && Math.sign(readout.projected_mV) !== Math.sign(v);
-    let explain = '';
-    if (state.level === 'pro') {
-      explain = readout.exact
-        ? `额面向量在 ${readout.lead} 轴上的投影 × 系数 = ${readout.projected_mV.toFixed(2)} mV，与实测值一致（Einthoven / Goldberger 关系）。`
-        : `水平面向量（Kors 重建）在 ${readout.lead} 示意轴上的投影为${readout.projected_mV >= 0 ? '正' : '负'}；胸导联方向为示意，投影值不等于导联电压。`;
-    } else if (tiny) {
-      explain = `此刻电向量很小，或者几乎和 ${readout.lead} 导联轴垂直。`;
-    } else if (!mismatch) {
-      explain = `电向量的箭头偏向 ${readout.lead} 导联的${v > 0 ? '正' : '负'}极一侧。`;
-    }
-    if (mismatch) explain += '此刻示意图中的方向与实测符号不一致：胸导联的真实方向因人而异，图中方向只是示意。';
-    vecTxt =
-      `<p class="vec-read"><b>${readout.lead}</b> 导联此刻电压 <b>${v >= 0 ? '+' : ''}${v.toFixed(2)} mV</b>，${dir}。${explain}</p>`;
-  }
-  box.innerHTML =
+  return (
     `<div class="now-head"><span class="chip ${info.color ?? ''}">${info.name}</span>` +
     `<span class="en">${info.en}</span><span class="muted now-t">${tTxt}</span></div>` +
-    levelBlock(info.plain, info.pro) +
-    (beatFacts ? `<p class="muted small">${beatFacts}（自动标注）</p>` : '') +
-    vecTxt +
-    (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '');
+    levelBlock(info.plain, info.pro, true) +
+    `<p class="muted small">${beatFacts}（自动标注）</p>` +
+    (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '')
+  );
+}
+
+function renderReadout(r) {
+  const box = $('#now-read');
+  const lead = r?.lead ?? state.selectedLead;
+  const exact = r ? r.exact : LIMB_LEADS.includes(lead);
+  const key = `${lead}|${exact}|${state.level}`;
+  if (key !== readKey) {
+    readKey = key;
+    const pro = state.level === 'pro';
+    box.innerHTML =
+      `<div class="nr-title"><b>${lead}</b> 导联 · 此刻</div>` +
+      `<div class="nr-row"><span class="nr-k">导联电压</span><span class="nr-v" data-f="volt"></span></div>` +
+      `<div class="nr-row"><span class="nr-k">波形位置</span><span class="nr-badge" data-f="pos"></span></div>` +
+      (pro
+        ? exact
+          ? `<div class="nr-row"><span class="nr-k">投影 × 系数</span><span class="nr-v" data-f="proj"></span></div>`
+          : `<div class="nr-row"><span class="nr-k">示意轴投影</span><span class="nr-badge" data-f="projSign"></span></div>`
+        : '') +
+      `<p class="nr-note">${
+        pro
+          ? exact
+            ? '额面向量在导联轴上的投影 × 系数，始终等于该导联的电压（Einthoven / Goldberger 关系）。'
+            : '水平面向量由 Kors 矩阵重建；胸导联方向为示意，投影只看正负，不等于导联电压。'
+          : `电向量箭头偏向 ${lead} 导联正极一侧 → 波形在基线上方；偏向负极一侧 → 在基线下方；箭头很短或与导联轴垂直 → 贴近基线。`
+      }</p>` +
+      (exact ? '' : '<p class="nr-warn" data-f="warn">此刻示意方向与实测符号不一致：胸导联的真实方向因人而异。</p>');
+  }
+  const f = (name) => box.querySelector(`[data-f="${name}"]`);
+  const v = r?.actual_mV;
+  const tiny = v == null || Math.abs(v) < 0.05;
+  f('volt').textContent = v == null ? '—' : `${signed(v)} mV`;
+  const pos = f('pos');
+  pos.textContent = v == null ? '—' : tiny ? '贴近基线' : v > 0 ? '基线上方' : '基线下方';
+  pos.className = `nr-badge ${v == null ? '' : tiny ? 'zero' : v > 0 ? 'pos' : 'neg'}`;
+  if (f('proj')) f('proj').textContent = r ? `${signed(r.projected_mV)} mV` : '—';
+  if (f('projSign')) {
+    const p = r?.projected_mV;
+    f('projSign').textContent = p == null ? '—' : p >= 0 ? '正' : '负';
+    f('projSign').className = `nr-badge ${p == null ? '' : p >= 0 ? 'pos' : 'neg'}`;
+  }
+  // 预留位置，只切换可见性，不改变高度
+  if (f('warn')) f('warn').classList.toggle('show', !!r && !tiny && Math.sign(r.projected_mV) !== Math.sign(v));
 }
 
 // ================================================================ 状态栏、测量、病例信息
@@ -521,6 +566,14 @@ function bindControls() {
     };
   }
   $('#glossary-btn').onclick = openGlossary;
+  // toggle 事件不冒泡，用捕获阶段监听
+  $('#now-body').addEventListener(
+    'toggle',
+    (e) => {
+      if (e.target.matches?.('details[data-remember]')) proMoreOpen = e.target.open;
+    },
+    true,
+  );
   $('#glossary-close').onclick = () => $('#glossary').close();
 
   for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => heart?.setView(b.dataset.view);
