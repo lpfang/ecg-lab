@@ -89,11 +89,14 @@
               心脏为示意模型，颜色表示"通电"顺序（示意）。空间向量由 12 导联推导（Kors 矩阵），前后方向误差较大。
             </p>
           </section>
-          <section class="card measure-card">
-            <h3>本例测量值 <span class="en">Measurements</span></h3>
-            <table id="measure-table"><thead></thead><tbody></tbody></table>
-            <p class="muted small" id="measure-note"></p>
-          </section>
+          <section class="card axes-card">
+          <h3 id="axes-title">额面六轴系统</h3>
+          <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
+          <p class="small muted">
+            紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
+            点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
+          </p>
+        </section>
         </div>
       </div>
 
@@ -103,14 +106,11 @@
           <h3>此刻心脏在做什么</h3>
           <div id="now-body"></div>
         </section>
-        <section class="card axes-card">
-          <h3 id="axes-title">额面六轴系统</h3>
-          <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
-          <p class="small muted">
-            紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
-            点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
-          </p>
-        </section>
+        <section class="card measure-card">
+            <h3>本例测量值 <span class="en">Measurements</span></h3>
+            <table id="measure-table"><thead></thead><tbody></tbody></table>
+            <p class="muted small" id="measure-note"></p>
+          </section>
       </aside>
     </main>
 

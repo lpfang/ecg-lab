@@ -195,10 +195,15 @@ const MEASURE_ROWS = [
   ['axis', '额面 QRS 电轴', 'Frontal QRS axis', (v) => v.axis_deg, '°'],
 ];
 
+// 右栏较窄，列名用简称，鼠标悬停显示全称
+const SHORT_LABEL = { '12sl': 'GE 12SL', unig: 'Glasgow', area: '本站', ludb: '人工标注' };
+
 function renderMeasurements(meta) {
   const srcs = meta.measurements;
   $('#measure-table thead').innerHTML =
-    `<tr><th></th>${srcs.map((s) => `<th class="num src">${esc(s.label)}</th>`).join('')}<th></th></tr>`;
+    `<tr><th></th>${srcs
+      .map((s) => `<th class="num src" title="${esc(s.label)}">${esc(SHORT_LABEL[s.id] ?? s.label)}</th>`)
+      .join('')}<th></th></tr>`;
   $('#measure-table tbody').innerHTML = MEASURE_ROWS.map(([term, zh, en, get, unit]) => {
     const vals = srcs.map((s) => get(s.values));
     if (vals.every((v) => v == null)) return '';

@@ -618,7 +618,20 @@ main.layout {
   line-height: 1.6;
 }
 .axes-card #axes-svg {
-  max-width: 250px;
+  max-width: 320px;
+}
+/* 右栏中的测量表：紧凑排版 */
+.col-linked #measure-table {
+  font-size: 13px;
+}
+.col-linked #measure-table th {
+  padding: 3px 0;
+}
+.col-linked #measure-table td.num {
+  padding-right: 4px;
+}
+.col-linked #measure-table th .en {
+  font-size: 10.5px;
 }
 .below {
   display: grid;
