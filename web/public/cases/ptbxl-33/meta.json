@@ -1,0 +1,149 @@
+{
+ "id": "ptbxl-33",
+ "fs": 500.0,
+ "nSamples": 5000,
+ "durationMs": 10000.0,
+ "leads": [
+  "I",
+  "II",
+  "III",
+  "aVR",
+  "aVL",
+  "aVF",
+  "V1",
+  "V2",
+  "V3",
+  "V4",
+  "V5",
+  "V6"
+ ],
+ "signal": {
+  "file": "signal.i16",
+  "dtype": "int16le",
+  "unit": "uV",
+  "layout": "lead-major"
+ },
+ "amplitudeNormalized": false,
+ "patient": {
+  "age": "49",
+  "sex": "F"
+ },
+ "diagnoses": [
+  {
+   "code": "NORM",
+   "likelihood": 100.0,
+   "description": "normal ECG",
+   "class": "NORM"
+  },
+  {
+   "code": "SR",
+   "likelihood": 0.0,
+   "description": "sinus rhythm",
+   "class": ""
+  }
+ ],
+ "reportOriginal": "sinusrhythmus normales ekg",
+ "validatedByCardiologist": true,
+ "measurements": [
+  {
+   "id": "12sl",
+   "label": "GE Marquette 12SL",
+   "kind": "algorithm",
+   "values": {
+    "QRS_ms": 98.0,
+    "QT_ms": 384.0,
+    "PR_ms": 152.0,
+    "RR_ms": 798.0,
+    "HR_bpm": 75.0
+   }
+  },
+  {
+   "id": "unig",
+   "label": "Glasgow Uni-G",
+   "kind": "algorithm",
+   "values": {
+    "axis_deg": 60.0,
+    "HR_bpm": 75.0,
+    "RR_ms": 798.0,
+    "PR_ms": 152.0,
+    "QT_ms": 386.0,
+    "QRS_ms": 98.0
+   }
+  }
+ ],
+ "annotations": null,
+ "quality": {
+  "perLead": {
+   "I": {
+    "baselineWander_uV": 221,
+    "saturated": 0
+   },
+   "II": {
+    "baselineWander_uV": 270,
+    "saturated": 0
+   },
+   "III": {
+    "baselineWander_uV": 414,
+    "saturated": 0
+   },
+   "aVR": {
+    "baselineWander_uV": 110,
+    "saturated": 0
+   },
+   "aVL": {
+    "baselineWander_uV": 319,
+    "saturated": 0
+   },
+   "aVF": {
+    "baselineWander_uV": 312,
+    "saturated": 0
+   },
+   "V1": {
+    "baselineWander_uV": 105,
+    "saturated": 0
+   },
+   "V2": {
+    "baselineWander_uV": 185,
+    "saturated": 0
+   },
+   "V3": {
+    "baselineWander_uV": 374,
+    "saturated": 0
+   },
+   "V4": {
+    "baselineWander_uV": 272,
+    "saturated": 0
+   },
+   "V5": {
+    "baselineWander_uV": 280,
+    "saturated": 0
+   },
+   "V6": {
+    "baselineWander_uV": 126,
+    "saturated": 0
+   }
+  },
+  "einthoven": {
+   "II=I+III": 0.0006,
+   "aVF=(II+III)/2": 0.0014,
+   "aVR=-(I+II)/2": 0.0012
+  }
+ },
+ "issues": [],
+ "source": {
+  "name": "PTB-XL v1.0.3",
+  "url": "https://physionet.org/content/ptb-xl/1.0.3/",
+  "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "citation": "Wagner, P., Strodthoff, N., Bousseljot, R., Samek, W., & Schaeffter, T. (2022). PTB-XL, a large publicly available electrocardiography dataset (version 1.0.3). PhysioNet. https://doi.org/10.13026/kfzx-aw45",
+  "annotation": "诊断标签来自原始报告；测量值来自 PTB-XL+ 中的 GE 12SL 与 Glasgow Uni-G 算法，未经人工校对",
+  "record": "ecg_id 33",
+  "derived": {
+   "name": "PTB-XL+ v1.0.1",
+   "url": "https://physionet.org/content/ptb-xl-plus/1.0.1/",
+   "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+   "citation": "Strodthoff, N., Mehari, T., Nagel, C., Aston, P. J., Sundar, A., Graff, C., Kanters, J. K., Haverkamp, W., Dössel, O., Loewe, A., Bär, M., & Schaeffter, T. (2023). PTB-XL+, a comprehensive electrocardiographic feature dataset (version 1.0.1). PhysioNet. https://doi.org/10.13026/g6h6-7g88"
+  },
+  "physionet": "Pollard, T., Moody, B. E., Lehman, L., Gow, B., Fernandes, C., Xie, C., Johnson, A., Mark, R. G., & Heldt, T. (2026). PhysioNet as a global platform for biomedical research. Nature Health. https://doi.org/10.1038/s44360-026-00096-z"
+ },
+ "contentReviewed": false
+}

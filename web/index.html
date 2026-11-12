@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>心电图实验室 · ECG Lab</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>心电图实验室 <span class="en">ECG Lab</span></h1>
+      <label>病例 <select id="case-select"></select></label>
+      <label>走纸速度 <span class="en">paper speed</span>
+        <select id="speed">
+          <option value="25" selected>25 mm/s</option>
+          <option value="50">50 mm/s</option>
+        </select>
+      </label>
+      <label>增益 <span class="en">gain</span>
+        <select id="gain">
+          <option value="5">5 mm/mV</option>
+          <option value="10" selected>10 mm/mV</option>
+          <option value="20">20 mm/mV</option>
+        </select>
+      </label>
+      <span id="calib-badge" class="badge"></span>
+      <button id="calib-btn">屏幕校准</button>
+    </header>
+
+    <main>
+      <section class="paper-wrap">
+        <div id="amp-warning" class="amp-warning" hidden>
+          注意：本例的波形幅度已被数据库逐导联归一化，<b>不是真实毫伏值</b>。时间和形态可以参考，电压不能参考。
+        </div>
+        <div class="paper-bar">
+          <span id="paper-scale"></span>
+          <span id="hover-readout">把鼠标移到波形上查看时间和电压</span>
+        </div>
+        <div class="paper-scroll">
+          <div id="paper-msg">正在加载…</div>
+          <canvas id="paper"></canvas>
+        </div>
+        <p class="paper-hint">
+          心电图纸：1 小格 = 1 mm。横向 1 mm = 40 ms（25 mm/s 时），纵向 1 mm = 0.1 mV（10 mm/mV 时）。
+          每行开头的方波是 <b>标定脉冲</b>（calibration pulse），高度代表 1 mV。
+        </p>
+      </section>
+
+      <aside class="side">
+        <section>
+          <h2 id="case-title"></h2>
+          <p id="case-summary"></p>
+          <p class="muted" id="case-patient"></p>
+        </section>
+        <section>
+          <h3>本例实测值 <span class="en">Measurements</span></h3>
+          <table id="measure-table"><thead></thead><tbody></tbody></table>
+          <p class="muted small" id="measure-note"></p>
+        </section>
+        <section>
+          <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
+          <ul id="case-diag" class="small"></ul>
+          <p id="case-validated" class="muted small"></p>
+          <details id="case-quality" class="small"></details>
+        </section>
+        <section>
+          <h3>数据来源</h3>
+          <p id="case-source" class="small"></p>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="disclaimer">
+      本站为教学工具，<b>不能用于诊断</b>，也不解读个人心电图。内容未经心内科专业人员审定。
+      如对自己的心电图或身体状况有疑问，请咨询医生。
+    </footer>
+
+    <div id="toast" hidden></div>
+
+    <dialog id="calib-dialog">
+      <h3>屏幕校准</h3>
+      <p>
+        把一张银行卡（或身份证，标准尺寸 85.6 × 54 mm）贴在屏幕上，拖动滑块，
+        直到下面的方框与卡片一样大。校准后，屏幕上的 1 mm 就接近真实的 1 mm。
+      </p>
+      <div class="card-box"></div>
+      <input type="range" min="2" max="10" step="0.01" />
+      <p class="calib-readout muted"></p>
+      <p class="muted small">校准只影响显示尺寸；时间和电压的测量都直接用原始数据计算，不受影响。</p>
+      <div class="dlg-actions">
+        <button data-act="reset">恢复默认</button>
+        <button data-act="cancel">取消</button>
+        <button data-act="ok" class="primary">确定</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
