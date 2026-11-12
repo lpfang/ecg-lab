@@ -27,13 +27,22 @@ export const TERMS = {
     pro: '由 Einthoven 三角（I、II、III）与 Goldberger 加压导联（aVR、aVL、aVF）平移至共同中心构成。0° = I 导联正极（患者左侧），顺时针为正：II +60°、aVF +90°、III +120°、aVL −30°、aVR −150°。用于判定额面电轴。',
     refs: ['aha1', 'aha3'],
   },
+  augmented: {
+    primer: 'frontal',
+    zh: '加压肢体导联',
+    en: 'Augmented limb leads (aVR, aVL, aVF)',
+    plain:
+      'aVR、aVL、aVF 三个导联。a = augmented（加压），V 表示单极导联，R / L / F 分别是右臂、左臂、足（左腿）。"加压"是因为这种接法让波形放大到 1.5 倍，更容易看清。',
+    pro: '被测肢体电极与另外两个肢体电极的平均值相比，例如 aVR = RA − (LA + LL)/2。与 Wilson 单极肢体导联 VR = RA − (RA + LA + LL)/3 相比，幅度为其 1.5 倍（Goldberger 1942）。在额面上与 I、II、III 共同构成六轴系统。',
+    refs: ['goldberger', 'wilson', 'aha1'],
+  },
   chestLeads: {
     primer: 'chest',
     zh: '胸导联',
     en: 'Precordial leads (V1–V6)',
     plain: '贴在胸前的 6 个电极得到的导联，从心脏的右前方绕到左侧，在水平方向上看心脏。',
-    pro: 'V1：第 4 肋间胸骨右缘；V2：第 4 肋间胸骨左缘；V3：V2 与 V4 中点；V4：第 5 肋间锁骨中线；V5、V6：与 V4 同一水平的腋前线、腋中线。各电极电位减去 Wilson 中心电端。',
-    refs: ['aha1'],
+    pro: 'V1：第 4 肋间胸骨右缘；V2：第 4 肋间胸骨左缘；V3：V2 与 V4 中点；V4：第 5 肋间锁骨中线；V5、V6：与 V4 同一水平的腋前线、腋中线。各电极电位减去 Wilson 中心电端；V 表示单极导联。',
+    refs: ['aha1', 'wilson'],
   },
   calPulse: {
     zh: '标定脉冲',

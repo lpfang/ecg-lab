@@ -41,6 +41,16 @@ export const REFS = {
     note: '心室除极顺序：左室面室间隔中部最早，左室后基底部最晚（本站 3D 示意心脏的依据）',
     status: 'listed',
   },
+  goldberger: {
+    text: 'Goldberger E. A simple, indifferent, electrocardiographic electrode of zero potential and a technique of obtaining augmented, unipolar, extremity leads. Am Heart J. 1942;23:483–492.',
+    note: '加压单极肢体导联（aVR、aVL、aVF）的来源',
+    status: 'listed',
+  },
+  wilson: {
+    text: 'Wilson FN, Johnston FD, Macleod AG, Barker PS. Electrocardiograms that represent the potential variations of a single electrode. Am Heart J. 1934;9:447–458.',
+    note: 'Wilson 中心电端与单极导联',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',

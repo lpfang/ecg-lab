@@ -993,3 +993,28 @@ p.nr-warn.show {
   stroke: #7c3aed;
   stroke-width: 2.5;
 }
+.pr-names {
+  background: #faf8f6;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 13.5px;
+}
+.pr-names table {
+  border-collapse: collapse;
+  margin: 6px 0;
+}
+.pr-names th {
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: top;
+  padding: 3px 12px 3px 0;
+}
+.pr-names td {
+  padding: 3px 0;
+  line-height: 1.6;
+}
+.pr-names tr + tr {
+  border-top: 1px dashed var(--line);
+}
