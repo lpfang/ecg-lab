@@ -28,9 +28,31 @@
       <span class="seg" title="讲解深度">
         <button data-level="plain">通俗</button><button data-level="pro">专业</button>
       </span>
+      <button id="tour-btn" class="primary">导览</button>
       <button id="primer-btn">读图入门</button>
       <button id="glossary-btn">术语表</button>
     </header>
+
+    <!-- 导览条：固定在顶栏下方、高度固定（内容多时框内滚动），换步骤时页面不跳动 -->
+    <section id="tour-panel" class="tour-panel" hidden aria-live="polite">
+      <div class="tour-main">
+        <div class="tour-head">
+          <span id="tour-title" class="tour-title"></span>
+          <span id="tour-count" class="muted small"></span>
+          <h4 id="tour-step-title"></h4>
+        </div>
+        <div id="tour-body" class="tour-body"></div>
+      </div>
+      <div class="tour-actions">
+        <button id="tour-exit" class="tour-x" title="退出导览（恢复原来的设置）">退出导览</button>
+        <span class="spacer"></span>
+        <button id="tour-next-tour" class="primary" hidden></button>
+        <div class="tour-nav">
+          <button id="tour-prev">← 上一步</button>
+          <button id="tour-next" class="primary">下一步 →</button>
+        </div>
+      </div>
+    </section>
 
     <main class="layout">
       <div class="col-main">
@@ -166,6 +188,17 @@
     </footer>
 
     <div id="toast" hidden></div>
+
+
+    <dialog id="tour-menu" class="dlg">
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>导览 <span class="en">Guided tours</span></h3>
+          <button id="tour-menu-close">关闭</button>
+        </div>
+      </div>
+      <div id="tour-list" class="dlg-body"></div>
+    </dialog>
     <div id="term-pop" class="term-pop" hidden></div>
 
     <dialog id="primer" class="dlg">

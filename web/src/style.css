@@ -1192,5 +1192,101 @@ dialog.dlg {
   margin-left: 4px;
 }
 #case-select {
-  max-width: 260px;
+  max-width: 220px;
+}
+
+/* 导览 */
+button.primary {
+  cursor: pointer;
+}
+.tour-panel {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  margin: 12px 20px 0;
+  height: 132px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  background: #faf5ff;
+  border: 1px solid #c4b5fd;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(76, 29, 149, 0.12);
+  padding: 10px 16px;
+}
+.tour-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.tour-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tour-head h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.tour-title {
+  font-size: 12px;
+  color: var(--cursor);
+  font-weight: 600;
+}
+.tour-body {
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.65;
+  margin-top: 4px;
+  min-height: 0;
+}
+.tour-body p {
+  margin: 2px 0;
+}
+.tour-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.tour-nav {
+  display: flex;
+  gap: 6px;
+}
+.tour-x {
+  font-size: 12px;
+}
+/* 导览进行中，右栏的固定位置让出导览条的高度 */
+body.touring .col-linked {
+  top: 156px;
+  max-height: calc(100vh - 168px);
+}
+body.touring .tour-focus {
+  scroll-margin-top: 160px;
+}
+.tour-focus {
+  outline: 3px solid #a78bfa;
+  outline-offset: 2px;
+  transition: outline-color 0.3s;
+}
+.tour-item {
+  border-top: 1px solid var(--line);
+  padding: 10px 0;
+}
+.tour-item h4 {
+  margin: 0 0 2px;
+}
+#tour-menu {
+  width: min(560px, 92vw);
+}
+
+/* 顶栏在较窄屏幕上保持一行 */
+.topbar {
+  gap: 12px;
+}
+@media (max-width: 1500px) {
+  .topbar h1 .en {
+    display: none;
+  }
 }

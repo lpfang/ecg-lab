@@ -147,7 +147,9 @@ def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
             continue
         for li, lead in enumerate(LEADS):
             x = sig_uV[li]
-            base = np.median(x[idx(a): idx(on - 4) + 1])
+            win = x[idx(a): idx(on - 4) + 1]
+            # PR 段太短（P 波终点紧贴 QRS 起点）时窗口为空，与网页端一致改用 QRS 起点处的值
+            base = np.median(win) if win.size else x[idx(on)]
             q = x[idx(on): idx(off) + 1] - base
             if q.size == 0:
                 continue
@@ -609,7 +611,8 @@ def write_if_changed(path: Path, data: bytes) -> bool:
 
 
 def dumps(obj) -> bytes:
-    return (json.dumps(obj, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
+    # allow_nan=False：出现 NaN / Infinity 时直接报错（浏览器无法解析含 NaN 的 JSON），不静默写出
+    return (json.dumps(obj, ensure_ascii=False, indent=1, allow_nan=False) + "\n").encode("utf-8")
 
 
 def build(db: str, rec: str) -> dict:

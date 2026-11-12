@@ -3,6 +3,7 @@ import { loadIndex, loadCase } from './data.js';
 import { computeLayout, hitTest } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
+import { TOURS, fillTemplate, cursorTime } from './tours.js';
 import { locate, beatWindow } from './ecg/beats.js';
 import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
@@ -261,7 +262,10 @@ function renderReadout(r) {
 function renderStatus() {
   $('#paper-scale').textContent = `${state.speed} mm/s · ${state.gain} mm/mV · 原始数据（未滤波）`;
   const b = $('#calib-badge');
-  b.textContent = state.calibrated ? '尺寸已校准' : '尺寸未校准（近似）';
+  b.textContent = state.calibrated ? '已校准' : '未校准';
+  b.title = state.calibrated
+    ? '已按银行卡校准屏幕尺寸，图上 1 mm 接近真实 1 mm'
+    : '屏幕尺寸未校准：图上的 1 mm 只是近似值。点"屏幕校准"可以校准；测量数值不受影响。';
   b.classList.toggle('warn', !state.calibrated);
 }
 
@@ -617,7 +621,7 @@ async function selectCase(id) {
   $('#paper-msg').textContent = '正在加载病例…';
   try {
     const ecg = await loadCase(id);
-    if (token !== loadToken) return;
+    if (token !== loadToken) return false;
     const beats = ecg.meta.annotations?.beats ?? [];
     const first = beats[Math.min(2, beats.length - 1)];
     set(
@@ -637,15 +641,200 @@ async function selectCase(id) {
     renderMeasurements(ecg.meta);
     renderLVH(ecg.meta);
     renderST(ecg.meta);
+    $('#case-select').value = id;
     const u = new URL(location.href);
     u.searchParams.set('case', id);
     history.replaceState(null, '', u);
+    return true;
   } catch (e) {
-    if (token !== loadToken) return;
+    if (token !== loadToken) return false;
     console.error(e);
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
     $('#retry').onclick = () => selectCase(id);
+    return false;
   }
+}
+
+// ================================================================ 导览（步骤为数据，播放器统一执行）
+
+const tour = { def: null, index: -1, saved: null, token: 0 };
+
+/** 界面控件与 state 同步（导览会改设置） */
+function syncControls() {
+  $('#show-waves').checked = state.showWaves;
+  $('#show-ref').checked = state.showRef;
+  $('#speed').value = String(state.speed);
+  document.querySelectorAll('[data-tool]').forEach((x) => x.classList.toggle('on', x.dataset.tool === state.tool));
+  $('#overlay').classList.toggle('caliper', state.tool === 'caliper');
+  $('#caliper-march').checked = !!state.caliper?.march;
+}
+
+function setMtab(name) {
+  document.querySelectorAll('[data-mtab]').forEach((x) => x.classList.toggle('on', x.dataset.mtab === name));
+  document.querySelectorAll('[data-mpane]').forEach((p) => (p.hidden = p.dataset.mpane !== name));
+}
+const currentMtab = () => document.querySelector('[data-mtab].on')?.dataset.mtab ?? 'intervals';
+
+function setFocus(sel) {
+  document.querySelectorAll('.tour-focus').forEach((e) => e.classList.remove('tour-focus'));
+  const el = sel && document.querySelector(sel);
+  if (el) {
+    el.classList.add('tour-focus');
+    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+}
+
+function openTourMenu() {
+  $('#tour-list').innerHTML = TOURS.map(
+    (t) =>
+      `<section class="tour-item"><h4>${esc(t.title)}</h4><p class="muted small">${esc(t.audience)} · ${t.steps.length} 步</p>` +
+      `<button class="primary" data-start-tour="${t.id}">开始</button></section>`,
+  ).join('');
+  $('#tour-menu').showModal();
+}
+
+function startTour(id) {
+  const def = TOURS.find((t) => t.id === id);
+  if (!def) {
+    toast(`找不到导览 "${id}"`);
+    const u = new URL(location.href);
+    u.searchParams.delete('tour');
+    history.replaceState(null, '', u);
+    return;
+  }
+  if (!tour.def) {
+    // 进入导览时保存用户设置，退出时恢复（迁移经验：进入某种模式保存，退出还原）
+    tour.saved = {
+      caseId: state.caseId,
+      showWaves: state.showWaves,
+      showRef: state.showRef,
+      speed: state.speed,
+      cursorMs: state.cursorMs,
+      selectedLead: state.selectedLead,
+      caliper: state.caliper,
+      tool: state.tool,
+      mtab: currentMtab(),
+    };
+  }
+  tour.def = def;
+  $('#tour-panel').hidden = false;
+  document.body.classList.add('touring');
+  $('#tour-title').textContent = def.title;
+  const u = new URL(location.href);
+  u.searchParams.set('tour', id);
+  history.replaceState(null, '', u);
+  goStep(0);
+}
+
+/** 第 i 步的有效设置：病例、导联沿用此前最近一步，view 从第 0 步累积合并（往回翻也一致） */
+function effectiveStep(def, i) {
+  const eff = { view: {} };
+  for (let k = 0; k <= i; k++) {
+    const st = def.steps[k];
+    if (st.case) eff.case = st.case;
+    if (st.lead) eff.lead = st.lead;
+    Object.assign(eff.view, st.view ?? {});
+  }
+  return { ...def.steps[i], case: eff.case, lead: eff.lead, view: eff.view };
+}
+
+async function goStep(i) {
+  const def = tour.def;
+  if (!def || i < 0 || i >= def.steps.length) return;
+  const token = ++tour.token; // 只有最新一次请求可以改界面
+  stopPlay();
+  const step = effectiveStep(def, i);
+  $('#tour-step-title').textContent = step.title;
+  $('#tour-count').textContent = `${i + 1} / ${def.steps.length}`;
+  if (step.case && state.caseId !== step.case) {
+    $('#tour-body').innerHTML = '<p class="muted">正在加载病例…</p>';
+    const ok = await selectCase(step.case);
+    if (token !== tour.token) return; // 用户已翻到别的步骤或退出
+    if (!ok) {
+      // 失败时停在原来的步骤，并提供重试
+      $('#tour-body').innerHTML = '<p class="lvh-alert">病例加载失败。<button id="tour-retry">重试</button></p>';
+      $('#tour-retry').onclick = () => goStep(i);
+      return;
+    }
+  }
+  tour.index = i;
+  const beats = state.ecg.meta.annotations?.beats ?? [];
+  const v = step.view;
+  const patch = {
+    showWaves: v.showWaves ?? state.showWaves,
+    showRef: v.showRef ?? state.showRef,
+    speed: v.speed ?? state.speed,
+    selectedLead: step.lead ?? state.selectedLead,
+    cursorMs: 'cursor' in step ? cursorTime(beats, step.cursor) : state.cursorMs,
+    caliper: null,
+    tool: 'cursor',
+  };
+  if (step.caliper && beats[step.caliper.to]) {
+    const ta = beats[step.caliper.from].QRS.peak;
+    const tb = beats[step.caliper.to].QRS.peak;
+    patch.caliper = { row: 3, a: { t: ta, mV: 0 }, b: { t: tb, mV: 0 }, march: !!step.caliper.march };
+    patch.tool = 'caliper';
+  }
+  set(patch, 'paper', 'linked');
+  syncControls();
+  if (v.mtab) setMtab(v.mtab);
+  renderTourText(step, i);
+  setFocus(step.focus);
+  if (step.play) startPlay();
+}
+
+function renderTourText(step, i) {
+  const meta = state.ecg.meta;
+  const own = meta.amplitudes?.find((a) => a.id === 'area');
+  const lvhBy = Object.fromEntries((meta.amplitudes ?? []).map((a) => [a.id, evaluateLVH(a.values, meta.patient.sex)]));
+  const ctx = { meta, lvh: own ? lvhBy.area : null, lvhBy };
+  const fill = (t) => (t ? fillTemplate(t, ctx) : '');
+  $('#tour-body').innerHTML =
+    `<p>${fill(step.plain)}</p>` +
+    (step.pro
+      ? state.level === 'pro'
+        ? `<p class="pro">${fill(step.pro)}</p>`
+        : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${fill(step.pro)}</p></details>`
+      : '');
+  const last = i === tour.def.steps.length - 1;
+  $('#tour-prev').disabled = i === 0;
+  $('#tour-next').hidden = last;
+  const nt = $('#tour-next-tour');
+  nt.hidden = !(last && step.next);
+  if (step.next) {
+    nt.textContent = step.next.label;
+    nt.onclick = () => startTour(step.next.tour);
+  }
+  if (last && !step.next) {
+    $('#tour-next').hidden = false;
+    $('#tour-next').textContent = '完成';
+  } else {
+    $('#tour-next').textContent = '下一步 →';
+  }
+}
+
+async function exitTour() {
+  if (!tour.def) return;
+  tour.token++;
+  stopPlay();
+  const saved = tour.saved;
+  tour.def = null;
+  tour.index = -1;
+  $('#tour-panel').hidden = true;
+  document.body.classList.remove('touring');
+  setFocus(null);
+  const u = new URL(location.href);
+  u.searchParams.delete('tour');
+  history.replaceState(null, '', u);
+  if (!saved) return;
+  if (saved.caseId && saved.caseId !== state.caseId) {
+    const ok = await selectCase(saved.caseId);
+    if (!ok || tour.def) return; // 恢复期间又开始了新导览，以最新操作为准
+  }
+  const { mtab, ...rest } = saved;
+  set(rest, 'paper', 'linked');
+  syncControls();
+  setMtab(mtab);
 }
 
 // ================================================================ 启动
@@ -695,10 +884,23 @@ function bindControls() {
       lsSet('ecg-lab:level', b.dataset.level);
       document.querySelectorAll('[data-level]').forEach((x) => x.classList.toggle('on', x === b));
       set({ level: b.dataset.level }, 'linked');
+      if (tour.def && tour.index >= 0) renderTourText(effectiveStep(tour.def, tour.index), tour.index);
       $('#term-pop').hidden = true;
     };
   }
   $('#glossary-btn').onclick = openGlossary;
+  $('#tour-btn').onclick = openTourMenu;
+  $('#tour-menu-close').onclick = () => $('#tour-menu').close();
+  $('#tour-list').addEventListener('click', (e) => {
+    const id = e.target.closest('[data-start-tour]')?.dataset.startTour;
+    if (id) {
+      $('#tour-menu').close();
+      startTour(id);
+    }
+  });
+  $('#tour-prev').onclick = () => goStep(tour.index - 1);
+  $('#tour-next').onclick = () => (tour.index >= tour.def.steps.length - 1 ? exitTour() : goStep(tour.index + 1));
+  $('#tour-exit').onclick = exitTour;
   $('#primer-btn').onclick = () => openPrimer('intro');
   $('#primer-close').onclick = () => $('#primer').close();
   // toggle 事件不冒泡，用捕获阶段监听
@@ -778,6 +980,8 @@ async function boot() {
   sel.value = id;
   await selectCase(id);
   loadHeart();
+  const wantTour = new URLSearchParams(location.search).get('tour');
+  if (wantTour) startTour(wantTour); // 无效 id 会提示
 }
 
 function toast(msg) {
