@@ -971,3 +971,25 @@ p.nr-warn.show {
 .pr-sec {
   scroll-margin-top: 96px;
 }
+.pr-depol {
+  fill: #fed7aa;
+  stroke: #fb923c;
+}
+.pr-rest {
+  fill: #f5f5f4;
+  stroke: #d6d3d1;
+}
+.pr-front {
+  stroke: #7c3aed;
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.pr-sign {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #44403c;
+}
+.pr-wave {
+  stroke: #7c3aed;
+  stroke-width: 2.5;
+}

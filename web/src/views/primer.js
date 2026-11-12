@@ -8,13 +8,13 @@ const NS = 'http://www.w3.org/2000/svg';
 
 /** 每个导联：用到哪些电极、通俗说明、专业说明 */
 export const LEAD_INFO = {
-  I: { elec: ['RA', 'LA'], plain: '左手 − 右手：从患者左侧看心脏。电流向左走，波形就向上。', pro: 'I = LA − RA，额面 0°。' },
-  II: { elec: ['RA', 'LL'], plain: '左脚 − 右手：从左下方看心脏。正常心脏电流的总方向和它最接近，P 波通常最清楚，常用来看节律。', pro: 'II = LL − RA，额面 +60°。' },
-  III: { elec: ['LA', 'LL'], plain: '左脚 − 左手：从右下方看心脏。', pro: 'III = LL − LA，额面 +120°。满足 II = I + III（Einthoven 定律）。' },
-  aVR: { elec: ['RA', 'LA', 'LL'], plain: '从右肩方向看心脏。正常心脏的电流大多背离它而去，所以 aVR 的波形大多向下。', pro: 'aVR = RA − (LA + LL)/2，额面 −150°（Goldberger 加压导联）。' },
-  aVL: { elec: ['LA', 'RA', 'LL'], plain: '从左肩方向看心脏。', pro: 'aVL = LA − (RA + LL)/2，额面 −30°。' },
-  aVF: { elec: ['LL', 'RA', 'LA'], plain: '从正下方（脚的方向）看心脏。', pro: 'aVF = LL − (RA + LA)/2，额面 +90°。' },
-  V1: { elec: ['V1'], plain: '贴在胸骨右缘第 4 肋间，从右前方看，离右心室和室间隔最近。', pro: 'V1 = 电极电位 − 中心电端（Wilson 中心电端 = (RA + LA + LL)/3）。' },
+  I: { elec: ['RA', 'LA'], plain: '= 左手电极的电位减去右手电极的电位。它从患者左侧看心脏：心脏的电信号朝左手方向传播时，左手一侧电位较高，相减得正数，波形向上。', pro: 'I = LA − RA，额面 0°。' },
+  II: { elec: ['RA', 'LL'], plain: '= 左脚电极的电位减去右手电极的电位。它从左下方看心脏。正常心脏电信号的总体传播方向和它最接近，所以 P 波通常最清楚，常用来看节律。', pro: 'II = LL − RA，额面 +60°。' },
+  III: { elec: ['LA', 'LL'], plain: '= 左脚电极的电位减去左手电极的电位。它从右下方看心脏。', pro: 'III = LL − LA，额面 +120°。满足 II = I + III（Einthoven 定律）。' },
+  aVR: { elec: ['RA', 'LA', 'LL'], plain: '= 右手电极的电位减去左手、左脚两个电极电位的平均值。它从右肩方向看心脏。正常心脏的电信号大多朝左下方传播，背离右肩而去，所以 aVR 的波形大多向下。', pro: 'aVR = RA − (LA + LL)/2，额面 −150°（Goldberger 加压导联）。' },
+  aVL: { elec: ['LA', 'RA', 'LL'], plain: '= 左手电极的电位减去右手、左脚两个电极电位的平均值。它从左肩方向看心脏。', pro: 'aVL = LA − (RA + LL)/2，额面 −30°。' },
+  aVF: { elec: ['LL', 'RA', 'LA'], plain: '= 左脚电极的电位减去右手、左手两个电极电位的平均值。它从正下方（脚的方向）看心脏。', pro: 'aVF = LL − (RA + LA)/2，额面 +90°。' },
+  V1: { elec: ['V1'], plain: '贴在胸骨右缘第 4 肋间，从右前方看，离右心室和室间隔最近。（每个胸导联 = 该胸前电极的电位减去三个肢体电极电位的平均值。）', pro: 'V1 = 电极电位 − 中心电端（Wilson 中心电端 = (RA + LA + LL)/3）。' },
   V2: { elec: ['V2'], plain: '胸骨左缘第 4 肋间，从正前方看，大致对着室间隔。', pro: 'V2：第 4 肋间胸骨左缘。' },
   V3: { elec: ['V3'], plain: '在 V2 和 V4 中间，大致对着左心室前壁。', pro: 'V3：V2 与 V4 连线的中点。' },
   V4: { elec: ['V4'], plain: '第 5 肋间、锁骨中线（乳头正下方附近），大致对着左心室前壁和心尖。', pro: 'V4：第 5 肋间锁骨中线。' },
@@ -84,6 +84,38 @@ function bodyFigure() {
     el('text', { x: 8, y: 14, class: 'pr-tiny' }, '患者右侧'),
     el('text', { x: 292, y: 14, class: 'pr-tiny', 'text-anchor': 'end' }, '患者左侧'),
   );
+  return svg;
+}
+
+// ---------------------------------------------------------------- 小图：通电的波就像一节电池
+
+function whyFigure() {
+  const svg = el('svg', { viewBox: '0 0 300 170', class: 'pr-fig', role: 'img', 'aria-label': '除极波与导联极性示意图' });
+  svg.append(
+    // 心肌条：左半已通电（−），右半未通电（+）
+    el('rect', { x: 50, y: 52, width: 100, height: 36, class: 'pr-depol' }),
+    el('rect', { x: 150, y: 52, width: 100, height: 36, class: 'pr-rest' }),
+    el('line', { x1: 150, y1: 46, x2: 150, y2: 94, class: 'pr-front' }),
+    el('text', { x: 100, y: 75, 'text-anchor': 'middle', class: 'pr-sign' }, '− − −'),
+    el('text', { x: 200, y: 75, 'text-anchor': 'middle', class: 'pr-sign' }, '+ + +'),
+    el('text', { x: 100, y: 44, 'text-anchor': 'middle', class: 'pr-tiny' }, '已通电'),
+    el('text', { x: 200, y: 44, 'text-anchor': 'middle', class: 'pr-tiny' }, '还没通电'),
+    el('path', { d: 'M120 112 L180 112', class: 'pr-wave', 'marker-end': 'url(#pr-arrow2)' }),
+    el('text', { x: 150, y: 128, 'text-anchor': 'middle', class: 'pr-cap' }, '通电的波朝左手方向传播'),
+  );
+  svg.insertAdjacentHTML(
+    'afterbegin',
+    '<defs><marker id="pr-arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker></defs>',
+  );
+  for (const [x, t, sub] of [
+    [24, '右手', '电位低'],
+    [276, '左手', '电位高'],
+  ]) {
+    const g = el('g', { class: 'pr-elec' });
+    g.append(el('circle', { cx: x, cy: 70, r: 8 }));
+    svg.append(g, el('text', { x, y: 152, 'text-anchor': 'middle', class: 'pr-elab' }, t), el('text', { x, y: 165, 'text-anchor': 'middle', class: 'pr-tiny' }, sub));
+  }
+  svg.append(el('text', { x: 150, y: 152, 'text-anchor': 'middle', class: 'pr-elab' }, 'I = 高 − 低 > 0，波形向上'));
   return svg;
 }
 
@@ -235,8 +267,25 @@ export function buildPrimer(root, level) {
     <section class="pr-sec" id="pr-sec-intro">
       <h4>一句话</h4>
       <p>做心电图时，身上贴 <b>10 个电极</b>：四肢 4 个，胸前 6 个。仪器把这些电极测到的电位<b>两两相减</b>（或与一个"中心点"相减），
-      得到 <b>12 个导联</b>。每个导联从一个固定方向"看"心脏的电活动：电流朝着它来，波形向上；背着它走，波形向下。</p>
+      得到 <b>12 个导联</b>。每个导联从一个固定方向"看"心脏的电活动：心脏的电信号朝着它的方向传播，波形向上；背着它传播，波形向下。</p>
       ${pro('6 个肢体导联（I、II、III、aVR、aVL、aVF）都在额面上，只用到 3 个肢体电极（右脚电极是接地参考）；6 个胸导联（V1–V6）在水平面上，各自与 Wilson 中心电端比较。肢体导联之间并不独立：知道其中任意两个，就能算出其余四个。')}
+    </section>
+
+    <section class="pr-sec" id="pr-sec-why">
+      <h4>为什么"朝着它来"，波形就向上？</h4>
+      <div class="pr-row">
+        <div class="pr-figbox" id="pr-fig-why"></div>
+        <div class="pr-text">
+          <p>心肌细胞"通电"（除极）时，像一排多米诺骨牌依次倒下，一道<b>通电的波</b>从一端传到另一端。
+          波<b>前方</b>还没通电的心肌，外表面带<b>正</b>电；波<b>后方</b>已经通电的心肌，外表面带<b>负</b>电。
+          所以这道波就像一节电池：<b>它朝哪边传，正极就在哪边</b>。</p>
+          <p>以 I 导联为例：电信号朝左手方向传播时，正极朝着左手，左手电极的电位高、右手的低。
+          I 导联 = 左手电位 − 右手电位 = 高 − 低 = <b>正数</b>，波形向上。</p>
+          <p class="muted small">注意：这里说的是"电信号传播的方向"，不是电路里"电流从高电位流向低电位"的方向。
+          在这节"电池"内部，电荷确实朝正极移动；但电极贴在皮肤上，测的是电池<b>外部</b>的电位，正极一侧更高。</p>
+        </div>
+      </div>
+      ${pro('心肌除极波阵面可视为电偶极子，偶极矩由负指向正，与波的传播方向一致。导联电压 ≈ 心电偶极矩（心电向量）在导联轴上的投影：向量指向导联正极一侧时为正。复极时细胞外表面电荷相反，所以复极波朝某导联传播时，该导联记录到负向波；正常 T 波与 QRS 同向，是因为心室复极顺序大体与除极相反。')}
     </section>
 
     <section class="pr-sec" id="pr-sec-body">
@@ -265,7 +314,8 @@ export function buildPrimer(root, level) {
       <p>① 右手、左手、左脚三点连成一个三角形，心脏大致在中心。三条边就是 <b>I、II、III</b> 导联。
       从中心指向三个角，是 <b>aVR、aVL、aVF</b>。② 把这 6 条线都平移到同一个中心点，③ 就得到一个像车轮的图：
       <b>六轴系统</b>。它表示从<b>身体正面</b>的 6 个方向看心脏，相邻两轴相差 30°。</p>
-      <p>本站心电图下方的"额面六轴系统"图就是它：紫色箭头是此刻的电流方向，箭头在哪条轴上的"影子"长，那个导联的波形就高。</p>
+      <p>本站心电图下方的"额面六轴系统"图就是它：紫色箭头是此刻的<b>心电向量</b>（心脏电信号的总体方向和强度）。
+      箭头在某条轴的正极一侧投下的"影子"越长，那个导联的波形就越高；影子落在负极一侧，波形就向下。</p>
       ${pro('角度约定：0° 指向患者左侧（I 导联正极），顺时针为正，+90° 指向足侧（aVF）。按 Einthoven 三角的几何关系，I、II、III 等于额面向量在各轴上的投影；aVR、aVL、aVF 等于投影的 √3/2 倍。所以 II = I + III。额面电轴正常范围约 −30° 至 +90°。')}
     </section>
 
@@ -294,6 +344,7 @@ export function buildPrimer(root, level) {
 
     <p class="muted small">出处：Kligfield P, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part I. Circulation. 2007;115:1306–1324（尚未逐条核对原文）。</p>
   `;
+  root.querySelector('#pr-fig-why').append(whyFigure());
   root.querySelector('#pr-fig-body').append(bodyFigure());
   root.querySelector('#pr-fig-limb').append(limbFigure());
   root.querySelector('#pr-fig-chest').append(chestFigure());
@@ -320,7 +371,7 @@ export function selectLead(root, lead, level) {
     e.classList.toggle('hl2', i > 0); // 参与计算的其他电极
   });
   root.querySelector('#pr-info').innerHTML =
-    `<b>${lead} 导联</b>：${info.plain}` + (level === 'pro' ? `<span class="pro-inline">${info.pro}</span>` : '');
+    `<b>${lead} 导联</b>${info.plain.startsWith('=') ? ' ' : '：'}${info.plain}` + (level === 'pro' ? `<span class="pro-inline">${info.pro}</span>` : '');
 }
 
 export function isBuilt() {
