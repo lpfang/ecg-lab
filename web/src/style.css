@@ -108,18 +108,16 @@ main {
   margin: 8px 2px 0;
 }
 
-.side .card {
-  margin-bottom: 12px;
-}
-.side h2 {
+.case-info h2 {
   font-size: 17px;
   margin: 0 0 6px;
 }
-.side h3 {
+.case-info h3 {
   font-size: 15px;
   margin: 0 0 8px;
 }
-.side p {
+.case-info p,
+.below p {
   margin: 4px 0;
   line-height: 1.55;
 }
@@ -299,12 +297,6 @@ a[data-term]:hover {
   font-size: 12px;
   padding: 1px 6px;
 }
-.left {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
 .toolbar {
   display: flex;
   align-items: center;
@@ -368,21 +360,8 @@ a[data-term]:hover {
   display: none;
 }
 
-.linked {
-  display: grid;
-  grid-template-columns: minmax(260px, 1fr) 300px minmax(320px, 1.2fr);
-  gap: 16px;
-  align-items: start;
-}
-@media (max-width: 1500px) {
-  .linked {
-    grid-template-columns: minmax(260px, 1fr) 300px;
-  }
-  .heart-card {
-    grid-column: 1 / -1;
-  }
-}
-.linked h3,
+.col-linked h3,
+.below h3,
 .heart-head h3 {
   font-size: 15px;
   margin: 0 0 8px;
@@ -606,4 +585,55 @@ details.refs ul {
 
 [hidden] {
   display: none !important;
+}
+
+/* ---------- 版面：心电图 + 右侧固定联动栏 ---------- */
+main.layout {
+  /* 1440 宽屏幕上，25 mm/s 的心电图（约 1000 px）需要完整放下 */
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+.paper-wrap.card {
+  padding: 8px;
+}
+.col-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.col-linked {
+  position: sticky;
+  top: 12px;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.col-linked .card {
+  padding: 10px 14px;
+}
+.now-card p {
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.axes-card #axes-svg {
+  max-width: 250px;
+}
+.below {
+  display: grid;
+  grid-template-columns: minmax(340px, 1fr) minmax(380px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.case-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.4fr;
+  gap: 16px;
+  padding: 0 20px 16px;
+  align-items: start;
+}
+.case-info h2 {
+  font-size: 17px;
+  margin: 0 0 6px;
 }

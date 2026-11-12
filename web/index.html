@@ -31,8 +31,8 @@
       <button id="glossary-btn">术语表</button>
     </header>
 
-    <main>
-      <div class="left">
+    <main class="layout">
+      <div class="col-main">
         <section class="paper-wrap card">
           <div id="amp-warning" class="amp-warning" hidden>
             注意：本例的波形幅度已被数据库逐导联归一化，<b>不是真实毫伏值</b>。时间和形态可以参考，电压不能参考。
@@ -71,19 +71,7 @@
           </p>
         </section>
 
-        <div class="linked">
-          <section class="card now-card">
-            <h3>此刻心脏在做什么</h3>
-            <div id="now-body"></div>
-          </section>
-          <section class="card axes-card">
-            <h3 id="axes-title">额面六轴系统</h3>
-            <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
-            <p class="small muted">
-              紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
-              点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
-            </p>
-          </section>
+        <div class="below">
           <section class="card heart-card">
             <div class="heart-head">
               <h3>3D 心脏与向量环</h3>
@@ -101,32 +89,48 @@
               心脏为示意模型，颜色表示"通电"顺序（示意）。空间向量由 12 导联推导（Kors 矩阵），前后方向误差较大。
             </p>
           </section>
+          <section class="card measure-card">
+            <h3>本例测量值 <span class="en">Measurements</span></h3>
+            <table id="measure-table"><thead></thead><tbody></tbody></table>
+            <p class="muted small" id="measure-note"></p>
+          </section>
         </div>
       </div>
 
-      <aside class="side">
-        <section class="card">
-          <h2 id="case-title"></h2>
-          <p id="case-summary"></p>
-          <p class="muted" id="case-patient"></p>
+      <!-- 联动面板：固定在右侧，点击心电图时始终可见 -->
+      <aside class="col-linked">
+        <section class="card now-card">
+          <h3>此刻心脏在做什么</h3>
+          <div id="now-body"></div>
         </section>
-        <section class="card">
-          <h3>本例测量值 <span class="en">Measurements</span></h3>
-          <table id="measure-table"><thead></thead><tbody></tbody></table>
-          <p class="muted small" id="measure-note"></p>
-        </section>
-        <section class="card">
-          <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
-          <ul id="case-diag" class="small"></ul>
-          <p id="case-validated" class="muted small"></p>
-          <details id="case-quality" class="small"></details>
-        </section>
-        <section class="card">
-          <h3>数据来源</h3>
-          <div id="case-source" class="small"></div>
+        <section class="card axes-card">
+          <h3 id="axes-title">额面六轴系统</h3>
+          <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
+          <p class="small muted">
+            紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
+            点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
+          </p>
         </section>
       </aside>
     </main>
+
+    <section class="case-info">
+      <section class="card">
+        <h2 id="case-title"></h2>
+        <p id="case-summary"></p>
+        <p class="muted" id="case-patient"></p>
+      </section>
+      <section class="card">
+        <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
+        <ul id="case-diag" class="small"></ul>
+        <p id="case-validated" class="muted small"></p>
+        <details id="case-quality" class="small"></details>
+      </section>
+      <section class="card">
+        <h3>数据来源</h3>
+        <div id="case-source" class="small"></div>
+      </section>
+    </section>
 
     <footer class="disclaimer">
       本站为教学工具，<b>不能用于诊断</b>，也不解读个人心电图。内容未经心内科专业人员审定。
