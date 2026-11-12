@@ -132,13 +132,17 @@ def quality(sig_uV: np.ndarray, raw: np.ndarray, fs: float, adc_limits, issues: 
 
 
 def axis_from_area(sig_uV: np.ndarray, fs: float, windows_ms: list) -> float | None:
-    """额面 QRS 电轴：I 与 aVF 在 QRS 窗内的净面积（各心搏中位数）。"""
+    """额面 QRS 电轴：I 与 aVF 在 QRS 窗内的净面积（各心搏中位数）。
+    按 Einthoven / Goldberger 几何关系，I = E·cosφ，aVF = (√3/2)·E·sinφ，
+    所以 tanφ = (2/√3)·aVF / I。直接用 atan2(aVF, I) 会低估偏离 0° / 90° 的角度（本例约低 4°）。"""
     angles = []
     for on, off in windows_ms:
         a, z = int(on / 1000 * fs), int(off / 1000 * fs) + 1
         bi = sig_uV[0, max(a - 5, 0): a + 1].mean()
         bf = sig_uV[5, max(a - 5, 0): a + 1].mean()
-        angles.append(np.degrees(np.arctan2(np.sum(sig_uV[5, a:z] - bf), np.sum(sig_uV[0, a:z] - bi))))
+        area_i = np.sum(sig_uV[0, a:z] - bi)
+        area_f = np.sum(sig_uV[5, a:z] - bf)
+        angles.append(np.degrees(np.arctan2(2 / np.sqrt(3) * area_f, area_i)))
     return None if not angles else round(float(np.median(angles)))
 
 
@@ -204,6 +208,102 @@ def ptbxl_features(algo: str, ecg_id: int) -> dict | None:
     return None
 
 
+ECGDELI_LABELS = {
+    "p-wave onset": ("P", "on"), "p-wave peak": ("P", "peak"), "p-wave offset": ("P", "off"),
+    "QRS onset": ("QRS", "on"), "R peak": ("QRS", "peak"), "QRS offset": ("QRS", "off"),
+    "t-wave onset": ("T", "on"), "t-wave peak": ("T", "peak"), "t-wave offset": ("T", "off"),
+}
+# 合理时长（ms）；超出范围视为检测失败
+WAVE_DUR_MS = {"P": (30, 250), "QRS": (40, 250), "T": (60, 500)}
+EDGE_MS = 20  # 起止点离记录首尾太近，说明波形被截断
+
+
+def parse_ecgdeli(path: Path, fs: float, duration_ms: float, label: str, issues: list) -> list[dict]:
+    """ECGDeli 标注：aux_note 写明点的类型。以 QRS 起点为锚，把前后的点组装成心搏中的 P / QRS / T。
+    不合理的波（顺序错乱、时长异常、被首尾截断）丢弃，并记入 issues。"""
+    ann = wfdb.rdann(str(path), "atr")
+    pts = []
+    for s, note in zip(ann.sample, ann.aux_note):
+        key = ECGDELI_LABELS.get(note.strip())
+        if key:
+            pts.append((round(s / fs * 1000, 1), *key))
+    qrs_on = [t for t, w, k in pts if w == "QRS" and k == "on"]
+    waves, dropped = [], []
+    for i, q in enumerate(qrs_on):
+        prev_q = qrs_on[i - 1] if i > 0 else -1e9
+        next_q = qrs_on[i + 1] if i + 1 < len(qrs_on) else 1e9
+        beat: dict[str, dict] = {}
+        for t, w, k in pts:
+            # P 属于本 QRS 之前；QRS 与 T 属于本 QRS 之后、下一个 QRS 之前
+            # P 取离本 QRS 最近的一组点（后出现的覆盖先出现的，避免被上一个被截断心搏的残留点配错）；
+            # QRS 与 T 取本 QRS 之后最先出现的一组
+            if w == "P":
+                if prev_q < t <= q:
+                    beat.setdefault(w, {})[k] = t
+            elif q <= t < next_q and k not in beat.setdefault(w, {}):
+                beat[w][k] = t
+        for w in ("P", "QRS", "T"):
+            b = beat.get(w, {})
+            if not {"on", "off"} <= b.keys():
+                continue
+            on, off, peak = b["on"], b["off"], b.get("peak")
+            reason = None
+            lo, hi = WAVE_DUR_MS[w]
+            if on < EDGE_MS or off > duration_ms - EDGE_MS:
+                reason = "被记录首尾截断"
+            elif not (lo <= off - on <= hi):
+                reason = f"时长 {off - on:.0f} ms 不合理"
+            elif peak is not None and not (on <= peak <= off):
+                reason = "峰值不在起止点之间"
+            elif w == "P" and "QRS" in beat and "on" in beat["QRS"] and off > beat["QRS"]["on"] + 2:
+                reason = "P 波终点晚于 QRS 起点"
+            elif w == "T" and "QRS" in beat and "off" in beat["QRS"] and on < beat["QRS"]["off"] - 2:
+                reason = "T 波起点早于 QRS 终点"
+            if reason:
+                dropped.append(f"{w}@{on:.0f}ms（{reason}）")
+                continue
+            waves.append({"type": w, "on": on, "peak": peak, "off": off})
+    if dropped:
+        issues.append({"level": "info", "lead": label if label != "global" else None,
+                       "msg": f"ECGDeli 自动标注中 {len(dropped)} 个波不合理已舍弃：{'；'.join(dropped)}"})
+    waves.sort(key=lambda w: w["on"])
+    return waves
+
+
+def ecgdeli_annotations(ecg_id: int, fs: float, duration_ms: float, issues: list) -> dict | None:
+    d = RAW / "ptbxl" / "fiducial"
+    sub = f"{ecg_id // 1000 * 1000:05d}"
+    names = ["global", *[f"lead_{l}" for l in LEADS]]
+    try:
+        for n in names:
+            download(f"ptb-xl-plus/1.0.1/fiducial_points/ecgdeli/{sub}/{ecg_id:05d}_points_{n}.atr",
+                     d / f"{ecg_id:05d}_points_{n}.atr")
+    except Exception as e:  # noqa: BLE001
+        issues.append({"level": "warn", "lead": None, "msg": f"没有 ECGDeli 波形标注（{e}），不能显示波段着色"})
+        return None
+    per_lead = {l: parse_ecgdeli(d / f"{ecg_id:05d}_points_lead_{l}", fs, duration_ms, l, issues) for l in LEADS}
+    glob = parse_ecgdeli(d / f"{ecg_id:05d}_points_global", fs, duration_ms, "global", issues)
+    # 全局标注组装成心搏：以 QRS 为中心，挂上前面的 P 和后面的 T
+    beats = []
+    qrs = [w for w in glob if w["type"] == "QRS"]
+    for i, q in enumerate(qrs):
+        prev_off = qrs[i - 1]["off"] if i > 0 else -1e9
+        next_on = qrs[i + 1]["on"] if i + 1 < len(qrs) else 1e9
+        b = {"QRS": {k: q[k] for k in ("on", "peak", "off")}}
+        for w in glob:
+            if w["type"] == "P" and prev_off < w["on"] and w["off"] <= q["on"] + 2:
+                b["P"] = {k: w[k] for k in ("on", "peak", "off")}
+            if w["type"] == "T" and w["on"] >= q["off"] - 2 and w["off"] < next_on:
+                b["T"] = {k: w[k] for k in ("on", "peak", "off")}
+        beats.append(b)
+    return {
+        "source": "ECGDeli（开源算法，PTB-XL+ 提供），自动标注，未经人工校对",
+        "waves": per_lead,
+        "beats": beats,
+        "annotatedRangeMs": [beats[0]["QRS"]["on"], beats[-1]["QRS"]["off"]] if beats else None,
+    }
+
+
 def load_ptbxl(rec: str) -> dict:
     ecg_id = int(rec)
     row = ptbxl_db()[ecg_id]
@@ -252,7 +352,7 @@ def load_ptbxl(rec: str) -> dict:
         "reportOriginal": row["report"],
         "validatedByCardiologist": row["validated_by_human"] == "True",
         "measurements": algos,
-        "annotations": None,
+        "annotations": ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues),
         "amplitudeNormalized": False,
         "source": PTBXL_SOURCE | {"record": f"ecg_id {ecg_id}", "derived": PTBXL_PLUS,
                                   "physionet": PHYSIONET_CITATION},

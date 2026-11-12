@@ -1,0 +1,47 @@
+// 参考文献。讲解中的数值标准都通过 id 引用这里。
+// status：'listed' = 根据公开文献整理，尚未逐条核对原文；'verified' = 已核对原文。
+// 目前全部为 'listed'，页面上如实显示。
+
+export const REFS = {
+  aha1: {
+    text: 'Kligfield P, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part I. Circulation. 2007;115:1306–1324.',
+    note: 'AHA/ACC/HRS 心电图标准化与解读建议（第一部分：心电图及其技术）',
+    status: 'listed',
+  },
+  aha3: {
+    text: 'Surawicz B, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part III. Intraventricular conduction disturbances. Circulation. 2009;119:e235–e240.',
+    note: '室内传导障碍：QRS 时限、电轴偏移的定义',
+    status: 'listed',
+  },
+  aha4: {
+    text: 'Rautaharju PM, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part IV. The ST segment, T and U waves, and the QT interval. Circulation. 2009;119:e241–e250.',
+    note: 'QT / QTc 的测量与延长标准',
+    status: 'listed',
+  },
+  bazett: { text: 'Bazett HC. An analysis of the time-relations of electrocardiograms. Heart. 1920;7:353–370.', status: 'listed' },
+  fridericia: {
+    text: 'Fridericia LS. Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken. Acta Med Scand. 1920;53:469–486.',
+    status: 'listed',
+  },
+  framingham: {
+    text: 'Sagie A, et al. An improved method for adjusting the QT interval for heart rate (the Framingham Heart Study). Am J Cardiol. 1992;70:797–801.',
+    status: 'listed',
+  },
+  hodges: {
+    text: 'Hodges M, et al. Bazett’s QT correction reviewed: evidence that a linear QT correction for heart rate is better. J Am Coll Cardiol. 1983;1:694 (abstract).',
+    status: 'listed',
+  },
+  kors: {
+    text: 'Kors JA, et al. Reconstruction of the Frank vectorcardiogram from standard electrocardiographic leads: diagnostic comparison of different methods. Eur Heart J. 1990;11:1083–1092.',
+    note: '本站已用 PTB 数据库的真实 Frank 导联核对系数（见仓库 docs/数据核查.md）',
+    status: 'listed',
+  },
+  textbook: {
+    text: '常用教学范围，各教材略有差异；具体出处待核实。',
+    status: 'listed',
+  },
+};
+
+export function refLabel(id) {
+  return REFS[id] ? `［${id}］` : '';
+}

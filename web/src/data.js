@@ -38,11 +38,20 @@ export async function loadCase(id) {
     const sorted = Float32Array.from(a).sort();
     offsets[name] = sorted[sorted.length >> 1];
   }
+  const fs = meta.fs;
   return {
     meta,
-    fs: meta.fs,
+    fs,
     durationMs: meta.durationMs,
     lead: (name) => leads[name],
     offset: (name) => offsets[name],
+    /** 某导联在 t（ms）处的电压（µV，原始值，线性插值） */
+    valueAt(name, t) {
+      const a = leads[name];
+      const x = (t / 1000) * fs;
+      const i = Math.max(0, Math.min(a.length - 2, Math.floor(x)));
+      const f = Math.max(0, Math.min(1, x - i));
+      return a[i] * (1 - f) + a[i + 1] * f;
+    },
   };
 }

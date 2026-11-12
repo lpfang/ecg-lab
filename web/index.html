@@ -9,13 +9,13 @@
     <header class="topbar">
       <h1>心电图实验室 <span class="en">ECG Lab</span></h1>
       <label>病例 <select id="case-select"></select></label>
-      <label>走纸速度 <span class="en">paper speed</span>
+      <label><a href="#" data-term="paperSpeed">走纸速度</a>
         <select id="speed">
           <option value="25" selected>25 mm/s</option>
           <option value="50">50 mm/s</option>
         </select>
       </label>
-      <label>增益 <span class="en">gain</span>
+      <label><a href="#" data-term="gain">增益</a>
         <select id="gain">
           <option value="5">5 mm/mV</option>
           <option value="10" selected>10 mm/mV</option>
@@ -24,47 +24,106 @@
       </label>
       <span id="calib-badge" class="badge"></span>
       <button id="calib-btn">屏幕校准</button>
+      <span class="spacer"></span>
+      <span class="seg" title="讲解深度">
+        <button data-level="plain">通俗</button><button data-level="pro">专业</button>
+      </span>
+      <button id="glossary-btn">术语表</button>
     </header>
 
     <main>
-      <section class="paper-wrap">
-        <div id="amp-warning" class="amp-warning" hidden>
-          注意：本例的波形幅度已被数据库逐导联归一化，<b>不是真实毫伏值</b>。时间和形态可以参考，电压不能参考。
+      <div class="left">
+        <section class="paper-wrap card">
+          <div id="amp-warning" class="amp-warning" hidden>
+            注意：本例的波形幅度已被数据库逐导联归一化，<b>不是真实毫伏值</b>。时间和形态可以参考，电压不能参考。
+          </div>
+          <div class="toolbar">
+            <span class="seg">
+              <button data-tool="cursor" class="on">时间光标</button><button data-tool="caliper">卡尺</button>
+            </span>
+            <button id="play-btn">▶ 慢动作播放</button>
+            <label><input type="checkbox" id="show-waves" checked /> 波段着色
+              <span class="legend"><i class="p"></i>P <i class="qrs"></i>QRS <i class="t"></i>T</span>
+            </label>
+            <span class="spacer"></span>
+            <span id="paper-scale" class="muted"></span>
+          </div>
+          <div id="caliper-readout" class="caliper-readout" hidden>
+            <span id="caliper-text"></span>
+            <label><input type="checkbox" id="caliper-march" /> 复制平移（检查节律是否规整）</label>
+            <button id="caliper-clear">清除</button>
+          </div>
+          <div class="paper-scroll">
+            <div id="paper-msg">正在加载…</div>
+            <div class="paper-stack">
+              <canvas id="paper"></canvas>
+              <canvas id="overlay"></canvas>
+            </div>
+          </div>
+          <div class="paper-foot">
+            <span id="hover-readout">点击波形放置时间光标</span>
+            <span class="muted">←/→ 微调光标（Shift 加大步长）· 空格 播放 / 暂停 · Esc 清除卡尺</span>
+          </div>
+          <p class="paper-hint">
+            1 小格 = 1 mm。25 mm/s 时横向 1 mm = 40 ms；10 mm/mV 时纵向 1 mm = 0.1 mV。
+            每行开头的方波是 <a href="#" data-term="calPulse">标定脉冲</a>，高度代表 1 mV。
+            波段着色：<span id="wave-source"></span>。
+          </p>
+        </section>
+
+        <div class="linked">
+          <section class="card now-card">
+            <h3>此刻心脏在做什么</h3>
+            <div id="now-body"></div>
+          </section>
+          <section class="card axes-card">
+            <h3 id="axes-title">额面六轴系统</h3>
+            <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
+            <p class="small muted">
+              紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
+              点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
+            </p>
+          </section>
+          <section class="card heart-card">
+            <div class="heart-head">
+              <h3>3D 心脏与向量环</h3>
+              <span class="seg small">
+                <button data-view="front">正面</button><button data-view="left">左侧</button><button data-view="top">上面</button>
+              </span>
+            </div>
+            <div id="heart-view"><div id="heart-msg" class="muted"></div></div>
+            <div class="heart-opts small">
+              <label><input type="checkbox" id="show-heart" checked /> 心脏</label>
+              <label><input type="checkbox" id="show-axes" checked /> 导联轴</label>
+              <span class="muted">拖动旋转 · 滚轮缩放</span>
+            </div>
+            <p class="small muted">
+              心脏为示意模型，颜色表示"通电"顺序（示意）。空间向量由 12 导联推导（Kors 矩阵），前后方向误差较大。
+            </p>
+          </section>
         </div>
-        <div class="paper-bar">
-          <span id="paper-scale"></span>
-          <span id="hover-readout">把鼠标移到波形上查看时间和电压</span>
-        </div>
-        <div class="paper-scroll">
-          <div id="paper-msg">正在加载…</div>
-          <canvas id="paper"></canvas>
-        </div>
-        <p class="paper-hint">
-          心电图纸：1 小格 = 1 mm。横向 1 mm = 40 ms（25 mm/s 时），纵向 1 mm = 0.1 mV（10 mm/mV 时）。
-          每行开头的方波是 <b>标定脉冲</b>（calibration pulse），高度代表 1 mV。
-        </p>
-      </section>
+      </div>
 
       <aside class="side">
-        <section>
+        <section class="card">
           <h2 id="case-title"></h2>
           <p id="case-summary"></p>
           <p class="muted" id="case-patient"></p>
         </section>
-        <section>
-          <h3>本例实测值 <span class="en">Measurements</span></h3>
+        <section class="card">
+          <h3>本例测量值 <span class="en">Measurements</span></h3>
           <table id="measure-table"><thead></thead><tbody></tbody></table>
           <p class="muted small" id="measure-note"></p>
         </section>
-        <section>
+        <section class="card">
           <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
           <ul id="case-diag" class="small"></ul>
           <p id="case-validated" class="muted small"></p>
           <details id="case-quality" class="small"></details>
         </section>
-        <section>
+        <section class="card">
           <h3>数据来源</h3>
-          <p id="case-source" class="small"></p>
+          <div id="case-source" class="small"></div>
         </section>
       </aside>
     </main>
@@ -75,6 +134,15 @@
     </footer>
 
     <div id="toast" hidden></div>
+    <div id="term-pop" class="term-pop" hidden></div>
+
+    <dialog id="glossary">
+      <div class="gl-head">
+        <h3>术语表 <span class="en">Glossary</span></h3>
+        <button id="glossary-close">关闭</button>
+      </div>
+      <div id="glossary-body"></div>
+    </dialog>
 
     <dialog id="calib-dialog">
       <h3>屏幕校准</h3>

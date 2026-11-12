@@ -71,12 +71,15 @@ main {
   align-items: start;
 }
 
-.paper-wrap {
+.card {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 10px;
+  padding: 12px 14px;
   min-width: 0;
+}
+.paper-wrap {
+  padding: 10px;
 }
 .paper-bar {
   display: flex;
@@ -105,11 +108,7 @@ main {
   margin: 8px 2px 0;
 }
 
-.side section {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 12px 14px;
+.side .card {
   margin-bottom: 12px;
 }
 .side h2 {
@@ -253,4 +252,358 @@ dialog input[type='range'] {
   padding: 6px 10px;
   margin-bottom: 8px;
   font-size: 13px;
+}
+
+/* ---------- M1 ---------- */
+:root {
+  --p: #1d4ed8;
+  --qrs: #b91c1c;
+  --t: #047857;
+  --cursor: #7c3aed;
+}
+a[data-term] {
+  color: inherit;
+  text-decoration: underline dotted #9a8f86;
+  text-underline-offset: 3px;
+}
+a[data-term]:hover {
+  color: var(--cursor);
+}
+.spacer {
+  flex: 1;
+}
+.seg {
+  display: inline-flex;
+}
+.seg button {
+  border: 1px solid #cfc7bf;
+  background: #fff;
+  margin: 0;
+  border-radius: 0;
+}
+.seg button + button {
+  border-left: none;
+}
+.seg button:first-child {
+  border-radius: 4px 0 0 4px;
+}
+.seg button:last-child {
+  border-radius: 0 4px 4px 0;
+}
+.seg button.on {
+  background: #3f3a36;
+  color: #fff;
+  border-color: #3f3a36;
+}
+.seg.small button {
+  font-size: 12px;
+  padding: 1px 6px;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin: 0 2px 0 8px;
+  vertical-align: -1px;
+}
+.legend i.p {
+  background: var(--p);
+}
+.legend i.qrs {
+  background: var(--qrs);
+}
+.legend i.t {
+  background: var(--t);
+}
+.paper-stack {
+  position: relative;
+  width: max-content;
+}
+#overlay {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+  touch-action: none;
+}
+#overlay.caliper {
+  cursor: ew-resize;
+}
+.paper-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.caliper-readout {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.caliper-readout[hidden] {
+  display: none;
+}
+
+.linked {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 300px minmax(320px, 1.2fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1500px) {
+  .linked {
+    grid-template-columns: minmax(260px, 1fr) 300px;
+  }
+  .heart-card {
+    grid-column: 1 / -1;
+  }
+}
+.linked h3,
+.heart-head h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.now-card p {
+  line-height: 1.65;
+  margin: 6px 0;
+  font-size: 14px;
+}
+.now-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.now-t {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+.chip {
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #ece7e2;
+}
+.chip.p {
+  background: #dbeafe;
+  color: var(--p);
+}
+.chip.qrs {
+  background: #fee2e2;
+  color: var(--qrs);
+}
+.chip.t {
+  background: #d1fae5;
+  color: var(--t);
+}
+p.pro,
+.term-pop p.pro {
+  color: #3b3530;
+  background: #f6f3ef;
+  border-left: 3px solid #cfc7bf;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+details.pro-more summary {
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.vec-read {
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+}
+
+#axes-svg {
+  width: 100%;
+  max-width: 280px;
+  display: block;
+  margin: 0 auto;
+}
+#axes-svg .ax-pos {
+  stroke: #9ca3af;
+  stroke-width: 1;
+}
+#axes-svg .ax-neg {
+  stroke: #d6d3d1;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+#axes-svg .ax-pos.sel {
+  stroke: var(--cursor);
+  stroke-width: 1.8;
+}
+#axes-svg .ax-neg.sel {
+  stroke: #c4b5fd;
+}
+#axes-svg .ax-lab {
+  font-size: 11px;
+  fill: #57534e;
+  cursor: pointer;
+}
+#axes-svg .ax-lab.sel {
+  fill: var(--cursor);
+  font-weight: 700;
+  stroke: none;
+}
+#axes-svg .ax-dir {
+  font-size: 10px;
+  fill: #a8a29e;
+}
+#axes-svg .ax-hint {
+  font-size: 12px;
+  fill: #a8a29e;
+}
+#axes-svg .vec {
+  stroke: var(--cursor);
+  stroke-width: 2.5;
+}
+#axes-svg .vec-head {
+  fill: var(--cursor);
+}
+#axes-svg .proj-drop {
+  stroke: var(--cursor);
+  stroke-dasharray: 2 2;
+  stroke-width: 1;
+}
+#axes-svg .proj-bar {
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+#axes-svg .proj-bar.pos {
+  stroke: #16a34a;
+}
+#axes-svg .proj-bar.neg {
+  stroke: #dc2626;
+}
+
+.heart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#heart-view {
+  position: relative;
+  height: 340px;
+  background: radial-gradient(circle at 50% 45%, #fff 0%, #f4f0ec 100%);
+  border-radius: 4px;
+  overflow: hidden;
+}
+#heart-view canvas {
+  display: block;
+}
+#heart-msg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+}
+.labels3d {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.lab3d {
+  font-size: 11px;
+  color: #57534e;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0 3px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.lab3d.axis {
+  color: #78716c;
+  background: none;
+}
+.lab3d.axis.sel {
+  color: var(--cursor);
+  font-weight: 700;
+}
+.heart-opts {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.term-pop {
+  position: absolute;
+  z-index: 20;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.term-pop h4,
+.gl-item h4 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+.pop-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+details.refs {
+  font-size: 12px;
+}
+details.refs ul {
+  padding-left: 18px;
+  margin: 4px 0;
+}
+#glossary {
+  width: min(760px, 92vw);
+  max-height: 85vh;
+}
+.gl-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: #fff;
+}
+.gl-item {
+  border-top: 1px solid var(--line);
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+[hidden] {
+  display: none !important;
 }
