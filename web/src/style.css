@@ -362,6 +362,7 @@ a[data-term]:hover {
 
 .col-linked h3,
 .below h3,
+.now-card h3,
 .heart-head h3 {
   font-size: 15px;
   margin: 0 0 8px;
@@ -649,4 +650,12 @@ main.layout {
 .case-info h2 {
   font-size: 17px;
   margin: 0 0 6px;
+}
+
+/* "此刻"框固定高度：各时相文字长短不同，若随内容伸缩，播放时下方的框会跟着上下抖动。
+   212 px 可容纳 1440 宽屏幕上最长的讲解（通俗版展开专业说明，约 205 px）；
+   更窄的窗口或内容更长时，框内滚动，不改变框高。 */
+.now-card #now-body {
+  height: 212px;
+  overflow-y: auto;
 }
