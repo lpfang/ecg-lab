@@ -15,7 +15,9 @@ export const STANDARD_3x4 = {
 export const PAPER = {
   minorMm: 1,
   majorMm: 5,
-  marginLeftMm: 10, // 放标定脉冲
+  calPulseLeadMm: 2, // 标定脉冲前的基线
+  calPulseGapMm: 3, // 标定脉冲与波形之间的间隔
+  minMarginLeftMm: 10,
   marginRightMm: 4,
   marginTopMm: 4,
   marginBottomMm: 4,
@@ -30,6 +32,9 @@ export const PAPER = {
  */
 export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }) {
   const P = PAPER;
+  // 标定脉冲宽度随走纸速度变化（200 ms：25 mm/s 时 5 mm，50 mm/s 时 10 mm），左边距要能放下它
+  const calPulseWidthMm = (P.calPulseMs / 1000) * speed;
+  const marginLeftMm = Math.max(P.minMarginLeftMm, P.calPulseLeadMm + calPulseWidthMm + P.calPulseGapMm);
   const traceWidthMm = (durationMs / 1000) * speed;
   const colMs = durationMs / layout.columns;
   const rowHeightMm = P.rowMvSpan * gain;
@@ -52,7 +57,7 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
         rhythm: row.rhythm,
         t0,
         t1,
-        xMm: P.marginLeftMm + (t0 / 1000) * speed,
+        xMm: marginLeftMm + (t0 / 1000) * speed,
         widthMm: ((t1 - t0) / 1000) * speed,
         baselineMm,
         topMm: top,
@@ -63,11 +68,13 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
     return { top, baselineMm, rhythm: row.rhythm };
   });
   return {
-    widthMm: P.marginLeftMm + traceWidthMm + P.marginRightMm,
+    widthMm: marginLeftMm + traceWidthMm + P.marginRightMm,
     heightMm: P.marginTopMm + allRows.length * rowHeightMm + P.marginBottomMm,
     rows,
     cells,
     speed,
+    marginLeftMm,
+    calPulseWidthMm,
     gain,
   };
 }

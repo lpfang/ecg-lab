@@ -53,8 +53,8 @@ function drawGrid(ctx, lay, s) {
 }
 
 function drawCalPulse(ctx, lay, baselineMm, s) {
-  const x0 = 2;
-  const w = (PAPER.calPulseMs / 1000) * lay.speed;
+  const x0 = PAPER.calPulseLeadMm;
+  const w = lay.calPulseWidthMm; // 200 ms
   const h = lay.gain; // 1 mV
   ctx.strokeStyle = COLORS.trace;
   ctx.lineWidth = 1.6 / s;
@@ -65,7 +65,8 @@ function drawCalPulse(ctx, lay, baselineMm, s) {
   ctx.lineTo(x0, baselineMm - h);
   ctx.lineTo(x0 + w, baselineMm - h);
   ctx.lineTo(x0 + w, baselineMm);
-  ctx.lineTo(PAPER.marginLeftMm, baselineMm);
+  // 脉冲后的基线停在波形起点前 1 mm，留出空隙，避免与第一个波连在一起
+  ctx.lineTo(lay.marginLeftMm - 1, baselineMm);
   ctx.stroke();
 }
 

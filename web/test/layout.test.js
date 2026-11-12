@@ -6,7 +6,15 @@ describe('心电图纸排版（mm / ms）', () => {
   const lay = computeLayout({ durationMs: 10000, speed: 25, gain: 10 });
 
   it('10 秒 @25 mm/s 的波形宽 250 mm', () => {
-    expect(lay.widthMm).toBeCloseTo(PAPER.marginLeftMm + 250 + PAPER.marginRightMm);
+    expect(lay.widthMm).toBeCloseTo(lay.marginLeftMm + 250 + PAPER.marginRightMm);
+  });
+
+  it.each([25, 50])('%s mm/s 时标定脉冲（200 ms）完整位于波形左侧，并留有间隔', (speed) => {
+    const l = computeLayout({ durationMs: 10000, speed, gain: 10 });
+    expect(l.calPulseWidthMm).toBeCloseTo(0.2 * speed);
+    const pulseEnd = PAPER.calPulseLeadMm + l.calPulseWidthMm;
+    const firstTrace = Math.min(...l.cells.map((c) => c.xMm));
+    expect(firstTrace - pulseEnd).toBeGreaterThanOrEqual(PAPER.calPulseGapMm - 1e-9);
   });
 
   it('3×4 排版 + 节律条共 13 个格子，每列 2.5 s', () => {
