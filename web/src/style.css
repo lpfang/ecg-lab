@@ -642,7 +642,7 @@ main.layout {
 }
 .case-info {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   padding: 0 20px 16px;
   align-items: start;
@@ -668,4 +668,15 @@ main.layout {
   margin: 3px 0;
   font-size: 13.5px;
   line-height: 1.55;
+}
+
+.diag-card h3 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+.diag-card ul {
+  margin: 0 0 4px;
+}
+.diag-card p {
+  margin: 3px 0;
 }

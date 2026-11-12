@@ -54,6 +54,7 @@ const state = {
   selectedLead: 'II',
   caliper: null,
   playing: false,
+  playRate: 0.2, // 慢动作速度：真实速度的 1/5 或 1/10
   show3d: { axes: true, heart: true },
   layout: null,
 };
@@ -338,7 +339,6 @@ function onKey(ev) {
 
 // ================================================================ 慢动作播放
 
-const PLAY_RATE = 0.2; // 真实速度的 1/5
 let playRaf = 0;
 /** 播放范围：第一个心搏开始到最后一个心搏结束（含首个 P 波与末个 T 波） */
 function playRange() {
@@ -361,7 +361,7 @@ function startPlay() {
     if (state.caseId !== caseId) return stopPlay(); // 播放中切换了病例
     const dt = Math.min(100, now - last);
     last = now;
-    let t = state.cursorMs + dt * PLAY_RATE;
+    let t = state.cursorMs + dt * state.playRate; // 每帧读取，播放中切换速度立即生效
     if (t >= range[1]) t = range[0];
     set({ cursorMs: t }, 'overlay', 'linked');
     playRaf = requestAnimationFrame(step);
@@ -504,6 +504,12 @@ function bindControls() {
     state.caliper && set({ caliper: { ...state.caliper, march: e.target.checked } }, 'overlay');
   $('#caliper-clear').onclick = () => set({ caliper: null }, 'overlay');
   $('#play-btn').onclick = () => (state.playing ? stopPlay() : startPlay());
+  for (const b of document.querySelectorAll('[data-rate]')) {
+    b.onclick = () => {
+      state.playRate = Number(b.dataset.rate);
+      document.querySelectorAll('[data-rate]').forEach((x) => x.classList.toggle('on', x === b));
+    };
+  }
 
   for (const b of document.querySelectorAll('[data-level]')) {
     b.classList.toggle('on', b.dataset.level === state.level);

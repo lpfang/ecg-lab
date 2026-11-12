@@ -42,6 +42,9 @@
               <button data-tool="cursor" class="on">时间光标</button><button data-tool="caliper">卡尺</button>
             </span>
             <button id="play-btn">▶ 慢动作播放</button>
+            <span class="seg small" title="慢动作速度">
+              <button data-rate="0.2" class="on">1/5 速</button><button data-rate="0.1">1/10 速</button>
+            </span>
             <label><input type="checkbox" id="show-waves" checked /> 波段着色
               <span class="legend"><i class="p"></i>P <i class="qrs"></i>QRS <i class="t"></i>T</span>
             </label>
@@ -112,6 +115,12 @@
           <p id="case-summary"></p>
           <p class="muted" id="case-patient"></p>
         </section>
+        <section class="card diag-card">
+          <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
+          <ul id="case-diag" class="small"></ul>
+          <p id="case-validated" class="muted small"></p>
+          <details id="case-quality" class="small"></details>
+        </section>
         <section class="card measure-card">
           <h3>本例测量值 <span class="en">Measurements</span></h3>
           <table id="measure-table"><thead></thead><tbody></tbody></table>
@@ -121,12 +130,6 @@
     </main>
 
     <section class="case-info">
-      <section class="card">
-        <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
-        <ul id="case-diag" class="small"></ul>
-        <p id="case-validated" class="muted small"></p>
-        <details id="case-quality" class="small"></details>
-      </section>
       <section class="card">
         <h3>数据来源</h3>
         <div id="case-source" class="small"></div>
