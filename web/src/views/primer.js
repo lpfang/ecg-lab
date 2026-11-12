@@ -253,15 +253,12 @@ function paperMap() {
 // ---------------------------------------------------------------- 组装与交互
 
 let built = false;
+let pickerEl = null;
 
 export function buildPrimer(root, level) {
   const pro = (txt) =>
     level === 'pro' ? `<p class="pro">${txt}</p>` : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${txt}</p></details>`;
   root.innerHTML = `
-    <div class="pr-picker">
-      <span class="muted small">点一个导联看看：</span>
-      ${LEADS.map((l) => `<button data-pick="${l}">${l}</button>`).join('')}
-    </div>
     <p class="pr-info" id="pr-info">每个导联就像一台从固定方向"看"心脏的相机。点上面的导联名，下面三张图会同时标出它用到的电极和它看心脏的方向。</p>
 
     <section class="pr-sec" id="pr-sec-intro">
@@ -357,26 +354,37 @@ export function buildPrimer(root, level) {
 
     <p class="muted small">出处：Kligfield P, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part I. Circulation. 2007;115:1306–1324（尚未逐条核对原文）。</p>
   `;
+  // 导联按钮放在对话框的固定顶栏里（#primer-picker），没有时退回到正文开头
+  let picker = document.getElementById('primer-picker');
+  if (!picker) {
+    picker = document.createElement('div');
+    picker.className = 'pr-picker';
+    root.prepend(picker);
+  }
+  picker.innerHTML =
+    '<span class="muted small">点一个导联看看：</span>' + LEADS.map((l) => `<button data-pick="${l}">${l}</button>`).join('');
+  pickerEl = picker;
   root.querySelector('#pr-fig-why').append(whyFigure());
   root.querySelector('#pr-fig-body').append(bodyFigure());
   root.querySelector('#pr-fig-limb').append(limbFigure());
   root.querySelector('#pr-fig-chest').append(chestFigure());
-  root.querySelector('.pr-picker').addEventListener('click', (e) => {
+  // 每次打开都会重建，用 onclick 赋值（而不是 addEventListener）避免重复绑定
+  picker.onclick = (e) => {
     const l = e.target.closest('[data-pick]')?.dataset.pick;
     if (l) selectLead(root, l, level);
-  });
+  };
   // 图中的导联名、表格格子也可以点
-  root.addEventListener('click', (e) => {
+  root.onclick = (e) => {
     const l = e.target.closest('[data-lead]')?.dataset.lead;
-    if (l && !e.target.closest('.pr-picker')) selectLead(root, l, level);
-  });
+    if (l) selectLead(root, l, level);
+  };
   built = true;
 }
 
 export function selectLead(root, lead, level) {
   const info = LEAD_INFO[lead];
   if (!info) return;
-  root.querySelectorAll('[data-pick]').forEach((b) => b.classList.toggle('on', b.dataset.pick === lead));
+  (pickerEl ?? root).querySelectorAll('[data-pick]').forEach((b) => b.classList.toggle('on', b.dataset.pick === lead));
   root.querySelectorAll('[data-lead]').forEach((e) => e.classList.toggle('hl', e.dataset.lead === lead));
   root.querySelectorAll('[data-elec]').forEach((e) => {
     const i = info.elec.indexOf(e.dataset.elec);

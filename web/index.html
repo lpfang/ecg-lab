@@ -151,20 +151,26 @@
     <div id="toast" hidden></div>
     <div id="term-pop" class="term-pop" hidden></div>
 
-    <dialog id="primer">
-      <div class="gl-head">
-        <h3>读图入门：12 导联是怎么来的 <span class="en">The 12-lead ECG</span></h3>
-        <button id="primer-close">关闭</button>
+    <dialog id="primer" class="dlg">
+      <!-- 标题与导联按钮合成一个不透明的固定顶栏，滚动内容不会从缝隙中露出 -->
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>读图入门：12 导联是怎么来的 <span class="en">The 12-lead ECG</span></h3>
+          <button id="primer-close">关闭</button>
+        </div>
+        <div id="primer-picker" class="pr-picker"></div>
       </div>
-      <div id="primer-body"></div>
+      <div id="primer-body" class="dlg-body"></div>
     </dialog>
 
-    <dialog id="glossary">
-      <div class="gl-head">
-        <h3>术语表 <span class="en">Glossary</span></h3>
-        <button id="glossary-close">关闭</button>
+    <dialog id="glossary" class="dlg">
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>术语表 <span class="en">Glossary</span></h3>
+          <button id="glossary-close">关闭</button>
+        </div>
       </div>
-      <div id="glossary-body"></div>
+      <div id="glossary-body" class="dlg-body"></div>
     </dialog>
 
     <dialog id="calib-dialog">

@@ -969,7 +969,7 @@ p.nr-warn.show {
   font-weight: 700;
 }
 .pr-sec {
-  scroll-margin-top: 96px;
+  scroll-margin-top: 108px;
 }
 .pr-depol {
   fill: #fed7aa;
@@ -1017,4 +1017,31 @@ p.nr-warn.show {
 }
 .pr-names tr + tr {
   border-top: 1px dashed var(--line);
+}
+
+/* 对话框：顶栏（标题 + 导联按钮）不透明固定，内边距移到正文 */
+dialog.dlg {
+  padding: 0;
+}
+.dlg-top {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #fff;
+  padding: 12px 20px 8px;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.dlg-top .gl-head {
+  position: static;
+}
+.dlg-top .gl-head h3 {
+  margin: 0;
+}
+.dlg-top .pr-picker {
+  position: static;
+  padding: 8px 0 0;
+}
+.dlg-body {
+  padding: 4px 20px 16px;
 }
