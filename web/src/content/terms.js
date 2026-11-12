@@ -11,11 +11,28 @@ export const TERMS = {
     refs: ['aha1'],
   },
   lead: {
+    primer: 'intro',
     zh: '导联',
     en: 'Lead',
     plain:
       '导联就像从不同角度给心脏的电活动"拍照"的相机。12 个导联 = 12 个角度。电流朝着某个相机跑，这个导联就记录到向上的波；背着它跑，就是向下的波。',
     pro: '导联是两点（或一点与中心电端）之间的电位差。导联电压 ≈ 心电向量在该导联轴上的投影。肢体导联满足 Einthoven 与 Goldberger 关系（II = I + III 等），在额面上构成六轴系统。',
+    refs: ['aha1'],
+  },
+  hexaxial: {
+    primer: 'frontal',
+    zh: '额面六轴系统',
+    en: 'Hexaxial reference system',
+    plain: '把 6 个肢体导联（I、II、III、aVR、aVL、aVF）的方向画在同一个中心上，像一个有 6 根辐条的车轮。它表示从身体正面的 6 个方向看心脏，相邻两根相差 30°。',
+    pro: '由 Einthoven 三角（I、II、III）与 Goldberger 加压导联（aVR、aVL、aVF）平移至共同中心构成。0° = I 导联正极（患者左侧），顺时针为正：II +60°、aVF +90°、III +120°、aVL −30°、aVR −150°。用于判定额面电轴。',
+    refs: ['aha1', 'aha3'],
+  },
+  chestLeads: {
+    primer: 'chest',
+    zh: '胸导联',
+    en: 'Precordial leads (V1–V6)',
+    plain: '贴在胸前的 6 个电极得到的导联，从心脏的右前方绕到左侧，在水平方向上看心脏。',
+    pro: 'V1：第 4 肋间胸骨右缘；V2：第 4 肋间胸骨左缘；V3：V2 与 V4 中点；V4：第 5 肋间锁骨中线；V5、V6：与 V4 同一水平的腋前线、腋中线。各电极电位减去 Wilson 中心电端。',
     refs: ['aha1'],
   },
   calPulse: {

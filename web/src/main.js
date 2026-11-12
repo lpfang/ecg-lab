@@ -7,6 +7,7 @@ import { locate, beatWindow } from './ecg/beats.js';
 import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
 import { PlanesView } from './views/planes.js';
+import { buildPrimer, selectLead as primerSelect } from './views/primer.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
 import { REFS } from './content/refs.js';
@@ -115,6 +116,7 @@ function renderLinked() {
   const ctx = linkedContext();
   const { plane, readout } = renderAxes($('#axes-svg'), ctx);
   $('#axes-title').textContent = plane === 'frontal' ? '额面六轴系统（肢体导联）' : '水平面（胸导联，方向为示意）';
+  $('#axes-what').dataset.primer = plane === 'frontal' ? 'frontal' : 'chest';
   renderNow(ctx, readout);
   planes.update(ctx);
   heart?.update({ ...ctx, showAxes: state.show3d.axes, showHeart: state.show3d.heart });
@@ -437,6 +439,7 @@ function termHtml(id, full = false) {
     (full || state.level === 'pro'
       ? `<p>${t.plain}</p><p class="pro">${t.pro}</p>`
       : levelBlock(t.plain, t.pro)) +
+    (t.primer ? `<p><a href="#" data-primer="${t.primer}">看图了解：读图入门 →</a></p>` : '') +
     (refs ? `<details class="refs"><summary>出处</summary><ul>${refs}</ul><p class="muted">出处根据公开文献整理，尚未逐条核对原文。</p></details>` : '')
   );
 }
@@ -451,6 +454,16 @@ function openTerm(id, anchor) {
   pop.style.left = `${Math.max(16, Math.min(window.innerWidth - w - 16, r.left + window.scrollX))}px`;
   pop.style.top = `${r.bottom + window.scrollY + 6}px`;
   pop.querySelector('.pop-close').onclick = () => (pop.hidden = true);
+}
+
+/** 打开读图入门，滚动到指定小节，并高亮当前选中的导联 */
+function openPrimer(section) {
+  const body = $('#primer-body');
+  buildPrimer(body, state.level); // 每次按当前讲解深度重建
+  $('#primer').showModal();
+  primerSelect(body, state.selectedLead, state.level);
+  const target = body.querySelector(`#pr-sec-${section}`);
+  if (target) target.scrollIntoView({ block: 'start' });
 }
 
 function openGlossary() {
@@ -569,6 +582,8 @@ function bindControls() {
     };
   }
   $('#glossary-btn').onclick = openGlossary;
+  $('#primer-btn').onclick = () => openPrimer('intro');
+  $('#primer-close').onclick = () => $('#primer').close();
   // toggle 事件不冒泡，用捕获阶段监听
   $('#now-body').addEventListener(
     'toggle',
@@ -597,6 +612,14 @@ function bindControls() {
   window.addEventListener('keydown', onKey);
 
   document.addEventListener('click', (e) => {
+    const pr = e.target.closest('[data-primer]');
+    if (pr) {
+      e.preventDefault();
+      $('#term-pop').hidden = true;
+      if ($('#glossary').open) $('#glossary').close();
+      openPrimer(pr.dataset.primer);
+      return;
+    }
     const a = e.target.closest('[data-term]');
     if (a) {
       e.preventDefault();

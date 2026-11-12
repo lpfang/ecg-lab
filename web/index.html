@@ -28,6 +28,7 @@
       <span class="seg" title="讲解深度">
         <button data-level="plain">通俗</button><button data-level="pro">专业</button>
       </span>
+      <button id="primer-btn">读图入门</button>
       <button id="glossary-btn">术语表</button>
     </header>
 
@@ -104,7 +105,7 @@
             </p>
           </section>
           <section class="card axes-card">
-          <h3 id="axes-title">额面六轴系统</h3>
+          <div class="axes-head"><h3 id="axes-title">额面六轴系统</h3><a href="#" id="axes-what" data-primer="frontal">这是什么？</a></div>
           <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
           <p class="small muted">
             紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
@@ -149,6 +150,14 @@
 
     <div id="toast" hidden></div>
     <div id="term-pop" class="term-pop" hidden></div>
+
+    <dialog id="primer">
+      <div class="gl-head">
+        <h3>读图入门：12 导联是怎么来的 <span class="en">The 12-lead ECG</span></h3>
+        <button id="primer-close">关闭</button>
+      </div>
+      <div id="primer-body"></div>
+    </dialog>
 
     <dialog id="glossary">
       <div class="gl-head">
