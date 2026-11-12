@@ -132,7 +132,7 @@ export const TOURS = [
         lead: 'V5',
         focus: '.measure-card',
         plain:
-          '这位 43 岁男性的电压正好在标准边缘：Sokolow-Lyon 本站算出 {sokolow} mV，GE 算法 {sokolow:12sl} mV，Glasgow 算法 {sokolow:unig} mV，以 3.5 mV 为界，有的算"达到"、有的算"没达到"。Cornell 电压 {cornell} mV，没有达到男性 2.8 mV 的标准。同一份心电图，测量方法稍有不同，结论就可能不同。更重要的是：心电图发现左心室肥厚的能力有限，"没达到标准"不能说明心脏没有变厚，确诊通常要靠心脏超声。',
+          '这位 43 岁男性的电压正好在标准边缘：Sokolow-Lyon 本站算出 {sokolow} mV，GE 算法 {sokolow:12sl} mV，Glasgow 算法 {sokolow:unig} mV，以 3.5 mV 为界，有的算"达到"、有的算"没达到"。Cornell 电压 {cornell} mV，没有达到男性 2.8 mV 的标准；Peguero-Lo Presti 为 {peguero} mV，三种来源都达到了。同一份心电图，测量方法稍有不同，结论就可能不同。更重要的是：心电图发现左心室肥厚的能力有限，"没达到标准"不能说明心脏没有变厚，确诊通常要靠心脏超声。',
         pro: '心电图电压标准敏感性较低、特异性较高（AHA/ACCF/HRS 2009 第五部分）。',
       },
       {
@@ -143,7 +143,7 @@ export const TOURS = [
         lead: 'V5',
         focus: '.measure-card',
         plain:
-          '这位 73 岁女性除了电压很高（四项标准全部达到），侧壁导联（I、aVL、V5、V6）的 ST 段还压低，I、aVL 的 T 波倒置，V5、V6 的 T 波低平，常称为"劳损"型改变。紫色虚线是本站用作零点的 PR 段：本例 V5 在 J 点后 80 ms 低于它 {st80:V5} mV。V1、V2 的 ST 抬高是左心室肥厚时常见的对应改变。',
+          '这位 73 岁女性除了电压很高（四项标准全部达到），侧壁导联（I、aVL、V5、V6）的 ST 段还压低，I、aVL 的 T 波倒置，V5、V6 的 T 波低平，常称为"劳损"型改变。紫色虚线是本站用作零点的 PR 段：本例 V5 在 J 点后 80 ms 相对它为 {st80:V5} mV（负值表示压低）。V1、V2 的 ST 抬高是左心室肥厚时常见的对应改变。',
         pro: '类似的 ST-T 改变也可见于心肌缺血、药物（如洋地黄）等，需结合临床判断。',
       },
       {
@@ -222,10 +222,12 @@ export function fillTemplate(text, ctx) {
     cornell: () => fmt2(lvh?.find((c) => c.id === 'cornell')?.value),
     ravl: () => fmt2(lvh?.find((c) => c.id === 'ravl')?.value),
     peguero: () => fmt2(lvh?.find((c) => c.id === 'peguero')?.value),
-    pdur: () => fmt0(pd.length ? pd[pd.length >> 1] : null),
+    // P 波时限用 GE / Glasgow 算法的全局测量值（ECGDeli 自动标注的 P 波偏宽，见 docs/数据核查.md）
+    pdur: () => fmt0(measure(meta, 'P_ms') ?? (pd.length ? pd[pd.length >> 1] : null)),
     rrmin: () => fmt0(rr.length ? Math.min(...rr) : null),
     rrmax: () => fmt0(rr.length ? Math.max(...rr) : null),
-    st80: (lead) => fmt2(own?.[lead]?.ST80 != null ? Math.abs(own[lead].ST80) : null),
+    // 带符号：负值 = 低于 PR 段零点（压低），正值 = 抬高
+    st80: (lead) => (own?.[lead]?.ST80 == null ? '—' : `${own[lead].ST80 < 0 ? '−' : '+'}${Math.abs(own[lead].ST80).toFixed(2)}`),
   };
   return text.replace(/\{(\w+)(?::(\w+))?\}/g, (m, name, arg) => (table[name] ? table[name](arg) : m));
 }

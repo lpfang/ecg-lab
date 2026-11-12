@@ -48,7 +48,8 @@
     "RR_ms": 456.0,
     "PR_ms": null,
     "QRS_ms": 80.0,
-    "QT_ms": 308.0
+    "QT_ms": 308.0,
+    "P_ms": null
    }
   },
   {
@@ -61,7 +62,8 @@
     "PR_ms": null,
     "QRS_ms": 86.0,
     "QT_ms": 306.0,
-    "axis_deg": 81.0
+    "axis_deg": 81.0,
+    "P_ms": null
    }
   },
   {
@@ -3422,7 +3424,7 @@
   {
    "level": "info",
    "lead": null,
-   "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR 值与自动标注的 P 波已舍弃"
+   "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"
   },
   {
    "level": "info",

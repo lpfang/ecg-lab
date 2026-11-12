@@ -200,15 +200,23 @@ function nowText(ctx, tTxt) {
     QRS: `本次心搏 QRS 时限 ${ms(b.QRS.off - b.QRS.on)}`,
     ST: `本次心搏 ST 段时长 ${ms(b.T && b.T.on - b.QRS.off)}`,
     T: `本次心搏 QT 间期 ${ms(b.T && b.T.off - b.QRS.on)}`,
-    TP: `本次心搏 TP 段约 ${ms(b.T && ctx.loc.end - b.T.off)}`,
+    TP: (() => {
+      if (state.cursorMs < b.QRS.on) {
+        const prev = state.ecg.meta.annotations.beats[ctx.loc.index - 1];
+        return `此处 TP 段约 ${ms(prev?.T && b.QRS.on - prev.T.off)}`;
+      }
+      return `本次心搏 TP 段约 ${ms(b.T && ctx.loc.end - b.T.off)}`;
+    })(),
   }[ctx.loc.phase];
   return (
     `<div class="now-head"><span class="chip ${info.color ?? ''}">${info.name}</span>` +
     `<span class="en">${info.en}</span><span class="muted now-t">${tTxt}</span></div>` +
     levelBlock(info.plain, info.pro, true) +
-    (state.ecg.meta.rhythm === 'AFIB' || state.ecg.meta.rhythm === 'AFLT'
+    (state.ecg.meta.rhythm === 'AFIB'
       ? '<p class="af-note">本例为<a href="#" data-term="afib">心房颤动</a>：心房没有统一的"通电"，没有 P 波，QRS 之前只有细小不规则的颤动波，所以这里没有"P 波""PR 段"时相。</p>'
-      : '') +
+      : state.ecg.meta.rhythm === 'AFLT'
+        ? '<p class="af-note">本例为心房扑动：心房以很快而规则的节律"通电"，没有正常 P 波，代之以锯齿状的扑动波（F 波），所以这里没有"P 波""PR 段"时相。</p>'
+        : '') +
     `<p class="muted small">${beatFacts}（自动标注）</p>` +
     (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '')
   );
@@ -621,7 +629,7 @@ async function selectCase(id) {
   $('#paper-msg').textContent = '正在加载病例…';
   try {
     const ecg = await loadCase(id);
-    if (token !== loadToken) return false;
+    if (token !== loadToken) return null; // 被更新的加载取代（不是失败）
     const beats = ecg.meta.annotations?.beats ?? [];
     const first = beats[Math.min(2, beats.length - 1)];
     set(
@@ -647,12 +655,18 @@ async function selectCase(id) {
     history.replaceState(null, '', u);
     return true;
   } catch (e) {
-    if (token !== loadToken) return false;
+    if (token !== loadToken) return null;
     console.error(e);
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
     $('#retry').onclick = () => selectCase(id);
     return false;
   }
+}
+
+/** 作废正在进行的病例加载（例如加载中途退出导览），并收起"正在加载"提示 */
+function cancelPendingLoad() {
+  loadToken++;
+  if (state.ecg) $('#paper-msg').hidden = true;
 }
 
 // ================================================================ 导览（步骤为数据，播放器统一执行）
@@ -702,8 +716,9 @@ function startTour(id) {
     history.replaceState(null, '', u);
     return;
   }
-  if (!tour.def) {
-    // 进入导览时保存用户设置，退出时恢复（迁移经验：进入某种模式保存，退出还原）
+  if (!tour.saved) {
+    // 进入导览时保存用户设置，退出时恢复（迁移经验：进入某种模式保存，退出还原）。
+    // 上一次退出还在恢复中时 saved 尚未清空，沿用它，不把导览改过的设置当成用户设置
     tour.saved = {
       caseId: state.caseId,
       showWaves: state.showWaves,
@@ -748,8 +763,14 @@ async function goStep(i) {
   $('#tour-count').textContent = `${i + 1} / ${def.steps.length}`;
   if (step.case && state.caseId !== step.case) {
     $('#tour-body').innerHTML = '<p class="muted">正在加载病例…</p>';
+    // 加载期间禁用翻页，避免按旧的 tour.index 计算下一步
+    $('#tour-prev').disabled = true;
+    $('#tour-next').disabled = true;
     const ok = await selectCase(step.case);
     if (token !== tour.token) return; // 用户已翻到别的步骤或退出
+    $('#tour-next').disabled = false;
+    $('#tour-prev').disabled = tour.index <= 0;
+    if (ok === null) return; // 被别的加载取代，不算失败
     if (!ok) {
       // 失败时停在原来的步骤，并提供重试
       $('#tour-body').innerHTML = '<p class="lvh-alert">病例加载失败。<button id="tour-retry">重试</button></p>';
@@ -784,6 +805,7 @@ async function goStep(i) {
 }
 
 function renderTourText(step, i) {
+  if (step.case && step.case !== state.caseId) return; // 数据与讲解不属于同一病例时不填写
   const meta = state.ecg.meta;
   const own = meta.amplitudes?.find((a) => a.id === 'area');
   const lvhBy = Object.fromEntries((meta.amplitudes ?? []).map((a) => [a.id, evaluateLVH(a.values, meta.patient.sex)]));
@@ -813,9 +835,10 @@ function renderTourText(step, i) {
   }
 }
 
-async function exitTour() {
+async function exitTour({ keepCase = false } = {}) {
   if (!tour.def) return;
   tour.token++;
+  cancelPendingLoad(); // 导览步骤的病例还在加载时退出，不能让它晚到后覆盖恢复的设置
   stopPlay();
   const saved = tour.saved;
   tour.def = null;
@@ -827,12 +850,18 @@ async function exitTour() {
   u.searchParams.delete('tour');
   history.replaceState(null, '', u);
   if (!saved) return;
-  if (saved.caseId && saved.caseId !== state.caseId) {
-    const ok = await selectCase(saved.caseId);
-    if (!ok || tour.def) return; // 恢复期间又开始了新导览，以最新操作为准
+  const { mtab, caseId, cursorMs, selectedLead, caliper, ...view } = saved;
+  let caseRestored = false;
+  if (!keepCase && caseId && caseId !== state.caseId) {
+    const ok = await selectCase(caseId);
+    if (tour.def) return; // 恢复期间又开始了新导览，以最新操作为准（saved 留给它）
+    caseRestored = ok === true;
+  } else if (!keepCase) {
+    caseRestored = true;
   }
-  const { mtab, ...rest } = saved;
-  set(rest, 'paper', 'linked');
+  tour.saved = null;
+  // 病例恢复成功才恢复光标等与病例相关的设置；显示设置总是恢复
+  set(caseRestored ? { ...view, cursorMs, selectedLead, caliper } : view, 'paper', 'linked');
   syncControls();
   setMtab(mtab);
 }
@@ -972,7 +1001,11 @@ async function boot() {
         '</optgroup>',
     )
     .join('');
-  sel.onchange = (e) => selectCase(e.target.value);
+  sel.onchange = async (e) => {
+    const id = e.target.value;
+    if (tour.def) await exitTour({ keepCase: true }); // 导览讲的是原来的病例，手动换病例即结束导览
+    selectCase(id);
+  };
   const want = new URLSearchParams(location.search).get('case');
   let id = state.index.cases[0]?.id;
   if (want && state.index.cases.some((c) => c.id === want)) id = want;

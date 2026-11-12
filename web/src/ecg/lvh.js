@@ -5,7 +5,12 @@
 
 /** 束支阻滞等使电压标准不适用的诊断标签（PTB-XL SCP 编码） */
 export const INVALIDATING = { CLBBB: '完全性左束支阻滞', WPW: '预激综合征' };
-export const CAUTION = { CRBBB: '完全性右束支阻滞（部分标准仍可参考，但准确性下降）' };
+export const CAUTION = {
+  CRBBB: '完全性右束支阻滞（部分标准仍可参考，但准确性下降）',
+  LAFB: '左前分支阻滞（aVL 的 R 波会增高，影响 aVL R 波与 Cornell 标准）',
+  ILBBB: '不完全性左束支阻滞（电压标准准确性下降）',
+  IVCD: '室内传导延迟（电压标准准确性下降）',
+};
 
 const maxOf = (amp, leads, k) => Math.max(...leads.map((l) => amp[l]?.[k] ?? -Infinity));
 

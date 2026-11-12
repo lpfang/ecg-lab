@@ -205,6 +205,7 @@ PTBXL_PLUS = {
 FEATURE_COLS = {
     "HR__Global": "HR_bpm", "RR_Mean_Global": "RR_ms", "PR_Int_Global": "PR_ms",
     "QRS_Dur_Global": "QRS_ms", "QT_Int_Global": "QT_ms", "QRS_AxisFront_Global": "axis_deg",
+    "P_Dur_Global": "P_ms",
 }
 ALGORITHMS = [("12sl", "GE Marquette 12SL"), ("unig", "Glasgow Uni-G")]
 
@@ -424,15 +425,16 @@ def load_ptbxl(rec: str) -> dict:
         if f is None:
             issues.append({"level": "warn", "lead": None, "msg": f"PTB-XL+ 中没有 {label} 的测量值"})
             continue
-        if no_p and f.get("PR_ms") is not None:
+        if no_p:  # 房颤 / 房扑没有 P 波：算法仍会输出 PR、P 波时限，一并舍弃
             f["PR_ms"] = None
+            f["P_ms"] = None
         algos.append({"id": key, "label": label, "kind": "algorithm", "values": f})
         a = ptbxl_amplitudes(key, ecg_id)
         if a:
             amps.append({"id": key, "label": label, "kind": "algorithm", "values": a})
     if no_p:
         issues.append({"level": "info", "lead": None,
-                       "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR 值与自动标注的 P 波已舍弃"})
+                       "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"})
     # 两种算法差异较大时报告
     if len(algos) == 2:
         for k, tol in [("PR_ms", 20), ("QRS_ms", 12), ("QT_ms", 20)]:
