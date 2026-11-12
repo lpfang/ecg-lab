@@ -74,3 +74,17 @@ describe('QTc 其他公式', () => {
     expect(qtcBazett(360, 600)).toBeCloseTo(464.8, 1);
   });
 });
+
+describe('时相定位：边界情况', () => {
+  it('没有 T 波的心搏：QRS 后 120 ms 内为 ST，之后返回 null（不再一直显示 ST）', () => {
+    const beats = [{ P: { on: 100, off: 200 }, QRS: { on: 260, off: 350 } }];
+    expect(locate(beats, 400).phase).toBe('ST');
+    expect(locate(beats, 520)).toBeNull();
+  });
+  it('中间缺了心搏时，空白处不算作前一个心搏的 TP 段', () => {
+    const mk = (q) => ({ P: { on: q - 160, off: q - 60 }, QRS: { on: q, off: q + 90 }, T: { on: q + 190, off: q + 390 } });
+    const beats = [mk(1000), mk(1800), mk(2600), mk(4200)]; // 2600 与 4200 之间缺了一个
+    expect(locate(beats, 2600 + 390 + 100).phase).toBe('TP');
+    expect(locate(beats, 3400)).toBeNull();
+  });
+});

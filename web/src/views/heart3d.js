@@ -64,9 +64,6 @@ export class Heart3D {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
     this.setView('front');
-    this.controls = new OrbitControls(this.camera, this.labels.domElement);
-    this.controls.enableDamping = true;
-    this.controls.addEventListener('change', () => this.draw());
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1.6));
     const dl = new THREE.DirectionalLight(0xffffff, 1.4);
@@ -83,8 +80,16 @@ export class Heart3D {
       o.renderOrder = 11;
     });
     this.scene.add(this.arrow);
-    this.projGroup = new THREE.Group();
-    this.scene.add(this.projGroup);
+    // 投影线只建一次，之后只更新顶点，避免每帧新建几何体造成显存泄漏
+    const line2 = (mat) => {
+      const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), mat);
+      l.renderOrder = 12;
+      l.frustumCulled = false;
+      this.scene.add(l);
+      return l;
+    };
+    this.projDash = line2(new THREE.LineDashedMaterial({ color: 0x7c3aed, dashSize: 0.05, gapSize: 0.04, depthTest: false }));
+    this.projBar = line2(new THREE.LineBasicMaterial({ color: 0x16a34a, depthTest: false }));
 
     this.ro = new ResizeObserver(() => this.resize());
     this.ro.observe(container);
@@ -102,7 +107,11 @@ export class Heart3D {
     this.camera.position.set(...pos);
     this.camera.up.set(0, v === 'top' ? 0 : 1, v === 'top' ? -1 : 0);
     this.camera.lookAt(0, 0, 0);
-    this.controls?.update();
+    // OrbitControls 在创建时记住相机的 up 方向，切换视角后要重建，否则俯视时拖动会绕错轴
+    this.controls?.dispose();
+    this.controls = new OrbitControls(this.camera, this.labels.domElement);
+    this.controls.enableDamping = true;
+    this.controls.addEventListener('change', () => this.draw());
     this.draw();
   }
 
@@ -230,6 +239,10 @@ export class Heart3D {
     const key = s.beat ? `${s.ecg.meta.id}:${s.win.start}` : null;
     if (key !== this.loopKey) {
       this.loopKey = key;
+      this.loopGroup.traverse((o) => {
+        o.geometry?.dispose();
+        o.material?.dispose();
+      });
       this.loopGroup.clear();
       if (s.beat) this.buildLoop(s);
     }
@@ -282,7 +295,8 @@ export class Heart3D {
   }
 
   updateVector(s) {
-    this.projGroup.clear();
+    this.projDash.visible = false;
+    this.projBar.visible = false;
     if (!s.beat) {
       this.arrow.visible = false;
       return;
@@ -297,20 +311,19 @@ export class Heart3D {
     }
     const ax = this.axisLines[s.selectedLead];
     if (ax && s.showAxes && this.arrow.visible) {
-      const foot = ax.dir.clone().multiplyScalar(v.dot(ax.dir));
-      const dash = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints([v, foot]),
-        new THREE.LineDashedMaterial({ color: 0x7c3aed, dashSize: 0.05, gapSize: 0.04 }),
-      );
-      dash.computeLineDistances();
-      dash.material.depthTest = false;
-      dash.renderOrder = 12;
-      const bar = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), foot]),
-        new THREE.LineBasicMaterial({ color: v.dot(ax.dir) >= 0 ? 0x16a34a : 0xdc2626, depthTest: false }),
-      );
-      bar.renderOrder = 12;
-      this.projGroup.add(dash, bar);
+      const dot = v.dot(ax.dir);
+      const foot = ax.dir.clone().multiplyScalar(dot);
+      const setPts = (line, a, b) => {
+        const pos = line.geometry.attributes.position;
+        pos.setXYZ(0, a.x, a.y, a.z);
+        pos.setXYZ(1, b.x, b.y, b.z);
+        pos.needsUpdate = true;
+        line.visible = true;
+      };
+      setPts(this.projDash, v, foot);
+      this.projDash.computeLineDistances();
+      setPts(this.projBar, new THREE.Vector3(), foot);
+      this.projBar.material.color.set(dot >= 0 ? 0x16a34a : 0xdc2626);
     }
   }
 
@@ -330,7 +343,8 @@ export class Heart3D {
           else if (phase === 'QRS') a = 0.4 * (1 - f);
         } else if (phase === 'QRS') a = o <= f ? 1 : 0;
         else if (phase === 'ST') a = 1;
-        else if (phase === 'T') a = o >= f ? 1 : 0.15; // 复极大体与除极顺序相反
+        // 复极大体与除极顺序相反：最后除极的区域（o 大）最先恢复
+        else if (phase === 'T') a = o <= 1 - f ? 1 : 0.15;
         tmp.copy(REST).lerp(ACTIVE, a);
         colors.setXYZ(i, tmp.r, tmp.g, tmp.b);
       }

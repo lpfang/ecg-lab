@@ -233,14 +233,20 @@ def parse_ecgdeli(path: Path, fs: float, duration_ms: float, label: str, issues:
         prev_q = qrs_on[i - 1] if i > 0 else -1e9
         next_q = qrs_on[i + 1] if i + 1 < len(qrs_on) else 1e9
         beat: dict[str, dict] = {}
+        # P 属于本 QRS 之前：按"起点"分组，取最后一组同时有起点和终点的
+        # （逐点覆盖会把两个 P 波的起点和终点拼在一起，或配上被截断心搏的残留点）
+        p_groups: list[dict] = []
         for t, w, k in pts:
-            # P 属于本 QRS 之前；QRS 与 T 属于本 QRS 之后、下一个 QRS 之前
-            # P 取离本 QRS 最近的一组点（后出现的覆盖先出现的，避免被上一个被截断心搏的残留点配错）；
-            # QRS 与 T 取本 QRS 之后最先出现的一组
-            if w == "P":
-                if prev_q < t <= q:
-                    beat.setdefault(w, {})[k] = t
-            elif q <= t < next_q and k not in beat.setdefault(w, {}):
+            if w == "P" and prev_q < t <= q:
+                if k == "on" or not p_groups:
+                    p_groups.append({})
+                p_groups[-1].setdefault(k, t)
+        complete = [g for g in p_groups if {"on", "off"} <= g.keys()]
+        if complete:
+            beat["P"] = complete[-1]
+        # QRS 与 T 属于本 QRS 之后、下一个 QRS 之前，取最先出现的一组
+        for t, w, k in pts:
+            if w != "P" and q <= t < next_q and k not in beat.setdefault(w, {}):
                 beat[w][k] = t
         for w in ("P", "QRS", "T"):
             b = beat.get(w, {})
@@ -300,7 +306,11 @@ def ecgdeli_annotations(ecg_id: int, fs: float, duration_ms: float, issues: list
         "source": "ECGDeli（开源算法，PTB-XL+ 提供），自动标注，未经人工校对",
         "waves": per_lead,
         "beats": beats,
-        "annotatedRangeMs": [beats[0]["QRS"]["on"], beats[-1]["QRS"]["off"]] if beats else None,
+        # 范围包含第一个心搏的 P 波和最后一个心搏的 T 波
+        "annotatedRangeMs": [
+            beats[0]["P"]["on"] if "P" in beats[0] else beats[0]["QRS"]["on"],
+            beats[-1]["T"]["off"] if "T" in beats[-1] else beats[-1]["QRS"]["off"],
+        ] if beats else None,
     }
 
 

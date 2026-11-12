@@ -19,6 +19,8 @@ import {
 const $ = (sel) => document.querySelector(sel);
 const esc = (t) =>
   String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+/** 只允许 https 链接，其余替换为 # */
+const safeUrl = (u) => (/^https:\/\//.test(String(u)) ? esc(u) : '#');
 const fmt = (v, d = 0) => (v == null || Number.isNaN(v) ? '—' : v.toFixed(d));
 
 function lsGet(k, def) {
@@ -221,7 +223,7 @@ function renderCaseInfo(meta, entry) {
     .map(
       (d) =>
         `<li>${d.code ? `<code>${esc(d.code)}</code> ` : ''}${esc(d.description)}` +
-        `${d.likelihood ? `<span class="muted">（可信度 ${d.likelihood}%）</span>` : ''}</li>`,
+        `${d.likelihood ? `<span class="muted">（可信度 ${esc(d.likelihood)}%）</span>` : ''}</li>`,
     )
     .join('');
   $('#case-validated').textContent = meta.validatedByCardiologist
@@ -235,12 +237,12 @@ function renderCaseInfo(meta, entry) {
   $('#case-quality').innerHTML =
     `<summary>数据质量：${counts.error} 个错误，${counts.warn} 个警告，${counts.info} 条提示</summary>` +
     `<ul>${meta.issues
-      .map((i) => `<li class="${i.level}">${i.lead ? `<b>${i.lead}</b> ` : ''}${esc(i.msg)}</li>`)
+      .map((i) => `<li class="${esc(i.level)}">${i.lead ? `<b>${esc(i.lead)}</b> ` : ''}${esc(i.msg)}</li>`)
       .join('')}</ul>`;
 
   const s = meta.source;
   const ref = (x) =>
-    `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.name)}</a>（${esc(x.license)}）` +
+    `<a href="${safeUrl(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>（${esc(x.license)}）` +
     `<br><span class="cite">${esc(x.citation)}</span>`;
   $('#case-source').innerHTML =
     `<p>${ref(s)}<br>记录：${esc(s.record)}。${esc(s.annotation)}。</p>` +
@@ -284,7 +286,7 @@ function onPointerDown(ev) {
   stopPlay();
   if (state.tool === 'caliper') {
     const p = { t: h.tMs, mV: h.mV };
-    set({ caliper: { row: h.cell.row, a: p, b: p, march: state.caliper?.march ?? false } }, 'overlay');
+    set({ caliper: { row: h.cell.row, a: p, b: p, march: $('#caliper-march').checked } }, 'overlay');
   } else {
     set({ cursorMs: h.tMs, selectedLead: h.cell.lead }, 'overlay', 'linked');
   }
@@ -297,6 +299,7 @@ function onPointerMove(ev) {
     : '点击波形放置时间光标';
   if (!dragging || !h) return;
   if (state.tool === 'caliper') {
+    if (!state.caliper) return; // 拖动中按了 Esc 或切换了病例
     const row = state.caliper.row;
     // 卡尺限制在按下时的那一行；电压按该行基线计算
     const r = state.layout.rows[row];
@@ -323,6 +326,7 @@ function onKey(ev) {
     state.playing ? stopPlay() : startPlay();
     ev.preventDefault();
   } else if (ev.key === 'Escape') {
+    dragging = false;
     set({ caliper: null }, 'overlay');
   }
 }
@@ -331,13 +335,25 @@ function onKey(ev) {
 
 const PLAY_RATE = 0.2; // 真实速度的 1/5
 let playRaf = 0;
+/** 播放范围：第一个心搏开始到最后一个心搏结束（含首个 P 波与末个 T 波） */
+function playRange() {
+  const beats = state.ecg.meta.annotations?.beats ?? [];
+  if (!beats.length) return [0, state.ecg.durationMs];
+  const first = beats[0];
+  const last = beats[beats.length - 1];
+  return [first.P ? first.P.on : first.QRS.on - 120, Math.min(state.ecg.durationMs, (last.T ? last.T.off : last.QRS.off) + 150)];
+}
+
 function startPlay() {
-  const range = state.ecg?.meta.annotations?.annotatedRangeMs ?? [0, state.ecg.durationMs];
+  if (!state.ecg) return;
+  const caseId = state.caseId;
+  const range = playRange();
   if (state.cursorMs == null || state.cursorMs < range[0] || state.cursorMs >= range[1]) state.cursorMs = range[0];
   state.playing = true;
   $('#play-btn').textContent = '⏸ 暂停';
   let last = performance.now();
   const step = (now) => {
+    if (state.caseId !== caseId) return stopPlay(); // 播放中切换了病例
     const dt = Math.min(100, now - last);
     last = now;
     let t = state.cursorMs + dt * PLAY_RATE;
@@ -533,7 +549,7 @@ async function boot() {
     return;
   }
   const sel = $('#case-select');
-  sel.innerHTML = state.index.cases.map((c) => `<option value="${c.id}">${esc(c.title)}</option>`).join('');
+  sel.innerHTML = state.index.cases.map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
   sel.onchange = (e) => selectCase(e.target.value);
   const want = new URLSearchParams(location.search).get('case');
   let id = state.index.cases[0]?.id;
