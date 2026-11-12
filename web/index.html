@@ -107,20 +107,20 @@
 
       <!-- 联动面板：固定在右侧，点击心电图时始终可见 -->
       <aside class="col-linked">
+        <section class="card case-card">
+          <h2 id="case-title"></h2>
+          <p id="case-summary"></p>
+          <p class="muted" id="case-patient"></p>
+        </section>
         <section class="card measure-card">
-            <h3>本例测量值 <span class="en">Measurements</span></h3>
-            <table id="measure-table"><thead></thead><tbody></tbody></table>
-            <p class="muted small" id="measure-note"></p>
-          </section>
+          <h3>本例测量值 <span class="en">Measurements</span></h3>
+          <table id="measure-table"><thead></thead><tbody></tbody></table>
+          <p class="muted small" id="measure-note"></p>
+        </section>
       </aside>
     </main>
 
     <section class="case-info">
-      <section class="card">
-        <h2 id="case-title"></h2>
-        <p id="case-summary"></p>
-        <p class="muted" id="case-patient"></p>
-      </section>
       <section class="card">
         <h3>数据库诊断标签 <span class="en">Diagnostic labels</span></h3>
         <ul id="case-diag" class="small"></ul>
