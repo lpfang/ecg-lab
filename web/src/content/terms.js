@@ -23,7 +23,7 @@ export const TERMS = {
     primer: 'frontal',
     zh: '额面六轴系统',
     en: 'Hexaxial reference system',
-    plain: '把 6 个肢体导联（I、II、III、aVR、aVL、aVF）的方向画在同一个中心上，像一个有 6 根辐条的车轮。它表示从身体正面的 6 个方向看心脏，相邻两根相差 30°。',
+    plain: '6 个肢体导联（I、II、III、aVR、aVL、aVF）的轴线画在同一个中心上，像一个车轮。轴线都在额面上（从正面看一个人时眼前的那个平面），相邻两条线相差 30°。每个导联从它正极的方向看心脏：I 在左（0°），II 在左下（+60°），aVF 在正下（+90°），III 在右下（+120°），aVL 在左上（−30°），aVR 在右上（−150°）。正极并不是每隔 30° 一个，大多集中在左下一侧。',
     pro: '由 Einthoven 三角（I、II、III）与 Goldberger 加压导联（aVR、aVL、aVF）平移至共同中心构成。0° = I 导联正极（患者左侧），顺时针为正：II +60°、aVF +90°、III +120°、aVL −30°、aVR −150°。用于判定额面电轴。',
     refs: ['aha1', 'aha3'],
   },
