@@ -18,8 +18,10 @@ import { WAVE_COLORS } from '../ecg/paper.js';
 import { arrowMarks } from './planes.js';
 
 const NS = 'http://www.w3.org/2000/svg';
-const C = 140; // 中心
-const R = 112; // 轴线半径
+const C = 150; // 中心
+const R = 100; // 轴线半径（外圈留出导联名与方位字两圈文字的位置）
+const LABEL_R = R + 15; // 导联名
+const DIR_R = R + 38; // 方位字（上下左右），放在导联名外圈，避免重叠
 
 const el = (tag, attrs = {}, text) => {
   const e = document.createElementNS(NS, tag);
@@ -56,14 +58,17 @@ export function renderAxes(svg, ctx) {
   const plane = LIMB_LEADS.includes(selectedLead) ? 'frontal' : 'horizontal';
   const axes = plane === 'frontal' ? FRONTAL_AXES : CHEST_AXES;
   svg.replaceChildren();
-  svg.setAttribute('viewBox', '0 0 280 280');
+  svg.setAttribute('viewBox', '0 0 300 300');
 
   // 参考圆与方位
   svg.append(el('circle', { cx: C, cy: C, r: R, fill: 'none', stroke: '#e5e1dc' }));
-  const dirs =
-    plane === 'frontal'
-      ? [['左', 274, C + 4, 'end'], ['右', 6, C + 4, 'start'], ['上', C, 12, 'middle'], ['下', C, 276, 'middle']]
-      : [['左', 274, C + 4, 'end'], ['右', 6, C + 4, 'start'], ['后', C, 12, 'middle'], ['前', C, 276, 'middle']];
+  const [up, down] = plane === 'frontal' ? ['上', '下'] : ['后', '前'];
+  const dirs = [
+    ['左', C + DIR_R, C + 4, 'middle'],
+    ['右', C - DIR_R, C + 4, 'middle'],
+    [up, C, C - DIR_R + 4, 'middle'],
+    [down, C, C + DIR_R + 4, 'middle'],
+  ];
   for (const [txt, x, y, anchor] of dirs) {
     svg.append(el('text', { x, y, 'text-anchor': anchor, class: 'ax-dir' }, txt));
   }
@@ -81,8 +86,8 @@ export function renderAxes(svg, ctx) {
       }),
       el('line', { x1: C, y1: C, x2: C + ux * R, y2: C + uy * R, class: sel ? 'ax-pos sel' : 'ax-pos' }),
     );
-    const lx = C + ux * (R + 12);
-    const ly = C + uy * (R + 12) + 4;
+    const lx = C + ux * LABEL_R;
+    const ly = C + uy * LABEL_R + 4;
     const lab = el('text', { x: lx, y: ly, 'text-anchor': 'middle', class: sel ? 'ax-lab sel' : 'ax-lab' }, `${ax.lead}+`);
     lab.dataset.lead = ax.lead;
     svg.append(lab);
@@ -108,7 +113,10 @@ export function renderAxes(svg, ctx) {
   }
 
   // 画线方向
-  svg.append(...arrowMarks(pts.map((p) => ({ t: p.t, x: C + p.v.x * scale, y: C + p.v.y * scale })), beat, 4.5));
+  // 离中心太近的地方（P、T 环通常很小）不画，避免挤成一团
+  svg.append(
+    ...arrowMarks(pts.map((p) => ({ t: p.t, x: C + p.v.x * scale, y: C + p.v.y * scale })), beat, 4.5, { cx: C, cy: C, minR: 24 }),
+  );
 
   // 此刻的向量
   const vals = leadValuesAt(ecg, t, baseline);

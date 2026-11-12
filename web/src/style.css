@@ -430,12 +430,13 @@ details.pro-more summary {
   stroke-width: 1;
   stroke-dasharray: 3 3;
 }
+/* 选中导联轴用深灰加粗；紫色只留给心电向量，避免两者混淆 */
 #axes-svg .ax-pos.sel {
-  stroke: var(--cursor);
-  stroke-width: 1.8;
+  stroke: #292524;
+  stroke-width: 2.4;
 }
 #axes-svg .ax-neg.sel {
-  stroke: #c4b5fd;
+  stroke: #a8a29e;
 }
 #axes-svg .ax-lab {
   font-size: 11px;
@@ -443,7 +444,7 @@ details.pro-more summary {
   cursor: pointer;
 }
 #axes-svg .ax-lab.sel {
-  fill: var(--cursor);
+  fill: #1c1917;
   font-weight: 700;
   stroke: none;
 }
@@ -632,7 +633,8 @@ main.layout {
 }
 .below {
   display: grid;
-  grid-template-columns: minmax(340px, 1fr) minmax(380px, 1fr);
+  /* 宽度不够放两列时自动上下排列，不再伸到右栏下面 */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 16px;
   align-items: start;
 }
@@ -1044,4 +1046,47 @@ dialog.dlg {
 }
 .dlg-body {
   padding: 4px 20px 16px;
+}
+
+.ax-legend {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+/* 普通文本流 + 左侧图标绝对定位（flex 会把行内的链接、彩色字拆成多列） */
+.ax-legend li {
+  position: relative;
+  padding-left: 26px;
+  margin: 3px 0;
+}
+.ax-legend i {
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 18px;
+  height: 0;
+  border-top: 3px solid;
+}
+.ax-legend .lg-vec {
+  border-color: var(--cursor);
+}
+.ax-legend .lg-loop {
+  border-top: 1.5px solid #b91c1c;
+}
+.ax-legend .lg-axis {
+  border-top: 2.4px solid #292524;
+}
+.ax-legend .lg-proj {
+  border-top: 4px solid #16a34a;
+}
+.c-p {
+  color: var(--p);
+}
+.c-qrs {
+  color: var(--qrs);
+}
+.c-t {
+  color: var(--t);
 }

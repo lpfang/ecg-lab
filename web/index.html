@@ -107,10 +107,12 @@
           <section class="card axes-card">
           <div class="axes-head"><h3 id="axes-title">额面六轴系统</h3><a href="#" id="axes-what" data-primer="frontal">这是什么？</a></div>
           <svg id="axes-svg" role="img" aria-label="导联轴与心电向量"></svg>
-          <p class="small muted">
-            紫色箭头 = 此刻的<a href="#" data-term="vector">心电向量</a>；彩色曲线 = 本次心跳的向量环。
-            点击导联名切换导联；绿色 / 红色粗线 = 在所选导联轴上的投影（正 / 负）。
-          </p>
+          <ul class="ax-legend small">
+            <li><i class="lg-vec"></i>紫色粗箭头：此刻的<a href="#" data-term="vector">心电向量</a>（电信号的总体方向和强度）</li>
+            <li><i class="lg-loop"></i>细彩线：本次心跳中箭头尖端画出的轨迹（向量环），<span class="c-p">蓝 P</span> · <span class="c-qrs">红 QRS</span> · <span class="c-t">绿 T</span>；小三角表示画线方向</li>
+            <li><i class="lg-axis"></i>灰线：导联轴，实线一端是正极；<b>深色加粗</b>的是当前选中的导联，点导联名可切换</li>
+            <li><i class="lg-proj"></i>绿 / 红粗线：箭头在选中导联轴上的"影子"（投影），绿色为正、波形向上，红色为负、波形向下</li>
+          </ul>
         </section>
         </div>
       </div>

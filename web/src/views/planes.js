@@ -38,7 +38,7 @@ export function phaseColor(beat, t) {
  * 沿环画小箭头（三角形），指向画线方向。pts: [{t, x, y}]（屏幕坐标），间距按时间等分。
  * QRS 每 10 ms、P / T 每 20 ms。
  */
-export function arrowMarks(pts, beat, size = 4) {
+export function arrowMarks(pts, beat, size = 4, { cx, cy, minR = 0 } = {}) {
   const out = [];
   const at = (t) => {
     const i = Math.min(pts.length - 2, Math.max(0, Math.floor((t - pts[0].t) / (pts[1].t - pts[0].t))));
@@ -53,6 +53,7 @@ export function arrowMarks(pts, beat, size = 4) {
     if (!w) continue;
     for (let t = w.on + step / 2; t < w.off - 2; t += step) {
       const [x, y] = at(t);
+      if (minR && Math.hypot(x - cx, y - cy) < minR) continue; // 离中心太近，不画
       const [x2, y2] = at(t + 2);
       const len = Math.hypot(x2 - x, y2 - y);
       if (len < 0.15) continue; // 几乎不动时方向不确定
@@ -144,7 +145,7 @@ export class PlanesView {
           }),
         );
       }
-      svg.append(...arrowMarks(pts, b, 3.5));
+      svg.append(...arrowMarks(pts, b, 3.5, { cx: C, cy: C, minR: 12 }));
       const vec = el('line', { x1: C, y1: C, x2: C, y2: C, class: 'pl-vec' });
       const dot = el('circle', { cx: C, cy: C, r: 2.6, class: 'pl-dot' });
       svg.append(vec, dot);
