@@ -46,6 +46,7 @@
             <span class="seg small" title="慢动作速度">
               <button data-rate="0.2" class="on">1/5 速</button><button data-rate="0.1">1/10 速</button>
             </span>
+            <label title="在光标所在心跳上画出本站读数使用的零点（PR 段）和 TP 段电位"><input type="checkbox" id="show-ref" /> <a href="#" data-term="isoelectric">参照基线</a></label>
             <label><input type="checkbox" id="show-waves" checked /> 波段着色
               <span class="legend"><i class="p"></i>P <i class="qrs"></i>QRS <i class="t"></i>T</span>
             </label>
@@ -132,8 +133,22 @@
         </section>
         <section class="card measure-card">
           <h3>本例测量值 <span class="en">Measurements</span></h3>
-          <table id="measure-table"><thead></thead><tbody></tbody></table>
-          <p class="muted small" id="measure-note"></p>
+          <div class="tabs" role="tablist">
+            <button data-mtab="intervals" class="on">间期</button><button data-mtab="lvh">左室肥厚电压</button><button data-mtab="st">ST 段</button>
+          </div>
+          <div class="mpane" data-mpane="intervals">
+            <table id="measure-table"><thead></thead><tbody></tbody></table>
+            <p class="muted small" id="measure-note"></p>
+          </div>
+          <div class="mpane" data-mpane="lvh" hidden>
+            <div id="lvh-warn"></div>
+            <table id="lvh-table" class="mtable"><thead></thead><tbody></tbody></table>
+            <div id="lvh-note" class="small"></div>
+          </div>
+          <div class="mpane" data-mpane="st" hidden>
+            <table id="st-table" class="mtable"><thead></thead><tbody></tbody></table>
+            <p class="muted small" id="st-note"></p>
+          </div>
         </section>
       </aside>
     </main>

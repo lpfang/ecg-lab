@@ -176,6 +176,35 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
 export function drawOverlay(canvas, lay, ecg, pxPerMm, st) {
   const { ctx, s } = setupCanvas(canvas, lay, pxPerMm);
 
+  // 参照基线：本次心跳的 PR 段零点（紫色虚线）与 TP 段电位（灰色虚线）
+  const ref = st.refLines;
+  if (ref) {
+    for (const cell of lay.cells) {
+      const a = Math.max(ref.t0, cell.t0);
+      const z = Math.min(ref.t1, cell.t1);
+      if (z <= a) continue;
+      const line = (uV, color, dash, label) => {
+        if (uV == null) return;
+        const y = yOf(lay, cell, uV - ecg.offset(cell.lead));
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.2 / s;
+        ctx.setLineDash(dash);
+        ctx.beginPath();
+        ctx.moveTo(xOf(lay, cell, a), y);
+        ctx.lineTo(xOf(lay, cell, z), y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        if (label && cell.rhythm) {
+          ctx.fillStyle = color;
+          ctx.font = '2.4px system-ui, sans-serif';
+          ctx.fillText(label, xOf(lay, cell, z) + 0.8, y + (label.startsWith('TP') ? 2.6 : -0.6));
+        }
+      };
+      line(ref.tp?.[cell.lead], '#78716c', [0.8, 0.8], 'TP 段');
+      line(ref.pr?.[cell.lead], COLORS.cursor, [1.6, 0.8], 'PR 段零点');
+    }
+  }
+
   if (st.cursorMs != null) {
     for (const cell of lay.cells) {
       if (st.cursorMs < cell.t0 || st.cursorMs >= cell.t1) continue;

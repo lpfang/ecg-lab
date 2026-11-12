@@ -131,6 +131,36 @@ def quality(sig_uV: np.ndarray, raw: np.ndarray, fs: float, adc_limits, issues: 
     return {"perLead": per_lead, "einthoven": ein}
 
 
+def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
+    """每导联的 R、S 振幅与 ST 偏移（mV），各心搏中位数。
+    零点：本心搏 QRS 起点前 4–40 ms 的 PR 段中位数（与网页读数一致，避开 P 波）。
+    R = QRS 窗内最高正向偏移；S = R 峰之后的最深负向偏移；STJ = J 点（QRS 终点）；ST80 = J 点后 80 ms。"""
+    per = {l: {"R": [], "S": [], "STJ": [], "ST80": []} for l in LEADS}
+    idx = lambda t: int(round(t / 1000 * fs))  # noqa: E731
+    for b in beats:
+        if "QRS" not in b:
+            continue
+        on, off = b["QRS"]["on"], b["QRS"]["off"]
+        a = max(b["P"]["off"], on - 40) if "P" in b else on - 40
+        n = sig_uV.shape[1]
+        if idx(a) < 0 or idx(off) >= n:  # 记录首尾不完整的心搏
+            continue
+        for li, lead in enumerate(LEADS):
+            x = sig_uV[li]
+            base = np.median(x[idx(a): idx(on - 4) + 1])
+            q = x[idx(on): idx(off) + 1] - base
+            if q.size == 0:
+                continue
+            ri = int(np.argmax(q))
+            per[lead]["R"].append(max(0.0, float(q[ri])))
+            per[lead]["S"].append(max(0.0, -float(q[ri:].min())))
+            per[lead]["STJ"].append(float(x[idx(off)] - base))
+            if idx(off + 80) < n and ("T" not in b or off + 80 < b["T"]["off"]):
+                per[lead]["ST80"].append(float(x[idx(off + 80)] - base))
+    med = lambda v: None if not v else round(float(np.median(v)) / 1000, 3)  # noqa: E731
+    return {l: {k: med(v) for k, v in d.items()} for l, d in per.items()}
+
+
 def axis_from_area(sig_uV: np.ndarray, fs: float, windows_ms: list) -> float | None:
     """额面 QRS 电轴：I 与 aVF 在 QRS 窗内的净面积（各心搏中位数）。
     按 Einthoven / Goldberger 几何关系，I = E·cosφ，aVF = (√3/2)·E·sinφ，
@@ -191,21 +221,51 @@ def scp_statements() -> dict:
     return {r[0]: dict(zip(head[1:], r[1:])) for r in rows[1:]}
 
 
-def ptbxl_features(algo: str, ecg_id: int) -> dict | None:
-    path = RAW / "ptbxl" / f"{algo}_features.csv"
-    with open(path, newline="", encoding="utf-8") as f:
+# 每导联振幅特征（单位 mV；S 波记为负值，这里取绝对值）
+AMP_COLS = {"R_Amp": "R", "S_Amp": "S", "ST_Amp": "STJ", "ST_Amp80ms": "ST80"}
+
+
+@lru_cache(maxsize=2)
+def feature_table(algo: str) -> dict:
+    """读入一个算法的特征表中本站用到的列（全局间期 + 每导联振幅），按 ecg_id 索引。"""
+    want = set(FEATURE_COLS) | {f"{k}_{l}" for k in AMP_COLS for l in LEADS}
+    out = {}
+    with open(RAW / "ptbxl" / f"{algo}_features.csv", newline="", encoding="utf-8") as f:
         rd = csv.reader(f)
-        head = [h.lstrip("﻿") for h in next(rd)]
-        idx = {c: i for i, c in enumerate(head) if c in FEATURE_COLS}
+        head = [h.lstrip("\ufeff") for h in next(rd)]
+        idx = {c: i for i, c in enumerate(head) if c in want}
         id_col = head.index("ecg_id")  # 两个文件中 ecg_id 的列位置不同
         for row in rd:
-            if row[id_col] and int(float(row[id_col])) == ecg_id:
-                out = {}
-                for c, i in idx.items():
-                    v = row[i].strip()
-                    out[FEATURE_COLS[c]] = None if v in ("", "nan") else round(float(v), 1)
-                return out
-    return None
+            if not row[id_col]:
+                continue
+            vals = {}
+            for c, i in idx.items():
+                v = row[i].strip()
+                vals[c] = None if v in ("", "nan") else float(v)
+            out[int(float(row[id_col]))] = vals
+    return out
+
+
+def ptbxl_features(algo: str, ecg_id: int) -> dict | None:
+    row = feature_table(algo).get(ecg_id)
+    if row is None:
+        return None
+    return {FEATURE_COLS[c]: (None if row.get(c) is None else round(row[c], 1)) for c in FEATURE_COLS if c in row}
+
+
+def ptbxl_amplitudes(algo: str, ecg_id: int) -> dict | None:
+    """{导联: {R, S, STJ, ST80}}，mV；算法没有的项为 None"""
+    row = feature_table(algo).get(ecg_id)
+    if row is None:
+        return None
+    out = {}
+    for lead in LEADS:
+        d = {}
+        for k, name in AMP_COLS.items():
+            v = row.get(f"{k}_{lead}")
+            d[name] = None if v is None else round(abs(v) if name == "S" else v, 3)
+        out[lead] = d
+    return out
 
 
 ECGDELI_LABELS = {
@@ -314,6 +374,21 @@ def ecgdeli_annotations(ecg_id: int, fs: float, duration_ms: float, issues: list
     }
 
 
+RHYTHM_CODES = ["AFIB", "AFLT", "STACH", "SBRAD", "SARRH", "SR"]
+
+
+def drop_p(ann: dict | None) -> dict | None:
+    """去掉 P 波（房颤时 ECGDeli 会把颤动波误标为 P 波）"""
+    if not ann:
+        return ann
+    ann["waves"] = {l: [w for w in ws if w["type"] != "P"] for l, ws in ann["waves"].items()}
+    for b in ann["beats"]:
+        b.pop("P", None)
+    if ann["beats"]:
+        ann["annotatedRangeMs"][0] = ann["beats"][0]["QRS"]["on"]
+    return ann
+
+
 def load_ptbxl(rec: str) -> dict:
     ecg_id = int(rec)
     row = ptbxl_db()[ecg_id]
@@ -336,13 +411,26 @@ def load_ptbxl(rec: str) -> dict:
         diagnoses.append({"code": code, "likelihood": lik, "description": s.get("description", ""),
                           "class": s.get("diagnostic_class", "")})
 
+    codes = {d["code"] for d in diagnoses}
+    rhythm = next((r for r in RHYTHM_CODES if r in codes), "SR")
+    no_p = rhythm in ("AFIB", "AFLT")  # 房颤 / 房扑：没有窦性 P 波，PR 间期不适用
+
     algos = []
+    amps = []
     for key, label in ALGORITHMS:
         f = ptbxl_features(key, ecg_id)
         if f is None:
             issues.append({"level": "warn", "lead": None, "msg": f"PTB-XL+ 中没有 {label} 的测量值"})
             continue
+        if no_p and f.get("PR_ms") is not None:
+            f["PR_ms"] = None
         algos.append({"id": key, "label": label, "kind": "algorithm", "values": f})
+        a = ptbxl_amplitudes(key, ecg_id)
+        if a:
+            amps.append({"id": key, "label": label, "kind": "algorithm", "values": a})
+    if no_p:
+        issues.append({"level": "info", "lead": None,
+                       "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR 值与自动标注的 P 波已舍弃"})
     # 两种算法差异较大时报告
     if len(algos) == 2:
         for k, tol in [("PR_ms", 20), ("QRS_ms", 12), ("QT_ms", 20)]:
@@ -362,7 +450,10 @@ def load_ptbxl(rec: str) -> dict:
         "reportOriginal": row["report"],
         "validatedByCardiologist": row["validated_by_human"] == "True",
         "measurements": algos,
-        "annotations": ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues),
+        "amplitudes": amps,
+        "rhythm": rhythm,
+        "annotations": drop_p(ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues)) if no_p
+        else ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues),
         "amplitudeNormalized": False,
         "source": PTBXL_SOURCE | {"record": f"ecg_id {ecg_id}", "derived": PTBXL_PLUS,
                                   "physionet": PHYSIONET_CITATION},
@@ -534,6 +625,19 @@ def build(db: str, rec: str) -> dict:
         wins = [(b["QRS"]["on"], b["QRS"]["off"]) for b in c["annotations"]["beats"] if "QRS" in b]
         c["measurements"].append({"id": "area", "label": "本站计算", "kind": "computed",
                                   "values": {"axis_deg": axis_from_area(sig_uV, fs, wins)}})
+        own = {"id": "area", "label": "本站计算", "kind": "computed",
+               "values": measure_amplitudes(sig_uV, fs, c["annotations"]["beats"])}
+        c.setdefault("amplitudes", []).append(own)
+        # 与算法交叉核对：R、S 相差超过 0.2 mV 时报告
+        for alg in c["amplitudes"]:
+            if alg["kind"] != "algorithm":
+                continue
+            for lead in LEADS:
+                for k in ("R", "S"):
+                    va, vb = alg["values"][lead].get(k), own["values"][lead].get(k)
+                    if va is not None and vb is not None and abs(va - vb) > 0.2:
+                        issues.append({"level": "info", "lead": lead,
+                                       "msg": f"{k} 波振幅：本站 {vb:.2f} mV，{alg['label']} {va:.2f} mV，相差超过 0.2 mV"})
 
     meta = {
         "id": case_id,
@@ -548,6 +652,8 @@ def build(db: str, rec: str) -> dict:
         "reportOriginal": c["reportOriginal"],
         "validatedByCardiologist": c["validatedByCardiologist"],
         "measurements": c["measurements"],
+        "amplitudes": c.get("amplitudes", []),
+        "rhythm": c.get("rhythm"),
         "annotations": c["annotations"],
         "quality": qual,
         "issues": issues,
@@ -581,6 +687,7 @@ def update_index():
             "title": info.get("title", meta["id"]),
             "summary": info.get("summary", "; ".join(x["description"] for x in meta["diagnoses"])),
             "tags": info.get("tags", []),
+            "group": info.get("group", "其他"),
             "patient": meta["patient"],
             "amplitudeNormalized": meta["amplitudeNormalized"],
         })

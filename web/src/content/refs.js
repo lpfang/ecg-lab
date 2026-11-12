@@ -51,6 +51,24 @@ export const REFS = {
     note: 'Wilson 中心电端与单极导联',
     status: 'listed',
   },
+  aha5: {
+    text: 'Hancock EW, et al. Recommendations for the standardization and interpretation of the electrocardiogram: Part V. Electrocardiogram changes associated with cardiac chamber hypertrophy. Circulation. 2009;119:e251–e261.',
+    note: '心室肥厚、心房异常的心电图改变；电压标准敏感性较低',
+    status: 'listed',
+  },
+  sokolow: {
+    text: 'Sokolow M, Lyon TP. The ventricular complex in left ventricular hypertrophy as obtained by unipolar precordial and limb leads. Am Heart J. 1949;37:161–186.',
+    status: 'listed',
+  },
+  casale: {
+    text: 'Casale PN, Devereux RB, Kligfield P, et al. Electrocardiographic detection of left ventricular hypertrophy: development and prospective validation of improved criteria. J Am Coll Cardiol. 1985;6:572–580.',
+    note: 'Cornell 电压标准',
+    status: 'listed',
+  },
+  peguero: {
+    text: 'Peguero JG, Lo Presti S, Perez J, et al. Electrocardiographic criteria for the diagnosis of left ventricular hypertrophy. J Am Coll Cardiol. 2017;69:1694–1703.',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',

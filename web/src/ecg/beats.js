@@ -48,7 +48,7 @@ export function locate(beats, t) {
       end,
     });
     if (b.P && t <= b.P.off) return res('P', b.P.on, b.P.off);
-    if (t < b.QRS.on) return res('PR', b.P ? b.P.off : start, b.QRS.on);
+    if (t < b.QRS.on) return b.P ? res('PR', b.P.off, b.QRS.on) : res('TP', null, null);
     if (t <= b.QRS.off) return res('QRS', b.QRS.on, b.QRS.off);
     if (b.T) {
       if (t < b.T.on) return res('ST', b.QRS.off, b.T.on);

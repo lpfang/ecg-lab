@@ -10,6 +10,8 @@ import { PlanesView } from './views/planes.js';
 import { buildPrimer, selectLead as primerSelect } from './views/primer.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
+import { scpLabel } from './content/scp.js';
+import { evaluateLVH, lvhApplicability } from './ecg/lvh.js';
 import { REFS } from './content/refs.js';
 import {
   loadCalibration,
@@ -58,6 +60,7 @@ const state = {
   playing: false,
   playRate: 0.2, // 慢动作速度：真实速度的 1/5 或 1/10
   show3d: { axes: true, heart: true },
+  showRef: false, // 参照基线（PR 段零点与 TP 段）
   layout: null,
 };
 
@@ -85,7 +88,7 @@ function flush() {
     parts.add('overlay');
   }
   if (parts.has('overlay')) {
-    drawOverlay($('#overlay'), state.layout, state.ecg, state.pxPerMm, state);
+    drawOverlay($('#overlay'), state.layout, state.ecg, state.pxPerMm, { ...state, refLines: refLines() });
     renderCaliperReadout();
   }
   if (parts.has('linked')) renderLinked();
@@ -110,6 +113,29 @@ function linkedContext() {
     t: state.cursorMs,
     selectedLead: state.selectedLead,
   };
+}
+
+/** 参照基线：光标所在心跳的 PR 段零点（本站读数所用）与其前 TP 段电位，各导联一条 */
+function refLines() {
+  if (!state.showRef || state.cursorMs == null) return null;
+  const beats = state.ecg.meta.annotations?.beats ?? [];
+  const loc = locate(beats, state.cursorMs);
+  if (!loc) return null;
+  const ctx = linkedContext();
+  const prev = beats[loc.index - 1];
+  const b = loc.beat;
+  const tpStart = prev?.T ? prev.T.off + 20 : null;
+  const tpEnd = (b.P ? b.P.on : b.QRS.on - 120) - 20;
+  const tp = {};
+  if (tpStart != null && tpEnd - tpStart >= 40) {
+    for (const lead of state.ecg.meta.leads) {
+      const xs = [];
+      for (let t = tpStart; t <= tpEnd; t += 1000 / state.ecg.fs) xs.push(state.ecg.valueAt(lead, t));
+      xs.sort((p, q) => p - q);
+      tp[lead] = xs[xs.length >> 1];
+    }
+  }
+  return { t0: loc.start, t1: loc.end, pr: ctx.baseline, tp: Object.keys(tp).length ? tp : null };
 }
 
 function renderLinked() {
@@ -179,6 +205,9 @@ function nowText(ctx, tTxt) {
     `<div class="now-head"><span class="chip ${info.color ?? ''}">${info.name}</span>` +
     `<span class="en">${info.en}</span><span class="muted now-t">${tTxt}</span></div>` +
     levelBlock(info.plain, info.pro, true) +
+    (state.ecg.meta.rhythm === 'AFIB' || state.ecg.meta.rhythm === 'AFLT'
+      ? '<p class="af-note">本例为<a href="#" data-term="afib">心房颤动</a>：心房没有统一的"通电"，没有 P 波，QRS 之前只有细小不规则的颤动波，所以这里没有"P 波""PR 段"时相。</p>'
+      : '') +
     `<p class="muted small">${beatFacts}（自动标注）</p>` +
     (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '')
   );
@@ -269,6 +298,85 @@ function renderMeasurements(meta) {
     '"本站计算"的电轴用 I 与 aVF 的 QRS 净面积。点击项目名称查看解释。';
 }
 
+const fmt2 = (v) => (v == null || Number.isNaN(v) ? '—' : v.toFixed(2));
+
+function renderLVH(meta) {
+  const sex = meta.patient.sex;
+  const srcs = (meta.amplitudes ?? [])
+    .map((s) => ({ ...s, res: evaluateLVH(s.values, sex) }))
+    .filter((s) => s.res);
+  const codes = meta.diagnoses.map((d) => d.code);
+  const app = lvhApplicability(codes);
+  $('#lvh-warn').innerHTML =
+    (app.invalid.length
+      ? `<p class="lvh-alert">本例有${esc(app.invalid.join('、'))}：它本身会改变 QRS 的电压，<b>左心室肥厚电压标准不适用</b>。下面的数值仅供对照。</p>`
+      : '') +
+    (app.caution.length ? `<p class="lvh-caution">本例有${esc(app.caution.join('、'))}。</p>` : '') +
+    (meta.amplitudeNormalized ? '<p class="lvh-alert">本例幅度已被逐导联归一化，不能计算电压标准。</p>' : '');
+  if (!srcs.length || meta.amplitudeNormalized) {
+    $('#lvh-table thead').innerHTML = '';
+    $('#lvh-table tbody').innerHTML = '';
+    $('#lvh-note').innerHTML = '<p class="muted">本例没有可用的振幅数据。</p>';
+    return;
+  }
+  $('#lvh-table thead').innerHTML =
+    `<tr><th>标准</th>${srcs.map((s) => `<th class="num src" title="${esc(s.label)}">${esc(SHORT_LABEL[s.id] ?? s.label)}</th>`).join('')}<th class="num">阈值</th></tr>`;
+  $('#lvh-table tbody').innerHTML = srcs[0].res
+    .map((c, i) => {
+      const cells = srcs
+        .map((s) => {
+          const r = s.res[i];
+          return `<td class="num${r.met ? ' met' : ''}">${fmt2(r.value)}${r.met ? ' ✓' : ''}</td>`;
+        })
+        .join('');
+      return (
+        `<tr><th>${esc(c.name)}<span class="en">${esc(c.formula)}</span></th>${cells}` +
+        `<td class="unit">${c.op} ${c.threshold.toFixed(1)}${c.sexSpecific ? (c.sexAssumed ? '（按男性）' : sex === 'F' ? '（女）' : '（男）') : ''}</td></tr>`
+      );
+    })
+    .join('');
+  const metAny = srcs.some((s) => s.res.some((r) => r.met));
+  $('#lvh-note').innerHTML =
+    `<p>${
+      metAny
+        ? '✓ 表示达到该标准。达到电压标准<b>提示可能</b>有左心室肥厚，但电压也受年龄、体型、胸壁厚度等影响。'
+        : '本例没有达到任何一项电压标准。注意：心电图诊断左心室肥厚的敏感性较低，<b>"没达到"不能排除</b>左心室肥厚，确诊通常靠超声心动图。'
+    }</p>` +
+    '<p class="muted">单位 mV。"本站"以每次心跳 QRS 起点前的 PR 段为零点，取各心跳中位数；R = QRS 内最高正向波，S = R 峰之后最深负向波。' +
+    '不同来源对 R′、S′ 等多相波的处理不同，个别导联数值会有差异。<a href="#" data-term="lvh">了解左心室肥厚 →</a></p>';
+}
+
+const ST_LEADS = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'];
+
+function renderST(meta) {
+  const own = (meta.amplitudes ?? []).find((s) => s.id === 'area');
+  const gl = (meta.amplitudes ?? []).find((s) => s.id === 'unig');
+  if (!own) {
+    $('#st-table thead').innerHTML = '';
+    $('#st-table tbody').innerHTML = '';
+    $('#st-note').textContent = '本例没有可用的 ST 数据。';
+    return;
+  }
+  const cls = (v) => (v == null ? '' : v <= -0.05 ? 'dep' : v >= 0.1 ? 'elev' : '');
+  $('#st-table thead').innerHTML =
+    '<tr><th>导联</th><th class="num src" title="J 点 = QRS 终点">J 点</th><th class="num src">J + 80 ms</th>' +
+    (gl ? '<th class="num src" title="Glasgow Uni-G">Glasgow<br>J + 80 ms</th>' : '') +
+    '</tr>';
+  $('#st-table tbody').innerHTML = ST_LEADS.map((l) => {
+    const v = own.values[l] ?? {};
+    const g = gl?.values[l]?.ST80;
+    return (
+      `<tr><th>${l}</th><td class="num ${cls(v.STJ)}">${fmt2(v.STJ)}</td><td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>` +
+      (gl ? `<td class="num ${cls(g)}">${fmt2(g)}</td>` : '') +
+      '</tr>'
+    );
+  }).join('');
+  $('#st-note').innerHTML =
+    'ST 段相对于<a href="#" data-term="isoelectric">本次心跳 QRS 起点前的 PR 段</a>的偏移（mV），各心跳中位数。' +
+    '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记，<b>不是诊断标准</b>' +
+    '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。';
+}
+
 function renderCaseInfo(meta, entry) {
   $('#case-title').textContent = entry?.title ?? meta.id;
   $('#case-summary').textContent = entry?.summary ?? '';
@@ -277,7 +385,7 @@ function renderCaseInfo(meta, entry) {
   $('#case-diag').innerHTML = meta.diagnoses
     .map(
       (d) =>
-        `<li>${d.code ? `<code>${esc(d.code)}</code> ` : ''}${esc(d.description)}` +
+        `<li>${d.code ? `<code>${esc(d.code)}</code> ` : ''}${esc(scpLabel(d))}<span class="en">${esc(d.description)}</span>` +
         `${d.likelihood ? `<span class="muted">（可信度 ${esc(d.likelihood)}%）</span>` : ''}</li>`,
     )
     .join('');
@@ -527,6 +635,8 @@ async function selectCase(id) {
     $('#paper-msg').hidden = true;
     renderCaseInfo(ecg.meta, state.index.cases.find((c) => c.id === id));
     renderMeasurements(ecg.meta);
+    renderLVH(ecg.meta);
+    renderST(ecg.meta);
     const u = new URL(location.href);
     u.searchParams.set('case', id);
     history.replaceState(null, '', u);
@@ -544,6 +654,13 @@ function bindControls() {
   $('#speed').onchange = (e) => set({ speed: Number(e.target.value) }, 'paper');
   $('#gain').onchange = (e) => set({ gain: Number(e.target.value) }, 'paper');
   $('#show-waves').onchange = (e) => set({ showWaves: e.target.checked }, 'paper');
+  $('#show-ref').onchange = (e) => set({ showRef: e.target.checked }, 'overlay');
+  for (const b of document.querySelectorAll('[data-mtab]')) {
+    b.onclick = () => {
+      document.querySelectorAll('[data-mtab]').forEach((x) => x.classList.toggle('on', x === b));
+      document.querySelectorAll('[data-mpane]').forEach((p) => (p.hidden = p.dataset.mpane !== b.dataset.mtab));
+    };
+  }
   $('#calib-btn').onclick = () =>
     openCalibrationDialog(state.pxPerMm, (ppm) => {
       if (ppm == null) {
@@ -639,7 +756,20 @@ async function boot() {
     return;
   }
   const sel = $('#case-select');
-  sel.innerHTML = state.index.cases.map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
+  const groups = [];
+  for (const c of state.index.cases) {
+    let g = groups.find((x) => x.name === (c.group ?? '其他'));
+    if (!g) groups.push((g = { name: c.group ?? '其他', cases: [] }));
+    g.cases.push(c);
+  }
+  sel.innerHTML = groups
+    .map(
+      (g) =>
+        `<optgroup label="${esc(g.name)}">` +
+        g.cases.map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('') +
+        '</optgroup>',
+    )
+    .join('');
   sel.onchange = (e) => selectCase(e.target.value);
   const want = new URLSearchParams(location.search).get('case');
   let id = state.index.cases[0]?.id;

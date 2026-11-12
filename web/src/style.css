@@ -1090,3 +1090,107 @@ dialog.dlg {
 .c-t {
   color: var(--t);
 }
+
+/* M2：测量卡片分页、左室肥厚电压、ST 段 */
+.tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.tabs button {
+  border: none;
+  background: none;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+.tabs button.on {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+.mtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.mtable th {
+  text-align: left;
+  font-weight: normal;
+  padding: 3px 0;
+}
+.mtable th .en {
+  display: block;
+  margin: 0;
+  font-size: 10.5px;
+}
+.mtable thead th.src,
+.mtable thead th.num {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  padding-right: 4px;
+}
+.mtable td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding-right: 4px;
+  white-space: nowrap;
+}
+.mtable td.unit {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: right;
+}
+.mtable tr + tr {
+  border-top: 1px solid #f0ece8;
+}
+.mtable td.met {
+  color: #9a3412;
+  font-weight: 700;
+}
+.mtable td.dep,
+.dep-k {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.mtable td.elev,
+.elev-k {
+  color: #b91c1c;
+  font-weight: 600;
+}
+.lvh-alert {
+  background: #fef2f2;
+  border-left: 3px solid var(--accent);
+  padding: 6px 8px;
+  font-size: 12.5px;
+}
+.lvh-caution {
+  background: #fffbeb;
+  border-left: 3px solid var(--warn);
+  padding: 6px 8px;
+  font-size: 12.5px;
+}
+#lvh-note p {
+  margin: 6px 0;
+  line-height: 1.55;
+}
+.af-note {
+  background: #fff7ed;
+  border-left: 3px solid #fb923c;
+  padding: 4px 8px;
+  font-size: 13px !important;
+}
+#case-diag .en {
+  display: inline;
+  font-size: 11px;
+  margin-left: 4px;
+}
+#case-select {
+  max-width: 260px;
+}
