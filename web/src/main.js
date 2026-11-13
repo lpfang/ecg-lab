@@ -3,7 +3,7 @@ import { loadIndex, loadCase } from './data.js';
 import { computeLayout, hitTest } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
-import { TOURS, fillTemplate, cursorTime } from './tours.js';
+import { TOURS, fillTemplate, cursorTime, spotOf } from './tours.js';
 import { locate, beatWindow } from './ecg/beats.js';
 import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
@@ -16,6 +16,10 @@ import { scpLabel } from './content/scp.js';
 import { evaluateLVH, lvhApplicability } from './ecg/lvh.js';
 import { REFS } from './content/refs.js';
 import { COMPARE, refFor } from './content/compare.js';
+import { QUIZ_SETS } from './quiz/bank.js';
+import { TOL, gradeLocate, gradeEdge, gradeNumber, gradeAxis, inAnnotatedRange, wavesOf } from './quiz/grade.js';
+import { rateTruth, axisTruth, vectorTruth, intervalTruth } from './quiz/answers.js';
+import { vectorFigure } from './quiz/vectorFig.js';
 import { medianBeat } from './ecg/median.js';
 import { drawBeatCompare, drawRhythmCompare, beatRange, BEAT_SPEED, RHYTHM_SPEED } from './views/compare.js';
 import {
@@ -66,6 +70,8 @@ const state = {
   playRate: 0.2, // 慢动作速度：真实速度的 1/5 或 1/10
   show3d: { axes: true, heart: true },
   showRef: false, // 参照基线（PR 段零点与 TP 段）
+  quizMark: null, // 测验：未标注区域遮罩、作答后显示的标准答案
+  spot: null, // 导览聚光灯（心电图内）：{leads, t0?, t1?}
   cmpMode: lsGet('ecg-lab:cmpMode', 'overlay'), // 与正常对照：'overlay' 重叠 | 'side' 并排
   layout: null,
 };
@@ -96,6 +102,7 @@ function flush() {
   if (parts.has('overlay')) {
     drawOverlay($('#overlay'), state.layout, state.ecg, state.pxPerMm, { ...state, refLines: refLines() });
     renderCaliperReadout();
+    if (quiz.set) renderQuizPick();
   }
   if (parts.has('linked')) renderLinked();
   if (parts.has('paper') || parts.has('compare')) drawCompare();
@@ -609,7 +616,8 @@ function renderCaliperReadout() {
   const dv = c.b.mV - c.a.mV;
   $('#caliper-text').innerHTML =
     `时间差 <b>${dt.toFixed(0)} ms</b>` +
-    (dt > 200 ? `（若为 RR 间期，心率 = 60000 ÷ ${dt.toFixed(0)} = <b>${(60000 / dt).toFixed(0)} 次/分</b>）` : '') +
+    // 测验中不替用户换算心率（会直接给出心率题的答案）
+    (dt > 200 && !quiz.set ? `（若为 RR 间期，心率 = 60000 ÷ ${dt.toFixed(0)} = <b>${(60000 / dt).toFixed(0)} 次/分</b>）` : '') +
     ` · 高度差 <b>${dv >= 0 ? '+' : ''}${dv.toFixed(2)} mV</b>`;
 }
 
@@ -667,6 +675,7 @@ function onKey(ev) {
     set({ cursorMs: t }, 'overlay', 'linked');
     ev.preventDefault();
   } else if (ev.key === ' ') {
+    if (quiz.set) return; // 测验中不播放：会带着光标自己移动
     state.playing ? stopPlay() : startPlay();
     ev.preventDefault();
   } else if (ev.key === 'Escape') {
@@ -857,10 +866,14 @@ async function selectCase(id) {
     renderLVH(ecg.meta);
     renderST(ecg.meta);
     renderCompare(ecg);
-    $('#case-select').value = id;
-    const u = new URL(location.href);
-    u.searchParams.set('case', id);
-    history.replaceState(null, '', u);
+    // 测验中下拉框只显示"测验中"：病例标题会泄露诊断题的答案
+    $('#case-select').value = quiz.set ? QUIZ_OPT : id;
+    // 测验中地址栏不写病例编号（编号可以查到诊断）
+    if (!quiz.set) {
+      const u = new URL(location.href);
+      u.searchParams.set('case', id);
+      history.replaceState(null, '', u);
+    }
     return true;
   } catch (e) {
     if (token !== loadToken) return null;
@@ -897,13 +910,16 @@ function setMtab(name) {
 }
 const currentMtab = () => document.querySelector('[data-mtab].on')?.dataset.mtab ?? 'intervals';
 
+/**
+ * 聚光灯：sel 为一个或几个面板（CSS 选择器）。这些面板保持原样，其余面板调暗作为背景
+ * （仍可点击，鼠标经过时保持调暗）。sel 为空则不调暗任何面板。
+ */
 function setFocus(sel) {
   document.querySelectorAll('.tour-focus').forEach((e) => e.classList.remove('tour-focus'));
-  const el = sel && document.querySelector(sel);
-  if (el) {
-    el.classList.add('tour-focus');
-    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }
+  const els = (Array.isArray(sel) ? sel : sel ? [sel] : []).map((x) => document.querySelector(x)).filter(Boolean);
+  for (const el of els) el.classList.add('tour-focus');
+  document.body.classList.toggle('tour-dim', els.length > 0);
+  els[0]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function openTourMenu() {
@@ -923,6 +939,11 @@ function startTour(id) {
     u.searchParams.delete('tour');
     history.replaceState(null, '', u);
     return;
+  }
+  if (!tour.saved && quiz.saved) {
+    // 测验刚退出、还在恢复中：沿用测验保存的用户设置，不把测验锁定的设置当成用户设置
+    tour.saved = quiz.saved;
+    quiz.saved = null;
   }
   if (!tour.saved) {
     // 进入导览时保存用户设置，退出时恢复（迁移经验：进入某种模式保存，退出还原）。
@@ -997,6 +1018,7 @@ async function goStep(i) {
     cursorMs: 'cursor' in step ? cursorTime(beats, step.cursor) : state.cursorMs,
     caliper: null,
     tool: 'cursor',
+    spot: spotOf(step.spot, beats, state.ecg.durationMs),
   };
   if (step.caliper && beats[step.caliper.to]) {
     const ta = beats[step.caliper.from].QRS.peak;
@@ -1054,6 +1076,7 @@ async function exitTour({ keepCase = false } = {}) {
   $('#tour-panel').hidden = true;
   document.body.classList.remove('touring');
   setFocus(null);
+  set({ spot: null }, 'overlay');
   const u = new URL(location.href);
   u.searchParams.delete('tour');
   history.replaceState(null, '', u);
@@ -1062,7 +1085,8 @@ async function exitTour({ keepCase = false } = {}) {
   let caseRestored = false;
   if (!keepCase && caseId && caseId !== state.caseId) {
     const ok = await selectCase(caseId);
-    if (tour.def) return; // 恢复期间又开始了新导览，以最新操作为准（saved 留给它）
+    // 恢复期间又开始了新导览或测验：以最新操作为准（saved 已交给它）
+    if (tour.def || quiz.set) return;
     caseRestored = ok === true;
   } else if (!keepCase) {
     caseRestored = true;
@@ -1072,6 +1096,380 @@ async function exitTour({ keepCase = false } = {}) {
   set(caseRestored ? { ...view, cursorMs, selectedLead, caliper } : view, 'paper', 'linked');
   syncControls();
   setMtab(mtab);
+}
+
+
+// ================================================================ 测验（题目为数据，判分按物理单位）
+
+const QUIZ_OPT = '__quiz'; // 测验中下拉框显示的占位选项
+const quiz = { set: null, index: -1, results: [], saved: null, token: 0, pickedOpt: null, done: false, ready: false, opts: null, vector: null };
+const WAVE_ZH = { P: 'P 波', QRS: 'QRS 波群', T: 'T 波' };
+const EDGE_ZH = { on: '起点', off: '终点' };
+const fmtS = (ms) => `${(ms / 1000).toFixed(3)} s`;
+/** 角度：负号用真正的减号（−），与全站一致 */
+const fmtDeg = (d) => `${d < 0 ? '−' : ''}${Math.abs(Math.round(d))}°`;
+
+function openQuizMenu() {
+  $('#quiz-list').innerHTML = QUIZ_SETS.map(
+    (q) =>
+      `<section class="tour-item"><h4>${esc(q.title)}</h4><p class="muted small">${esc(q.audience)} · ${q.questions.length} 道题</p>` +
+      `<p class="small">${q.intro}</p><button class="primary" data-start-quiz="${q.id}">开始</button></section>`,
+  ).join('');
+  $('#quiz-menu').showModal();
+}
+
+async function startQuiz(id) {
+  const qset = QUIZ_SETS.find((q) => q.id === id);
+  if (!qset) {
+    toast(`找不到测验 "${id}"`);
+    const u = new URL(location.href);
+    u.searchParams.delete('quiz');
+    history.replaceState(null, '', u);
+    return;
+  }
+  if (tour.def) await exitTour({ keepCase: true });
+  if (!quiz.saved && tour.saved) {
+    // 导览刚退出、还在恢复中：沿用导览保存的用户设置
+    quiz.saved = tour.saved;
+    tour.saved = null;
+  }
+  if (!quiz.saved) {
+    quiz.saved = {
+      caseId: state.caseId,
+      showWaves: state.showWaves,
+      showRef: state.showRef,
+      speed: state.speed,
+      gain: state.gain,
+      cursorMs: state.cursorMs,
+      selectedLead: state.selectedLead,
+      caliper: state.caliper,
+      tool: state.tool,
+    };
+  }
+  quiz.set = qset;
+  quiz.results = [];
+  document.body.classList.add('quizzing');
+  $('#quiz-panel').hidden = false;
+  $('#qz-title').textContent = qset.title;
+  $('#case-select').disabled = true;
+  $('#case-select').value = QUIZ_OPT;
+  $('#tour-btn').disabled = true;
+  stopPlay();
+  // 作答锁定：关掉波段着色与参照基线（它们会直接标出 P / QRS / T 的位置）
+  set({ showWaves: false, showRef: false }, 'paper', 'overlay');
+  syncControls();
+  const u = new URL(location.href);
+  u.searchParams.set('quiz', id);
+  u.searchParams.delete('case'); // 病例编号可以查到诊断
+  history.replaceState(null, '', u);
+  goQuestion(0);
+}
+/** LUDB 只标注了中间一段：其余部分盖灰色，提示不在这里作答 */
+function unannotatedMask(meta) {
+  const r = meta.annotations?.annotatedRangeMs;
+  if (!r || !meta.measurements?.some((m) => m.kind === 'manual')) return [];
+  return [
+    { t0: 0, t1: r[0] },
+    { t0: r[1], t1: meta.durationMs },
+  ];
+}
+
+async function goQuestion(i) {
+  const q = quiz.set.questions[i];
+  const token = ++quiz.token;
+  quiz.index = i;
+  quiz.pickedOpt = null;
+  quiz.done = false;
+  quiz.ready = false; // 病例加载、题面准备好之前不接受作答（否则会按上一题的病例判分）
+  stopPlay();
+  set({ quizMark: null, cursorMs: null, caliper: null }, 'overlay');
+  $('#qz-count').textContent = `第 ${i + 1} / ${quiz.set.questions.length} 题`;
+  renderQuizScore();
+  $('#qz-prompt').innerHTML = '正在加载…';
+  $('#qz-answer').innerHTML = '';
+  $('#qz-feedback').hidden = true;
+  $('#qz-fig').hidden = true;
+  $('#qz-hint').hidden = true;
+  $('#qz-submit').hidden = false;
+  $('#qz-submit').disabled = true;
+  $('#qz-next').hidden = true;
+  if (state.caseId !== q.case) {
+    const ok = await selectCase(q.case);
+    if (token !== quiz.token || !quiz.set) return;
+    if (!ok) {
+      $('#qz-prompt').innerHTML = '病例加载失败。<button id="qz-retry">重试</button>　也可以跳过这一题。';
+      $('#qz-retry').onclick = () => goQuestion(i);
+      $('#qz-next').hidden = false;
+      return;
+    }
+  }
+  const timed = ['locate', 'edge'].includes(q.type);
+  set(
+    {
+      cursorMs: null,
+      caliper: null,
+      tool: timed ? 'cursor' : state.tool,
+      selectedLead: q.lead ?? 'II',
+      quizMark: timed || q.type === 'interval' ? { mask: unannotatedMask(state.ecg.meta) } : null,
+    },
+    'overlay',
+  );
+  syncControls();
+  $('#qz-prompt').innerHTML = q.prompt;
+  if (q.hint) {
+    $('#qz-hint').hidden = false;
+    $('#qz-hint').open = false;
+    $('#qz-hint div').innerHTML = q.hint;
+  }
+  renderQuizAnswer(q);
+  quiz.ready = true;
+  renderQuizPick();
+}
+
+function renderQuizScore() {
+  const n = quiz.results.filter(Boolean).length;
+  const right = quiz.results.filter((r) => r?.ok).length;
+  $('#qz-score').textContent = n ? `答对 ${right} / ${n}` : '';
+}
+
+function renderQuizAnswer(q) {
+  const box = $('#qz-answer');
+  if (q.type === 'choice' || q.type === 'vector') {
+    let opts;
+    if (q.type === 'vector') {
+      const r = vectorTruth(state.ecg, q.at);
+      quiz.vector = r;
+      if (!r) {
+        box.textContent = '这道题的数据无法计算，请跳过。';
+        $('#qz-next').hidden = false;
+        $('#qz-submit').hidden = true;
+        return;
+      }
+      $('#qz-fig').hidden = false;
+      $('#qz-fig').innerHTML = vectorFigure(r.deg);
+      opts = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF'].map((l) => ({ text: l, correct: l === r.lead }));
+    } else {
+      // 打乱选项顺序（Fisher–Yates，正确答案不总在第一个）
+      opts = [...q.options];
+      for (let k = opts.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [opts[k], opts[j]] = [opts[j], opts[k]];
+      }
+    }
+    quiz.opts = opts;
+    box.innerHTML = opts.map((o, k) => `<button class="qz-opt" data-opt="${k}">${o.text}</button>`).join('');
+  } else if (['interval', 'rate', 'axis'].includes(q.type)) {
+    const unit = q.type === 'rate' ? '次/分' : q.type === 'axis' ? '°' : 'ms';
+    const range = q.type === 'axis' ? 'min="-180" max="180"' : 'min="0" max="1000"';
+    box.innerHTML = `<input type="number" id="qz-num" ${range} step="1" inputmode="numeric" /> <span>${unit}</span>`;
+    $('#qz-num').addEventListener('input', () => ($('#qz-submit').disabled = $('#qz-num').value === ''));
+    $('#qz-num').addEventListener('keydown', (e) => e.key === 'Enter' && !$('#qz-submit').disabled && submitQuiz());
+  } else {
+    box.innerHTML = '';
+  }
+}
+
+/** 定位题：显示当前选中的位置（光标），未选时不能提交 */
+function renderQuizPick() {
+  const q = quiz.set?.questions[quiz.index];
+  if (!q || !quiz.ready) return;
+  if (quiz.done || !['locate', 'edge'].includes(q.type)) {
+    if (q && !quiz.done && !['locate', 'edge'].includes(q.type)) $('#qz-status').textContent = '';
+    return;
+  }
+  const t = state.cursorMs;
+  if (t == null) {
+    $('#qz-status').textContent =
+      '在图上点一下放置紫色光标，可用 ←/→ 键微调；放好后按"提交"。' +
+      (state.quizMark?.mask?.length ? '记录开头和结尾的灰色区域没有人工标注，请在中间部分作答。' : '');
+    $('#qz-submit').disabled = true;
+    return;
+  }
+  const wrongLead = state.selectedLead !== q.lead;
+  const outside = !inAnnotatedRange(state.ecg.meta, t);
+  const range = state.ecg.meta.annotations?.annotatedRangeMs ?? [0, 0];
+  $('#qz-status').innerHTML =
+    `已选：<b>${state.selectedLead}</b> 导联 ${fmtS(t)}` +
+    (wrongLead ? `　<span class="warn-text">题目问的是 ${q.lead} 导联，请在 ${q.lead} 导联上点。</span>` : '') +
+    (outside
+      ? `　<span class="warn-text">这里在灰色区域内：医生只标注了 ${fmtS(range[0])} 到 ${fmtS(range[1])} 之间的部分，灰色区域无法判分。请换一个灰色区域以外的波。</span>`
+      : '');
+  $('#qz-submit').disabled = wrongLead || outside;
+}
+
+function submitQuiz() {
+  const q = quiz.set?.questions[quiz.index];
+  if (!q || quiz.done || !quiz.ready || state.caseId !== q.case) return;
+  const meta = state.ecg.meta;
+  if (['locate', 'edge'].includes(q.type)) {
+    // 再检查一遍（按钮状态只是界面提示）
+    if (state.cursorMs == null || state.selectedLead !== q.lead || !inAnnotatedRange(meta, state.cursorMs)) return;
+  }
+  let ok = false;
+  let detail = '';
+  let mark = null;
+  const num = () => Number($('#qz-num')?.value);
+  switch (q.type) {
+    case 'choice':
+    case 'vector': {
+      const k = quiz.pickedOpt;
+      if (k == null || !quiz.opts?.[k]) return;
+      ok = !!quiz.opts[k].correct;
+      document.querySelectorAll('.qz-opt').forEach((b, j) => {
+        b.disabled = true;
+        if (quiz.opts[j].correct) b.classList.add('right');
+        else if (j === k) b.classList.add('wrong');
+      });
+      if (q.type === 'vector') {
+        const r = quiz.vector;
+        $('#qz-fig').innerHTML = vectorFigure(r.deg, { reveal: r.lead });
+        detail = `这个向量指向约 ${fmtDeg(r.deg)}，最接近 <b>${r.lead}</b>（${fmtDeg(r.ranked[0].axisDeg)}），相差 ${Math.round(r.ranked[0].off)}°。`;
+      }
+      break;
+    }
+    case 'locate': {
+      const r = gradeLocate(meta, q.lead, q.wave, state.cursorMs);
+      if (!r) return;
+      ok = r.ok;
+      detail = ok
+        ? `你点在 ${fmtS(state.cursorMs)}，落在一个 ${WAVE_ZH[q.wave]}上。`
+        : `你点在 ${fmtS(state.cursorMs)}，离最近的 ${WAVE_ZH[q.wave]}还有 ${Math.round(r.distMs)} ms。`;
+      detail += `图上绿色底色是医生标注的 ${q.lead} 导联全部 ${WAVE_ZH[q.wave]}。`;
+      mark = { spans: wavesOf(meta, q.lead, q.wave) };
+      break;
+    }
+    case 'edge': {
+      const r = gradeEdge(meta, q.lead, q.wave, q.edge, state.cursorMs);
+      if (!r) return;
+      ok = r.ok;
+      const e = Math.round(r.errMs);
+      detail =
+        `医生标注的${EDGE_ZH[q.edge]}在 ${fmtS(r.truth)}，你点在 ${fmtS(state.cursorMs)}，` +
+        `${e === 0 ? '完全一致' : `${e > 0 ? '晚了' : '早了'} ${Math.abs(e)} ms`}（容差 ±${r.tolMs} ms）。图上绿色竖线是全部标注的${EDGE_ZH[q.edge]}。`;
+      mark = { points: wavesOf(meta, q.lead, q.wave).map((w) => w[q.edge]) };
+      break;
+    }
+    case 'interval': {
+      const v = num();
+      const truth = intervalTruth(meta, q.lead, q.kind);
+      const tol = q.kind === 'QT' ? TOL.qtMs : TOL.intervalMs;
+      const r = truth && gradeNumber(v, truth.median, tol);
+      if (!r) return;
+      ok = r.ok;
+      detail =
+        `医生在 ${q.lead} 导联逐拍标注，${truth.n} 个心搏的 ${q.kind} 中位数为 <b>${Math.round(truth.median)} ms</b>` +
+        `（各拍 ${Math.round(truth.min)}–${Math.round(truth.max)} ms）。你的答案 ${v} ms，相差 ${Math.abs(Math.round(r.err))} ms（容差 ±${tol} ms）。` +
+        '图上绿色竖线标出了每个心搏的起点和终点。';
+      const P = wavesOf(meta, q.lead, 'P');
+      const Q = wavesOf(meta, q.lead, 'QRS');
+      const T = wavesOf(meta, q.lead, 'T');
+      const pts =
+        q.kind === 'PR'
+          ? [...P.map((w) => w.on), ...Q.map((w) => w.on)]
+          : q.kind === 'QRS'
+            ? Q.flatMap((w) => [w.on, w.off])
+            : [...Q.map((w) => w.on), ...T.map((w) => w.off)];
+      mark = { points: pts };
+      break;
+    }
+    case 'rate': {
+      const v = num();
+      const truth = rateTruth(meta);
+      const r = truth && gradeNumber(v, truth.bpm, TOL.hrBpm);
+      if (!r) return;
+      ok = r.ok;
+      detail = `本例心率约 <b>${Math.round(truth.bpm)} 次/分</b>（${truth.source}）。你的答案 ${v} 次/分（容差 ±${TOL.hrBpm}）。`;
+      break;
+    }
+    case 'axis': {
+      const v = num();
+      const truth = axisTruth(meta);
+      const r = truth && gradeAxis(v, truth.deg);
+      if (!r) return;
+      ok = r.ok;
+      detail =
+        `本例电轴约 <b>${fmtDeg(truth.deg)}</b>（Glasgow 算法 ${fmtDeg(truth.unig)}，本站按 I、aVF 的 QRS 面积计算 ${fmtDeg(truth.area)}）。` +
+        `你的答案 ${fmtDeg(v)}，相差 ${Math.abs(Math.round(r.err))}°（容差 ±${r.tol}°）。`;
+      break;
+    }
+  }
+  quiz.done = true;
+  quiz.results[quiz.index] = { ok };
+  if (mark) set({ quizMark: { ...state.quizMark, lead: q.lead, ...mark } }, 'overlay');
+  const fb = $('#qz-feedback');
+  fb.hidden = false;
+  fb.className = `qz-feedback ${ok ? 'ok' : 'bad'}`;
+  fb.innerHTML = `<span class="verdict">${ok ? '✓ 正确' : '✗ 不对'}</span>　${detail}<br>${q.explain}`;
+  if ($('#qz-num')) $('#qz-num').disabled = true;
+  $('#qz-status').textContent = '';
+  $('#qz-submit').hidden = true;
+  const last = quiz.index === quiz.set.questions.length - 1;
+  $('#qz-next').hidden = false;
+  $('#qz-next').textContent = last ? '查看成绩' : '下一题 →';
+  renderQuizScore();
+  $('#qz-next').focus();
+}
+
+function finishQuiz() {
+  quiz.token++;
+  const qs = quiz.set.questions;
+  const right = quiz.results.filter((r) => r?.ok).length;
+  $('#qz-count').textContent = '完成';
+  const plain = (h) => h.replace(/<[^>]+>/g, '');
+  $('#qz-prompt').innerHTML =
+    `<b>答对 ${right} / ${qs.length} 题。</b>` +
+    `<ol class="qz-summary small">${qs
+      .map((q, i) => `<li class="${quiz.results[i]?.ok ? 'ok' : 'bad'}">${quiz.results[i]?.ok ? '✓' : '✗'} ${esc(plain(q.prompt))}</li>`)
+      .join('')}</ol>`;
+  $('#qz-answer').innerHTML = `<button class="primary" id="qz-again">再做一次</button><button id="qz-done">退出测验</button>`;
+  $('#qz-again').onclick = () => startQuiz(quiz.set.id);
+  $('#qz-done').onclick = () => exitQuiz();
+  $('#qz-feedback').hidden = true;
+  $('#qz-fig').hidden = true;
+  $('#qz-hint').hidden = true;
+  $('#qz-submit').hidden = true;
+  $('#qz-next').hidden = true;
+  $('#qz-status').textContent = '';
+  set({ quizMark: null }, 'overlay');
+}
+
+async function exitQuiz() {
+  if (!quiz.set) return;
+  quiz.token++;
+  quiz.ready = false;
+  cancelPendingLoad();
+  stopPlay();
+  const saved = quiz.saved;
+  quiz.set = null;
+  quiz.index = -1;
+  $('#quiz-panel').hidden = true;
+  document.body.classList.remove('quizzing');
+  const u = new URL(location.href);
+  u.searchParams.delete('quiz');
+  history.replaceState(null, '', u);
+  set({ quizMark: null }, 'overlay');
+  const unlock = () => {
+    $('#case-select').disabled = false;
+    $('#case-select').value = state.caseId;
+    $('#tour-btn').disabled = false;
+    const v = new URL(location.href);
+    v.searchParams.set('case', state.caseId);
+    history.replaceState(null, '', v);
+  };
+  if (!saved) return unlock();
+  const { caseId, cursorMs, selectedLead, caliper, gain, ...view } = saved;
+  let caseRestored = true;
+  if (caseId && caseId !== state.caseId) {
+    caseRestored = (await selectCase(caseId)) === true;
+    // 恢复期间又开始了新测验或导览：以最新操作为准（saved 已交给它或仍归测验）
+    if (quiz.set) return;
+    if (tour.def) return unlock();
+  }
+  quiz.saved = null;
+  set(caseRestored ? { ...view, gain, cursorMs, selectedLead, caliper } : { ...view, gain }, 'paper', 'linked');
+  $('#gain').value = String(gain);
+  syncControls();
+  unlock();
 }
 
 // ================================================================ 启动
@@ -1153,6 +1551,29 @@ function bindControls() {
   $('#tour-prev').onclick = () => goStep(tour.index - 1);
   $('#tour-next').onclick = () => (tour.index >= tour.def.steps.length - 1 ? exitTour() : goStep(tour.index + 1));
   $('#tour-exit').onclick = exitTour;
+  $('#quiz-btn').onclick = openQuizMenu;
+  $('#quiz-menu-close').onclick = () => $('#quiz-menu').close();
+  $('#quiz-list').addEventListener('click', (e) => {
+    const id = e.target.closest('[data-start-quiz]')?.dataset.startQuiz;
+    if (id) {
+      $('#quiz-menu').close();
+      startQuiz(id);
+    }
+  });
+  $('#qz-answer').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-opt]');
+    if (!b || quiz.done) return;
+    quiz.pickedOpt = Number(b.dataset.opt);
+    document.querySelectorAll('.qz-opt').forEach((x) => x.classList.toggle('picked', x === b));
+    $('#qz-submit').disabled = false;
+  });
+  $('#qz-submit').onclick = submitQuiz;
+  $('#qz-next').onclick = () => {
+    // 只有作答后（或病例加载失败、允许跳过时）才能进入下一题
+    if (!quiz.set || $('#qz-next').hidden) return;
+    quiz.index >= quiz.set.questions.length - 1 ? finishQuiz() : goQuestion(quiz.index + 1);
+  };
+  $('#qz-exit').onclick = () => exitQuiz();
   $('#primer-btn').onclick = () => openPrimer('intro');
   $('#primer-close').onclick = () => $('#primer').close();
   // 读图入门、术语表：最大化 / 还原（各自记住选择，下次打开保持）
@@ -1247,6 +1668,7 @@ async function boot() {
   const sel = $('#case-select');
   const groups = [];
   for (const c of state.index.cases) {
+    if (c.quizOnly) continue; // 测验专用病例（LUDB）不出现在列表里
     let g = groups.find((x) => x.name === (c.group ?? '其他'));
     if (!g) groups.push((g = { name: c.group ?? '其他', cases: [] }));
     g.cases.push(c);
@@ -1258,21 +1680,30 @@ async function boot() {
         g.cases.map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('') +
         '</optgroup>',
     )
-    .join('');
+    .join('') +
+    // 隐藏的选项：测验加载这些病例时，下拉框仍能显示标题
+    state.index.cases
+      .filter((c) => c.quizOnly)
+      .map((c) => `<option value="${esc(c.id)}" hidden>${esc(c.title)}</option>`)
+      .join('') +
+    `<option value="${QUIZ_OPT}" hidden>测验中（病例名称已隐藏）</option>`;
   sel.onchange = async (e) => {
     const id = e.target.value;
     if (tour.def) await exitTour({ keepCase: true }); // 导览讲的是原来的病例，手动换病例即结束导览
     selectCase(id);
   };
   const want = new URLSearchParams(location.search).get('case');
-  let id = state.index.cases[0]?.id;
-  if (want && state.index.cases.some((c) => c.id === want)) id = want;
-  else if (want) toast(`找不到病例 "${want}"，已打开默认病例`);
+  const wantQuizParam = new URLSearchParams(location.search).get('quiz');
+  let id = state.index.cases.find((c) => !c.quizOnly)?.id;
+  if (want && state.index.cases.some((c) => c.id === want && !c.quizOnly)) id = want;
+  else if (want && !wantQuizParam) toast(`找不到病例 "${want}"，已打开默认病例`);
   sel.value = id;
   await selectCase(id);
   loadHeart();
   const wantTour = new URLSearchParams(location.search).get('tour');
   if (wantTour) startTour(wantTour); // 无效 id 会提示
+  const wantQuiz = new URLSearchParams(location.search).get('quiz');
+  if (wantQuiz && !wantTour) startQuiz(wantQuiz);
 }
 
 function toast(msg) {

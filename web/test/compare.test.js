@@ -3,35 +3,10 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { medianBeat, medianAt } from '../src/ecg/median.js';
 import { COMPARE, NORMAL_REF, refFor } from '../src/content/compare.js';
+import { load } from './helpers.js';
 
 const CASES = new URL('../public/cases/', import.meta.url);
 const LEADS = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'];
-
-function load(id) {
-  const meta = JSON.parse(readFileSync(new URL(`${id}/meta.json`, CASES), 'utf8'));
-  const buf = readFileSync(new URL(`${id}/signal.i16`, CASES));
-  const n = meta.nSamples;
-  const leads = {};
-  meta.leads.forEach((l, li) => {
-    const a = new Float32Array(n);
-    for (let i = 0; i < n; i++) a[i] = buf.readInt16LE((li * n + i) * 2);
-    leads[l] = a;
-  });
-  const fs = meta.fs;
-  return {
-    meta,
-    fs,
-    durationMs: meta.durationMs,
-    lead: (l) => leads[l],
-    valueAt(l, t) {
-      const a = leads[l];
-      const x = (t / 1000) * fs;
-      const i = Math.max(0, Math.min(a.length - 2, Math.floor(x)));
-      const f = Math.max(0, Math.min(1, x - i));
-      return a[i] * (1 - f) + a[i + 1] * f;
-    },
-  };
-}
 
 /** 合成心电图：每 800 ms 一个三角形 QRS（高 1000 µV），叠加一条缓慢漂移的基线 */
 function synthetic() {
@@ -95,6 +70,7 @@ describe('与正常对照的配置', () => {
 
   it('除正常组外，每个病例都有对照配置', () => {
     for (const c of index) {
+      if (c.quizOnly) continue; // 测验专用病例（LUDB，幅度被归一化）不参与对照
       if (c.group === '正常') expect(COMPARE[c.id]).toBeUndefined();
       else expect(COMPARE[c.id], c.id).toBeTruthy();
     }

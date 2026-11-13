@@ -1,0 +1,6 @@
+{
+ "title": "窦性心律（30 岁男性，LUDB）",
+ "summary": "LUDB 数据库，医生逐导联手工标注。用于测验的定位、测量与心率题。",
+ "group": "测验用（LUDB 人工标注）",
+ "quizOnly": true
+}

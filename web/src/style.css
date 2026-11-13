@@ -1413,3 +1413,214 @@ body.touring .tour-focus {
 .gl-empty {
   padding: 16px 0;
 }
+
+/* ================================================================ 测验 */
+.quiz-panel {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  margin: 12px 20px 0;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f0fdfa;
+  border: 1px solid #5eead4;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.15);
+  padding: 10px 16px;
+}
+.qz-head,
+.qz-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qz-score {
+  color: #0f766e;
+  font-weight: 600;
+}
+.qz-main {
+  display: flex;
+  gap: 16px;
+  min-height: 0;
+  overflow-y: auto;
+}
+.qz-q {
+  flex: 1;
+  min-width: 0;
+}
+.qz-prompt {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.qz-hint {
+  margin: 4px 0;
+}
+.qz-hint div {
+  padding: 2px 0 0 14px;
+  color: var(--muted);
+}
+.qz-answer {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.qz-answer .qz-opt {
+  text-align: left;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.qz-answer .qz-opt.picked {
+  border-color: #0d9488;
+  outline: 2px solid #0d9488;
+}
+.qz-answer .qz-opt.right {
+  background: #dcfce7;
+  border-color: #16a34a;
+}
+.qz-answer .qz-opt.wrong {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+.qz-answer input[type='number'] {
+  width: 96px;
+  font: inherit;
+  font-size: 15px;
+  padding: 4px 8px;
+}
+.qz-feedback {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 4px solid;
+  padding: 4px 10px;
+  background: #fff;
+}
+.qz-feedback.ok {
+  border-color: #16a34a;
+}
+.qz-feedback.bad {
+  border-color: #dc2626;
+}
+.qz-feedback .verdict {
+  font-weight: 600;
+}
+.qz-feedback.ok .verdict {
+  color: #15803d;
+}
+.qz-feedback.bad .verdict {
+  color: #b91c1c;
+}
+.qz-fig {
+  flex: 0 0 210px;
+}
+.qv-fig {
+  width: 210px;
+  height: 210px;
+}
+.qv-ring {
+  fill: none;
+  stroke: #e5e7eb;
+}
+.qv-pos {
+  stroke: #6b7280;
+  stroke-width: 1.5;
+}
+.qv-pos.hl {
+  stroke: #16a34a;
+  stroke-width: 3;
+}
+.qv-neg {
+  stroke: #d1d5db;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.qv-lab {
+  font-size: 12px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #374151;
+}
+.qv-lab.hl {
+  fill: #15803d;
+}
+.qv-dir {
+  font-size: 10px;
+  fill: #9ca3af;
+  text-anchor: middle;
+}
+.qv-vec {
+  stroke: #7c3aed;
+  stroke-width: 3.5;
+  fill: none;
+  stroke-linecap: round;
+}
+.qz-summary li {
+  margin: 2px 0;
+}
+.qz-summary .ok {
+  color: #15803d;
+}
+.qz-summary .bad {
+  color: #b91c1c;
+}
+
+/* 作答锁定：隐藏会泄露答案的面板和控件 */
+.quiz-lock {
+  display: none;
+}
+body.quizzing .quiz-lock {
+  display: block;
+}
+body.quizzing .col-linked > :not(.quiz-lock),
+body.quizzing .now-card,
+body.quizzing .compare-card,
+body.quizzing .below,
+body.quizzing .case-info,
+body.quizzing #play-btn,
+body.quizzing .seg:has([data-rate]),
+body.quizzing label:has(#show-ref),
+body.quizzing label:has(#show-waves),
+body.quizzing .paper-hint {
+  display: none !important;
+}
+body.quizzing .col-linked {
+  position: static;
+}
+.warn-text {
+  color: #b45309;
+}
+.qz-answer .qz-opt:disabled {
+  opacity: 1;
+  color: var(--text);
+  cursor: default;
+}
+/* 不可点的按钮要一眼看出来（测验"提交"在未作答或位置无效时不可点） */
+button:disabled,
+button.primary:disabled {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* 导览聚光灯：关注的面板保持原样，其余面板调暗、去色，作为背景（鼠标经过也不变，避免分散注意力） */
+body.tour-dim main.layout .card,
+body.tour-dim .case-info .card {
+  transition:
+    opacity 0.35s,
+    filter 0.35s;
+}
+body.tour-dim main.layout .card:not(.tour-focus),
+body.tour-dim .case-info .card {
+  opacity: 0.3;
+  filter: saturate(0.2);
+}

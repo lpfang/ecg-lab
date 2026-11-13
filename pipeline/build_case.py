@@ -695,6 +695,8 @@ def update_index():
             "group": info.get("group", "其他"),
             "patient": meta["patient"],
             "amplitudeNormalized": meta["amplitudeNormalized"],
+            # 只在测验中使用、不出现在病例列表里（如 LUDB：幅度被归一化，只能用于时间相关题目）
+            **({"quizOnly": True} if info.get("quizOnly") else {}),
         })
     order_f = OUT / "order.json"
     order = json.loads(order_f.read_text("utf-8")) if order_f.exists() else []

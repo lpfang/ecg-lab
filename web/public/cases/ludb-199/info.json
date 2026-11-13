@@ -1,0 +1,6 @@
+{
+ "title": "窦性心律（34 岁女性，LUDB）",
+ "summary": "LUDB 数据库，医生逐导联手工标注。用于测验的定位题。",
+ "group": "测验用（LUDB 人工标注）",
+ "quizOnly": true
+}

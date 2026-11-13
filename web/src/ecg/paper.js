@@ -189,6 +189,8 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
 export function drawOverlay(canvas, lay, ecg, pxPerMm, st) {
   const { ctx, s } = setupCanvas(canvas, lay, pxPerMm);
 
+  if (st.spot) drawSpot(ctx, lay, st.spot);
+
   // 参照基线：本次心跳的 PR 段零点（紫色虚线）与 TP 段电位（灰色虚线）
   const ref = st.refLines;
   if (ref) {
@@ -249,8 +251,67 @@ export function drawOverlay(canvas, lay, ecg, pxPerMm, st) {
     }
   }
 
+  if (st.quizMark) drawQuizMark(ctx, lay, st.quizMark, s);
+
   const c = st.caliper;
   if (c?.a && c?.b) drawCaliper(ctx, lay, c, s);
+}
+
+/**
+ * 导览聚光灯（心电图内）：spot = {leads, t0?, t1?}。
+ * 关注的导联（及时间段）保持原样，其余部分盖一层半透明的纸色，作为背景。
+ */
+function drawSpot(ctx, lay, spot) {
+  ctx.fillStyle = 'rgba(255, 250, 248, 0.72)';
+  const hasT = spot.t0 != null && spot.t1 != null;
+  for (const cell of lay.cells) {
+    const veil = (a, z) => {
+      if (z <= a) return;
+      ctx.fillRect(xOf(lay, cell, a), cell.topMm, xOf(lay, cell, z) - xOf(lay, cell, a), cell.heightMm);
+    };
+    if (!spot.leads.includes(cell.lead)) {
+      veil(cell.t0, cell.t1);
+      continue;
+    }
+    if (hasT) {
+      veil(cell.t0, Math.min(cell.t1, spot.t0));
+      veil(Math.max(cell.t0, spot.t1), cell.t1);
+    }
+  }
+}
+
+/**
+ * 测验标记：
+ *   mask   [{t0, t1}] 没有人工标注的时间段，盖一层灰色（在这里作答不计分）
+ *   lead   标准答案所在导联；spans [{on, off}] 绿色底色；points [t] 绿色竖线
+ */
+function drawQuizMark(ctx, lay, m, s) {
+  for (const cell of lay.cells) {
+    for (const r of m.mask ?? []) {
+      const a = Math.max(r.t0, cell.t0);
+      const z = Math.min(r.t1, cell.t1);
+      if (z <= a) continue;
+      ctx.fillStyle = 'rgba(120, 120, 120, 0.22)';
+      ctx.fillRect(xOf(lay, cell, a), cell.topMm, xOf(lay, cell, z) - xOf(lay, cell, a), cell.heightMm);
+    }
+    if (cell.lead !== m.lead) continue;
+    for (const w of m.spans ?? []) {
+      const a = Math.max(w.on, cell.t0);
+      const z = Math.min(w.off, cell.t1);
+      if (z <= a) continue;
+      ctx.fillStyle = 'rgba(22, 163, 74, 0.28)';
+      ctx.fillRect(xOf(lay, cell, a), cell.topMm + 0.5, xOf(lay, cell, z) - xOf(lay, cell, a), cell.heightMm - 1);
+    }
+    ctx.strokeStyle = '#16a34a';
+    ctx.lineWidth = 1.8 / s;
+    ctx.beginPath();
+    for (const t of m.points ?? []) {
+      if (t < cell.t0 || t >= cell.t1) continue;
+      ctx.moveTo(xOf(lay, cell, t), cell.topMm + 0.5);
+      ctx.lineTo(xOf(lay, cell, t), cell.topMm + cell.heightMm - 0.5);
+    }
+    ctx.stroke();
+  }
 }
 
 function drawCaliper(ctx, lay, c, s) {

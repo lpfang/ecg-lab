@@ -29,6 +29,7 @@
         <button data-level="plain">通俗</button><button data-level="pro">专业</button>
       </span>
       <button id="tour-btn" class="primary">导览</button>
+      <button id="quiz-btn">测验</button>
       <button id="primer-btn">读图入门</button>
       <button id="glossary-btn">术语表</button>
     </header>
@@ -51,6 +52,32 @@
           <button id="tour-prev">← 上一步</button>
           <button id="tour-next" class="primary">下一步 →</button>
         </div>
+      </div>
+    </section>
+
+    <!-- 测验条：固定在顶栏下方；作答时隐藏会泄露答案的面板 -->
+    <section id="quiz-panel" class="quiz-panel" hidden aria-live="polite">
+      <div class="qz-head">
+        <span id="qz-title" class="tour-title"></span>
+        <span id="qz-count" class="muted small"></span>
+        <span id="qz-score" class="qz-score small"></span>
+        <span class="spacer"></span>
+        <button id="qz-exit" title="退出测验（恢复原来的设置）">退出测验</button>
+      </div>
+      <div class="qz-main">
+        <div class="qz-q">
+          <div id="qz-prompt" class="qz-prompt"></div>
+          <details id="qz-hint" class="qz-hint small" hidden><summary>提示</summary><div></div></details>
+          <div id="qz-answer" class="qz-answer"></div>
+          <div id="qz-feedback" class="qz-feedback" hidden></div>
+        </div>
+        <div id="qz-fig" class="qz-fig" hidden></div>
+      </div>
+      <div class="qz-actions">
+        <span id="qz-status" class="muted small"></span>
+        <span class="spacer"></span>
+        <button id="qz-submit" class="primary">提交</button>
+        <button id="qz-next" class="primary" hidden>下一题 →</button>
       </div>
     </section>
 
@@ -170,6 +197,11 @@
 
       <!-- 联动面板：固定在右侧，点击心电图时始终可见 -->
       <aside class="col-linked">
+        <section class="card quiz-lock">
+          <h3>测验中</h3>
+          <p class="small muted">为了不提前泄露答案，诊断标签、病例说明、测量值、波段着色、"此刻"讲解和导联轴图都暂时隐藏，退出测验后恢复。</p>
+          <p class="small muted">可以随时打开"读图入门"和"术语表"查阅，也可以用卡尺测量。</p>
+        </section>
         <section class="card case-card">
           <h2 id="case-title"></h2>
           <p id="case-summary"></p>
@@ -217,6 +249,16 @@
 
     <div id="toast" hidden></div>
 
+
+    <dialog id="quiz-menu" class="dlg">
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>测验 <span class="en">Quiz</span></h3>
+          <button id="quiz-menu-close">关闭</button>
+        </div>
+      </div>
+      <div id="quiz-list" class="dlg-body"></div>
+    </dialog>
 
     <dialog id="tour-menu" class="dlg">
       <div class="dlg-top">
