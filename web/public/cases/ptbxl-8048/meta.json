@@ -1,0 +1,2093 @@
+{
+ "id": "ptbxl-8048",
+ "fs": 500.0,
+ "nSamples": 5000,
+ "durationMs": 10000.0,
+ "leads": [
+  "I",
+  "II",
+  "III",
+  "aVR",
+  "aVL",
+  "aVF",
+  "V1",
+  "V2",
+  "V3",
+  "V4",
+  "V5",
+  "V6"
+ ],
+ "signal": {
+  "file": "signal.i16",
+  "dtype": "int16le",
+  "unit": "uV",
+  "layout": "lead-major"
+ },
+ "amplitudeNormalized": false,
+ "patient": {
+  "age": "58",
+  "sex": "M"
+ },
+ "diagnoses": [
+  {
+   "code": "ASMI",
+   "likelihood": 100.0,
+   "description": "anteroseptal myocardial infarction",
+   "class": "MI"
+  },
+  {
+   "code": "LMI",
+   "likelihood": 100.0,
+   "description": "lateral myocardial infarction",
+   "class": "MI"
+  },
+  {
+   "code": "IVCD",
+   "likelihood": 100.0,
+   "description": "non-specific intraventricular conduction disturbance (block)",
+   "class": "CD"
+  },
+  {
+   "code": "2AVB",
+   "likelihood": 100.0,
+   "description": "second degree AV block",
+   "class": "CD"
+  },
+  {
+   "code": "LPFB",
+   "likelihood": 100.0,
+   "description": "left posterior fascicular block",
+   "class": "CD"
+  }
+ ],
+ "reportOriginal": "there is a marked bradycardia due to 3:1 av block. atrial rate = 111/min. biatrial enlargement. rightward axis. left posterior fascicular block. right bundle branch block. bifascicular block. patient should be considered for a pacemaker.",
+ "validatedByCardiologist": true,
+ "measurements": [
+  {
+   "id": "12sl",
+   "label": "GE Marquette 12SL",
+   "kind": "algorithm",
+   "values": {
+    "HR_bpm": 37.0,
+    "RR_ms": 1604.0,
+    "PR_ms": 204.0,
+    "QRS_ms": 132.0,
+    "QT_ms": 560.0,
+    "P_ms": 102.0
+   }
+  },
+  {
+   "id": "unig",
+   "label": "Glasgow Uni-G",
+   "kind": "algorithm",
+   "values": {
+    "HR_bpm": 37.0,
+    "RR_ms": 1605.0,
+    "PR_ms": 206.0,
+    "QRS_ms": 130.0,
+    "QT_ms": 538.0,
+    "axis_deg": 106.0,
+    "P_ms": 88.0
+   }
+  },
+  {
+   "id": "area",
+   "label": "本站计算",
+   "kind": "computed",
+   "values": {
+    "axis_deg": 105
+   }
+  }
+ ],
+ "amplitudes": [
+  {
+   "id": "12sl",
+   "label": "GE Marquette 12SL",
+   "kind": "algorithm",
+   "values": {
+    "I": {
+     "R": 0.053,
+     "S": 0.585,
+     "STJ": 0.014,
+     "ST80": null
+    },
+    "II": {
+     "R": 1.313,
+     "S": 0.0,
+     "STJ": 0.0,
+     "ST80": null
+    },
+    "III": {
+     "R": 1.855,
+     "S": 0.0,
+     "STJ": -0.015,
+     "ST80": null
+    },
+    "aVR": {
+     "R": 0.0,
+     "S": 0.0,
+     "STJ": -0.01,
+     "ST80": null
+    },
+    "aVL": {
+     "R": 0.019,
+     "S": 1.22,
+     "STJ": 0.014,
+     "ST80": null
+    },
+    "aVF": {
+     "R": 1.572,
+     "S": 0.0,
+     "STJ": -0.005,
+     "ST80": null
+    },
+    "V1": {
+     "R": 0.029,
+     "S": 0.327,
+     "STJ": -0.025,
+     "ST80": null
+    },
+    "V2": {
+     "R": 0.087,
+     "S": 0.81,
+     "STJ": -0.01,
+     "ST80": null
+    },
+    "V3": {
+     "R": 0.546,
+     "S": 0.688,
+     "STJ": 0.0,
+     "ST80": null
+    },
+    "V4": {
+     "R": 0.908,
+     "S": 2.099,
+     "STJ": 0.024,
+     "ST80": null
+    },
+    "V5": {
+     "R": 0.605,
+     "S": 1.962,
+     "STJ": 0.009,
+     "ST80": null
+    },
+    "V6": {
+     "R": 0.288,
+     "S": 1.479,
+     "STJ": 0.024,
+     "ST80": null
+    }
+   }
+  },
+  {
+   "id": "unig",
+   "label": "Glasgow Uni-G",
+   "kind": "algorithm",
+   "values": {
+    "I": {
+     "R": 0.065,
+     "S": 0.567,
+     "STJ": 0.026,
+     "ST80": 0.047
+    },
+    "II": {
+     "R": 1.327,
+     "S": 0.0,
+     "STJ": -0.005,
+     "ST80": 0.008
+    },
+    "III": {
+     "R": 1.868,
+     "S": 0.0,
+     "STJ": -0.038,
+     "ST80": -0.038
+    },
+    "aVR": {
+     "R": 0.0,
+     "S": 0.0,
+     "STJ": -0.013,
+     "ST80": -0.028
+    },
+    "aVL": {
+     "R": 0.026,
+     "S": 1.217,
+     "STJ": 0.035,
+     "ST80": 0.043
+    },
+    "aVF": {
+     "R": 1.584,
+     "S": 0.0,
+     "STJ": -0.021,
+     "ST80": -0.014
+    },
+    "V1": {
+     "R": 0.024,
+     "S": 0.333,
+     "STJ": -0.023,
+     "ST80": -0.042
+    },
+    "V2": {
+     "R": 0.095,
+     "S": 0.808,
+     "STJ": 0.009,
+     "ST80": 0.013
+    },
+    "V3": {
+     "R": 0.541,
+     "S": 0.702,
+     "STJ": 0.011,
+     "ST80": 0.053
+    },
+    "V4": {
+     "R": 0.911,
+     "S": 2.108,
+     "STJ": 0.047,
+     "ST80": 0.106
+    },
+    "V5": {
+     "R": 0.597,
+     "S": 1.954,
+     "STJ": 0.044,
+     "ST80": 0.089
+    },
+    "V6": {
+     "R": 0.27,
+     "S": 1.484,
+     "STJ": 0.023,
+     "ST80": 0.064
+    }
+   }
+  },
+  {
+   "id": "area",
+   "label": "本站计算",
+   "kind": "computed",
+   "values": {
+    "I": {
+     "R": 0.087,
+     "S": 0.583,
+     "STJ": 0.043,
+     "ST80": 0.065
+    },
+    "II": {
+     "R": 1.331,
+     "S": 0.01,
+     "STJ": -0.009,
+     "ST80": 0.013
+    },
+    "III": {
+     "R": 1.878,
+     "S": 0.059,
+     "STJ": -0.058,
+     "ST80": -0.033
+    },
+    "aVR": {
+     "R": 0.011,
+     "S": 0.263,
+     "STJ": -0.012,
+     "ST80": -0.04
+    },
+    "aVL": {
+     "R": 0.075,
+     "S": 1.212,
+     "STJ": 0.051,
+     "ST80": 0.054
+    },
+    "aVF": {
+     "R": 1.589,
+     "S": 0.035,
+     "STJ": -0.029,
+     "ST80": -0.009
+    },
+    "V1": {
+     "R": 0.376,
+     "S": 0.103,
+     "STJ": -0.027,
+     "ST80": -0.044
+    },
+    "V2": {
+     "R": 0.108,
+     "S": 0.816,
+     "STJ": 0.009,
+     "ST80": 0.022
+    },
+    "V3": {
+     "R": 0.557,
+     "S": 0.702,
+     "STJ": 0.021,
+     "ST80": 0.068
+    },
+    "V4": {
+     "R": 0.949,
+     "S": 2.098,
+     "STJ": 0.072,
+     "ST80": 0.153
+    },
+    "V5": {
+     "R": 0.627,
+     "S": 1.944,
+     "STJ": 0.061,
+     "ST80": 0.126
+    },
+    "V6": {
+     "R": 0.306,
+     "S": 1.476,
+     "STJ": 0.045,
+     "ST80": 0.094
+    }
+   }
+  }
+ ],
+ "rhythm": "SR",
+ "annotations": {
+  "source": "ECGDeli（开源算法，PTB-XL+ 提供），自动标注，未经人工校对；P 波为本站手工标注（见下方说明）",
+  "waves": {
+   "I": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 650.0,
+     "off": 770.0
+    },
+    {
+     "type": "T",
+     "on": 886.0,
+     "peak": 1020.0,
+     "off": 1340.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2192.0,
+     "peak": 2256.0,
+     "off": 2332.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3802.0,
+     "peak": 3862.0,
+     "off": 3984.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5406.0,
+     "peak": 5468.0,
+     "off": 5584.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7004.0,
+     "peak": 7064.0,
+     "off": 7178.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8614.0,
+     "peak": 8676.0,
+     "off": 8784.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "II": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2180.0,
+     "peak": 2248.0,
+     "off": 2360.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3788.0,
+     "peak": 3856.0,
+     "off": 3966.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5394.0,
+     "peak": 5462.0,
+     "off": 5538.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 6992.0,
+     "peak": 7058.0,
+     "off": 7166.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8602.0,
+     "peak": 8668.0,
+     "off": 8782.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "III": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2184.0,
+     "peak": 2250.0,
+     "off": 2362.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3792.0,
+     "peak": 3858.0,
+     "off": 3984.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5396.0,
+     "peak": 5464.0,
+     "off": 5588.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 6994.0,
+     "peak": 7062.0,
+     "off": 7176.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8604.0,
+     "peak": 8672.0,
+     "off": 8782.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "aVR": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 572.0,
+     "peak": 634.0,
+     "off": 706.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2152.0,
+     "peak": 2240.0,
+     "off": 2312.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3786.0,
+     "peak": 3848.0,
+     "off": 3920.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5394.0,
+     "peak": 5454.0,
+     "off": 5524.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 6990.0,
+     "peak": 7050.0,
+     "off": 7122.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8600.0,
+     "peak": 8662.0,
+     "off": 8732.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "aVL": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2182.0,
+     "peak": 2250.0,
+     "off": 2362.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3790.0,
+     "peak": 3858.0,
+     "off": 3982.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5396.0,
+     "peak": 5462.0,
+     "off": 5594.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 6992.0,
+     "peak": 7060.0,
+     "off": 7172.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8602.0,
+     "peak": 8670.0,
+     "off": 8782.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "aVF": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 580.0,
+     "peak": 646.0,
+     "off": 722.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2186.0,
+     "peak": 2252.0,
+     "off": 2362.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3794.0,
+     "peak": 3860.0,
+     "off": 3984.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5398.0,
+     "peak": 5466.0,
+     "off": 5586.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 6996.0,
+     "peak": 7062.0,
+     "off": 7178.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8606.0,
+     "peak": 8672.0,
+     "off": 8784.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V1": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2190.0,
+     "peak": 2252.0,
+     "off": 2330.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3830.0,
+     "peak": 3890.0,
+     "off": 3942.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5434.0,
+     "peak": 5496.0,
+     "off": 5548.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7032.0,
+     "peak": 7092.0,
+     "off": 7146.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8642.0,
+     "peak": 8702.0,
+     "off": 8754.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V2": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 586.0,
+     "peak": 644.0,
+     "off": 702.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2190.0,
+     "peak": 2250.0,
+     "off": 2308.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3800.0,
+     "peak": 3858.0,
+     "off": 3916.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5404.0,
+     "peak": 5464.0,
+     "off": 5522.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7002.0,
+     "peak": 7062.0,
+     "off": 7120.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8612.0,
+     "peak": 8672.0,
+     "off": 8730.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V3": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 594.0,
+     "peak": 648.0,
+     "off": 700.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2200.0,
+     "peak": 2254.0,
+     "off": 2306.0
+    },
+    {
+     "type": "T",
+     "on": 2372.0,
+     "peak": 2494.0,
+     "off": 2794.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3808.0,
+     "peak": 3862.0,
+     "off": 3914.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5412.0,
+     "peak": 5468.0,
+     "off": 5520.0
+    },
+    {
+     "type": "T",
+     "on": 5592.0,
+     "peak": 5706.0,
+     "off": 6014.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7010.0,
+     "peak": 7066.0,
+     "off": 7118.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8620.0,
+     "peak": 8676.0,
+     "off": 8726.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V4": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 592.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2198.0,
+     "peak": 2254.0,
+     "off": 2330.0
+    },
+    {
+     "type": "T",
+     "on": 2490.0,
+     "peak": 2558.0,
+     "off": 2916.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3806.0,
+     "peak": 3862.0,
+     "off": 3938.0
+    },
+    {
+     "type": "T",
+     "on": 4098.0,
+     "peak": 4166.0,
+     "off": 4538.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5410.0,
+     "peak": 5468.0,
+     "off": 5544.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7008.0,
+     "peak": 7064.0,
+     "off": 7140.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8618.0,
+     "peak": 8674.0,
+     "off": 8750.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V5": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 590.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    {
+     "type": "T",
+     "on": 888.0,
+     "peak": 954.0,
+     "off": 1202.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2196.0,
+     "peak": 2254.0,
+     "off": 2330.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3804.0,
+     "peak": 3862.0,
+     "off": 3984.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5408.0,
+     "peak": 5466.0,
+     "off": 5542.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7006.0,
+     "peak": 7064.0,
+     "off": 7140.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8616.0,
+     "peak": 8674.0,
+     "off": 8750.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ],
+   "V6": [
+    {
+     "type": "P",
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    },
+    {
+     "type": "QRS",
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 776.0
+    },
+    {
+     "type": "P",
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570
+    },
+    {
+     "type": "P",
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    },
+    {
+     "type": "QRS",
+     "on": 2194.0,
+     "peak": 2254.0,
+     "off": 2330.0
+    },
+    {
+     "type": "P",
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176
+    },
+    {
+     "type": "P",
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    },
+    {
+     "type": "QRS",
+     "on": 3802.0,
+     "peak": 3862.0,
+     "off": 3964.0
+    },
+    {
+     "type": "P",
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784
+    },
+    {
+     "type": "P",
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    },
+    {
+     "type": "QRS",
+     "on": 5408.0,
+     "peak": 5466.0,
+     "off": 5574.0
+    },
+    {
+     "type": "P",
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382
+    },
+    {
+     "type": "P",
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    },
+    {
+     "type": "QRS",
+     "on": 7006.0,
+     "peak": 7064.0,
+     "off": 7168.0
+    },
+    {
+     "type": "T",
+     "on": 7306.0,
+     "peak": 7372.0,
+     "off": 7730.0
+    },
+    {
+     "type": "P",
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990
+    },
+    {
+     "type": "P",
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    },
+    {
+     "type": "QRS",
+     "on": 8616.0,
+     "peak": 8674.0,
+     "off": 8750.0
+    },
+    {
+     "type": "P",
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602
+    }
+   ]
+  },
+  "beats": [
+   {
+    "QRS": {
+     "on": 588.0,
+     "peak": 648.0,
+     "off": 724.0
+    },
+    "P": {
+     "on": 370,
+     "peak": 432,
+     "off": 494
+    }
+   },
+   {
+    "QRS": {
+     "on": 2190.0,
+     "peak": 2252.0,
+     "off": 2330.0
+    },
+    "P": {
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100
+    }
+   },
+   {
+    "QRS": {
+     "on": 3802.0,
+     "peak": 3862.0,
+     "off": 3966.0
+    },
+    "P": {
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706
+    }
+   },
+   {
+    "QRS": {
+     "on": 5406.0,
+     "peak": 5466.0,
+     "off": 5546.0
+    },
+    "P": {
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312
+    }
+   },
+   {
+    "QRS": {
+     "on": 7004.0,
+     "peak": 7064.0,
+     "off": 7156.0
+    },
+    "P": {
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910
+    }
+   },
+   {
+    "QRS": {
+     "on": 8614.0,
+     "peak": 8674.0,
+     "off": 8752.0
+    },
+    "P": {
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522
+    }
+   }
+  ],
+  "annotatedRangeMs": [
+   370,
+   8752.0
+  ],
+  "atrial": {
+   "source": "本站手工标注（II 导联），未经医生校对",
+   "method": "在 II 导联上目视逐个找出 P 波，再取 ±70 ms 内平滑曲线的峰值；可见 P 波的 PP 间期 528–544 ms，规则。重叠在 T 波上的 P 波按前后两个可见 P 波的中点推定",
+   "conduction": "auto",
+   "waves": [
+    {
+     "on": 370,
+     "peak": 432,
+     "off": 494,
+     "conducts": 0
+    },
+    {
+     "on": 908,
+     "peak": 970,
+     "off": 1032,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 1446,
+     "peak": 1508,
+     "off": 1570,
+     "conducts": null
+    },
+    {
+     "on": 1976,
+     "peak": 2038,
+     "off": 2100,
+     "conducts": 1
+    },
+    {
+     "on": 2514,
+     "peak": 2576,
+     "off": 2638,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 3052,
+     "peak": 3114,
+     "off": 3176,
+     "conducts": null
+    },
+    {
+     "on": 3582,
+     "peak": 3644,
+     "off": 3706,
+     "conducts": 2
+    },
+    {
+     "on": 4121,
+     "peak": 4183,
+     "off": 4245,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 4660,
+     "peak": 4722,
+     "off": 4784,
+     "conducts": null
+    },
+    {
+     "on": 5188,
+     "peak": 5250,
+     "off": 5312,
+     "conducts": 3
+    },
+    {
+     "on": 5723,
+     "peak": 5785,
+     "off": 5847,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 6258,
+     "peak": 6320,
+     "off": 6382,
+     "conducts": null
+    },
+    {
+     "on": 6786,
+     "peak": 6848,
+     "off": 6910,
+     "conducts": 4
+    },
+    {
+     "on": 7326,
+     "peak": 7388,
+     "off": 7450,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 7866,
+     "peak": 7928,
+     "off": 7990,
+     "conducts": null
+    },
+    {
+     "on": 8398,
+     "peak": 8460,
+     "off": 8522,
+     "conducts": 5
+    },
+    {
+     "on": 8938,
+     "peak": 9000,
+     "off": 9062,
+     "conducts": null,
+     "hidden": "T"
+    },
+    {
+     "on": 9478,
+     "peak": 9540,
+     "off": 9602,
+     "conducts": null
+    }
+   ]
+  }
+ },
+ "quality": {
+  "perLead": {
+   "I": {
+    "baselineWander_uV": 58,
+    "saturated": 0
+   },
+   "II": {
+    "baselineWander_uV": 288,
+    "saturated": 0
+   },
+   "III": {
+    "baselineWander_uV": 248,
+    "saturated": 0
+   },
+   "aVR": {
+    "baselineWander_uV": 176,
+    "saturated": 0
+   },
+   "aVL": {
+    "baselineWander_uV": 104,
+    "saturated": 0
+   },
+   "aVF": {
+    "baselineWander_uV": 266,
+    "saturated": 0
+   },
+   "V1": {
+    "baselineWander_uV": 130,
+    "saturated": 0
+   },
+   "V2": {
+    "baselineWander_uV": 273,
+    "saturated": 0
+   },
+   "V3": {
+    "baselineWander_uV": 247,
+    "saturated": 0
+   },
+   "V4": {
+    "baselineWander_uV": 222,
+    "saturated": 0
+   },
+   "V5": {
+    "baselineWander_uV": 300,
+    "saturated": 0
+   },
+   "V6": {
+    "baselineWander_uV": 565,
+    "saturated": 0
+   }
+  },
+  "einthoven": {
+   "II=I+III": 0.0005,
+   "aVF=(II+III)/2": 0.001,
+   "aVR=-(I+II)/2": 0.0022
+  }
+ },
+ "issues": [
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "QT 两种算法相差 22 ms（560 vs 538）"
+  },
+  {
+   "level": "info",
+   "lead": "I",
+   "msg": "ECGDeli 自动标注中 5 个波不合理已舍弃：T@2482ms（时长 624 ms 不合理）；T@4100ms（时长 502 ms 不合理）；T@5770ms（时长 538 ms 不合理）；T@7376ms（时长 536 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "II",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@826ms（时长 620 ms 不合理）；T@2432ms（时长 618 ms 不合理）；T@4118ms（时长 544 ms 不合理）；T@5720ms（时长 536 ms 不合理）；T@7322ms（时长 540 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "III",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@830ms（时长 616 ms 不合理）；T@2440ms（时长 610 ms 不合理）；T@4122ms（时长 538 ms 不合理）；T@5650ms（时长 606 ms 不合理）；T@7248ms（时长 616 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "aVR",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@902ms（时长 604 ms 不合理）；T@2506ms（时长 604 ms 不合理）；T@4116ms（时长 604 ms 不合理）；T@5718ms（时长 598 ms 不合理）；T@7320ms（时长 604 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "aVL",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@828ms（时长 618 ms 不合理）；T@2436ms（时长 614 ms 不合理）；T@4120ms（时长 540 ms 不合理）；T@5650ms（时长 606 ms 不合理）；T@7246ms（时长 618 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "aVF",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@914ms（时长 594 ms 不合理）；T@2518ms（时长 594 ms 不合理）；T@4126ms（时长 596 ms 不合理）；T@5728ms（时长 592 ms 不合理）；T@7324ms（时长 604 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V1",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@910ms（时长 606 ms 不合理）；T@2518ms（时长 602 ms 不合理）；T@4122ms（时长 610 ms 不合理）；T@5728ms（时长 602 ms 不合理）；T@7328ms（时长 606 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V2",
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@860ms（时长 658 ms 不合理）；T@2458ms（时长 668 ms 不合理）；T@4076ms（时长 658 ms 不合理）；T@5674ms（时长 658 ms 不合理）；T@7278ms（时长 662 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V3",
+   "msg": "ECGDeli 自动标注中 4 个波不合理已舍弃：T@784ms（时长 522 ms 不合理）；T@3980ms（时长 576 ms 不合理）；T@7186ms（时长 518 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V4",
+   "msg": "ECGDeli 自动标注中 4 个波不合理已舍弃：T@882ms（时长 548 ms 不合理）；T@5702ms（时长 542 ms 不合理）；T@7302ms（时长 548 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V5",
+   "msg": "ECGDeli 自动标注中 5 个波不合理已舍弃：T@2492ms（时长 550 ms 不合理）；T@4102ms（时长 550 ms 不合理）；T@5702ms（时长 548 ms 不合理）；T@7304ms（时长 554 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": "V6",
+   "msg": "ECGDeli 自动标注中 5 个波不合理已舍弃：T@886ms（时长 552 ms 不合理）；T@2492ms（时长 552 ms 不合理）；T@4096ms（时长 564 ms 不合理）；T@5702ms（时长 544 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": null,
+   "msg": "ECGDeli 自动标注中 6 个波不合理已舍弃：T@884ms（时长 562 ms 不合理）；T@2486ms（时长 564 ms 不合理）；T@4110ms（时长 550 ms 不合理）；T@5702ms（时长 554 ms 不合理）；T@7306ms（时长 558 ms 不合理）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "info",
+   "lead": null,
+   "msg": "P 波为本站手工标注：共 18 个，下传 6 个，未下传 12 个"
+  },
+  {
+   "level": "warn",
+   "lead": "V6",
+   "msg": "基线漂移较大（0.56 mV）"
+  },
+  {
+   "level": "info",
+   "lead": "aVR",
+   "msg": "S 波振幅：本站 0.26 mV，GE Marquette 12SL 0.00 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "V1",
+   "msg": "R 波振幅：本站 0.38 mV，GE Marquette 12SL 0.03 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "V1",
+   "msg": "S 波振幅：本站 0.10 mV，GE Marquette 12SL 0.33 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "aVR",
+   "msg": "S 波振幅：本站 0.26 mV，Glasgow Uni-G 0.00 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "V1",
+   "msg": "R 波振幅：本站 0.38 mV，Glasgow Uni-G 0.02 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "V1",
+   "msg": "S 波振幅：本站 0.10 mV，Glasgow Uni-G 0.33 mV，相差超过 0.2 mV"
+  }
+ ],
+ "source": {
+  "name": "PTB-XL v1.0.3",
+  "url": "https://physionet.org/content/ptb-xl/1.0.3/",
+  "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "citation": "Wagner, P., Strodthoff, N., Bousseljot, R., Samek, W., & Schaeffter, T. (2022). PTB-XL, a large publicly available electrocardiography dataset (version 1.0.3). PhysioNet. https://doi.org/10.13026/kfzx-aw45",
+  "annotation": "诊断标签来自原始报告；测量值来自 PTB-XL+ 中的 GE 12SL 与 Glasgow Uni-G 算法，未经人工校对",
+  "record": "ecg_id 8048",
+  "derived": {
+   "name": "PTB-XL+ v1.0.1",
+   "url": "https://physionet.org/content/ptb-xl-plus/1.0.1/",
+   "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+   "citation": "Strodthoff, N., Mehari, T., Nagel, C., Aston, P. J., Sundar, A., Graff, C., Kanters, J. K., Haverkamp, W., Dössel, O., Loewe, A., Bär, M., & Schaeffter, T. (2023). PTB-XL+, a comprehensive electrocardiographic feature dataset (version 1.0.1). PhysioNet. https://doi.org/10.13026/g6h6-7g88"
+  },
+  "physionet": "Pollard, T., Moody, B. E., Lehman, L., Gow, B., Fernandes, C., Xie, C., Johnson, A., Mark, R. G., & Heldt, T. (2026). PhysioNet as a global platform for biomedical research. Nature Health. https://doi.org/10.1038/s44360-026-00096-z"
+ },
+ "contentReviewed": false
+}

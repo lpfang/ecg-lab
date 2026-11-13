@@ -56,6 +56,8 @@ export function drawPaper(canvas, lay, ecg, pxPerMm, opts = {}) {
   for (const row of lay.rows) drawCalPulse(ctx, lay, row.baselineMm, s);
   const waves = opts.showWaves ? ecg.meta.annotations?.waves : null;
   for (const cell of lay.cells) drawCell(ctx, lay, cell, ecg, s, waves?.[cell.lead]);
+  const atrial = ecg.meta.annotations?.atrial;
+  if (atrial) for (const cell of lay.cells) if (cell.rhythm) drawAtrial(ctx, lay, cell, ecg.meta.annotations, s);
   // 分割线画在最上面：画在下面会被波段底色冲淡
   drawColumnDividers(ctx, lay, s);
 }
@@ -180,6 +182,72 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
   ctx.font = `600 3.2px system-ui, sans-serif`;
   ctx.fillText(cell.lead, cell.xMm + 1, cell.topMm + (cell.rhythm ? 7 : 4));
 
+}
+
+export const AV_COLORS = { conducted: '#1d4ed8', blocked: '#dc2626', hidden: '#6b7280' };
+
+/**
+ * 房室传导标记（只在有手工 P 波标注的病例、节律条上画）：
+ *   每个 P 波上方一个小三角（被 QRS / T 遮住、位置为推定的画空心）；
+ *   下传的 P 波：底部一条蓝色横线连到它下传的 QRS 起点，标出 PR 间期；
+ *   未下传的 P 波：底部一个红色 ✕。
+ */
+function drawAtrial(ctx, lay, cell, ann, s) {
+  const { waves } = ann.atrial;
+  const beats = ann.beats;
+  const yTri = cell.topMm + 0.8;
+  const yBar = cell.topMm + cell.heightMm - 3.2;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(cell.xMm, cell.topMm, cell.widthMm, cell.heightMm);
+  ctx.clip();
+  ctx.textAlign = 'center';
+  ctx.font = '600 2.3px system-ui, sans-serif';
+  for (const w of waves) {
+    if (w.peak < cell.t0 || w.peak > cell.t1) continue;
+    const x = xOf(lay, cell, w.peak);
+    const q = w.conducts != null ? beats[w.conducts] : null;
+    const color = q ? AV_COLORS.conducted : AV_COLORS.blocked;
+    // P 波位置三角
+    ctx.beginPath();
+    ctx.moveTo(x - 0.9, yTri);
+    ctx.lineTo(x + 0.9, yTri);
+    ctx.lineTo(x, yTri + 1.4);
+    ctx.closePath();
+    ctx.lineWidth = 1 / s;
+    if (w.hidden) {
+      ctx.strokeStyle = color;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+    if (q) {
+      const xa = xOf(lay, cell, w.on);
+      const xb = xOf(lay, cell, q.QRS.on);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.3 / s;
+      ctx.beginPath();
+      ctx.moveTo(xa, yBar - 0.8);
+      ctx.lineTo(xa, yBar);
+      ctx.lineTo(xb, yBar);
+      ctx.lineTo(xb, yBar - 0.8);
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.fillText(`${Math.round(q.QRS.on - w.on)}`, (xa + xb) / 2, yBar + 2.4);
+    } else {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5 / s;
+      const y = yBar - 0.2;
+      ctx.beginPath();
+      ctx.moveTo(x - 0.9, y - 0.9);
+      ctx.lineTo(x + 0.9, y + 0.9);
+      ctx.moveTo(x + 0.9, y - 0.9);
+      ctx.lineTo(x - 0.9, y + 0.9);
+      ctx.stroke();
+    }
+  }
+  ctx.restore();
 }
 
 /**

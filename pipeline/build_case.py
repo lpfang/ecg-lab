@@ -617,10 +617,68 @@ def dumps(obj) -> bytes:
     return (json.dumps(obj, ensure_ascii=False, indent=1, allow_nan=False) + "\n").encode("utf-8")
 
 
+MANUAL = ROOT / "pipeline" / "manual"
+
+
+def apply_atrial(case_id: str, ann: dict | None, issues: list) -> None:
+    """合并本站手工标注的 P 波（房室传导阻滞病例：自动标注每个 QRS 只配一个 P 波，未下传的 P 波会被漏掉）。
+
+    pipeline/manual/<id>.json：{lead, method, conduction: "auto"|"none", p: [{peak, hidden?}]}
+      hidden：P 波被 QRS / T 波遮住或在记录开头难以辨认（"QRS" / "T" / "edge"），位置按 PP 间期推定
+    P 波起止点 = 峰值 −/+ ECGDeli 已有 P 波的中位前后宽度。
+    conduction "auto"：P 波起点到其后第一个 QRS 起点 120–450 ms、且中间没有别的 P 波，视为下传；
+               "none"：完全性房室传导阻滞，P 波一律不下传。
+    """
+    f = MANUAL / f"{case_id}.json"
+    if not f.exists() or not ann:
+        return
+    man = json.loads(f.read_text(encoding="utf-8"))
+    beats = ann["beats"]
+    auto_p = [b["P"] for b in beats if "P" in b]
+    pre = float(np.median([p["peak"] - p["on"] for p in auto_p])) if auto_p else 50.0
+    post = float(np.median([p["off"] - p["peak"] for p in auto_p])) if auto_p else 50.0
+    waves = []
+    for p in man["p"]:
+        w = {"on": round(p["peak"] - pre), "peak": p["peak"], "off": round(p["peak"] + post), "conducts": None}
+        if p.get("hidden"):
+            w["hidden"] = p["hidden"]
+        waves.append(w)
+    for b in beats:
+        b.pop("P", None)
+    if man["conduction"] == "auto":
+        for i, w in enumerate(waves):
+            nxt = waves[i + 1]["on"] if i + 1 < len(waves) else 1e9
+            for bi, b in enumerate(beats):
+                pr = b["QRS"]["on"] - w["on"]
+                if 120 <= pr <= 450 and b["QRS"]["on"] < nxt + 40 and "P" not in b:
+                    w["conducts"] = bi
+                    b["P"] = {k: w[k] for k in ("on", "peak", "off")}
+                    break
+    # 逐导联着色：P 波一律换成手工标注（时间对所有导联相同）；被遮住的不着色
+    for lead, ws in ann["waves"].items():
+        ann["waves"][lead] = sorted(
+            [x for x in ws if x["type"] != "P"]
+            + [{"type": "P", "on": w["on"], "peak": w["peak"], "off": w["off"]} for w in waves if not w.get("hidden")],
+            key=lambda x: x["on"])
+    ann["atrial"] = {
+        "source": f"本站手工标注（{man['lead']} 导联），未经医生校对",
+        "method": man["method"],
+        "conduction": man["conduction"],
+        "waves": waves,
+    }
+    ann["source"] += "；P 波为本站手工标注（见下方说明）"
+    first = beats[0]
+    ann["annotatedRangeMs"][0] = min(first["P"]["on"] if "P" in first else first["QRS"]["on"], first["QRS"]["on"])
+    n_c = sum(w["conducts"] is not None for w in waves)
+    issues.append({"level": "info", "lead": None,
+                   "msg": f"P 波为本站手工标注：共 {len(waves)} 个，下传 {n_c} 个，未下传 {len(waves) - n_c} 个"})
+
+
 def build(db: str, rec: str) -> dict:
     case_id = f"{db}-{rec}"
     log(f"[{case_id}]")
     c = LOADERS[db](rec)
+    apply_atrial(case_id, c["annotations"], c["issues"])
     sig_uV, fs = c["sig_uV"], c["fs"]
     issues = c["issues"]
     qual = quality(sig_uV, c["raw"], fs, c["adc_limits"], issues)

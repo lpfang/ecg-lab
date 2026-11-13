@@ -1624,3 +1624,13 @@ body.tour-dim .case-info .card {
   opacity: 0.3;
   filter: saturate(0.2);
 }
+
+/* 房室传导标记的图例 */
+.av-legend {
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
+  color: #374151;
+}
+.av-legend .av-c { color: #1d4ed8; font-weight: 600; }
+.av-legend .av-b { color: #dc2626; font-weight: 600; }
+.av-legend .av-h { color: #374151; }

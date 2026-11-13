@@ -3,7 +3,7 @@ import { loadIndex, loadCase } from './data.js';
 import { computeLayout, hitTest } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
-import { TOURS, fillTemplate, cursorTime, spotOf } from './tours.js';
+import { TOURS, fillTemplate, cursorTime, cursorAt, spotOf } from './tours.js';
 import { locate, beatWindow } from './ecg/beats.js';
 import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
@@ -187,8 +187,13 @@ const signed = (mV) => `${mV < 0 ? '−' : '+'}${Math.abs(mV).toFixed(2)}`;
 function renderNow(ctx, readout) {
   const box = $('#now-body');
   const tTxt = state.cursorMs == null ? '' : `${(state.cursorMs / 1000).toFixed(3)} s`;
+  const blocked = blockedPAt(state.cursorMs);
   const key =
-    state.cursorMs == null ? 'none' : !ctx.loc ? 'unannotated' : `${ctx.loc.phase}|${ctx.loc.index}|${state.level}`;
+    state.cursorMs == null
+      ? 'none'
+      : !ctx.loc
+        ? `unannotated|${blocked}`
+        : `${ctx.loc.phase}|${ctx.loc.index}|${state.level}|${blocked}`;
   if (key !== nowKey) {
     nowKey = key;
     box.innerHTML = nowText(ctx, tTxt);
@@ -198,10 +203,37 @@ function renderNow(ctx, readout) {
   renderReadout(readout);
 }
 
+/** 光标落在一个未下传的 P 波上时，返回它在 atrial.waves 中的序号，否则 -1 */
+function blockedPAt(t) {
+  const waves = state.ecg?.meta.annotations?.atrial?.waves;
+  if (t == null || !waves) return -1;
+  return waves.findIndex((w) => w.conducts == null && t >= w.on && t <= w.off);
+}
+
+/** 房室传导阻滞病例的补充说明（P 波为手工标注时才有） */
+function avNote(blocked) {
+  const atrial = state.ecg.meta.annotations?.atrial;
+  if (!atrial) return '';
+  if (blocked >= 0) {
+    const w = atrial.waves[blocked];
+    return (
+      '<p class="af-note">光标处是一个<b>未下传的 P 波</b>：心房"通电"了，但信号没能通过房室结传到心室，所以它后面没有 QRS 波群。' +
+      (w.hidden ? '这个 P 波被其他波遮住，位置是按前后 P 波的间隔推定的。' : '') +
+      '（上方"此刻"的时相按 QRS 划分心搏，这里不适用。）</p>'
+    );
+  }
+  return atrial.conduction === 'none'
+    ? '<p class="af-note">本例为完全性房室传导阻滞：P 波与 QRS 波群各自规律出现、互不相关，所以本框不划分"P 波""PR 段"时相。节律条底部的红色 ✕ 标出每个 P 波。</p>'
+    : '<p class="af-note">本例有部分 P 波没有下传到心室（节律条底部的红色 ✕），蓝色横线上的数字是每次下传的 PR 间期。</p>';
+}
+
 function nowText(ctx, tTxt) {
   if (state.cursorMs == null) return '<p class="muted">点击心电图上的任意位置，看看那一刻心脏在做什么。</p>';
   if (!ctx.loc) {
-    return `<p class="muted"><span class="now-t">${tTxt}</span>：这里没有可用的波形标注（记录首尾的心搏不完整）。</p>`;
+    return (
+      `<p class="muted"><span class="now-t">${tTxt}</span>：这里没有可用的波形标注（记录首尾的心搏不完整）。</p>` +
+      avNote(blockedPAt(state.cursorMs))
+    );
   }
   const info = PHASE_INFO[ctx.loc.phase];
   const b = ctx.beat;
@@ -230,7 +262,8 @@ function nowText(ctx, tTxt) {
       : state.ecg.meta.rhythm === 'AFLT'
         ? '<p class="af-note">本例为心房扑动：心房以很快而规则的节律"通电"，没有正常 P 波，代之以锯齿状的扑动波（F 波），所以这里没有"P 波""PR 段"时相。</p>'
         : '') +
-    `<p class="muted small">${beatFacts}（自动标注）</p>` +
+    avNote(blockedPAt(state.cursorMs)) +
+    `<p class="muted small">${beatFacts}（${state.ecg.meta.annotations?.atrial && ['P', 'PR'].includes(ctx.loc.phase) ? 'P 波为手工标注' : '自动标注'}）</p>` +
     (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '')
   );
 }
@@ -317,6 +350,13 @@ function renderMeasurements(meta) {
       `<td class="unit">${unit}</td></tr>`
     );
   }).join('');
+  // 房室传导阻滞：算法只给一个"代表性"PR，逐次 PR 不同或 P 波与 QRS 无关时这个数字没有意义
+  const av = meta.annotations?.atrial?.conduction;
+  $('#measure-warn').innerHTML = !av
+    ? ''
+    : av === 'none'
+      ? '<p class="lvh-alert">本例 P 波与 QRS 互不相关（完全性房室传导阻滞），<b>表中算法给出的 PR 间期没有意义</b>。</p>'
+      : '<p class="lvh-caution">本例有 P 波未下传，每次的 PR 间期不同；表中 PR 是算法给出的代表值，逐次 PR 见心电图节律条底部的蓝色数字。</p>';
   $('#measure-note').innerHTML =
     '间期由心电图机常用的自动分析算法测量（来自 PTB-XL+），未经人工校对；不同算法结果略有差异是正常的。' +
     'QTc 由本站按四种公式计算，结果不同，说明"换算方法"本身会影响结论。' +
@@ -582,6 +622,9 @@ function renderCaseInfo(meta, entry) {
     : '诊断标签未经人工确认。';
   $('#amp-warning').hidden = !meta.amplitudeNormalized;
   $('#wave-source').textContent = meta.annotations?.source ?? '本例没有波形标注';
+  const atrial = meta.annotations?.atrial;
+  $('#av-legend').hidden = !atrial;
+  $('#av-method').textContent = atrial ? `P 波标注方法：${atrial.method}。` : '';
 
   const counts = { error: 0, warn: 0, info: 0 };
   meta.issues.forEach((i) => counts[i.level]++);
@@ -1015,7 +1058,7 @@ async function goStep(i) {
     showRef: v.showRef ?? state.showRef,
     speed: v.speed ?? state.speed,
     selectedLead: step.lead ?? state.selectedLead,
-    cursorMs: 'cursor' in step ? cursorTime(beats, step.cursor) : state.cursorMs,
+    cursorMs: 'cursor' in step ? cursorAt(state.ecg.meta, step.cursor) : state.cursorMs,
     caliper: null,
     tool: 'cursor',
     spot: spotOf(step.spot, beats, state.ecg.durationMs),
@@ -1044,7 +1087,7 @@ function renderTourText(step, i) {
   $('#tour-body').innerHTML =
     `<p>${fill(step.plain)}</p>` +
     (step.pro
-      ? state.level === 'pro'
+      ? state.level === 'pro' || tour.def.proOpen
         ? `<p class="pro">${fill(step.pro)}</p>`
         : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${fill(step.pro)}</p></details>`
       : '');

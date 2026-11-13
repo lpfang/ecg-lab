@@ -34,3 +34,7 @@ pipeline/.venv/bin/python pipeline/build_case.py ptbxl 33
 - 质量问题（饱和、平线、基线漂移、Einthoven 关系不成立、两种算法测量差异大等）会打印出来并写入 `meta.json` 的 `issues`。
 
 LUDB 的幅度被逐导联归一化，不是真实 mV，详见 [docs/数据核查.md](../docs/数据核查.md)。
+
+## 手工标注的 P 波（房室传导阻滞病例）
+
+`pipeline/manual/<id>.json` 存放本站手工标注的 P 波位置，生成病例时自动合并：替换自动标注中的 P 波，判定每个 P 波是否下传，写入 `meta.json` 的 `annotations.atrial`。格式与方法见 `build_case.py` 中 `apply_atrial` 的说明和 [docs/数据核查.md](../docs/数据核查.md)。

@@ -35,6 +35,9 @@ TOPICS = {
     "lafb": dict(need={"LAFB"}, allow={"SR"}),
     "imi": dict(need={"IMI"}, allow={"SR"}),
     "asmi": dict(need={"ASMI"}, allow={"SR"}),
+    "lpfb": dict(need={"LPFB"}, allow={"SR"}),
+    # 电轴右偏：其余正常（NORM），额面 QRS 电轴 > 90°
+    "rad": dict(need={"NORM"}, allow={"SR"}, axis=(95, 150)),
 }
 RHYTHM = {"SR", "SBRAD", "STACH", "SARRH", "AFIB", "AFLT"}
 FLAGS = ["baseline_drift", "static_noise", "burst_noise", "electrodes_problems", "extra_beats", "pacemaker"]
@@ -94,6 +97,9 @@ def main(topics):
             if max(diffs, default=0) > 1:
                 continue
             if "hr" in spec and not (b.get("HR__Global") and spec["hr"][0] <= b["HR__Global"] <= spec["hr"][1]):
+                continue
+            if "axis" in spec and not (b.get("QRS_AxisFront_Global") is not None and a.get("QRS_AxisFront_Global") is not None
+                                       and all(spec["axis"][0] <= x["QRS_AxisFront_Global"] <= spec["axis"][1] for x in (a, b))):
                 continue
             age = float(r["age"]) if r["age"] else 0
             score = sum(diffs) + (0 if 30 <= age <= 80 else 1)

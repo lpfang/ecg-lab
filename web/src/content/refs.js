@@ -69,6 +69,11 @@ export const REFS = {
     text: 'Peguero JG, Lo Presti S, Perez J, et al. Electrocardiographic criteria for the diagnosis of left ventricular hypertrophy. J Am Coll Cardiol. 2017;69:1694–1703.',
     status: 'listed',
   },
+  brady2018: {
+    text: 'Kusumoto FM, et al. 2018 ACC/AHA/HRS Guideline on the Evaluation and Management of Patients With Bradycardia and Cardiac Conduction Delay. Circulation. 2019;140:e382–e482.',
+    note: '心动过缓与传导延迟指南：房室传导阻滞的分型',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',

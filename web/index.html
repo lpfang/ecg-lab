@@ -123,6 +123,12 @@
             每行开头的方波是 <a href="#" data-term="calPulse">标定脉冲</a>，高度代表 1 mV。
             波段着色：<span id="wave-source"></span>。
           </p>
+          <p class="av-legend" id="av-legend" hidden>
+            最下面的节律条：<span class="av-c">▼</span> P 波，
+            <span class="av-c">└─┘</span> 下传到心室（数字为 PR 间期，ms），
+            <span class="av-b">✕</span> 未下传，<span class="av-h">▽</span> P 波被 QRS 或 T 波遮住、位置按 PP 间期推定。
+            <span class="muted" id="av-method"></span>
+          </p>
         </section>
 
         <section class="card now-card">
@@ -219,6 +225,7 @@
             <button data-mtab="intervals" class="on">间期</button><button data-mtab="lvh">左室肥厚电压</button><button data-mtab="st">ST 段</button>
           </div>
           <div class="mpane" data-mpane="intervals">
+            <div id="measure-warn"></div>
             <table id="measure-table"><thead></thead><tbody></tbody></table>
             <p class="muted small" id="measure-note"></p>
           </div>

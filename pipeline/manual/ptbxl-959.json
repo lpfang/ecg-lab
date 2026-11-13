@@ -1,0 +1,11 @@
+{
+  "lead": "II",
+  "method": "在 II 导联上目视逐个找出 P 波，再取 ±70 ms 内平滑曲线的峰值；PP 间期 586–614 ms，规则。落在 QRS 波群里的 P 波按前后两个 P 波的中点推定",
+  "conduction": "none",
+  "p": [
+    {"peak": 406}, {"peak": 994}, {"peak": 1598}, {"peak": 2186},
+    {"peak": 2776, "hidden": "QRS"}, {"peak": 3366}, {"peak": 3962}, {"peak": 4562},
+    {"peak": 5148}, {"peak": 5739, "hidden": "QRS"}, {"peak": 6330}, {"peak": 6930},
+    {"peak": 7518}, {"peak": 8132}, {"peak": 8724, "hidden": "QRS"}, {"peak": 9316}
+  ]
+}

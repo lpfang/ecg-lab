@@ -1,0 +1,13 @@
+{
+  "lead": "II",
+  "method": "在 II 导联上目视逐个找出 P 波，再取 ±70 ms 内平滑曲线的峰值；可见 P 波的 PP 间期 528–544 ms，规则。重叠在 T 波上的 P 波按前后两个可见 P 波的中点推定",
+  "conduction": "auto",
+  "p": [
+    {"peak": 432}, {"peak": 970, "hidden": "T"}, {"peak": 1508},
+    {"peak": 2038}, {"peak": 2576, "hidden": "T"}, {"peak": 3114},
+    {"peak": 3644}, {"peak": 4183, "hidden": "T"}, {"peak": 4722},
+    {"peak": 5250}, {"peak": 5785, "hidden": "T"}, {"peak": 6320},
+    {"peak": 6848}, {"peak": 7388, "hidden": "T"}, {"peak": 7928},
+    {"peak": 8460}, {"peak": 9000, "hidden": "T"}, {"peak": 9540}
+  ]
+}
