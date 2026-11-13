@@ -1634,3 +1634,304 @@ body.tour-dim .case-info .card {
 .av-legend .av-c { color: #1d4ed8; font-weight: 600; }
 .av-legend .av-b { color: #dc2626; font-weight: 600; }
 .av-legend .av-h { color: #374151; }
+
+/* ---------------------------------------------------------------- 读片手册 */
+#handbook {
+  width: min(1060px, 94vw);
+  height: 88vh;
+  max-height: 88vh;
+}
+#handbook.max {
+  width: calc(100vw - 24px);
+  max-width: none;
+  height: calc(100vh - 24px);
+  max-height: none;
+}
+#handbook[open] {
+  display: flex;
+  flex-direction: column;
+}
+.hb-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+.hb-nav {
+  overflow-y: auto;
+  border-right: 1px solid var(--line);
+  padding: 8px 12px 16px 16px;
+  background: #fafafa;
+}
+.hb-nav h4 {
+  margin: 12px 0 4px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+.hb-nav ol {
+  margin: 0;
+  padding-left: 1.4em;
+  line-height: 1.9;
+  font-size: 13.5px;
+}
+.hb-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+.hb-nav a:hover {
+  text-decoration: underline;
+}
+.hb-nav a.on {
+  color: #b91c1c;
+  font-weight: 600;
+}
+.hb-body {
+  overflow-y: auto;
+  padding: 6px 28px 24px;
+  line-height: 1.75;
+  font-size: 14.5px;
+}
+.hb-body h2 {
+  font-size: 20px;
+  margin: 12px 0 8px;
+}
+.hb-body h3 {
+  font-size: 15px;
+  margin: 18px 0 6px;
+}
+.hb-table {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.hb-table th,
+.hb-table td {
+  border: 1px solid var(--line);
+  padding: 5px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+.hb-table th {
+  background: #f5f5f4;
+  white-space: nowrap;
+}
+.hb-table td:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+}
+.hb-demos ul {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+}
+.hb-demos li {
+  margin: 6px 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.hb-demo-btn {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+.hb-demo-btn:hover {
+  background: #fee2e2;
+}
+.hb-tours button {
+  margin: 2px 4px 2px 0;
+}
+.hb-disclaimer {
+  margin-top: 18px;
+}
+.hb-widget {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 16px 12px;
+  margin: 16px 0;
+  background: #fcfcfc;
+}
+/* 手册演示提示条（固定在顶栏下方） */
+.hb-demo {
+  position: sticky;
+  top: 0;
+  z-index: 14;
+  margin: 12px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(154, 52, 18, 0.1);
+}
+.hb-demo .spacer {
+  flex: 1;
+}
+.hb-demo-tag {
+  color: #9a3412;
+  font-size: 12.5px;
+}
+/* 交互演示：电轴 */
+.hbw-axis {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.hbw-dial {
+  width: 260px;
+  height: 260px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.hbw-ring { fill: none; stroke: #d6d3d1; }
+.hbw-zone-normal { fill: rgba(16, 185, 129, 0.12); }
+.hbw-zone-left { fill: rgba(59, 130, 246, 0.1); }
+.hbw-zone-right { fill: rgba(245, 158, 11, 0.12); }
+.hbw-neg { stroke: #d6d3d1; stroke-dasharray: 3 3; }
+.hbw-pos { stroke: #9ca3af; stroke-width: 1.2; }
+.hbw-pos.hl { stroke: #111; stroke-width: 2.4; }
+.hbw-lab { font-size: 12px; text-anchor: middle; fill: #6b7280; }
+.hbw-lab.hl { fill: #111; font-weight: 700; }
+.hbw-dir { font-size: 11px; text-anchor: middle; fill: #a8a29e; }
+.hbw-vec { stroke: #7c3aed; stroke-width: 4; stroke-linecap: round; }
+.hbw-head { fill: #7c3aed; cursor: grab; }
+.hbw-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  flex-wrap: wrap;
+}
+.hbw-range { width: 220px; }
+.hbw-c-normal { color: #047857; }
+.hbw-c-left { color: #1d4ed8; }
+.hbw-c-right { color: #b45309; }
+.hbw-c-extreme { color: #b91c1c; }
+.hbw-bars {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+}
+.hbw-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 12.5px;
+}
+.hbw-bar-track {
+  position: relative;
+  width: 22px;
+  height: 90px;
+  background: #f5f5f4;
+  border-radius: 3px;
+}
+.hbw-bar-track::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  top: 50%;
+  border-top: 1px solid #a8a29e;
+}
+.hbw-bar-track i {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+}
+.hbw-bar-track i.pos { background: #059669; }
+.hbw-bar-track i.neg { background: #dc2626; }
+.hbw-bar-sign { color: #6b7280; }
+/* 交互演示：QT / QTc */
+.hbw-hr,
+.hbw-qt { width: 240px; }
+.hbw-qtc-out { margin: 10px 0 4px; }
+.hbw-q {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) 70px;
+  gap: 10px;
+  align-items: center;
+  margin: 5px 0;
+}
+.hbw-q-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.hbw-q-track {
+  position: relative;
+  height: 14px;
+  background: #f5f5f4;
+  border-radius: 3px;
+}
+.hbw-q-track i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #0d9488;
+  border-radius: 3px;
+}
+.hbw-q-track i.long { background: #dc2626; }
+.hbw-q-track em {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  border-left: 2px solid #111;
+}
+.hbw-q-v { text-align: right; font-variant-numeric: tabular-nums; }
+.hbw-q-v.long { color: #b91c1c; }
+body.quizzing .hb-demo { display: none; }
+.hb-nav-primer {
+  margin: 10px 0 4px;
+  font-size: 13.5px;
+}
+.hb-nav-primer a {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border: 1px solid #c4b5fd;
+  border-radius: 6px;
+  background: #faf5ff;
+  color: #5b21b6;
+  text-decoration: none;
+}
+.hb-nav-primer a:hover {
+  background: #f3e8ff;
+}
+
+/* 读片手册 ↔ 术语表 */
+.term-pop.in-dlg {
+  position: fixed;
+  z-index: 50;
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+}
+.hb-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+  margin: 14px 0 4px;
+}
+.hb-terms a {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1px 10px;
+  text-decoration: none;
+}
+.hb-terms a:hover {
+  background: var(--bg);
+}
+.term-hb {
+  font-size: 13px;
+}

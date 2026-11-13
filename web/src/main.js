@@ -20,6 +20,8 @@ import { QUIZ_SETS } from './quiz/bank.js';
 import { TOL, gradeLocate, gradeEdge, gradeNumber, gradeAxis, inAnnotatedRange, wavesOf } from './quiz/grade.js';
 import { rateTruth, axisTruth, vectorTruth, intervalTruth } from './quiz/answers.js';
 import { vectorFigure } from './quiz/vectorFig.js';
+import { HANDBOOK, chapterById, chaptersForTerm, termNames, termRegex } from './content/handbook.js';
+import { axisWidget, qtcWidget, linkTerms } from './views/handbook.js';
 import { medianBeat } from './ecg/median.js';
 import { drawBeatCompare, drawRhythmCompare, beatRange, BEAT_SPEED, RHYTHM_SPEED } from './views/compare.js';
 import {
@@ -781,24 +783,62 @@ function termHtml(id, full = false) {
       ? `<p>${t.plain}</p><p class="pro">${t.pro}</p>`
       : levelBlock(t.plain, t.pro)) +
     (t.primer ? `<p><a href="#" data-primer="${t.primer}">看图了解：读图入门 →</a></p>` : '') +
+    termChapters(id) +
     (refs ? `<details class="refs"><summary>出处</summary><ul>${refs}</ul><p class="muted">出处根据公开文献整理，尚未逐条核对原文。</p></details>` : '')
   );
 }
 
+/** "读片手册中讲到"：从各章的 terms 反查 */
+function termChapters(id) {
+  const chs = chaptersForTerm(id);
+  if (!chs.length) return '';
+  const cur = $('#handbook').open ? hb.chapter : null;
+  return (
+    '<p class="term-hb">读片手册中讲到：' +
+    chs
+      .map((c) =>
+        c.id === cur
+          ? `<span class="muted">${esc(c.title)}（本章）</span>`
+          : `<a href="#" data-hb-read="${c.id}">${esc(c.title)}</a>`,
+      )
+      .join('、') +
+    '</p>'
+  );
+}
+
+/**
+ * 术语弹窗。模态对话框（手册、读图入门、术语表）处在浏览器的顶层，页面里的弹窗会被挡住，
+ * 所以弹窗挂到链接所在的对话框里，用 fixed 定位。
+ */
 function openTerm(id, anchor) {
   const pop = $('#term-pop');
+  const host = anchor.closest('dialog') ?? document.body;
+  if (pop.parentElement !== host) host.append(pop);
+  pop.classList.toggle('in-dlg', host !== document.body);
   pop.innerHTML = termHtml(id) + '<button class="pop-close" aria-label="关闭">×</button>';
   pop.hidden = false;
   const r = anchor.getBoundingClientRect();
   const w = Math.min(380, window.innerWidth - 32);
   pop.style.width = `${w}px`;
-  pop.style.left = `${Math.max(16, Math.min(window.innerWidth - w - 16, r.left + window.scrollX))}px`;
-  pop.style.top = `${r.bottom + window.scrollY + 6}px`;
+  const left = Math.max(16, Math.min(window.innerWidth - w - 16, r.left));
+  if (host === document.body) {
+    pop.style.left = `${left + window.scrollX}px`;
+    pop.style.top = `${r.bottom + window.scrollY + 6}px`;
+  } else {
+    // 对话框里：放在链接下方，放不下就放到上方
+    pop.style.left = `${left}px`;
+    pop.style.top = `${r.bottom + 6}px`;
+    const h = pop.offsetHeight;
+    if (r.bottom + 6 + h > window.innerHeight - 8) pop.style.top = `${Math.max(8, r.top - 6 - h)}px`;
+  }
   pop.querySelector('.pop-close').onclick = () => (pop.hidden = true);
 }
 
 /** 打开读图入门，滚动到指定小节，并高亮当前选中的导联 */
-function openPrimer(section) {
+/** fromChapter：从读片手册某章打开时，窗口顶部显示"回到手册" */
+function openPrimer(section, fromChapter = null) {
+  hb.primerFrom = fromChapter;
+  $('#primer-back').hidden = !fromChapter;
   const body = $('#primer-body');
   buildPrimer(body, state.level); // 每次按当前讲解深度重建
   $('#primer').showModal();
@@ -975,6 +1015,8 @@ function openTourMenu() {
 }
 
 function startTour(id) {
+  $('#hb-demo').hidden = true;
+  hb.demoToken++;
   const def = TOURS.find((t) => t.id === id);
   if (!def) {
     toast(`找不到导览 "${id}"`);
@@ -1091,6 +1133,8 @@ function renderTourText(step, i) {
         ? `<p class="pro">${fill(step.pro)}</p>`
         : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${fill(step.pro)}</p></details>`
       : '');
+  const ch = step.read && chapterById(step.read);
+  if (ch) $('#tour-body').insertAdjacentHTML('beforeend', `<p class="small"><a href="#" data-hb-read="${ch.id}">读片手册：${esc(ch.title)} →</a></p>`);
   const last = i === tour.def.steps.length - 1;
   $('#tour-prev').disabled = i === 0;
   $('#tour-next').hidden = last;
@@ -1141,6 +1185,118 @@ async function exitTour({ keepCase = false } = {}) {
   setMtab(mtab);
 }
 
+
+// ================================================================ 读片手册
+
+const hb = { chapter: null, demoToken: 0, primerFrom: null };
+
+function openHandbook(id) {
+  const ch = chapterById(id) ?? chapterById(hb.chapter) ?? HANDBOOK[0].chapters[0];
+  hb.chapter = ch.id;
+  $('#hb-nav').innerHTML =
+    '<p class="hb-nav-primer"><a href="#" data-primer="intro">图解：12 导联是怎么来的<span class="muted small">读图入门</span></a></p>' +
+    HANDBOOK.map(
+    (part) =>
+      `<section><h4>${esc(part.title)}<span class="muted small">${esc(part.sub)}</span></h4><ol>` +
+      part.chapters
+        .map((c) => `<li><a href="#" data-hb="${c.id}" class="${c.id === ch.id ? 'on' : ''}">${esc(c.title)}</a></li>`)
+        .join('') +
+      '</ol></section>',
+  ).join('');
+  const refs = (ch.refs ?? [])
+    .map((r) => REFS[r])
+    .filter(Boolean)
+    .map((r) => `<li>${esc(r.text)}${r.note ? `<br><span class="muted">${esc(r.note)}</span>` : ''}</li>`)
+    .join('');
+  const tours = (ch.tours ?? []).map((tid) => TOURS.find((t) => t.id === tid)).filter(Boolean);
+  const label = (id) => state.index?.cases.find((c) => c.id === id)?.title ?? id;
+  $('#hb-body').innerHTML =
+    `<h2>${esc(ch.title)} <span class="en">${esc(ch.en)}</span></h2>` +
+    `<div class="hb-text">${ch.body}</div>` +
+    (ch.terms?.length
+      ? `<p class="hb-terms">本章术语：${ch.terms
+          .filter((t) => TERMS[t])
+          .map((t) => `<a href="#" data-term="${t}">${esc(TERMS[t].zh)}</a>`)
+          .join('')}</p>`
+      : '') +
+    (ch.widget ? `<section class="hb-widget"><h3>动手试一试</h3><div id="hb-widget"></div></section>` : '') +
+    `<section class="hb-demos"><h3>在图上演示</h3><ul>` +
+    ch.demos
+      .map(
+        (d, i) =>
+          `<li><button class="hb-demo-btn" data-demo="${i}">▶ ${esc(d.label)}</button>` +
+          `<span class="muted small">${esc(label(d.case))}</span></li>`,
+      )
+      .join('') +
+    '</ul>' +
+    (ch.primer ? `<p><a href="#" data-primer="${ch.primer}">看图了解 12 个导联：读图入门 →</a></p>` : '') +
+    (tours.length
+      ? `<p class="hb-tours">相关导览：${tours.map((t) => `<button data-hb-tour="${t.id}">${esc(t.title)} →</button>`).join(' ')}</p>`
+      : '') +
+    '</section>' +
+    (refs ? `<details class="refs"><summary>出处</summary><ul>${refs}</ul><p class="muted">出处根据公开文献整理，尚未逐条核对原文。</p></details>` : '') +
+    '<p class="muted small hb-disclaimer">本手册未经心血管专科医生审定，仅供学习，不能用于诊断。</p>';
+  linkTerms($('#hb-body .hb-text'), ch.terms ?? [], (t) => termRegex(termNames(t)));
+  $('#term-pop').hidden = true;
+  if (ch.widget === 'axis') axisWidget($('#hb-widget'), 60);
+  if (ch.widget === 'qtc') {
+    // 用当前病例预填（有 QT 和心率时）
+    const m = state.ecg?.meta;
+    const v = m?.measurements.find((x) => x.id === 'unig' && x.values.QT_ms && x.values.HR_bpm)?.values;
+    const title = state.index?.cases.find((c) => c.id === state.caseId)?.title;
+    qtcWidget($('#hb-widget'), v ? { hr: v.HR_bpm, qt: v.QT_ms, sex: m.patient.sex, label: `当前病例（${title}）` } : null);
+  }
+  const d = $('#handbook');
+  if (!d.open) d.showModal();
+  $('#hb-body').scrollTop = 0;
+  const u = new URL(location.href);
+  u.searchParams.set('read', ch.id);
+  history.replaceState(null, '', u);
+}
+
+function closeHandbook() {
+  $('#handbook').close();
+}
+
+/** "在图上演示"：关闭手册，加载病例并定位；顶部提示条说明看什么 */
+async function runDemo(chId, i) {
+  const ch = chapterById(chId);
+  const demo = ch?.demos[i];
+  if (!demo) return;
+  const token = ++hb.demoToken;
+  closeHandbook();
+  if (tour.def) await exitTour({ keepCase: true });
+  if (token !== hb.demoToken) return;
+  $('#hb-demo-label').textContent = demo.label;
+  $('#hb-demo-note').textContent = '正在加载病例…';
+  $('#hb-demo').hidden = false;
+  if (state.caseId !== demo.case) {
+    const ok = await selectCase(demo.case);
+    if (token !== hb.demoToken) return;
+    if (!ok) {
+      $('#hb-demo-note').textContent = '病例加载失败，请回到手册重试。';
+      return;
+    }
+  }
+  const v = demo.view ?? {};
+  set(
+    {
+      showWaves: v.showWaves ?? true,
+      showRef: v.showRef ?? false,
+      selectedLead: demo.lead ?? state.selectedLead,
+      cursorMs: demo.cursor ? cursorAt(state.ecg.meta, demo.cursor) : state.cursorMs,
+      caliper: null,
+      tool: 'cursor',
+    },
+    'paper',
+    'linked',
+  );
+  syncControls();
+  setMtab(v.mtab ?? 'intervals');
+  $('#hb-demo-note').textContent = demo.note;
+  const target = document.querySelector(demo.scroll ?? '.paper-wrap');
+  (target && !target.hidden ? target : $('.paper-wrap')).scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
 
 // ================================================================ 测验（题目为数据，判分按物理单位）
 
@@ -1197,6 +1353,8 @@ async function startQuiz(id) {
   $('#case-select').disabled = true;
   $('#case-select').value = QUIZ_OPT;
   $('#tour-btn').disabled = true;
+  $('#hb-btn').disabled = true; // 手册演示会换病例、打开着色
+  $('#hb-demo').hidden = true;
   stopPlay();
   // 作答锁定：关掉波段着色与参照基线（它们会直接标出 P / QRS / T 的位置）
   set({ showWaves: false, showRef: false }, 'paper', 'overlay');
@@ -1495,6 +1653,7 @@ async function exitQuiz() {
     $('#case-select').disabled = false;
     $('#case-select').value = state.caseId;
     $('#tour-btn').disabled = false;
+    $('#hb-btn').disabled = false;
     const v = new URL(location.href);
     v.searchParams.set('case', state.caseId);
     history.replaceState(null, '', v);
@@ -1617,12 +1776,55 @@ function bindControls() {
     quiz.index >= quiz.set.questions.length - 1 ? finishQuiz() : goQuestion(quiz.index + 1);
   };
   $('#qz-exit').onclick = () => exitQuiz();
-  $('#primer-btn').onclick = () => openPrimer('intro');
+  $('#primer-back').onclick = () => {
+    const ch = hb.primerFrom;
+    $('#primer').close();
+    openHandbook(ch);
+  };
+  $('#hb-btn').onclick = () => openHandbook(hb.chapter);
+  $('#handbook-close').onclick = closeHandbook;
+  $('#handbook').addEventListener('close', () => {
+    const u = new URL(location.href);
+    u.searchParams.delete('read');
+    history.replaceState(null, '', u);
+  });
+  $('#hb-nav').addEventListener('click', (e) => {
+    const a = e.target.closest('[data-hb]');
+    if (!a) return;
+    e.preventDefault();
+    openHandbook(a.dataset.hb);
+  });
+  $('#hb-body').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-demo]');
+    if (b) return runDemo(hb.chapter, +b.dataset.demo);
+    const t = e.target.closest('[data-hb-tour]');
+    if (t) {
+      closeHandbook();
+      $('#hb-demo').hidden = true;
+      startTour(t.dataset.hbTour);
+    }
+  });
+  $('#hb-demo-back').onclick = () => {
+    $('#hb-demo').hidden = true;
+    openHandbook(hb.chapter);
+  };
+  $('#hb-demo-close').onclick = () => ($('#hb-demo').hidden = true);
   $('#primer-close').onclick = () => $('#primer').close();
+  // 对话框关闭或其中内容滚动时，收起挂在对话框里的术语弹窗
+  for (const id of ['handbook', 'primer', 'glossary']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
+  document.addEventListener(
+    'scroll',
+    (e) => {
+      const pop = $('#term-pop');
+      if (!pop.hidden && pop.classList.contains('in-dlg') && !pop.contains(e.target)) pop.hidden = true;
+    },
+    true,
+  );
   // 读图入门、术语表：最大化 / 还原（各自记住选择，下次打开保持）
   for (const [dlg, key] of [
     ['primer', 'ecg-lab:primerMax'],
     ['glossary', 'ecg-lab:glossaryMax'],
+    ['handbook', 'ecg-lab:handbookMax'],
   ]) {
     const d = $(`#${dlg}`);
     const btn = $(`#${dlg}-max`);
@@ -1682,12 +1884,23 @@ function bindControls() {
   window.addEventListener('keydown', onKey);
 
   document.addEventListener('click', (e) => {
+    const rd = e.target.closest('[data-hb-read]');
+    if (rd) {
+      e.preventDefault();
+      $('#term-pop').hidden = true;
+      if ($('#glossary').open) $('#glossary').close();
+      if ($('#primer').open) $('#primer').close();
+      openHandbook(rd.dataset.hbRead);
+      return;
+    }
     const pr = e.target.closest('[data-primer]');
     if (pr) {
       e.preventDefault();
       $('#term-pop').hidden = true;
       if ($('#glossary').open) $('#glossary').close();
-      openPrimer(pr.dataset.primer);
+      const fromHb = $('#handbook').open ? hb.chapter : null;
+      if (fromHb) closeHandbook();
+      openPrimer(pr.dataset.primer, fromHb);
       return;
     }
     const a = e.target.closest('[data-term]');
@@ -1732,6 +1945,8 @@ async function boot() {
     `<option value="${QUIZ_OPT}" hidden>测验中（病例名称已隐藏）</option>`;
   sel.onchange = async (e) => {
     const id = e.target.value;
+    $('#hb-demo').hidden = true; // 手动换病例：手册演示的说明不再适用
+    hb.demoToken++;
     if (tour.def) await exitTour({ keepCase: true }); // 导览讲的是原来的病例，手动换病例即结束导览
     selectCase(id);
   };
@@ -1747,6 +1962,8 @@ async function boot() {
   if (wantTour) startTour(wantTour); // 无效 id 会提示
   const wantQuiz = new URLSearchParams(location.search).get('quiz');
   if (wantQuiz && !wantTour) startQuiz(wantQuiz);
+  const wantRead = new URLSearchParams(location.search).get('read');
+  if (wantRead && !wantQuiz) openHandbook(wantRead);
 }
 
 function toast(msg) {

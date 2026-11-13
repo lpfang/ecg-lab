@@ -14,6 +14,7 @@
 //   spot         心电图内的聚光灯 {leads: [...], beat?}：只突出这些导联（及第 beat 个心跳，含其后的休息段），
 //                其余部分淡化。讲某个导联、某次心跳时用；讲整体时省略
 //   proOpen      （导览级）专业说明直接展开显示，不受"通俗 / 专业"开关影响（医学生路线）
+//   read         读片手册中相关章节的 id（讲解下方给出链接）
 //   next         最后一步可给出 {tour, label}，串联到下一条导览
 
 import { beatWindow } from './ecg/beats.js';
@@ -103,6 +104,7 @@ export const TOURS = [
           '卡尺量出相邻两次心跳的间隔（RR 间期）。心率 = 60000 ÷ RR（毫秒）。本例平均心率约 {hr} 次/分。虚线是按同样间隔"复制"出来的：每次都和下一个 QRS 对齐，说明节律规整。',
       },
       {
+        read: 'p-howto',
         title: '小结',
         cursor: { beat: 3, phase: 'R', frac: 0 },
         focus: null,
@@ -203,6 +205,7 @@ export const TOURS = [
         pro: '药物对心电图的影响因人而异，是否需要调整药物要由医生判断。',
       },
       {
+        read: 'p-htn',
         title: '小结',
         focus: null,
         plain:
@@ -274,6 +277,7 @@ export const TOURS = [
         pro: '移行区（R ≈ S）正常在 V3–V4。本例 R 波：V1 0.27 → V2 0.39 → V3 1.31 mV，移行在 V2–V3 之间（GE 12SL 测量）。R 波递增不良可见于前壁心肌梗死、左心室肥厚、电极位置偏高等。',
       },
       {
+        read: 's-axis',
         title: '电轴',
         cursor: { beat: 3, phase: 'R', frac: 0 },
         lead: 'aVF',
@@ -305,6 +309,7 @@ export const TOURS = [
         pro: 'aVR 的 T 波正常倒置；V1 的 T 波可以倒置或低平（本例低平）。T 波倒置的意义取决于导联分布和临床情况。',
       },
       {
+        read: 's-intervals',
         title: 'QT 间期',
         cursor: { beat: 3, phase: 'T', frac: 1 },
         focus: ['.paper-wrap', '.measure-card'],
@@ -313,6 +318,7 @@ export const TOURS = [
         pro: 'QTc（Bazett）男性 > 450 ms、女性 > 460 ms 通常视为延长；心率偏快或偏慢时 Bazett 公式误差较大，可参考 Fridericia 等公式。',
       },
       {
+        read: 's-order',
         title: '小结',
         focus: null,
         plain:
@@ -381,6 +387,7 @@ export const TOURS = [
         pro: '原报告诊断为左后分支阻滞（诊断标准：电轴 > +90°，I 呈 rS，III 呈 qR）。左后分支阻滞的诊断需先排除右心室肥厚、侧壁心肌梗死、体型等原因，单凭心电图往往不能确定。',
       },
       {
+        read: 's-axis',
         title: '小结',
         focus: null,
         plain:
@@ -466,6 +473,7 @@ export const TOURS = [
         pro: '房室分离，心房率 > 心室率。心室由逸搏维持：本例 QRS 约 {qrs} ms、频率约 40 次/分，提示逸搏点在希氏束以下（原报告称"室性逸搏"）。原报告提到晕厥并建议植入永久起搏器。',
       },
       {
+        read: 's-conduction',
         title: '小结',
         focus: null,
         plain:
@@ -536,6 +544,7 @@ export const TOURS = [
         pro: '室间隔改为从右向左除极，起始向右前的向量消失；本例 QRS 起点后 50–150 ms 水平面向量方向稳定在约 −60°（左后），持续约 100 ms（Kors 推导向量，仅作示意）。',
       },
       {
+        read: 's-conduction',
         title: '小结',
         focus: null,
         plain:

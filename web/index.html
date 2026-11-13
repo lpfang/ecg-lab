@@ -30,9 +30,19 @@
       </span>
       <button id="tour-btn" class="primary">导览</button>
       <button id="quiz-btn">测验</button>
-      <button id="primer-btn">读图入门</button>
+      <button id="hb-btn">读片手册</button>
       <button id="glossary-btn">术语表</button>
     </header>
+
+    <!-- 手册"在图上演示"后的提示条：说明看什么，可回到手册 -->
+    <section id="hb-demo" class="hb-demo" hidden aria-live="polite">
+      <span class="hb-demo-tag">读片手册 · 演示</span>
+      <b id="hb-demo-label"></b>
+      <span id="hb-demo-note"></span>
+      <span class="spacer"></span>
+      <button id="hb-demo-back">↩ 回到手册</button>
+      <button id="hb-demo-close" title="关闭提示">×</button>
+    </section>
 
     <!-- 导览条：固定在顶栏下方、高度固定（内容多时框内滚动），换步骤时页面不跳动 -->
     <section id="tour-panel" class="tour-panel" hidden aria-live="polite">
@@ -284,6 +294,7 @@
         <div class="gl-head">
           <h3>读图入门：12 导联是怎么来的 <span class="en">The 12-lead ECG</span></h3>
           <span class="dlg-btns">
+            <button id="primer-back" hidden>↩ 回到手册</button>
             <button id="primer-max" title="最大化窗口，图看得更大">⤢ 最大化</button>
             <button id="primer-close">关闭</button>
           </span>
@@ -291,6 +302,22 @@
         <div id="primer-picker" class="pr-picker"></div>
       </div>
       <div id="primer-body" class="dlg-body"></div>
+    </dialog>
+
+    <dialog id="handbook" class="dlg">
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>读片手册 <span class="en">Handbook</span></h3>
+          <span class="dlg-btns">
+            <button id="handbook-max" title="最大化窗口">⤢ 最大化</button>
+            <button id="handbook-close">关闭</button>
+          </span>
+        </div>
+      </div>
+      <div class="hb-wrap">
+        <nav id="hb-nav" class="hb-nav" aria-label="手册目录"></nav>
+        <article id="hb-body" class="hb-body"></article>
+      </div>
     </dialog>
 
     <dialog id="glossary" class="dlg">
