@@ -11,9 +11,13 @@ import { PlanesView } from './views/planes.js';
 import { buildPrimer, selectLead as primerSelect } from './views/primer.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
+import { searchTerms, tokens } from './content/search.js';
 import { scpLabel } from './content/scp.js';
 import { evaluateLVH, lvhApplicability } from './ecg/lvh.js';
 import { REFS } from './content/refs.js';
+import { COMPARE, refFor } from './content/compare.js';
+import { medianBeat } from './ecg/median.js';
+import { drawBeatCompare, drawRhythmCompare, beatRange, BEAT_SPEED, RHYTHM_SPEED } from './views/compare.js';
 import {
   loadCalibration,
   saveCalibration,
@@ -62,6 +66,7 @@ const state = {
   playRate: 0.2, // 慢动作速度：真实速度的 1/5 或 1/10
   show3d: { axes: true, heart: true },
   showRef: false, // 参照基线（PR 段零点与 TP 段）
+  cmpMode: lsGet('ecg-lab:cmpMode', 'overlay'), // 与正常对照：'overlay' 重叠 | 'side' 并排
   layout: null,
 };
 
@@ -93,6 +98,7 @@ function flush() {
     renderCaliperReadout();
   }
   if (parts.has('linked')) renderLinked();
+  if (parts.has('paper') || parts.has('compare')) drawCompare();
 }
 
 // ================================================================ 联动：此刻、导联轴、3D
@@ -389,6 +395,169 @@ function renderST(meta) {
     '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。';
 }
 
+// ================================================================ 与正常心电图对照
+
+const caseCache = new Map(); // 正常对照病例：加载一次，反复使用
+const medianCache = new Map();
+let cmp = null; // {id, cfg, ref:{id,label}, cur, refEcg, curMb, refMb}
+
+function loadCached(id) {
+  if (!caseCache.has(id)) caseCache.set(id, loadCase(id).catch((e) => (caseCache.delete(id), Promise.reject(e))));
+  return caseCache.get(id);
+}
+// 看 P 波时：按 P 波起点对齐，取 P 波起点前 40 ms 到后 200 ms；
+// P 波只有 0.1 s 左右，按真实尺寸画只有指甲盖大，所以走纸 100 mm/s 并放大 3 倍显示
+const P_WINDOW = { align: 'P', pre: 40, post: 200 };
+const P_VIEW = { speed: 100, zoom: 3 };
+function medianOf(id, ecg, focus) {
+  const key = `${id}:${focus ?? ''}`;
+  if (!medianCache.has(key)) medianCache.set(key, medianBeat(ecg, focus === 'P' ? P_WINDOW : undefined));
+  return medianCache.get(key);
+}
+
+/** 对照表的数值来源：Glasgow 算法，没有时用 GE 算法（两份心电图用同一种算法比较） */
+function algoValues(meta, kind) {
+  const list = meta[kind] ?? [];
+  return (list.find((a) => a.id === 'unig') ?? list.find((a) => a.id === '12sl'))?.values ?? {};
+}
+const rrRange = (meta) => {
+  const b = meta.annotations?.beats ?? [];
+  const rr = b.slice(1).map((x, i) => x.QRS.on - b[i].QRS.on);
+  return rr.length ? [Math.min(...rr), Math.max(...rr)] : [null, null];
+};
+
+async function renderCompare(ecg) {
+  const id = state.caseId;
+  const cfg = COMPARE[id];
+  const card = $('#compare-card');
+  cmp = null;
+  card.hidden = !cfg;
+  if (!cfg) return;
+  const ref = refFor(ecg.meta.patient.sex);
+  $('#cmp-ref-label').textContent = ref.label;
+  $('#cmp-ref-open').dataset.case = ref.id;
+  $('#cmp-mode').hidden = cfg.mode !== 'beat';
+  $('#cmp-align').hidden = cfg.mode !== 'beat';
+  $('#cmp-scale').textContent =
+    cfg.focus === 'P'
+      ? `P 波放大显示：1 小格 = ${1000 / P_VIEW.speed} ms × ${(1 / cfg.gain).toFixed(2)} mV`
+      : cfg.mode === 'beat'
+        ? `${BEAT_SPEED} mm/s · ${cfg.gain} mm/mV` + (cfg.gain > 10 ? '（纵向放大一倍）' : '')
+        : `${RHYTHM_SPEED} mm/s · ${cfg.gain} mm/mV · 10 秒`;
+  $('#cmp-figs').innerHTML = '';
+  $('#cmp-text').innerHTML = '';
+  $('#cmp-table').innerHTML = '';
+  $('#cmp-msg').hidden = false;
+  $('#cmp-msg').textContent = '正在加载正常对照…';
+  let refEcg;
+  try {
+    refEcg = await loadCached(ref.id);
+  } catch (e) {
+    if (state.caseId !== id) return;
+    $('#cmp-msg').textContent = `正常对照加载失败：${e.message}`;
+    return;
+  }
+  if (state.caseId !== id) return; // 已换病例
+  $('#cmp-msg').hidden = true;
+  cmp = { id, cfg, ref, cur: ecg, refEcg };
+  if (cfg.mode === 'beat') {
+    cmp.curMb = medianOf(id, ecg, cfg.focus);
+    cmp.refMb = medianOf(ref.id, refEcg, cfg.focus);
+    $('#cmp-align-text').textContent = cfg.focus === 'P' ? '两个 P 波按起点对齐' : '两个心跳按 QRS 起点对齐';
+  }
+  $('#cmp-figs').innerHTML = cfg.leads.map(() => '<canvas></canvas>').join('');
+  renderCompareText();
+  renderCompareTable();
+  drawCompare();
+}
+
+function drawCompare() {
+  if (!cmp || cmp.id !== state.caseId) return;
+  const { cfg } = cmp;
+  const canvases = $('#cmp-figs').querySelectorAll('canvas');
+  if (cfg.mode === 'beat') {
+    // 看 P 波时，纵向范围只按 P 波定（到两者中较晚的 P 波终点后 20 ms）
+    const pEnd = Math.max(cmp.curMb.waves.P?.off ?? 0, cmp.refMb.waves.P?.off ?? 0) + 20;
+    const range = beatRange([cmp.curMb, cmp.refMb], cfg.leads, cfg.focus === 'P' ? pEnd : Infinity);
+    cfg.leads.forEach((lead, i) =>
+      drawBeatCompare(canvases[i], {
+        lead,
+        cur: cmp.curMb,
+        ref: cmp.refMb,
+        gain: cfg.gain,
+        range,
+        mode: state.cmpMode,
+        pxPerMm: state.pxPerMm,
+        ...(cfg.focus === 'P' ? P_VIEW : {}),
+      }),
+    );
+  } else {
+    cfg.leads.forEach((lead, i) =>
+      drawRhythmCompare(canvases[i], {
+        lead,
+        cur: cmp.cur,
+        ref: cmp.refEcg,
+        refLabel: cmp.ref.label,
+        gain: cfg.gain,
+        pxPerMm: state.pxPerMm,
+      }),
+    );
+  }
+}
+
+function renderCompareText() {
+  if (!cmp) return;
+  $('#cmp-text').innerHTML = levelBlock(cmp.cfg.plain, cmp.cfg.pro);
+  const n = cmp.curMb?.nBeats;
+  $('#cmp-note').innerHTML =
+    (cmp.cfg.mode === 'beat'
+      ? `图中每个心跳都是"中位心搏"：把一份记录里的各次心跳（本例 ${n} 次、正常对照 ${cmp.refMb.nBeats} 次）按${cmp.cfg.focus === 'P' ? ' P 波' : ' QRS '}起点对齐，逐点取中位数，并以 PR 段为零点。` +
+        '这样偶发的干扰被压低，更像"典型的一次心跳"。'
+      : '图中是 10 秒原始记录（未取中位数）。') +
+    '正常对照只是<b>一个人</b>的正常心电图：正常人之间的波形本来就有差别，年龄、性别、体型都会影响电压，所以重点看<b>差别的方向和大小</b>，而不是两条线是否完全重合。';
+}
+
+function renderCompareTable() {
+  const { cfg, cur, refEcg } = cmp;
+  const m = [algoValues(refEcg.meta, 'measurements'), algoValues(cur.meta, 'measurements')];
+  const a = [algoValues(refEcg.meta, 'amplitudes'), algoValues(cur.meta, 'amplitudes')];
+  const row = (label, vals, f, unit, diff) =>
+    `<tr><th>${label}</th>${vals.map((v, i) => `<td class="num${i && diff ? ' diff' : ''}">${f(v)}</td>`).join('')}<td class="unit">${unit}</td></tr>`;
+  const ms = (v) => fmt(v);
+  const mv = (v) => fmt2(v);
+  const smv = (v) => (v == null ? '—' : signed(v));
+  const big = (k, d) => {
+    const [x, y] = [m[0][k], m[1][k]];
+    return x != null && y != null && Math.abs(y - x) >= d;
+  };
+  const G = [
+    ['心率', 'HR_bpm', '次/分', 15],
+    ['PR 间期', 'PR_ms', 'ms', 40],
+    ['P 波时限', 'P_ms', 'ms', 20],
+    ['QRS 时限', 'QRS_ms', 'ms', 20],
+    ['QT 间期', 'QT_ms', 'ms', 40],
+    ['额面电轴', 'axis_deg', '°', 45],
+  ];
+  let html = '<thead><tr><th></th><th class="num">正常对照</th><th class="num">本例</th><th></th></tr></thead><tbody>';
+  html += G.map(([zh, k, u, d]) => row(zh, [m[0][k], m[1][k]], ms, u, big(k, d))).join('');
+  if (cfg.mode === 'rhythm') {
+    const r = [rrRange(refEcg.meta), rrRange(cur.meta)];
+    html += row('心跳间隔（最短–最长）', r, (v) => (v[0] == null ? '—' : `${v[0]}–${v[1]}`), 'ms', r[1][1] - r[1][0] > 120);
+  } else {
+    html += '<tr class="sep"><th colspan="4">各导联振幅（mV）</th></tr>';
+    for (const lead of cfg.leads) {
+      const v = [a[0][lead] ?? {}, a[1][lead] ?? {}];
+      const d = (k, th) => v[0][k] != null && v[1][k] != null && Math.abs(v[1][k] - v[0][k]) >= th;
+      html += row(`${lead} R 波`, [v[0].R, v[1].R], mv, 'mV', d('R', 0.5));
+      html += row(`${lead} S 波`, [v[0].S, v[1].S], mv, 'mV', d('S', 0.5));
+      html += row(`${lead} ST（J 点后 80 ms）`, [v[0].ST80, v[1].ST80], smv, 'mV', d('ST80', 0.1));
+    }
+  }
+  $('#cmp-table').innerHTML = html + '</tbody>';
+  $('#cmp-table-note').textContent =
+    '数值来自 Glasgow 自动分析算法（PTB-XL+），两份心电图用同一算法测量；加粗表示与正常对照差别较大（仅供阅读时提示，不是诊断标准）。';
+}
+
 function renderCaseInfo(meta, entry) {
   $('#case-title').textContent = entry?.title ?? meta.id;
   $('#case-summary').textContent = entry?.summary ?? '';
@@ -588,10 +757,48 @@ function openPrimer(section) {
 
 function openGlossary() {
   const d = $('#glossary');
-  $('#glossary-body').innerHTML = Object.keys(TERMS)
-    .map((id) => `<section class="gl-item">${termHtml(id, true)}</section>`)
-    .join('');
+  $('#gl-q').value = '';
+  renderGlossary('');
   d.showModal();
+  $('#gl-q').focus();
+}
+
+function renderGlossary(query) {
+  const total = Object.keys(TERMS).length;
+  const ids = searchTerms(TERMS, query);
+  const body = $('#glossary-body');
+  body.innerHTML = ids.length
+    ? ids.map((id) => `<section class="gl-item">${termHtml(id, true)}</section>`).join('')
+    : `<p class="gl-empty muted">没有找到包含"${esc(query.trim())}"的术语。可以换个说法，或试试英文、缩写。</p>`;
+  $('#gl-count').textContent = tokens(query).length ? `找到 ${ids.length} 条（共 ${total} 条）` : `共 ${total} 条`;
+  highlight(body, tokens(query));
+  body.scrollTop = 0;
+}
+
+/** 在已渲染的文字里给关键字加底色（只处理文字节点，不碰标签） */
+function highlight(root, ks) {
+  if (!ks.length) return;
+  const re = new RegExp(ks.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'gi');
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const n of nodes) {
+    const text = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    for (const m of text.matchAll(re)) {
+      frag.append(text.slice(last, m.index));
+      const mark = document.createElement('mark');
+      mark.textContent = m[0];
+      frag.append(mark);
+      last = m.index + m[0].length;
+    }
+    frag.append(text.slice(last));
+    n.replaceWith(frag);
+  }
 }
 
 // ================================================================ 3D（懒加载，失败不影响其他功能）
@@ -649,6 +856,7 @@ async function selectCase(id) {
     renderMeasurements(ecg.meta);
     renderLVH(ecg.meta);
     renderST(ecg.meta);
+    renderCompare(ecg);
     $('#case-select').value = id;
     const u = new URL(location.href);
     u.searchParams.set('case', id);
@@ -913,11 +1121,26 @@ function bindControls() {
       lsSet('ecg-lab:level', b.dataset.level);
       document.querySelectorAll('[data-level]').forEach((x) => x.classList.toggle('on', x === b));
       set({ level: b.dataset.level }, 'linked');
+      renderCompareText();
       if (tour.def && tour.index >= 0) renderTourText(effectiveStep(tour.def, tour.index), tour.index);
       $('#term-pop').hidden = true;
     };
   }
   $('#glossary-btn').onclick = openGlossary;
+  for (const b of document.querySelectorAll('[data-cmode]')) {
+    b.classList.toggle('on', b.dataset.cmode === state.cmpMode);
+    b.onclick = () => {
+      lsSet('ecg-lab:cmpMode', b.dataset.cmode);
+      document.querySelectorAll('[data-cmode]').forEach((x) => x.classList.toggle('on', x === b));
+      set({ cmpMode: b.dataset.cmode }, 'compare');
+    };
+  }
+  $('#cmp-ref-open').onclick = async (e) => {
+    e.preventDefault();
+    const id = e.currentTarget.dataset.case;
+    if (tour.def) await exitTour({ keepCase: true });
+    selectCase(id);
+  };
   $('#tour-btn').onclick = openTourMenu;
   $('#tour-menu-close').onclick = () => $('#tour-menu').close();
   $('#tour-list').addEventListener('click', (e) => {
@@ -932,6 +1155,25 @@ function bindControls() {
   $('#tour-exit').onclick = exitTour;
   $('#primer-btn').onclick = () => openPrimer('intro');
   $('#primer-close').onclick = () => $('#primer').close();
+  // 读图入门、术语表：最大化 / 还原（各自记住选择，下次打开保持）
+  for (const [dlg, key] of [
+    ['primer', 'ecg-lab:primerMax'],
+    ['glossary', 'ecg-lab:glossaryMax'],
+  ]) {
+    const d = $(`#${dlg}`);
+    const btn = $(`#${dlg}-max`);
+    const setMax = (on) => {
+      d.classList.toggle('max', on);
+      btn.textContent = on ? '⤡ 还原' : '⤢ 最大化';
+      btn.title = on ? '还原为普通窗口' : '最大化窗口';
+    };
+    setMax(lsGet(key, '0') === '1');
+    btn.onclick = () => {
+      const on = !d.classList.contains('max');
+      lsSet(key, on ? '1' : '0');
+      setMax(on);
+    };
+  }
   // toggle 事件不冒泡，用捕获阶段监听
   $('#now-body').addEventListener(
     'toggle',
@@ -941,6 +1183,22 @@ function bindControls() {
     true,
   );
   $('#glossary-close').onclick = () => $('#glossary').close();
+  // 中文输入法拼写过程中不检索，选定汉字后再检索
+  let glTimer = 0;
+  const glSearch = () => {
+    clearTimeout(glTimer);
+    glTimer = setTimeout(() => renderGlossary($('#gl-q').value), 120);
+  };
+  $('#gl-q').addEventListener('input', (e) => !e.isComposing && glSearch());
+  $('#gl-q').addEventListener('compositionend', glSearch);
+  $('#gl-q').addEventListener('keydown', (e) => {
+    // Esc：先清空搜索框，再按一次才关闭术语表
+    if (e.key === 'Escape' && e.target.value) {
+      e.preventDefault();
+      e.target.value = '';
+      renderGlossary('');
+    }
+  });
 
   for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => heart?.setView(b.dataset.view);
   $('#show-axes').onchange = (e) => set({ show3d: { ...state.show3d, axes: e.target.checked } }, 'linked');

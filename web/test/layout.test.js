@@ -9,6 +9,29 @@ describe('心电图纸排版（mm / ms）', () => {
     expect(lay.widthMm).toBeCloseTo(lay.marginLeftMm + 250 + PAPER.marginRightMm);
   });
 
+  it('上下两行之间有间隙；左右两列紧挨（只画分割线）', () => {
+    const I = lay.cells.find((c) => c.lead === 'I');
+    const aVR = lay.cells.find((c) => c.lead === 'aVR');
+    const II = lay.cells.find((c) => c.lead === 'II' && !c.rhythm);
+    expect(II.topMm - (I.topMm + I.heightMm)).toBeCloseTo(PAPER.rowGapMm);
+    expect(hitTest(lay, I.xMm + 10, I.topMm + I.heightMm + PAPER.rowGapMm / 2)).toBeNull(); // 行间隙里点不到导联
+    expect(aVR.xMm).toBeCloseTo(I.xMm + I.widthMm);
+    expect(aVR.t0).toBe(I.t1);
+  });
+
+  it('同一时刻在节律条和上面各行上下对齐', () => {
+    const r = lay.cells.find((c) => c.rhythm);
+    expect(r.widthMm).toBeCloseTo(250);
+    for (const lead of ['I', 'aVR', 'V1', 'V4']) {
+      const c = lay.cells.find((x) => x.lead === lead);
+      for (const t of [c.t0 + 1, (c.t0 + c.t1) / 2, c.t1 - 1]) {
+        const xUp = c.xMm + ((t - c.t0) / 1000) * lay.speed;
+        const xRhythm = r.xMm + ((t - r.t0) / 1000) * lay.speed;
+        expect(xUp).toBeCloseTo(xRhythm);
+      }
+    }
+  });
+
   it.each([25, 50])('%s mm/s 时标定脉冲（200 ms）完整位于波形左侧，并留有间隔', (speed) => {
     const l = computeLayout({ durationMs: 10000, speed, gain: 10 });
     expect(l.calPulseWidthMm).toBeCloseTo(0.2 * speed);
@@ -41,10 +64,12 @@ describe('心电图纸排版（mm / ms）', () => {
     expect(b.mV - a.mV).toBeCloseTo(0.05);
   });
 
-  it('节律条是 II 导联完整 10 秒', () => {
-    const r = lay.cells.find((c) => c.rhythm);
-    expect(r.lead).toBe('II');
-    expect([r.t0, r.t1]).toEqual([0, 10000]);
+  it('节律条是 II 导联完整 10 秒，一整条不分段', () => {
+    const r = lay.cells.filter((c) => c.rhythm);
+    expect(r).toHaveLength(1);
+    expect(r[0].lead).toBe('II');
+    expect([r[0].t0, r[0].t1]).toEqual([0, 10000]);
+    expect(r[0].widthMm).toBeCloseTo(250);
   });
 });
 

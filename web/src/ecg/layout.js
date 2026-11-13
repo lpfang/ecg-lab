@@ -23,6 +23,9 @@ export const PAPER = {
   marginBottomMm: 4,
   rowMvSpan: 3, // 每行占 3 mV 的高度（10 mm/mV 时 30 mm）
   calPulseMs: 200, // 标定脉冲宽 200 ms，高 1 mV
+  // 上下两行之间的空白间隙（不画网格），各行一眼分开。
+  // 左右两列之间不留间隙，只画分割线：列间隙会让上面各行与下面的节律条在时间上错位。
+  rowGapMm: 4,
 };
 
 /**
@@ -44,7 +47,7 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
   ];
   const cells = [];
   const rows = allRows.map((row, r) => {
-    const top = P.marginTopMm + r * rowHeightMm;
+    const top = P.marginTopMm + r * (rowHeightMm + P.rowGapMm);
     const baselineMm = top + rowHeightMm * 0.6; // 基线略偏下，给 R 波留空间
     const n = row.leads.length;
     row.leads.forEach((lead, c) => {
@@ -67,11 +70,16 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
     });
     return { top, baselineMm, rhythm: row.rhythm };
   });
+  const widthMm = marginLeftMm + traceWidthMm + P.marginRightMm;
+  const heightMm = P.marginTopMm + allRows.length * rowHeightMm + (allRows.length - 1) * P.rowGapMm + P.marginBottomMm;
+  // 行间隙矩形（绘图时涂成空白），横贯整张纸
+  const gaps = rows.slice(1).map((row) => ({ x: 0, y: row.top - P.rowGapMm, w: widthMm, h: P.rowGapMm }));
   return {
-    widthMm: marginLeftMm + traceWidthMm + P.marginRightMm,
-    heightMm: P.marginTopMm + allRows.length * rowHeightMm + P.marginBottomMm,
+    widthMm,
+    heightMm,
     rows,
     cells,
+    gaps,
     speed,
     marginLeftMm,
     calPulseWidthMm,

@@ -106,6 +106,34 @@
           </div>
         </section>
 
+        <!-- 与正常心电图对照：只在异常病例出现 -->
+        <section class="card compare-card" id="compare-card" hidden>
+          <div class="cmp-head">
+            <h3>与正常心电图对照 <span class="en">Compared with normal</span></h3>
+            <span class="seg small" id="cmp-mode" title="两个心跳重叠在一起，或左右并排">
+              <button data-cmode="overlay" class="on">重叠</button><button data-cmode="side">并排</button>
+            </span>
+            <span class="spacer"></span>
+            <span id="cmp-scale" class="muted small"></span>
+          </div>
+          <p class="cmp-legend small">
+            <i class="lg-cur"></i>本例
+            <i class="lg-ref"></i>正常对照：<span id="cmp-ref-label"></span>
+            <a href="#" id="cmp-ref-open">打开这份正常心电图</a>
+            <span id="cmp-align" class="muted">　<i class="lg-align"></i><span id="cmp-align-text">两个心跳按 QRS 起点对齐</span></span>
+          </p>
+          <div id="cmp-msg" class="muted small" hidden></div>
+          <div id="cmp-figs" class="cmp-figs"></div>
+          <div class="cmp-grid">
+            <div id="cmp-text" class="cmp-text"></div>
+            <div>
+              <table id="cmp-table" class="mtable"></table>
+              <p class="muted small" id="cmp-table-note"></p>
+            </div>
+          </div>
+          <p class="muted small" id="cmp-note"></p>
+        </section>
+
         <div class="below">
           <section class="card heart-card">
             <div class="heart-head">
@@ -206,7 +234,10 @@
       <div class="dlg-top">
         <div class="gl-head">
           <h3>读图入门：12 导联是怎么来的 <span class="en">The 12-lead ECG</span></h3>
-          <button id="primer-close">关闭</button>
+          <span class="dlg-btns">
+            <button id="primer-max" title="最大化窗口，图看得更大">⤢ 最大化</button>
+            <button id="primer-close">关闭</button>
+          </span>
         </div>
         <div id="primer-picker" class="pr-picker"></div>
       </div>
@@ -217,7 +248,14 @@
       <div class="dlg-top">
         <div class="gl-head">
           <h3>术语表 <span class="en">Glossary</span></h3>
-          <button id="glossary-close">关闭</button>
+          <span class="dlg-btns">
+            <button id="glossary-max" title="最大化窗口">⤢ 最大化</button>
+            <button id="glossary-close">关闭</button>
+          </span>
+        </div>
+        <div class="gl-search">
+          <input id="gl-q" type="search" placeholder="搜索：中文、英文或缩写，如 电轴、QT、LVH（多个关键字用空格分开）" autocomplete="off" />
+          <span id="gl-count" class="muted small"></span>
         </div>
       </div>
       <div id="glossary-body" class="dlg-body"></div>

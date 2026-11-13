@@ -13,6 +13,9 @@ export const WAVE_COLORS = {
 
 const COLORS = {
   paper: '#fffaf8',
+  gap: '#ffffff',
+  selected: '#dc2626', // 选中导联的方框：红色实线（加粗，在粉红网格上才看得清）
+  divider: '#ea580c', // 橙色：与粉红网格、黑色波形都区分得开
   minor: '#f5c9c4',
   major: '#e58f88',
   trace: '#111',
@@ -21,7 +24,7 @@ const COLORS = {
   caliper: '#0f766e',
 };
 
-function setupCanvas(canvas, lay, pxPerMm) {
+export function setupCanvas(canvas, lay, pxPerMm) {
   const dpr = window.devicePixelRatio || 1;
   const wPx = lay.widthMm * pxPerMm;
   const hPx = lay.heightMm * pxPerMm;
@@ -47,12 +50,30 @@ export function drawPaper(canvas, lay, ecg, pxPerMm, opts = {}) {
   ctx.fillStyle = COLORS.paper;
   ctx.fillRect(0, 0, lay.widthMm, lay.heightMm);
   drawGrid(ctx, lay, s);
+  // 导联之间的间隙：盖掉网格，留白
+  ctx.fillStyle = COLORS.gap;
+  for (const g of lay.gaps ?? []) ctx.fillRect(g.x, g.y, g.w, g.h);
   for (const row of lay.rows) drawCalPulse(ctx, lay, row.baselineMm, s);
   const waves = opts.showWaves ? ecg.meta.annotations?.waves : null;
   for (const cell of lay.cells) drawCell(ctx, lay, cell, ecg, s, waves?.[cell.lead]);
+  // 分割线画在最上面：画在下面会被波段底色冲淡
+  drawColumnDividers(ctx, lay, s);
 }
 
-function drawGrid(ctx, lay, s) {
+/** 12 导联各行中，左右两列之间的垂直分割线（节律条是连续的一条，不画） */
+function drawColumnDividers(ctx, lay, s) {
+  ctx.strokeStyle = COLORS.divider;
+  ctx.lineWidth = 2.2 / s;
+  ctx.beginPath();
+  for (const c of lay.cells) {
+    if (c.rhythm || c.col === 0) continue;
+    ctx.moveTo(c.xMm, c.topMm);
+    ctx.lineTo(c.xMm, c.topMm + c.heightMm);
+  }
+  ctx.stroke();
+}
+
+export function drawGrid(ctx, lay, s) {
   const lines = (step, color, widthPx) => {
     ctx.strokeStyle = color;
     ctx.lineWidth = widthPx / s;
@@ -159,14 +180,6 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
   ctx.font = `600 3.2px system-ui, sans-serif`;
   ctx.fillText(cell.lead, cell.xMm + 1, cell.topMm + (cell.rhythm ? 7 : 4));
 
-  if (!cell.rhythm && cell.col > 0) {
-    ctx.strokeStyle = COLORS.trace;
-    ctx.lineWidth = 1.4 / s;
-    ctx.beginPath();
-    ctx.moveTo(cell.xMm, cell.baselineMm - 2.5);
-    ctx.lineTo(cell.xMm, cell.baselineMm + 2.5);
-    ctx.stroke();
-  }
 }
 
 /**
@@ -228,11 +241,11 @@ export function drawOverlay(canvas, lay, ecg, pxPerMm, st) {
     // 选中的导联加框
     for (const cell of lay.cells) {
       if (cell.lead !== st.selectedLead || cell.rhythm) continue;
-      ctx.strokeStyle = COLORS.cursor;
-      ctx.lineWidth = 1.2 / s;
-      ctx.setLineDash([1.2, 0.8]);
-      ctx.strokeRect(cell.xMm + 0.3, cell.topMm + 0.3, cell.widthMm - 0.6, cell.heightMm - 0.6);
-      ctx.setLineDash([]);
+      // 线宽按屏幕像素算（2.8 px），不随缩放变细；方框向内收半个线宽，四条边完整可见
+      const w = 2.8 / s;
+      ctx.strokeStyle = COLORS.selected;
+      ctx.lineWidth = w;
+      ctx.strokeRect(cell.xMm + w / 2, cell.topMm + w / 2, cell.widthMm - w, cell.heightMm - w);
     }
   }
 

@@ -793,6 +793,24 @@ p.nr-warn.show {
   width: min(980px, 94vw);
   max-height: 90vh;
 }
+/* 最大化：铺满窗口（四周留一点边），读图入门的图也跟着放大 */
+#glossary.max,
+#primer.max {
+  width: calc(100vw - 24px);
+  max-width: none;
+  height: calc(100vh - 24px);
+  max-height: none;
+}
+#primer.max .pr-row {
+  grid-template-columns: minmax(0, 460px) 1fr;
+}
+#primer.max .pr-figbox.wide svg {
+  max-width: 900px;
+}
+.dlg-btns {
+  display: flex;
+  gap: 8px;
+}
 .axes-head {
   display: flex;
   align-items: baseline;
@@ -1289,4 +1307,109 @@ body.touring .tour-focus {
   .topbar h1 .en {
     display: none;
   }
+}
+
+/* ================================================================ 与正常心电图对照 */
+.compare-card h3 {
+  margin: 0;
+}
+.cmp-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cmp-legend {
+  margin: 6px 0 8px;
+}
+.cmp-legend i {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  vertical-align: middle;
+  margin-right: 4px;
+  border-top: 2px solid;
+}
+.cmp-legend .lg-cur {
+  border-color: #111;
+}
+.cmp-legend .lg-ref {
+  border-color: #0d9488;
+  border-top-width: 3px;
+}
+.cmp-legend .lg-align {
+  width: 0;
+  height: 12px;
+  border-top: 0;
+  border-left: 1.5px dashed #7c3aed;
+}
+.cmp-legend #cmp-ref-open {
+  margin-left: 6px;
+}
+.cmp-figs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.cmp-figs canvas {
+  display: block;
+  border: 1px solid #ecd5d1;
+}
+.cmp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+  align-items: start;
+}
+.cmp-text p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0 0 6px;
+}
+#cmp-table td.num {
+  padding-right: 6px;
+}
+#cmp-table thead th {
+  font-size: 11px;
+  color: var(--muted);
+}
+#cmp-table tr.sep th {
+  padding-top: 8px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+#cmp-table td.diff {
+  font-weight: 600;
+}
+
+/* 术语表检索 */
+.gl-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+}
+.gl-search input {
+  flex: 1;
+  font: inherit;
+  font-size: 14px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.gl-search input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+#glossary-body mark {
+  background: #fde68a;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.gl-empty {
+  padding: 16px 0;
 }
