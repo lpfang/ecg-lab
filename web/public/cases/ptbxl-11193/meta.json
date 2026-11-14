@@ -265,7 +265,7 @@
     },
     "aVR": {
      "R": 0.032,
-     "S": 0.0,
+     "S": 0.584,
      "STJ": 0.025,
      "ST80": 0.07
     },
@@ -2654,6 +2654,11 @@
   },
   {
    "level": "info",
+   "lead": "aVR",
+   "msg": "S 波振幅：本站 0.58 mV，GE Marquette 12SL 0.00 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
    "lead": "V1",
    "msg": "S 波振幅：本站 0.00 mV，GE Marquette 12SL 1.88 mV，相差超过 0.2 mV"
   },
@@ -2661,6 +2666,11 @@
    "level": "info",
    "lead": "III",
    "msg": "S 波振幅：本站 0.71 mV，Glasgow Uni-G 0.00 mV，相差超过 0.2 mV"
+  },
+  {
+   "level": "info",
+   "lead": "aVR",
+   "msg": "S 波振幅：本站 0.58 mV，Glasgow Uni-G 0.00 mV，相差超过 0.2 mV"
   },
   {
    "level": "info",

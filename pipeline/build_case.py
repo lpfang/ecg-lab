@@ -134,17 +134,29 @@ def quality(sig_uV: np.ndarray, raw: np.ndarray, fs: float, adc_limits, issues: 
 def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
     """每导联的 R、S 振幅与 ST 偏移（mV），各心搏中位数。
     零点：本心搏 QRS 起点前 4–40 ms 的 PR 段中位数（与网页读数一致，避开 P 波）。
-    R = QRS 窗内最高正向偏移；S = R 峰之后的最深负向偏移；STJ = J 点（QRS 终点）；ST80 = J 点后 80 ms。"""
+    R = QRS 窗内最高正向偏移。
+    S = 第一个正向波（≥ 0.05 mV）之后的最深负向偏移：R′ 比 R 高时，夹在中间的深 S 也算进来；
+        没有正向波（QS 型）时取整个 QRS 的最深点。
+    STJ = J 点（QRS 终点）。
+    ST80 = J 点后 80 ms，只用 J+80 仍在 T 波起点之前的心搏；落进 T 波的心搏不计。
+        合格心搏不到一半时 ST80 记为 None，并在 ST80inT 里给出落进 T 波的心搏比例。"""
     per = {l: {"R": [], "S": [], "STJ": [], "ST80": []} for l in LEADS}
+    n_st80 = n_in_t = 0
     idx = lambda t: int(round(t / 1000 * fs))  # noqa: E731
+    n = sig_uV.shape[1]
     for b in beats:
         if "QRS" not in b:
             continue
         on, off = b["QRS"]["on"], b["QRS"]["off"]
         a = max(b["P"]["off"], on - 40) if "P" in b else on - 40
-        n = sig_uV.shape[1]
         if idx(a) < 0 or idx(off) >= n:  # 记录首尾不完整的心搏
             continue
+        st80_ok = idx(off + 80) < n
+        if st80_ok:
+            n_st80 += 1
+            if "T" in b and off + 80 >= b["T"]["on"]:
+                st80_ok = False
+                n_in_t += 1
         for li, lead in enumerate(LEADS):
             x = sig_uV[li]
             win = x[idx(a): idx(on - 4) + 1]
@@ -153,14 +165,20 @@ def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
             q = x[idx(on): idx(off) + 1] - base
             if q.size == 0:
                 continue
-            ri = int(np.argmax(q))
-            per[lead]["R"].append(max(0.0, float(q[ri])))
-            per[lead]["S"].append(max(0.0, -float(q[ri:].min())))
+            per[lead]["R"].append(max(0.0, float(q.max())))
+            pos = np.flatnonzero(q >= 50)
+            tail = q[pos[0]:] if pos.size else q
+            per[lead]["S"].append(max(0.0, -float(tail.min())))
             per[lead]["STJ"].append(float(x[idx(off)] - base))
-            if idx(off + 80) < n and ("T" not in b or off + 80 < b["T"]["off"]):
+            if st80_ok:
                 per[lead]["ST80"].append(float(x[idx(off + 80)] - base))
     med = lambda v: None if not v else round(float(np.median(v)) / 1000, 3)  # noqa: E731
-    return {l: {k: med(v) for k, v in d.items()} for l, d in per.items()}
+    enough = n_st80 and (n_st80 - n_in_t) * 2 >= n_st80
+    out = {l: {k: (None if k == "ST80" and not enough else med(v)) for k, v in d.items()} for l, d in per.items()}
+    if n_in_t:
+        for d in out.values():
+            d["ST80inT"] = round(n_in_t / n_st80, 2)
+    return out
 
 
 def axis_from_area(sig_uV: np.ndarray, fs: float, windows_ms: list) -> float | None:

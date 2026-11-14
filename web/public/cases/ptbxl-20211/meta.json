@@ -271,7 +271,7 @@
     },
     "aVR": {
      "R": 0.204,
-     "S": 0.03,
+     "S": 1.135,
      "STJ": -0.029,
      "ST80": -0.09
     },
@@ -2617,16 +2617,6 @@
    "level": "info",
    "lead": null,
    "msg": "ECGDeli 自动标注中 3 个波不合理已舍弃：P@2ms（被记录首尾截断）；QRS@16ms（被记录首尾截断）；T@9996ms（被记录首尾截断）"
-  },
-  {
-   "level": "info",
-   "lead": "aVR",
-   "msg": "S 波振幅：本站 0.03 mV，GE Marquette 12SL 1.13 mV，相差超过 0.2 mV"
-  },
-  {
-   "level": "info",
-   "lead": "aVR",
-   "msg": "S 波振幅：本站 0.03 mV，Glasgow Uni-G 1.13 mV，相差超过 0.2 mV"
   }
  ],
  "source": {

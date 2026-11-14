@@ -289,19 +289,19 @@
     },
     "aVF": {
      "R": 0.107,
-     "S": 0.041,
+     "S": 0.05,
      "STJ": -0.017,
      "ST80": -0.027
     },
     "V1": {
      "R": 0.79,
-     "S": 0.0,
+     "S": 0.162,
      "STJ": 0.283,
      "ST80": 0.034
     },
     "V2": {
      "R": 0.277,
-     "S": 0.018,
+     "S": 0.316,
      "STJ": 0.013,
      "ST80": 0.095
     },
@@ -2200,16 +2200,6 @@
   },
   {
    "level": "info",
-   "lead": "V1",
-   "msg": "S 波振幅：本站 0.00 mV，GE Marquette 12SL 0.33 mV，相差超过 0.2 mV"
-  },
-  {
-   "level": "info",
-   "lead": "V2",
-   "msg": "S 波振幅：本站 0.02 mV，GE Marquette 12SL 0.32 mV，相差超过 0.2 mV"
-  },
-  {
-   "level": "info",
    "lead": "aVR",
    "msg": "S 波振幅：本站 0.00 mV，Glasgow Uni-G 0.41 mV，相差超过 0.2 mV"
   },
@@ -2217,16 +2207,6 @@
    "level": "info",
    "lead": "V1",
    "msg": "R 波振幅：本站 0.79 mV，Glasgow Uni-G 0.07 mV，相差超过 0.2 mV"
-  },
-  {
-   "level": "info",
-   "lead": "V1",
-   "msg": "S 波振幅：本站 0.00 mV，Glasgow Uni-G 0.33 mV，相差超过 0.2 mV"
-  },
-  {
-   "level": "info",
-   "lead": "V2",
-   "msg": "S 波振幅：本站 0.02 mV，Glasgow Uni-G 0.30 mV，相差超过 0.2 mV"
   }
  ],
  "source": {

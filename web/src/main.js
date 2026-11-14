@@ -410,7 +410,7 @@ function renderLVH(meta) {
         ? '✓ 表示达到该标准。达到电压标准<b>提示可能</b>有左心室肥厚，但电压也受年龄、体型、胸壁厚度等影响。'
         : '本例没有达到任何一项电压标准。注意：心电图诊断左心室肥厚的敏感性较低，<b>"没达到"不能排除</b>左心室肥厚，确诊通常靠超声心动图。'
     }</p>` +
-    '<p class="muted">单位 mV。"本站"以每次心跳 QRS 起点前的 PR 段为零点，取各心跳中位数；R = QRS 内最高正向波，S = R 峰之后最深负向波。' +
+    '<p class="muted">单位 mV。"本站"以每次心跳 QRS 起点前的 PR 段为零点，取各心跳中位数；R = QRS 内最高正向波，S = 第一个正向波之后最深的负向波（R′ 比 R 高时，中间的深 S 也算）。' +
     '不同来源对 R′、S′ 等多相波的处理不同，个别导联数值会有差异。<a href="#" data-term="lvh">了解左心室肥厚 →</a></p>';
 }
 
@@ -430,11 +430,16 @@ function renderST(meta) {
     '<tr><th>导联</th><th class="num src" title="J 点 = QRS 终点">J 点</th><th class="num src">J + 80 ms</th>' +
     (gl ? '<th class="num src" title="Glasgow Uni-G">Glasgow<br>J + 80 ms</th>' : '') +
     '</tr>';
+  const inT = own.values.II?.ST80inT ?? 0; // 各导联相同：J+80 落进 T 波的心搏比例
+  const st80 = (v) =>
+    v.ST80 == null && inT
+      ? `<td class="num muted" title="多数心搏的 J+80 ms 已落在 T 波上，这个时点读到的不是 ST 段">T 波内</td>`
+      : `<td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>`;
   $('#st-table tbody').innerHTML = ST_LEADS.map((l) => {
     const v = own.values[l] ?? {};
     const g = gl?.values[l]?.ST80;
     return (
-      `<tr><th>${l}</th><td class="num ${cls(v.STJ)}">${fmt2(v.STJ)}</td><td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>` +
+      `<tr><th>${l}</th><td class="num ${cls(v.STJ)}">${fmt2(v.STJ)}</td>${st80(v)}` +
       (gl ? `<td class="num ${cls(g)}">${fmt2(g)}</td>` : '') +
       '</tr>'
     );
@@ -442,7 +447,14 @@ function renderST(meta) {
   $('#st-note').innerHTML =
     'ST 段相对于<a href="#" data-term="isoelectric">本次心跳 QRS 起点前的 PR 段</a>的偏移（mV），各心跳中位数。' +
     '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记，<b>不是诊断标准</b>' +
-    '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。';
+    '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。' +
+    (inT
+      ? `<br>本例 ${Math.round(inT * 100)}% 的心跳在 J 点后 80 ms 已进入 T 波（心率快或 ST 段短时常见）。` +
+        (own.values.II?.ST80 == null
+          ? '本站这一列不给数值，请以 J 点读数为准。'
+          : '本站"J + 80 ms"只用了还没进入 T 波的心跳。') +
+        'Glasgow 一列是算法按固定时点给出的，仅供对照。'
+      : '');
 }
 
 // ================================================================ 与正常心电图对照
@@ -660,11 +672,19 @@ function renderCaliperReadout() {
   }
   const dt = Math.abs(c.b.t - c.a.t);
   const dv = c.b.mV - c.a.mV;
+  const dvTxt = `${dv >= 0 ? '+' : ''}${dv.toFixed(2)}`;
+  // 高度差只在同一导联内有意义；LUDB 等幅度归一化的病例只能给相对幅度
+  const height =
+    c.a.lead && c.a.lead === c.b.lead
+      ? state.ecg?.meta.amplitudeNormalized
+        ? ` · 高度差 <b>${dvTxt}</b><span class="muted">（相对幅度：本例幅度已归一化，不是真实 mV）</span>`
+        : ` · 高度差 <b>${dvTxt} mV</b>`
+      : ' · <span class="muted">两点不在同一导联，不比较高度</span>';
   $('#caliper-text').innerHTML =
     `时间差 <b>${dt.toFixed(0)} ms</b>` +
     // 测验中不替用户换算心率（会直接给出心率题的答案）
     (dt > 200 && !quiz.set ? `（若为 RR 间期，心率 = 60000 ÷ ${dt.toFixed(0)} = <b>${(60000 / dt).toFixed(0)} 次/分</b>）` : '') +
-    ` · 高度差 <b>${dv >= 0 ? '+' : ''}${dv.toFixed(2)} mV</b>`;
+    height;
 }
 
 // ================================================================ 指针与键盘
@@ -683,7 +703,7 @@ function onPointerDown(ev) {
   $('#overlay').setPointerCapture(ev.pointerId);
   stopPlay();
   if (state.tool === 'caliper') {
-    const p = { t: h.tMs, mV: h.mV };
+    const p = { t: h.tMs, mV: h.mV, lead: h.cell.lead };
     set({ caliper: { row: h.cell.row, a: p, b: p, march: $('#caliper-march').checked } }, 'overlay');
   } else {
     set({ cursorMs: h.tMs, selectedLead: h.cell.lead }, 'overlay', 'linked');
@@ -693,7 +713,9 @@ function onPointerMove(ev) {
   const h = pointerHit(ev);
   const out = $('#hover-readout');
   out.textContent = h
-    ? `${h.cell.lead} 导联 · ${(h.tMs / 1000).toFixed(3)} s · 光标高度 ${h.mV.toFixed(2)} mV`
+    ? `${h.cell.lead} 导联 · ${(h.tMs / 1000).toFixed(3)} s · 光标高度 ${h.mV.toFixed(2)}${
+        state.ecg?.meta.amplitudeNormalized ? '（相对幅度）' : ' mV'
+      }`
     : '点击波形放置时间光标';
   if (!dragging || !h) return;
   if (state.tool === 'caliper') {
@@ -703,7 +725,8 @@ function onPointerMove(ev) {
     const r = state.layout.rows[row];
     const rect = $('#overlay').getBoundingClientRect();
     const yMm = (ev.clientY - rect.top) / state.pxPerMm;
-    set({ caliper: { ...state.caliper, b: { t: h.tMs, mV: (r.baselineMm - yMm) / state.gain } } }, 'overlay');
+    const lead = h.cell.row === row ? h.cell.lead : null; // 拖到别的行时，终点所在导联按"不同"处理
+    set({ caliper: { ...state.caliper, b: { t: h.tMs, mV: (r.baselineMm - yMm) / state.gain, lead } } }, 'overlay');
   } else {
     set({ cursorMs: h.tMs, selectedLead: h.cell.lead }, 'overlay', 'linked');
   }
@@ -963,7 +986,10 @@ async function selectCase(id) {
     if (token !== loadToken) return null;
     console.error(e);
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
-    $('#retry').onclick = () => selectCase(id);
+    // 下拉框退回到仍在显示的病例，免得和波形对不上
+    if (!quiz.set && state.caseId) $('#case-select').value = state.caseId;
+    // 测验中要从题目层重试：只重载病例的话题面和"提交"状态不会恢复
+    $('#retry').onclick = () => (quiz.set ? goQuestion(quiz.index) : selectCase(id));
     return false;
   }
 }
@@ -1109,7 +1135,7 @@ async function goStep(i) {
   if (step.caliper && beats[step.caliper.to]) {
     const ta = beats[step.caliper.from].QRS.peak;
     const tb = beats[step.caliper.to].QRS.peak;
-    patch.caliper = { row: 3, a: { t: ta, mV: 0 }, b: { t: tb, mV: 0 }, march: !!step.caliper.march };
+    patch.caliper = { row: 3, a: { t: ta, mV: 0, lead: 'II' }, b: { t: tb, mV: 0, lead: 'II' }, march: !!step.caliper.march }; // 第 4 行是 II 导联节律条
     patch.tool = 'caliper';
   }
   set(patch, 'paper', 'linked');
@@ -1189,7 +1215,7 @@ async function exitTour({ keepCase = false } = {}) {
 
 // ================================================================ 读片手册
 
-const hb = { chapter: null, demoToken: 0, primerFrom: null };
+const hb = { chapter: null, demoToken: 0, demoLoading: false, primerFrom: null };
 
 function openHandbook(id) {
   const ch = chapterById(id) ?? chapterById(hb.chapter) ?? HANDBOOK[0].chapters[0];
@@ -1320,12 +1346,21 @@ function closeHandbook() {
   closeDlg('handbook');
 }
 
+/** 关掉演示提示条，并作废演示还没完成的加载和定位（否则迟到的请求还会换病例、改视图） */
+function stopDemo() {
+  $('#hb-demo').hidden = true;
+  hb.demoToken++;
+  if (hb.demoLoading) cancelPendingLoad();
+  hb.demoLoading = false;
+}
+
 /** "在图上演示"：关闭手册，加载病例并定位；顶部提示条说明看什么 */
 async function runDemo(chId, i) {
   const ch = chapterById(chId);
   const demo = ch?.demos[i];
   if (!demo) return;
   const token = ++hb.demoToken;
+  hb.demoLoading = false;
   closeHandbook();
   if (tour.def) await exitTour({ keepCase: true });
   if (token !== hb.demoToken) return;
@@ -1333,8 +1368,10 @@ async function runDemo(chId, i) {
   $('#hb-demo-note').textContent = '正在加载病例…';
   $('#hb-demo').hidden = false;
   if (state.caseId !== demo.case) {
+    hb.demoLoading = true;
     const ok = await selectCase(demo.case);
     if (token !== hb.demoToken) return;
+    hb.demoLoading = false;
     if (!ok) {
       $('#hb-demo-note').textContent = '病例加载失败，请回到手册重试。';
       return;
@@ -1677,12 +1714,19 @@ function finishQuiz() {
   quiz.token++;
   const qs = quiz.set.questions;
   const right = quiz.results.filter((r) => r?.ok).length;
+  const skipped = qs.length - quiz.results.filter(Boolean).length;
   $('#qz-count').textContent = '完成';
   const plain = (h) => h.replace(/<[^>]+>/g, '');
+  // 三种结果：答对、答错、跳过（病例没加载出来就跳过的题不算答错）
+  const mark = (r) => (!r ? ['skip', '－'] : r.ok ? ['ok', '✓'] : ['bad', '✗']);
   $('#qz-prompt').innerHTML =
-    `<b>答对 ${right} / ${qs.length} 题。</b>` +
+    `<b>答对 ${right} / ${qs.length - skipped} 题。</b>` +
+    (skipped ? `<span class="muted">（另有 ${skipped} 题跳过，未计分）</span>` : '') +
     `<ol class="qz-summary small">${qs
-      .map((q, i) => `<li class="${quiz.results[i]?.ok ? 'ok' : 'bad'}">${quiz.results[i]?.ok ? '✓' : '✗'} ${esc(plain(q.prompt))}</li>`)
+      .map((q, i) => {
+        const [cls, sym] = mark(quiz.results[i]);
+        return `<li class="${cls}">${sym} ${esc(plain(q.prompt))}${cls === 'skip' ? '<span class="muted">（跳过）</span>' : ''}</li>`;
+      })
       .join('')}</ol>`;
   $('#qz-answer').innerHTML = `<button class="primary" id="qz-again">再做一次</button><button id="qz-done">退出测验</button>`;
   $('#qz-again').onclick = () => startQuiz(quiz.set.id);
@@ -1874,10 +1918,10 @@ function bindControls() {
     }
   });
   $('#hb-demo-back').onclick = () => {
-    $('#hb-demo').hidden = true;
+    stopDemo();
     openHandbook(hb.chapter);
   };
-  $('#hb-demo-close').onclick = () => ($('#hb-demo').hidden = true);
+  $('#hb-demo-close').onclick = stopDemo;
   $('#primer-close').onclick = () => $('#primer').close();
   // 对话框关闭或其中内容滚动时，收起挂在对话框里的术语弹窗
   for (const id of ['handbook', 'primer', 'glossary', 'drugbook']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));

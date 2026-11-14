@@ -14,8 +14,30 @@ export function loadIndex() {
   return getJson('index.json');
 }
 
+const LEAD_NAMES = new Set(['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6']);
+
+/** 检查 meta.json 里决定如何解析波形的字段；不合格时抛出带原因的错误，而不是画出错乱的图 */
+export function validateMeta(meta, id) {
+  const bad = (why) => {
+    throw new Error(`${id} 元数据有误：${why}`);
+  };
+  if (!meta || typeof meta !== 'object') bad('不是对象');
+  if (!(meta.fs > 0)) bad(`采样率 fs = ${meta.fs}`);
+  if (!Number.isInteger(meta.nSamples) || meta.nSamples < 2) bad(`采样点数 nSamples = ${meta.nSamples}`);
+  if (!Array.isArray(meta.leads) || !meta.leads.length) bad('缺少导联列表');
+  for (const l of meta.leads) if (!LEAD_NAMES.has(l)) bad(`未知导联 ${l}`);
+  if (new Set(meta.leads).size !== meta.leads.length) bad('导联重复');
+  if (!['I', 'II', 'III', 'aVR', 'aVL', 'aVF'].every((l) => meta.leads.includes(l))) bad('缺少肢体导联');
+  const f = meta.signal?.file;
+  if (typeof f !== 'string' || !/^[\w.-]+$/.test(f)) bad(`波形文件名 ${f}`);
+  const dur = (meta.nSamples / meta.fs) * 1000;
+  if (!(Math.abs(meta.durationMs - dur) <= 1000 / meta.fs + 1))
+    bad(`时长 ${meta.durationMs} ms 与采样点数不符（应约 ${dur} ms）`);
+  return meta;
+}
+
 export async function loadCase(id) {
-  const meta = await getJson(`${id}/meta.json`);
+  const meta = validateMeta(await getJson(`${id}/meta.json`), id);
   const r = await fetch(url(`${id}/${meta.signal.file}`));
   if (!r.ok) throw new Error(`${id} 波形：HTTP ${r.status}`);
   const buf = await r.arrayBuffer();

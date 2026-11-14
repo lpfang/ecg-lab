@@ -3,7 +3,7 @@
 
 import { DRUG_BOOK, DRUG_CHAPTERS, DRUG_CLASSES, DRUGS, DRUG_CHECKED, drugById, classById } from '../content/drugs.js';
 import { REFS } from '../content/refs.js';
-import { addPinyinAll } from './pinyin.js';
+import { addPinyin, addPinyinAll } from './pinyin.js';
 
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -146,16 +146,41 @@ export function renderDrugChapter(bodyEl, id) {
   return ch;
 }
 
+/** 检索结果的一行：名字、类别、商品名；点开才生成完整卡片（77 张卡片一次全画太重） */
+function drugRow(d) {
+  const c = classById(d.cls);
+  const brands = [...(d.cn?.brands ?? []), ...(d.us?.brands ?? [])].slice(0, 4).map(esc).join('、');
+  return `<details class="dg-row" data-drug-row="${d.id}"><summary><b>${esc(d.zh)}</b> <span class="en">${esc(d.inn)}</span>${
+    c ? ` <span class="dg-row-cls">${esc(c.short ?? c.zh)}</span>` : ''
+  }${brands ? ` <span class="muted small">${brands}</span>` : ''}</summary></details>`;
+}
+
 /** 检索结果 */
 export function renderDrugSearch(bodyEl, q) {
   const res = searchDrugs(q);
+  const box = bodyEl.querySelector('#dg-results');
   bodyEl.querySelector('#dg-count').textContent = q.trim()
-    ? `找到 ${res.length} 种（共 ${DRUGS.length} 种）`
-    : `共 ${DRUGS.length} 种，按类别排列`;
-  bodyEl.querySelector('#dg-results').innerHTML = res.length
-    ? res.map((d) => drugCard(d)).join('')
+    ? `找到 ${res.length} 种（共 ${DRUGS.length} 种），点名字展开详情`
+    : `共 ${DRUGS.length} 种，按类别排列，点名字展开详情`;
+  box.innerHTML = res.length
+    ? res.map(drugRow).join('')
     : '<p class="muted">没有找到。可以换个写法，或只输入名字的一部分。</p>';
-  addPinyinAll(bodyEl.querySelector('#dg-results'));
+  box.querySelectorAll('summary').forEach((el) => addPinyin(el));
+  if (!box.dataset.bound) {
+    box.dataset.bound = '1';
+    // toggle 不冒泡，在捕获阶段统一处理：第一次展开时才生成卡片
+    box.addEventListener(
+      'toggle',
+      (e) => {
+        const row = e.target;
+        if (!row.matches?.('.dg-row') || !row.open || row.querySelector('.dg-card')) return;
+        row.insertAdjacentHTML('beforeend', drugCard(drugById(row.dataset.drugRow)));
+        addPinyin(row.querySelector('.dg-card'));
+      },
+      true,
+    );
+  }
+  if (res.length === 1) box.querySelector('.dg-row').open = true;
 }
 
 export { drugById, DRUG_CLASSES, addPinyinAll };

@@ -330,6 +330,10 @@ a[data-term]:hover {
   position: absolute;
   inset: 0;
   cursor: crosshair;
+  /* 触屏：点按放光标，滑动仍能横向滚动心电图；卡尺模式要拖动，才拦截手势 */
+  touch-action: pan-x pan-y;
+}
+#overlay.caliper {
   touch-action: none;
 }
 #overlay.caliper {
@@ -1572,6 +1576,9 @@ body.touring .tour-focus {
 .qz-summary .bad {
   color: #b91c1c;
 }
+.qz-summary .skip {
+  color: var(--muted);
+}
 
 /* 作答锁定：隐藏会泄露答案的面板和控件 */
 .quiz-lock {
@@ -2072,4 +2079,23 @@ details.dg-pro summary {
   color: var(--muted, #888);
   font-weight: normal;
   letter-spacing: 0;
+}
+
+/* 降压药查询：结果先列名字，点开再看完整卡片 */
+.dg-row {
+  border-bottom: 1px solid var(--line, #e5e5e5);
+}
+.dg-row > summary {
+  cursor: pointer;
+  padding: 6px 2px;
+}
+.dg-row > summary:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+.dg-row-cls {
+  font-size: 0.85em;
+  color: #1d4ed8;
+}
+.dg-row > .dg-card {
+  margin: 4px 0 12px 18px;
 }
