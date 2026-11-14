@@ -27,8 +27,15 @@ export function validateMeta(meta, id) {
   if (!Array.isArray(meta.leads) || !meta.leads.length) bad('缺少导联列表');
   for (const l of meta.leads) if (!LEAD_NAMES.has(l)) bad(`未知导联 ${l}`);
   if (new Set(meta.leads).size !== meta.leads.length) bad('导联重复');
-  if (!['I', 'II', 'III', 'aVR', 'aVL', 'aVF'].every((l) => meta.leads.includes(l))) bad('缺少肢体导联');
-  const f = meta.signal?.file;
+  // 标准版面和向量环要用全部 12 个导联
+  const missing = [...LEAD_NAMES].filter((l) => !meta.leads.includes(l));
+  if (missing.length) bad(`缺少导联 ${missing.join('、')}`);
+  // 下面的解码器只认这一种格式：小端 Int16、单位 µV、导联优先
+  const sig = meta.signal ?? {};
+  if (sig.dtype !== 'int16le') bad(`数据类型 ${sig.dtype}（只支持 int16le）`);
+  if (sig.unit !== 'uV') bad(`单位 ${sig.unit}（只支持 uV）`);
+  if (sig.layout !== 'lead-major') bad(`排列 ${sig.layout}（只支持 lead-major）`);
+  const f = sig.file;
   if (typeof f !== 'string' || !/^[\w.-]+$/.test(f)) bad(`波形文件名 ${f}`);
   const dur = (meta.nSamples / meta.fs) * 1000;
   if (!(Math.abs(meta.durationMs - dur) <= 1000 / meta.fs + 1))

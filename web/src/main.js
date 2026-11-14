@@ -317,7 +317,9 @@ function renderReadout(r) {
 // ================================================================ 状态栏、测量、病例信息
 
 function renderStatus() {
-  $('#paper-scale').textContent = `${state.speed} mm/s · ${state.gain} mm/mV · 原始数据（未滤波）`;
+  // 幅度归一化的病例（LUDB）：纵向只是相对幅度，不写 mV
+  const amp = state.ecg?.meta.amplitudeNormalized ? `${state.gain} mm/单位相对幅度（不是真实 mV）` : `${state.gain} mm/mV`;
+  $('#paper-scale').textContent = `${state.speed} mm/s · ${amp} · 原始数据（未滤波）`;
   const b = $('#calib-badge');
   b.textContent = state.calibrated ? '已校准' : '未校准';
   b.title = state.calibrated
@@ -440,13 +442,14 @@ function renderST(meta) {
     const g = gl?.values[l]?.ST80;
     return (
       `<tr><th>${l}</th><td class="num ${cls(v.STJ)}">${fmt2(v.STJ)}</td>${st80(v)}` +
-      (gl ? `<td class="num ${cls(g)}">${fmt2(g)}</td>` : '') +
+      // Glasgow 是固定时点读数，可能落在 T 波上：只列数值对照，不做异常着色
+      (gl ? `<td class="num">${fmt2(g)}</td>` : '') +
       '</tr>'
     );
   }).join('');
   $('#st-note').innerHTML =
     'ST 段相对于<a href="#" data-term="isoelectric">本次心跳 QRS 起点前的 PR 段</a>的偏移（mV），各心跳中位数。' +
-    '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记，<b>不是诊断标准</b>' +
+    '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记（Glasgow 一列不着色），<b>不是诊断标准</b>' +
     '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。' +
     (inT
       ? `<br>本例 ${Math.round(inT * 100)}% 的心跳在 J 点后 80 ms 已进入 T 波（心率快或 ST 段短时常见）。` +

@@ -14,8 +14,12 @@ describe('validateMeta', () => {
     expect(bad({ fs: 0 })).toThrow(/采样率/);
     expect(bad({ nSamples: 1.5 })).toThrow(/nSamples/);
     expect(bad({ leads: ['I', 'II', 'X'] })).toThrow(/未知导联/);
-    expect(bad({ signal: { file: '../evil' } })).toThrow(/文件名/);
+    expect(bad({ signal: { ...ok.signal, file: '../evil' } })).toThrow(/文件名/);
     expect(bad({ durationMs: 5000 })).toThrow(/时长/);
+    expect(bad({ signal: { ...ok.signal, dtype: 'int16be' } })).toThrow(/int16le/);
+    expect(bad({ signal: { ...ok.signal, unit: 'mV' } })).toThrow(/uV/);
+    expect(bad({ signal: { ...ok.signal, layout: 'sample-major' } })).toThrow(/lead-major/);
+    expect(bad({ leads: ['I', 'II', 'III', 'aVR', 'aVL', 'aVF'] })).toThrow(/缺少导联 V1/);
   });
 });
 
