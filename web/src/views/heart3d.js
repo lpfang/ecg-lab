@@ -229,6 +229,17 @@ export class Heart3D {
       const r = (a.deg * Math.PI) / 180;
       mk(a.lead, new THREE.Vector3(Math.cos(r), 0, Math.sin(r)));
     }
+    // 方向相同的导联轴（I 与 V6 都指向正左方），标签会叠在一起：上下错开
+    const axes = Object.values(this.axisLines);
+    const done = new Set();
+    for (const a of axes) {
+      if (done.has(a)) continue;
+      const same = axes.filter((b) => b.dir.dot(a.dir) > 0.999);
+      same.forEach((b, i) => {
+        done.add(b);
+        if (same.length > 1) b.label.style.translate = `0 ${(i - (same.length - 1) / 2) * 15}px`;
+      });
+    }
     this.scene.add(this.axisGroup);
   }
 
