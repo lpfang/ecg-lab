@@ -1031,6 +1031,8 @@ async function selectCase(id, retry = () => selectCase(id)) {
 function cancelPendingLoad() {
   loadToken++;
   if (state.ecg) $('#paper-msg').hidden = true;
+  // 下拉框可能已经选了那个被作废的病例：退回到正在显示的病例
+  if (!quiz.set && state.caseId) $('#case-select').value = state.caseId;
 }
 
 // ================================================================ 导览（步骤为数据，播放器统一执行）
@@ -1151,6 +1153,9 @@ async function goStep(i) {
       $('#tour-retry').onclick = () => goStep(i);
       return;
     }
+  } else {
+    // 沿用当前病例时，作废还在路上的旧请求（如刚在下拉框里选了别的病例），免得它晚到后换掉导览正在讲的病例
+    cancelPendingLoad();
   }
   tour.index = i;
   const beats = state.ecg.meta.annotations?.beats ?? [];
@@ -1418,6 +1423,8 @@ async function runDemo(chId, i) {
       hb.demoFailed = true;
       return;
     }
+  } else {
+    cancelPendingLoad(); // 演示沿用当前病例：作废之前还没完成的病例请求，免得它晚到后换掉演示的病例
   }
   const v = demo.view ?? {};
   set(
@@ -1544,6 +1551,8 @@ async function goQuestion(i) {
       $('#qz-next').hidden = false;
       return;
     }
+  } else {
+    cancelPendingLoad(); // 同上：这道题沿用当前病例
   }
   const timed = ['locate', 'edge'].includes(q.type);
   set(
