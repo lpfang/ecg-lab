@@ -21,7 +21,8 @@ import { TOL, gradeLocate, gradeEdge, gradeNumber, gradeAxis, inAnnotatedRange, 
 import { rateTruth, axisTruth, vectorTruth, intervalTruth } from './quiz/answers.js';
 import { vectorFigure } from './quiz/vectorFig.js';
 import { HANDBOOK, chapterById, chaptersForTerm, termNames, termRegex } from './content/handbook.js';
-import { axisWidget, qtcWidget, linkTerms } from './views/handbook.js';
+import { axisWidget, qtcWidget, miWidget, linkTerms } from './views/handbook.js';
+import { MI_TERRITORIES, GRID as MI_GRID, EXTRA_LEADS as MI_EXTRA } from './content/mi.js';
 import { renderDrugNav, renderDrugChapter, renderDrugSearch, drugById, DRUG_CLASSES, addPinyinAll } from './views/drugbook.js';
 import { medianBeat } from './ecg/median.js';
 import { drawBeatCompare, drawRhythmCompare, beatRange, BEAT_SPEED, RHYTHM_SPEED } from './views/compare.js';
@@ -1304,6 +1305,7 @@ function openHandbook(id) {
   linkTerms($('#hb-body .hb-text'), ch.terms ?? [], (t) => termRegex(termNames(t)));
   $('#term-pop').hidden = true;
   if (ch.widget === 'axis') axisWidget($('#hb-widget'), 60);
+  if (ch.widget === 'mi') miWidget($('#hb-widget'), MI_TERRITORIES, MI_GRID, MI_EXTRA);
   if (ch.widget === 'qtc') {
     // 用当前病例预填（有 QT 和心率时）
     const m = state.ecg?.meta;

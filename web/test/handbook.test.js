@@ -29,7 +29,7 @@ describe('手册结构', () => {
         t,
       ).toBe(true);
     if (c.primer) expect(PRIMER_SECTIONS).toContain(c.primer);
-    if (c.widget) expect(['axis', 'qtc']).toContain(c.widget);
+    if (c.widget) expect(['axis', 'qtc', 'mi']).toContain(c.widget);
     // 正文只用简单标签，不含脚本或内联事件
     expect(c.body).not.toMatch(/<script|on\w+=/i);
   });

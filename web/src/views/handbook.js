@@ -248,3 +248,49 @@ export function linkTerms(root, ids, regexOf) {
     }
   }
 }
+
+// ---------------------------------------------------------------- 心梗定位
+
+/**
+ * 心梗定位：选一个部位，12 导联格子里标出 ST 段抬高（红）和对应性压低（蓝）的导联。
+ * 只讲"哪个部位对应哪些导联"，不对任何具体心电图下结论。
+ */
+export function miWidget(root, territories, grid, extra) {
+  const cell = (l) => `<span class="hbw-mi-lead" data-lead="${l}">${l}</span>`;
+  root.innerHTML = `
+    <div class="hbw-mi">
+      <div>
+        <div class="hbw-mi-grid">${grid.flat().map(cell).join('')}</div>
+        <p class="muted small hbw-mi-extra-h">附加导联（常规 12 导联之外，需要另外贴电极）</p>
+        <div class="hbw-mi-grid extra">${extra.map(cell).join('')}</div>
+        <p class="small"><span class="hbw-mi-key up"></span>ST 段抬高　<span class="hbw-mi-key down"></span>对应性 ST 段压低</p>
+      </div>
+      <div class="hbw-side">
+        <div class="hbw-mi-btns">${territories
+          .map((t, i) => `<button type="button" data-mi="${i}">${t.zh}</button>`)
+          .join('')}</div>
+        <div class="hbw-mi-info"></div>
+      </div>
+    </div>`;
+  const info = root.querySelector('.hbw-mi-info');
+  const show = (i) => {
+    const t = territories[i];
+    root.querySelectorAll('[data-mi]').forEach((b) => b.classList.toggle('on', +b.dataset.mi === i));
+    root.querySelectorAll('.hbw-mi-lead').forEach((c) => {
+      const l = c.dataset.lead;
+      c.classList.toggle('up', t.up.includes(l));
+      c.classList.toggle('down', t.down.includes(l));
+    });
+    info.innerHTML =
+      `<p><b>${t.zh}</b>：${t.up.join('、')} ST 段抬高` +
+      (t.down.length ? `；${t.down.join('、')} 常见对应性压低` : '') +
+      `。</p><p>常见的"罪犯血管"：${t.artery}（个人冠状动脉的走行差别很大，只是常见情况）。</p>` +
+      `<p class="muted">${t.note}</p>` +
+      (t.demo != null ? `<p><button type="button" class="primary" data-demo="${t.demo}">在真实病例上看 →</button></p>` : '');
+  };
+  root.querySelector('.hbw-mi-btns').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-mi]');
+    if (b) show(+b.dataset.mi);
+  });
+  show(0);
+}

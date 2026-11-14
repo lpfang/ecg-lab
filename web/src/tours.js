@@ -553,6 +553,93 @@ export const TOURS = [
       },
     ],
   },
+  {
+    id: 'mi',
+    title: '心肌梗死：从急性到陈旧',
+    audience: '患者与医学生',
+    steps: [
+      {
+        title: '先看正常人的 ST 段',
+        case: 'ptbxl-33',
+        view: { showWaves: true, showRef: true, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'T', frac: 0.1 },
+        lead: 'III',
+        focus: ['.paper-wrap', '.measure-card'],
+        spot: { leads: ['II', 'III', 'aVF'], beat: 3 },
+        plain:
+          'ST 段是 QRS 波群结束到 T 波开始之间的那一小段，正常时基本贴着基线（图上紫色虚线是本站用的零点）。本例 III 导联 J 点为 {stj:III} mV，几乎没有偏离。右栏"ST 段"页列出了每个导联的读数。',
+        pro: 'J 点 = QRS 终点。第四版全球心梗定义在 J 点测量 ST 偏移，以 QRS 起点为参照；本站以 QRS 起点前的 PR 段为零点。',
+      },
+      {
+        title: '急性下壁心肌梗死',
+        case: 'ptbxl-12899',
+        view: { showWaves: true, showRef: true, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'T', frac: 0.1 },
+        lead: 'III',
+        focus: ['.paper-wrap', '.measure-card'],
+        spot: { leads: ['II', 'III', 'aVF', 'I', 'aVL'], beat: 3 },
+        plain:
+          '这位 67 岁女性：II、III、aVF 三个导联的 ST 段明显抬高（III 为 {stj:III} mV）。心脏下壁受累时，改变就出现在这三个导联上。同时 I、aVL 的 ST 段压低（aVL 为 {stj:aVL} mV），像镜子里的倒影，叫"对应性改变"。<b>出现持续胸痛，请立即拨打 120。</b>',
+        pro: 'II、III、aVF 均 ≥ 1 mm，满足 STEMI 阈值。III 抬高 > II、I 和 aVL 压低，按 AHA 2009 更像右冠状动脉阻塞（本例无造影资料）。下壁 STEMI 应尽早加做 V3R、V4R 排查右心室受累。',
+      },
+      {
+        title: '急性前壁和侧壁心肌梗死',
+        case: 'ptbxl-13913',
+        view: { showWaves: true, showRef: true, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'T', frac: 0.1 },
+        lead: 'V3',
+        focus: ['.paper-wrap', '.measure-card'],
+        spot: { leads: ['V2', 'V3', 'V4', 'I', 'aVL'], beat: 3 },
+        plain:
+          '这位 68 岁男性：胸前的 V2–V6 和 I、II、aVL 都抬高，V3 抬高 {stj:V3} mV，约 10 小格。抬高的导联越多，受累的心肌往往越多。原报告记录 V2、V3 已出现 Q 波。',
+        pro: '前壁 STEMI 几乎都由左前降支阻塞引起（AHA 2009）。AHA 2009 所说近段阻塞的典型表现是 V1–V4 与 I、aVL 抬高、II、III、aVF 压低；本例 II 反而抬高（{stj:II} mV），只有 III 轻度压低（{stj:III} mV），具体阻塞位置无法从心电图确定（无造影资料）。',
+      },
+      {
+        title: '看不见的后壁：V1–V3 的"镜像"',
+        case: 'ptbxl-2993',
+        view: { showWaves: true, showRef: true, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'T', frac: 0.1 },
+        lead: 'V2',
+        focus: ['.paper-wrap', '.measure-card'],
+        spot: { leads: ['V1', 'V2', 'V3'], beat: 3 },
+        plain:
+          '这位 85 岁女性：II、III、aVF 和 V5、V6 抬高，而 V1–V3 的 ST 段明显压低（V2 为 {stj:V2} mV）。常规 12 导联没有电极正对心脏的后面，后壁受累时，从前胸看到的可能是它的"镜像"，也就是压低。原报告诊断为下侧壁心梗累及后壁。',
+        pro: 'V1–V3 压低本身并不特异，也可能是前壁缺血；加做 V7–V9 抬高 ≥ 0.5 mm（40 岁以下男性 ≥ 1 mm）可提供支持（第四版全球心梗定义第 28 节），本例没有记录。第四版定义称之为"下基底部"，AHA 2009 保留"后壁"一词。',
+      },
+      {
+        title: '亚急性期：T 波倒置',
+        case: 'ptbxl-11944',
+        view: { showWaves: true, showRef: true, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'T', frac: 0.5 },
+        lead: 'V2',
+        focus: ['.paper-wrap', '.measure-card'],
+        spot: { leads: ['V1', 'V2', 'V3', 'V4'], beat: 3 },
+        plain:
+          '这位 74 岁男性的前壁心梗已进入亚急性期：V1–V4 的 ST 段仍轻度抬高（V2 为 {stj:V2} mV），原报告记录 T 波已经倒置。心梗的心电图会随时间演变，大致是：T 波高尖 → ST 段抬高 → 出现 Q 波 → T 波倒置。',
+        pro: 'T 波倒置可持续数天，也可能不再恢复；血管再通后抬高的 ST 段通常很快回落（AHA 2009；第四版定义第 27 节）。指南没有给出各阶段的固定时间。',
+      },
+      {
+        title: '陈旧期：只剩下 Q 波',
+        case: 'ptbxl-12841',
+        view: { showWaves: true, showRef: false, speed: 25, mtab: 'st' },
+        cursor: { beat: 3, phase: 'QRS', frac: 0.2 },
+        lead: 'III',
+        focus: ['.paper-wrap'],
+        spot: { leads: ['II', 'III', 'aVF'], beat: 3 },
+        plain:
+          '这位 52 岁男性过去发生过下壁心梗：ST 段已经回到基线附近（各导联 < 0.1 mV），III、aVF 的 QRS 一开始是宽而深的向下的波，II 也有较小的这种波，即病理性 Q 波，是坏死心肌留下的"疤痕记号"。',
+        pro: '第四版定义表 3：I、II、aVL、aVF、V4–V6 同组相邻两个导联 Q 波 ≥ 0.03 s 且深 ≥ 1 mm。III 导联单独的 Q 波可见于正常人。',
+      },
+      {
+        read: 's-stemi',
+        title: '小结',
+        focus: null,
+        plain:
+          '急性心梗时，相邻导联的 ST 段抬高，"对面"的导联常压低；抬高出现在哪些导联，大致说明是心脏哪一面、哪一支冠状动脉出了问题。之后会出现 Q 波、T 波倒置，陈旧期往往只剩 Q 波。<b>心电图只是诊断依据之一，胸痛时最重要的是立即拨打 120。</b>',
+        pro: '读片手册"急性 ST 段抬高型心肌梗死"一章有阈值表、各部位的对应导联（交互演示）和容易混淆的情况。',
+      },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------- 占位符：用本例数据替换
@@ -621,7 +708,8 @@ export function fillTemplate(text, ctx) {
         .filter((v) => v != null);
       return xs.length ? xs.map(fmt0).join('、') : '—';
     },
-    // 带符号：负值 = 低于 PR 段零点（压低），正值 = 抬高
+    // 带符号：负值 = 低于 PR 段零点（压低），正值 = 抬高。stj = J 点，st80 = J 点后 80 ms
+    stj: (lead) => (own?.[lead]?.STJ == null ? '—' : `${own[lead].STJ < 0 ? '−' : '+'}${Math.abs(own[lead].STJ).toFixed(2)}`),
     st80: (lead) => (own?.[lead]?.ST80 == null ? '—' : `${own[lead].ST80 < 0 ? '−' : '+'}${Math.abs(own[lead].ST80).toFixed(2)}`),
   };
   return text.replace(/\{(\w+)(?::(\w+))?\}/g, (m, name, arg) => (table[name] ? table[name](arg) : m));

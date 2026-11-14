@@ -109,6 +109,40 @@ export const REFS = {
     note: '美国商品名、黑框警告、上市与停产状态；具体链接见每张药物卡片',
     status: 'listed',
   },
+  udmi4: {
+    text: 'Thygesen K, Alpert JS, Jaffe AS, et al. Fourth Universal Definition of Myocardial Infarction (2018). Circulation. 2018;138:e618–e651. doi:10.1161/CIR.0000000000000617',
+    note: '第四版全球心肌梗死定义：表 2（ST 段抬高 / 压低的阈值）、第 27 节（ST 改变与易混淆情况）、第 28 节（右胸与背后导联）、表 3（病理性 Q 波）、第 31 节（Q 波的易混淆情况）、第 32 节（束支阻滞与起搏）',
+    status: 'listed',
+  },
+  aha6: {
+    text: 'Wagner GS, Macfarlane P, Wellens H, et al. AHA/ACCF/HRS recommendations for the standardization and interpretation of the electrocardiogram: Part VI. Acute ischemia/infarction. Circulation. 2009;119:e262–e270.',
+    note: '急性缺血 / 梗死：ST 改变与罪犯血管的对应、对应性改变、"后壁"一词的取舍、左束支阻滞时的判断',
+    status: 'listed',
+  },
+  esc2023acs: {
+    text: 'Byrne RA, Rossello X, Coughlan JJ, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44:3720–3826. doi:10.1093/eurheartj/ehad191',
+    status: 'listed',
+  },
+  acc2025acs: {
+    text: 'Rao SV, O\'Donoghue ML, Ruel M, et al. 2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for the Management of Patients With Acute Coronary Syndromes. Circulation. 2025. doi:10.1161/CIR.0000000000001309',
+    note: '第 5.1 节：出现症状拨打急救电话，不要自己开车去医院',
+    status: 'listed',
+  },
+  cnStemi2019: {
+    text: '中华医学会心血管病学分会, 中华心血管病杂志编辑委员会. 急性 ST 段抬高型心肌梗死诊断和治疗指南（2019）. 中华心血管病杂志. 2019;47(10):766–783. doi:10.3760/cma.j.issn.0253-3758.2019.10.003',
+    note: '首次医疗接触 10 分钟内完成心电图、尽早拨打 120、时间目标（90 / 120 / 30 分钟）、发病 12 小时内的再灌注窗口',
+    status: 'listed',
+  },
+  cnStemiPrimary2019: {
+    text: '中华医学会, 等. ST 段抬高型心肌梗死基层诊疗指南（2019 年）. 中华全科医师杂志. 2020;19(12):1083–1091. doi:10.3760/cma.j.cn114798-20200904-00961',
+    note: '中文写明的 ST 段抬高阈值（与第四版全球心梗定义一致）',
+    status: 'listed',
+  },
+  ptbxl: {
+    text: 'Wagner P, Strodthoff N, Bousseljot RD, et al. PTB-XL, a large publicly available electrocardiography dataset. Sci Data. 2020;7:154. doi:10.1038/s41597-020-0495-6',
+    note: '梗死分期（Stadium I / II / III）是从原始诊断报告的文字里提取的，不是按统一标准重新判读',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',
