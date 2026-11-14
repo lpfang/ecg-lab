@@ -59,6 +59,7 @@ function lsSet(k, v) {
 const state = {
   index: null,
   caseId: null,
+  caseBroken: false, // 新病例的面板渲染中途出错
   ecg: null,
   speed: 25,
   gain: 10,
@@ -958,7 +959,14 @@ function loadHeart() {
 // ================================================================ 病例加载（带令牌，可作废）
 
 let loadToken = 0;
-async function selectCase(id) {
+/** 病例已加载并且各面板都渲染成功（渲染中途出错时 caseId 已是新病例，但不算就绪） */
+const caseReady = (id) => state.caseId === id && !state.caseBroken;
+
+/**
+ * @param retry 失败时波形区"重试"按钮要做的事：导览、测验、演示传入各自的步骤级重试，
+ *   免得只重载病例而上层流程停在失败状态
+ */
+async function selectCase(id, retry = () => selectCase(id)) {
   const token = ++loadToken;
   stopPlay();
   $('#paper-msg').hidden = false;
@@ -968,6 +976,7 @@ async function selectCase(id) {
     if (token !== loadToken) return null; // 被更新的加载取代（不是失败）
     const beats = ecg.meta.annotations?.beats ?? [];
     const first = beats[Math.min(2, beats.length - 1)];
+    state.caseBroken = true; // 下面全部完成才清除
     set(
       {
         caseId: id,
@@ -985,6 +994,7 @@ async function selectCase(id) {
     renderLVH(ecg.meta);
     renderST(ecg.meta);
     renderCompare(ecg);
+    state.caseBroken = false;
     $('#paper-msg').hidden = true; // 各面板都更新完再收起提示；中途出错时提示和重试按钮仍可见
     // 测验中下拉框只显示"测验中"：病例标题会泄露诊断题的答案
     $('#case-select').value = quiz.set ? QUIZ_OPT : id;
@@ -1002,8 +1012,7 @@ async function selectCase(id) {
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
     // 下拉框退回到仍在显示的病例，免得和波形对不上
     if (!quiz.set && state.caseId) $('#case-select').value = state.caseId;
-    // 测验中要从题目层重试：只重载病例的话题面和"提交"状态不会恢复
-    $('#retry').onclick = () => (quiz.set ? goQuestion(quiz.index) : selectCase(id));
+    $('#retry').onclick = () => retry();
     return false;
   }
 }
@@ -1116,12 +1125,12 @@ async function goStep(i) {
   const step = effectiveStep(def, i);
   $('#tour-step-title').textContent = step.title;
   $('#tour-count').textContent = `${i + 1} / ${def.steps.length}`;
-  if (step.case && state.caseId !== step.case) {
+  if (step.case && !caseReady(step.case)) {
     $('#tour-body').innerHTML = '<p class="muted">正在加载病例…</p>';
     // 加载期间禁用翻页，避免按旧的 tour.index 计算下一步
     $('#tour-prev').disabled = true;
     $('#tour-next').disabled = true;
-    const ok = await selectCase(step.case);
+    const ok = await selectCase(step.case, () => goStep(i));
     if (token !== tour.token) return; // 用户已翻到别的步骤或退出
     $('#tour-next').disabled = false;
     $('#tour-prev').disabled = tour.index <= 0;
@@ -1381,9 +1390,9 @@ async function runDemo(chId, i) {
   $('#hb-demo-label').textContent = demo.label;
   $('#hb-demo-note').textContent = '正在加载病例…';
   $('#hb-demo').hidden = false;
-  if (state.caseId !== demo.case) {
+  if (!caseReady(demo.case)) {
     hb.demoLoading = true;
-    const ok = await selectCase(demo.case);
+    const ok = await selectCase(demo.case, () => runDemo(chId, i));
     if (token !== hb.demoToken) return;
     hb.demoLoading = false;
     if (!ok) {
@@ -1507,8 +1516,8 @@ async function goQuestion(i) {
   $('#qz-submit').hidden = false;
   $('#qz-submit').disabled = true;
   $('#qz-next').hidden = true;
-  if (state.caseId !== q.case) {
-    const ok = await selectCase(q.case);
+  if (!caseReady(q.case)) {
+    const ok = await selectCase(q.case, () => goQuestion(i));
     if (token !== quiz.token || !quiz.set) return;
     if (!ok) {
       $('#qz-prompt').innerHTML = '病例加载失败。<button id="qz-retry">重试</button>　也可以跳过这一题。';
@@ -1613,7 +1622,7 @@ function renderQuizPick() {
 
 function submitQuiz() {
   const q = quiz.set?.questions[quiz.index];
-  if (!q || quiz.done || !quiz.ready || state.caseId !== q.case) return;
+  if (!q || quiz.done || !quiz.ready || !caseReady(q.case)) return;
   const meta = state.ecg.meta;
   if (['locate', 'edge'].includes(q.type)) {
     // 再检查一遍（按钮状态只是界面提示）
