@@ -261,7 +261,7 @@ export function buildPrimer(root, level) {
   root.innerHTML = `
     <p class="pr-info" id="pr-info">每个导联就像一台从固定方向"看"心脏的相机。点上面的导联名，下面三张图会同时标出它用到的电极和它看心脏的方向。</p>
 
-    <p class="pr-heart">还不熟悉心脏的结构？<a href="#" data-heart="ext">先看心脏结构图 →</a>（腔室、大血管、冠状动脉、传导系统）</p>
+    <p class="pr-heart">还不熟悉心脏的结构？<a href="#" data-heart="ext">先看心脏结构图 →</a>（腔室、大血管、冠状动脉、传导系统、心动周期）</p>
 
     <section class="pr-sec" id="pr-sec-intro">
       <h4>一句话</h4>

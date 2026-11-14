@@ -9,11 +9,28 @@ import { spread, sourceHtml } from '../src/views/anatomy.js';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
 describe('心脏结构图', () => {
-  it('三幅图：外观、内部、传导系统', () => {
-    expect(FIG_KEYS).toEqual(['ext', 'int', 'cond']);
+  it('四幅图：外观、内部、传导系统、心动周期', () => {
+    expect(FIG_KEYS).toEqual(['ext', 'int', 'cond', 'cycle']);
   });
 
-  it.each(FIG_KEYS)('%s：图片存在，引线按 y 排好、落在图内，结构都有说明', (k) => {
+  it('心动周期：图内标注都有说明，落在图内，默认选中项在图上', async () => {
+    const f = FIGS.cycle;
+    const { figIds } = await import('../src/views/anatomy.js');
+    expect(existsSync(new URL(`../public/${f.img}`, import.meta.url)), f.img).toBe(true);
+    for (const [id, x, y, lines] of f.overlay) {
+      expect(ANATOMY[id], id).toBeTruthy();
+      expect(x).toBeGreaterThan(0);
+      expect(x).toBeLessThan(f.w);
+      expect(y).toBeGreaterThan(0);
+      expect(y + lines.length * 52).toBeLessThan(f.h);
+    }
+    for (const side of ['top', 'bottom', 'left', 'right']) expect(ANATOMY[f.ring[side][0]], side).toBeTruthy();
+    expect(figIds('cycle').has(f.def)).toBe(true);
+    // 六个阶段都写了瓣膜状态
+    for (const [id] of f.overlay) expect(ANATOMY[id][5], id).toMatch(/瓣/);
+  });
+
+  it.each(FIG_KEYS.filter((k) => !FIGS[k].overlay))('%s：图片存在，引线按 y 排好、落在图内，结构都有说明', (k) => {
     const f = FIGS[k];
     expect(existsSync(new URL(`../public/${f.img}`, import.meta.url)), f.img).toBe(true);
     for (const rows of [f.L, f.R]) {
@@ -31,9 +48,9 @@ describe('心脏结构图', () => {
     for (const t of f.inside ?? []) expect(ANATOMY[t.id], t.id).toBeTruthy();
   });
 
-  it.each(Object.entries(ANATOMY))('%s：五项齐全，关系说明只用 <b>，出处里的文献 id 有效', (id, v) => {
-    expect(v).toHaveLength(5);
-    for (const x of v) expect(x.trim().length).toBeGreaterThan(0);
+  it.each(Object.entries(ANATOMY))('%s：五项齐全（可选第六项瓣膜），关系说明只用 <b>，出处里的文献 id 有效', (id, v) => {
+    expect([5, 6]).toContain(v.length);
+    for (const x of v.slice(0, 5)) expect(x.trim().length).toBeGreaterThan(0);
     expect(v[3].replace(/<\/?b>/g, '')).not.toMatch(/[<>]/);
     expect(v[2]).not.toMatch(/[<>]/);
     for (const k of Object.keys(REF_SHORT)) if (v[4].includes(k)) expect(REFS[k], k).toBeTruthy();
@@ -60,8 +77,8 @@ describe('心脏结构图', () => {
 });
 
 describe('切图时的选中项', () => {
-  it('默认结构左心室在三幅图上都有标注', async () => {
+  it('默认结构左心室在三幅解剖图上都有标注', async () => {
     const { figIds } = await import('../src/views/anatomy.js');
-    for (const k of FIG_KEYS) expect(figIds(k).has('lv'), k).toBe(true);
+    for (const k of FIG_KEYS.filter((k) => !FIGS[k].overlay)) expect(figIds(k).has('lv'), k).toBe(true);
   });
 });

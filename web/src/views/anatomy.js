@@ -19,9 +19,36 @@ export function sourceHtml(src) {
   return esc(src).replace(/\b(aha3|aha5|aha6|udmi4|brady2018|cn2024)\b/g, (k) => `<abbr title="${esc(REFS[k].text)}">${REF_SHORT[k]}</abbr>`);
 }
 
+/** 图内标注的图（心动周期）：标注直接写在原来英文的位置上 */
+function overlaySvg(f) {
+  const g = (id, inner, extra = '') => `<g class="an-lab an-ov" data-id="${id}" tabindex="0" role="button" aria-label="${ANATOMY[id][0]}"${extra}>${inner}</g>`;
+  let s = `<image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
+  const { cx, cy, r, top, bottom, left, right } = f.ring;
+  const arc = (id, sweep) => `<path id="${id}" d="M${cx - r} ${cy} A${r} ${r} 0 0 ${sweep} ${cx + r} ${cy}" fill="none"/>`;
+  s += `<defs>${arc('an-arc-top', 1)}${arc('an-arc-bot', 0)}</defs>`;
+  s += `<text class="an-ov-s" x="${f.start[0]}" y="${f.start[1]}">开始</text>`;
+  // 圆环上的字按字形中线对齐圆弧，换字体也居中
+  s += g(top[0], `<text class="an-ring" dominant-baseline="central"><textPath href="#an-arc-top" startOffset="50%">${top[1]}</textPath></text>`);
+  s += g(bottom[0], `<text class="an-ring" dominant-baseline="central"><textPath href="#an-arc-bot" startOffset="50%">${bottom[1]}</textPath></text>`);
+  s += g(left[0], `<text class="an-ring" dominant-baseline="central" transform="translate(${left[2]} ${cy}) rotate(-90)">${left[1]}</text>`);
+  s += g(right[0], `<text class="an-ring" dominant-baseline="central" transform="translate(${right[2]} ${cy}) rotate(90)">${right[1]}</text>`);
+  for (const [id, x, y, lines] of f.overlay) {
+    let yy = y;
+    let t = '';
+    for (const [txt, c] of lines) {
+      t += `<text class="an-ov-${c}" x="${x}" y="${yy}">${txt}</text>`;
+      yy += c === 't' ? 52 : 46;
+    }
+    const w = Math.max(...lines.map(([txt, c]) => txt.length * (c === 't' ? 44 : 38))) + 24;
+    s += g(id, `<rect x="${x - w / 2}" y="${y - 44}" width="${w}" height="${yy - y + 14}" rx="10"/>${t}`);
+  }
+  return s;
+}
+
 /** 一幅图的 SVG 内容（图片 + 引线 + 标注） */
 export function figureSvg(key) {
   const f = FIGS[key];
+  if (f.overlay) return overlaySvg(f);
   let s = `<image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
   const label = (id, x, y, left, name = ANATOMY[id][0]) => {
     const w = name.length * 26 + 10;
@@ -68,6 +95,10 @@ let onFig = null;
 /** 某幅图上标注了哪些结构 */
 export function figIds(key) {
   const f = FIGS[key];
+  if (f.overlay) {
+    const { top, bottom, left, right } = f.ring;
+    return new Set([...f.overlay.map((r) => r[0]), top[0], bottom[0], left[0], right[0]]);
+  }
   return new Set([...f.L, ...f.R, ...(f.inside ?? []).map((t) => [0, t.id])].map((r) => r[1]));
 }
 
@@ -92,16 +123,18 @@ export function buildAnatomy(root, key = 'ext', onChange = null) {
         <span class="muted small">结构说明</span>
         <h4 id="an-zh"></h4><p class="muted" id="an-en" lang="en"></p>
         <p id="an-plain"></p>
+        <p id="an-valve" class="muted" hidden></p>
         <div class="an-ecg"><b>和心电图的关系</b><p id="an-rel"></p></div>
         <p class="an-src" id="an-src"></p>
       </aside>
     </div>
     <p class="an-credit muted small">
-      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18，
+      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27，
       采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noopener">19.1 Heart Anatomy</a>、
-      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-2-cardiac-muscle-and-electrical-activity" target="_blank" rel="noopener">19.2 Cardiac Muscle and Electrical Activity</a>。
-      本站的改动：裁去英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；说明文字为本站编写。
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-2-cardiac-muscle-and-electrical-activity" target="_blank" rel="noopener">19.2 Cardiac Muscle and Electrical Activity</a>、
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>。
+      本站的改动：裁去（图 19.27 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；说明文字为本站编写。
     </p>`;
   root.querySelector('.an-tabs').onclick = (e) => {
     const b = e.target.closest('[data-fig]');
@@ -134,12 +167,14 @@ export function show(root, key) {
   root.querySelector('#an-sub').textContent = f.sub;
   root.querySelector('#an-note').textContent = f.note;
   const svg = root.querySelector('#an-svg');
-  svg.setAttribute('viewBox', `${-M} 0 ${f.w + 2 * M} ${f.h}`);
+  const m = f.overlay ? 0 : M; // 图内标注的图两侧不留空
+  svg.setAttribute('viewBox', `${-m} 0 ${f.w + 2 * m} ${f.h}`);
   svg.setAttribute('aria-label', f.title);
+  svg.classList.toggle('tall', !!f.overlay); // 心动周期图又高又细，不限高度，靠滚动
   svg.innerHTML = figureSvg(key);
   root.dataset.fig = key;
-  // 选中的结构这幅图上也有就保留，否则改选左心室（三幅图都有）
-  select(root, figIds(key).has(current) ? current : 'lv');
+  // 选中的结构这幅图上也有就保留，否则改选这幅图的默认项（解剖图都是左心室）
+  select(root, figIds(key).has(current) ? current : (f.def ?? 'lv'));
   onFig?.(key);
 }
 
@@ -152,10 +187,13 @@ function mark(root, id) {
 export function select(root, id) {
   if (!ANATOMY[id]) return;
   current = id;
-  const [zh, en, plain, rel, src] = ANATOMY[id];
+  const [zh, en, plain, rel, src, valve] = ANATOMY[id];
   root.querySelector('#an-zh').textContent = zh;
   root.querySelector('#an-en').textContent = en;
   root.querySelector('#an-plain').textContent = plain;
+  const v = root.querySelector('#an-valve');
+  v.textContent = valve ? `瓣膜：${valve}` : '';
+  v.hidden = !valve;
   root.querySelector('#an-rel').innerHTML = rel;
   root.querySelector('#an-src').innerHTML = `出处：${sourceHtml(src)}`;
   mark(root, id);

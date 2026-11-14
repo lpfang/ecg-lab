@@ -2388,3 +2388,43 @@ body.case-stale .case-info {
   margin: 8px 0 0;
   font-size: 14px;
 }
+.an-ov text {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  text-anchor: middle;
+  fill: #111;
+}
+.an-ov .an-ov-t {
+  font-size: 44px;
+  font-weight: 700;
+}
+.an-ov .an-ov-s,
+.an-ov-s {
+  font-size: 38px;
+  font-weight: 400;
+  text-anchor: middle;
+}
+.an-ov .an-ring {
+  font-size: 34px;
+  font-weight: 400;
+}
+.an-ov.on rect {
+  fill: rgba(255, 255, 255, 0.55);
+  stroke: #06675b;
+  stroke-width: 3;
+}
+.an-ov:hover text,
+.an-ov:focus-visible text,
+.an-ov.on text {
+  fill: #06675b;
+  text-decoration: none;
+}
+.an-ov.on .an-ring {
+  font-weight: 700;
+}
+/* 心动周期图比宽还高：不按窗口高度压缩，否则圆环上的字太小 */
+.an-fig svg.tall,
+#anatomy.max .an-fig svg.tall {
+  max-height: none;
+  max-width: 820px;
+  margin: 4px auto 0;
+}
