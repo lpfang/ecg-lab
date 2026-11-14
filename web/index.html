@@ -356,14 +356,43 @@
 
     <dialog id="calib-dialog">
       <h3>屏幕校准</h3>
-      <p>
-        把一张银行卡（或身份证，标准尺寸 85.6 × 54 mm）贴在屏幕上，拖动滑块，
-        直到下面的方框与卡片一样大。校准后，屏幕上的 1 mm 就接近真实的 1 mm。
+      <p class="calib-why small">
+        校准后，屏幕上的 1 mm 接近真实的 1 mm，心电图看起来和纸上的一样大。<b>它只影响显示大小</b>：时间、电压读数和卡尺测量都直接用原始数据计算，不校准也一样准。只有想用尺子在屏幕上量、或和纸质心电图按原尺寸对比时才需要。
       </p>
+      <div class="calib-steps">
+        <svg class="calib-fig" viewBox="0 0 150 96" role="img" aria-label="示意：卡片左上角对准方框左上角，调到右边缘重合">
+          <rect x="2" y="2" width="146" height="92" rx="6" class="calib-fig-screen" />
+          <rect x="16" y="16" width="100" height="62" rx="5" class="calib-fig-box" />
+          <rect x="16" y="16" width="86" height="54" rx="5" class="calib-fig-card" />
+          <rect x="22" y="30" width="18" height="12" rx="2" class="calib-fig-chip" />
+          <circle cx="16" cy="16" r="3.5" class="calib-fig-dot" />
+          <path d="M104 47 h10" class="calib-fig-arrow" marker-end="url(#calib-arrow)" />
+          <defs>
+            <marker id="calib-arrow" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M0 0 L6 3 L0 6 z" class="calib-fig-head" />
+            </marker>
+          </defs>
+        </svg>
+        <ol>
+          <li>拿一张银行卡或身份证（标准尺寸 85.6 × 54 mm）。</li>
+          <li>把卡片贴在屏幕上，<b>左上角对准下面虚线方框的左上角</b>。</li>
+          <li>拖动滑块，或点 − / + 微调，直到方框的<b>右边缘和卡片右边缘重合</b>。</li>
+          <li>点"确定"。保持浏览器缩放为 100%（Ctrl/⌘ + 0），否则校准会失效。</li>
+        </ol>
+      </div>
       <div class="card-box"></div>
-      <input type="range" min="2" max="10" step="0.01" />
-      <p class="calib-readout muted"></p>
-      <p class="muted small">校准只影响显示尺寸；时间和电压的测量都直接用原始数据计算，不受影响。</p>
+      <div class="calib-ctrl">
+        <button type="button" data-step="-0.1" title="大幅缩小">−−</button>
+        <button type="button" data-step="-0.01" title="缩小一点">−</button>
+        <input type="range" min="2" max="10" step="0.01" aria-label="每毫米的像素数" />
+        <button type="button" data-step="0.01" title="放大一点">+</button>
+        <button type="button" data-step="0.1" title="大幅放大">++</button>
+      </div>
+      <p class="calib-readout muted small"></p>
+      <div class="calib-check">
+        <p class="small">核对（可选）：校准后，下面这条线应该正好 <b>10 cm</b>，可以用尺子量一下。</p>
+        <svg class="calib-ruler" height="28"></svg>
+      </div>
       <div class="dlg-actions">
         <button data-act="reset">恢复默认</button>
         <button data-act="cancel">取消</button>

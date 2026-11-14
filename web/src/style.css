@@ -209,6 +209,7 @@ dialog p {
   line-height: 1.6;
 }
 .card-box {
+  box-sizing: border-box; /* 虚线外沿就是卡片大小，不多出边框的宽度 */
   border: 2px dashed var(--accent);
   border-radius: 3.5mm;
   margin: 12px 0;
@@ -2182,4 +2183,87 @@ body.case-stale .case-info {
   border-radius: 6px;
   padding: 8px 12px;
   color: #991b1b;
+}
+
+/* 屏幕校准对话框 */
+#calib-dialog {
+  max-width: min(720px, 94vw);
+}
+.calib-why {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.calib-steps {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+.calib-steps ol {
+  margin: 0;
+  padding-left: 1.3em;
+}
+.calib-steps li {
+  margin: 3px 0;
+}
+.calib-fig {
+  width: 150px;
+  height: 96px;
+}
+.calib-fig-screen {
+  fill: #f1f5f9;
+  stroke: #94a3b8;
+}
+.calib-fig-box {
+  fill: #fff5f4;
+  stroke: var(--accent);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+.calib-fig-card {
+  fill: rgba(37, 99, 235, 0.18);
+  stroke: #2563eb;
+  stroke-width: 1.5;
+}
+.calib-fig-chip {
+  fill: #fbbf24;
+}
+.calib-fig-dot {
+  fill: #2563eb;
+}
+.calib-fig-arrow {
+  stroke: #475569;
+  stroke-width: 1.5;
+}
+.calib-fig-head {
+  fill: #475569;
+}
+.calib-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.calib-ctrl button {
+  min-width: 34px;
+}
+.calib-ctrl input[type='range'] {
+  flex: 1;
+}
+.calib-check {
+  overflow-x: auto;
+}
+.calib-check p {
+  margin: 8px 0 4px;
+}
+.calib-ruler-line,
+.calib-ruler-tick {
+  stroke: #111827;
+  stroke-width: 1.5;
+}
+.calib-ruler-lab {
+  font-size: 10px;
+  text-anchor: middle;
+  fill: #374151;
 }
