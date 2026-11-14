@@ -1,0 +1,908 @@
+{
+  "guidelines": [
+    {
+      "id": "china_2024",
+      "citation": "中国高血压防治指南修订委员会, 高血压联盟(中国), 中国医疗保健国际交流促进会高血压病学分会, 中国老年医学学会高血压分会, 中国老年保健协会高血压分会, 中国卒中学会, 中国疾病预防控制中心慢性非传染性疾病预防控制中心. 中国高血压防治指南(2024年修订版). 中华高血压杂志(中英文), 2024, 32(7): 603-700. DOI: 10.16439/j.issn.1673-7245.2024.07.002",
+      "url": "http://www.chl-bha.org.cn/Public/ueditor/php/upload/20240815/17236841017752.pdf (全文PDF, 高血压联盟(中国)官网); 期刊页: https://cjournal.hep.com.cn/1673-7245/CN/10.16439/j.issn.1673-7245.2024.07.002",
+      "used_version": "2024年修订版全文PDF(98页, 期刊页码603起)。页码按PDF页眉的期刊页码记录, 为该段落起始页; 表格页码经页面图像核对(表15 p.624-625, 表16 p.626-627, 表17 p.627-628, 表18 p.631)。",
+      "thresholds": [
+        {
+          "text": "启动药物时机主要取决于心血管风险, 而非仅依据血压水平。",
+          "source_section": "要点5B, 5.1.2, p.615"
+        },
+        {
+          "text": "血压≥160/100 mmHg: 应立即启动降压药物治疗(Ⅰ,A)。",
+          "source_section": "要点5B, p.615"
+        },
+        {
+          "text": "血压140~159/90~99 mmHg: 心血管风险中危及以上者应立即启动药物(Ⅰ,A); 低危者可先改善生活方式4~12周, 仍不达标则尽早启动药物(Ⅰ,C)。",
+          "source_section": "要点5B, p.615"
+        },
+        {
+          "text": "正常高值130~139/85~89 mmHg: 高危和很高危者应立即启动药物(Ⅰ,B); 低中危者无证据显示药物获益, 应持续生活方式干预(Ⅰ,C)。",
+          "source_section": "要点5B, p.615"
+        },
+        {
+          "text": "老年: 65~79岁血压≥140/90 mmHg应开始药物(Ⅰ,A); ≥80岁收缩压≥150 mmHg可开始药物(Ⅱa,B); 并存衰弱等老年综合征者启动时机可适当放宽(Ⅱa,C); 高龄衰弱者收缩压≥160 mmHg可启动药物。",
+          "source_section": "要点7A, 表22, p.643-644"
+        },
+        {
+          "text": "CKD: 无蛋白尿者≥140/90 mmHg启动药物(Ⅰ,A); 有蛋白尿者收缩压≥130和/或舒张压≥80 mmHg启动药物(Ⅱa,B)。",
+          "source_section": "要点8F, p.651"
+        },
+        {
+          "text": "妊娠期高血压疾病(HDP): 诊室血压≥140/90 mmHg时应启动降压治疗(Ⅰ,B)。",
+          "source_section": "要点7C, p.646"
+        },
+        {
+          "text": "脑卒中后病情稳定, 持续≥140/90 mmHg且无禁忌证时, 可恢复发病前降压药或开始降压治疗。",
+          "source_section": "要点8A, p.648"
+        }
+      ],
+      "targets": [
+        {
+          "text": "一般高血压患者诊室血压<140/90 mmHg(Ⅰ,A), 如能耐受应进一步降至<130/80 mmHg(Ⅰ,B)。",
+          "source_section": "要点5C, p.615"
+        },
+        {
+          "text": "心血管风险高危/很高危及有合并症的患者, 可耐受时诊室目标<130/80 mmHg(Ⅰ,A)。",
+          "source_section": "要点5C, p.615"
+        },
+        {
+          "text": "65~79岁: <140/90 mmHg(Ⅰ,A), 能耐受可降至<130/80 mmHg(Ⅱa,A); ≥80岁: <150/90 mmHg, 能耐受可降至<140/90 mmHg(Ⅱa,B)。",
+          "source_section": "要点5C, p.615; 要点7A, p.643"
+        },
+        {
+          "text": "衰弱老年患者目标个体化, 收缩压目标<150 mmHg, 但不低于130 mmHg(Ⅱa,C)。",
+          "source_section": "要点7A, 表22, p.643-644"
+        },
+        {
+          "text": "老年单纯收缩期高血压(ISH): 目标收缩压140~150 mmHg(Ⅰ,A), 耐受良好可降至130~140 mmHg(Ⅱa,B); 尽量避免舒张压<70 mmHg(Ⅲ,C)。",
+          "source_section": "要点6E, p.642"
+        },
+        {
+          "text": "糖尿病: <130/80 mmHg(Ⅱa,B); 老年或伴严重冠心病者可放宽至140/90 mmHg(Ⅱa,B); 合并糖尿病的孕妇≤135/85 mmHg(Ⅱa,B)。",
+          "source_section": "要点8G, p.653"
+        },
+        {
+          "text": "CKD: 无蛋白尿<140/90 mmHg(Ⅰ,A), 耐受可降至130/80 mmHg(Ⅱa,B); 有蛋白尿<130/80 mmHg(Ⅱa,B)。≥80岁CKD患者≥150/90 mmHg启动, 目标<150/90 mmHg。",
+          "source_section": "要点8F, 8.6.1, p.651-652"
+        },
+        {
+          "text": "冠心病: <140/90 mmHg(Ⅰ,A), 能耐受可降至<130/80 mmHg(Ⅱa,B); 高龄、冠脉严重狭窄者血压不宜过低。",
+          "source_section": "要点8C, 8.3.1, p.649"
+        },
+        {
+          "text": "心力衰竭: 降压目标<130/80 mmHg(Ⅰ,C); HFpEF可先<140/90 mmHg, 耐受再<130/80 mmHg(正文注明缺乏RCT支持)。",
+          "source_section": "要点8D, 8.4.3, p.650"
+        },
+        {
+          "text": "脑卒中后: <140/90 mmHg(Ⅰ,A), 能耐受可降至<130/80 mmHg(Ⅱa,B)。",
+          "source_section": "要点8A, p.648"
+        },
+        {
+          "text": "妊娠期降压治疗时血压不低于110/70 mmHg(Ⅲ,C)。",
+          "source_section": "要点7C, p.646"
+        },
+        {
+          "text": "诊室外目标: 可考虑家庭血压<135/85 mmHg, 24h动态血压<130/80 mmHg; 清晨血压<135/85 mmHg, 夜间血压<120/70 mmHg。",
+          "source_section": "5.1.3.2, 表10, p.617"
+        },
+        {
+          "text": "达标时间: 一般在4周内或12周内逐渐降至目标; 年轻、病程短者可稍快, 老年、病程长、合并症多且耐受差者可稍慢。",
+          "source_section": "5.1.3.3, p.617"
+        }
+      ],
+      "first_line": [
+        {
+          "text": "常用降压药(CCB、ACEI、ARB、噻嗪类利尿剂、β受体阻滞剂)及其单片复方制剂(SPC), 本版新增ARNI为一类常用降压药; 以上均可作为初始和维持治疗的常用药物。",
+          "source_section": "5.2.2.3, p.623"
+        },
+        {
+          "text": "常用降压药均可作为初始用药, 根据特殊人群类型、合并症选择针对性药物, 个体化治疗(Ⅰ,A)。",
+          "source_section": "要点5E, p.621"
+        },
+        {
+          "text": "β受体阻滞剂定位: 列入常用(初始)药物; 指南写明部分β受体阻滞剂尚缺乏某些RCT证据, 除阿替洛尔预防老年人脑卒中效果相对差外, 预防主要心血管事件通常认为相当; 降压疗效在中青年相对更好; 不适合脉压明显增大的ISH; 尤其适用于冠心病、心梗后、慢性心衰、主动脉夹层、快速性心律失常、交感活性增高(如静息心率≥80次/min)及高动力状态。",
+          "source_section": "5.2.2.3(5), p.623, p.628-629"
+        },
+        {
+          "text": "高血压伴心率增快(诊室静息心率>80次/min)患者药物首选β受体阻滞剂(Ⅰ,C)。",
+          "source_section": "要点5L, p.636"
+        },
+        {
+          "text": "优先使用长效降压药(每日1次可控制24h血压)(Ⅰ,A)。",
+          "source_section": "要点5E, 5.2.2.2, p.621-622"
+        },
+        {
+          "text": "起始剂量: 一般患者常规剂量; 衰弱和高龄老人初始用较小有效剂量(Ⅰ,C), 需要时逐渐增至足剂量(Ⅱb,C)。",
+          "source_section": "要点5E, p.621"
+        },
+        {
+          "text": "东亚地区二氢吡啶类CCB是应用最广泛的降压药; 长效二氢吡啶类CCB尤其适用于老年、ISH、稳定性心绞痛、冠脉或颈动脉粥样硬化及周围血管病。短效硝苯地平不推荐作为常用降压药, 不宜用于急性冠脉综合征。",
+          "source_section": "5.2.2.2, 5.2.2.3(1), p.622-623"
+        },
+        {
+          "text": "其他具降压作用的药物: 内皮素双受体拮抗剂阿普昔腾坦用于难控制的成人高血压(禁用于妊娠); SGLT2i、GLP-1RA、二甲双胍有一定降压作用, 有适应证者可酌情联用。α受体阻滞剂不作为常用降压药。",
+          "source_section": "5.2.2.3(7)(10)(11), p.629-630"
+        }
+      ],
+      "combos": [
+        {
+          "text": "血压≥160/100 mmHg、高于目标20/10 mmHg的高危/很高危患者, 或单药未达标者应联合治疗, 可自由联合或SPC(Ⅰ,A); 血压≥140/90 mmHg者也可起始小剂量联合(Ⅱb,B)。",
+          "source_section": "要点5E, p.621; 5.2.2.4(1), p.630"
+        },
+        {
+          "text": "SPC有利于提高依从性, 可优先推荐。",
+          "source_section": "5.2.2.2(3), p.623"
+        },
+        {
+          "text": "表18主要推荐的优化联合: 二氢吡啶类CCB+ARB; 二氢吡啶类CCB+ACEI; 二氢吡啶类CCB+ARNI; ARB+噻嗪类利尿剂; ACEI+噻嗪类利尿剂; ARNI+噻嗪类利尿剂; 二氢吡啶类CCB+噻嗪类利尿剂; 二氢吡啶类CCB+β受体阻滞剂。",
+          "source_section": "表18, p.631"
+        },
+        {
+          "text": "表18可以考虑使用的联合: 利尿剂+β受体阻滞剂; α受体阻滞剂+β受体阻滞剂; 二氢吡啶类CCB+保钾利尿剂; 噻嗪类利尿剂+保钾利尿剂; ARB+β受体阻滞剂; ACEI+β受体阻滞剂; ARNI+β受体阻滞剂。",
+          "source_section": "表18, p.631"
+        },
+        {
+          "text": "三药联合最常用: 二氢吡啶类CCB+ACEI(或ARB)+噻嗪类利尿剂。四药联合主要用于难治性高血压, 在三药基础上加β受体阻滞剂、醛固酮受体拮抗剂、氨苯蝶啶、可乐定或α受体阻滞剂等。",
+          "source_section": "5.2.2.4(4), p.630-631"
+        },
+        {
+          "text": "ARNI含ARB作用, 联合可参照ARB, 与二氢吡啶类CCB、噻嗪类利尿剂或β受体阻滞剂两药或三药联合。",
+          "source_section": "5.2.2.4, p.631"
+        },
+        {
+          "text": "机制示例: ACEI/ARB加小剂量噻嗪类利尿剂的降压效果可达到甚至超过ACEI/ARB剂量倍增; ACEI/ARB可减轻CCB所致踝部水肿; ACEI/ARB可抵消噻嗪类所致低血钾。",
+          "source_section": "5.2.2.4(2)(3), p.630"
+        }
+      ],
+      "avoid": [
+        {
+          "text": "表18不推荐的联合: ACEI、ARB、ARNI与阿利吉仑这四种药物之间的任意联合; 中枢作用药+β受体阻滞剂。",
+          "source_section": "表18, p.631"
+        },
+        {
+          "text": "ARB不应与ACEI或直接肾素抑制剂联用(无额外获益, 肾脏事件和高钾血症增加)。",
+          "source_section": "5.2.2.3(3), p.628"
+        },
+        {
+          "text": "ARNI不能与ACEI、ARB(相同成分ARB除外)、阿利吉仑联用; 由ACEI换用ARNI须停用ACEI至少36h后再开始, 以降低血管性水肿风险。",
+          "source_section": "5.2.2.3(6), p.629"
+        },
+        {
+          "text": "MRA不宜与补钾或保钾利尿剂(阿米洛利、氨苯蝶啶)联用。",
+          "source_section": "5.2.2.3(9), p.630"
+        },
+        {
+          "text": "糖代谢异常者: 可选α1/β受体阻滞剂和高选择性β1阻滞剂, 不宜联合利尿剂; 糖尿病患者一般不推荐ACEI+ARB, 也不推荐利尿剂+选择性β受体阻滞剂。",
+          "source_section": "5.2.2.3(5), p.629; 8.7.2, p.653"
+        },
+        {
+          "text": "CKD: ACEI与ARB不建议两药联合应用。",
+          "source_section": "8.6.2, p.652"
+        }
+      ],
+      "by_condition": [
+        {
+          "text": "冠心病(稳定性): CCB、RAS抑制剂、β受体阻滞剂均有充分证据(Ⅰ,A); 控制不佳可加利尿剂。非ST抬高ACS: 首选CCB、β受体阻滞剂, 不佳时加RAS抑制剂、利尿剂; 怀疑血管痉挛时避免大剂量β受体阻滞剂。心肌梗死后: β受体阻滞剂和RAS抑制剂无禁忌应早期使用并长期服用(Ⅰ,A)。",
+          "source_section": "要点8C, 8.3.2, p.649-650"
+        },
+        {
+          "text": "HFrEF: 首先推荐ARNI或ACEI(不耐受用ARB)、β受体阻滞剂、MRA、SGLT2i(Ⅰ,A)及袢利尿剂(Ⅰ,B); 血压仍不达标可加氨氯地平或非洛地平; 不推荐非二氢吡啶类CCB。",
+          "source_section": "要点8D, 8.4.4, p.650"
+        },
+        {
+          "text": "HFpEF: 首先推荐SGLT2i(Ⅰ,A)、利尿剂(Ⅰ,C)、ARNI(Ⅱa,B)或ARB(Ⅱb,B)、MRA(Ⅱa,B); 不达标可加二氢吡啶类或非二氢吡啶类CCB; 不推荐中枢降压药; 除非合并前列腺增生, 不推荐α受体阻滞剂。",
+          "source_section": "要点8D, 8.4.4, p.650-651"
+        },
+        {
+          "text": "脑卒中后: 药物种类选择与一般高血压相似, 多数需联合用药, 个体化。(PATS研究: 吲达帕胺降低脑卒中再发; PROGRESS: 培哚普利±吲达帕胺降低再发28%。)利尿剂与ACEI合用有助于缺血性脑卒中二级预防。",
+          "source_section": "8.1.2, p.648-649; 5.2.2.1, p.622; 5.2.2.3(2), p.624"
+        },
+        {
+          "text": "糖尿病: 常用降压药均可用; 联合用药应以ACEI或ARB为基础(Ⅰ,A), 联合CCB、小剂量利尿剂或选择性β受体阻滞剂, 优先SPC; 合并白蛋白尿或CKD者首选ACEI/ARB; 合并高尿酸者慎用利尿剂; 反复低血糖者慎用β受体阻滞剂; 推荐SGLT2i和GLP-1RA降低心肾风险(Ⅰ,A); 难治者可在三药基础上加螺内酯。",
+          "source_section": "要点8G, 8.7.2, p.653"
+        },
+        {
+          "text": "CKD/蛋白尿: 有蛋白尿者无论是否糖尿病, 初始治疗应包括一种ACEI或ARB(Ⅰ,B); 用药后2~4周查血肌酐, 较基础升高>30%需查原因, 必要时减量或停药; 监测血钾; eGFR≥30可用噻嗪类, <30用袢利尿剂; eGFR≥20建议用SGLT2i(Ⅰ,A); 非甾体MRA(非奈利酮)用于2型糖尿病合并CKD心肾保护。",
+          "source_section": "要点8F, 8.6.2, p.651-652; 5.2.2.3(9), p.630"
+        },
+        {
+          "text": "房颤: 指南要点为抗凝(有血栓栓塞危险因素者应抗凝(Ⅰ,A), 非瓣膜病房颤优先NOAC(Ⅰ,A)); 表17列ACEI、ARB适应证含'心房颤动预防'。",
+          "source_section": "要点5K, p.636; 表17, p.627"
+        },
+        {
+          "text": "老年: 常用降压药均可用; 小剂量噻嗪类或与RAS抑制剂联用以减少低钾; β受体阻滞剂选高度β1选择性或兼α作用者; α受体阻滞剂注意直立性低血压; 优先每日1次长效制剂和SPC; ≥80岁、多病共存或衰弱者可从小剂量单药起始; 高龄老人推荐利尿剂、CCB、ACEI或ARB, 联用首选单片长效复方制剂。",
+          "source_section": "7.1.3, p.644; 7.1.4, p.644-645"
+        },
+        {
+          "text": "老年ISH: 推荐CCB和噻嗪类利尿剂作为首选; ACEI/ARB疗效较差, 但有心衰、冠心病、CKD、代谢综合征、糖尿病等明确适应证时仍应作为初始药物; 非衰弱老年ISH也适用双药联合起始。",
+          "source_section": "6.5.4, p.642"
+        },
+        {
+          "text": "妊娠(推荐): 常用口服药为拉贝洛尔、硝苯地平、甲基多巴, 必要时小剂量噻嗪类利尿剂(表25); 静脉常用拉贝洛尔、乌拉地尔、尼卡地平、酚妥拉明、硝酸甘油; 重度子痫前期/子痫用硫酸镁; 非重度高血压中低剂量单药不达标时应联合另一种中低剂量药, 而非加大单药剂量。",
+          "source_section": "7.3.5, 表25, p.647"
+        },
+        {
+          "text": "妊娠(禁用/避免): 慢性高血压备孕若需用药应避免ACEI和ARB; ACEI、ARB、ARNI以妊娠为绝对禁忌(表17); 阿普昔腾坦禁用于妊娠; 噻嗪类利尿剂表17中妊娠为相对禁忌。",
+          "source_section": "7.3.2, p.647; 表17, p.627-628; 5.2.2.3(10), p.630"
+        },
+        {
+          "text": "痛风/高尿酸: 噻嗪类利尿剂痛风者禁用、高尿酸血症者慎用; 糖尿病合并高尿酸慎用利尿剂; 某些ARB、ARNI及二氢吡啶类CCB有改善高尿酸作用; 尿酸目标<360 μmol/L(痛风发作者<300), 不建议<180。",
+          "source_section": "5.2.2.3(4), p.628; 8.7.2, p.653; 5.3.6, p.637"
+        },
+        {
+          "text": "COPD: 两病治疗均无需调整; 病情需要时可用选择性β1受体阻滞剂(Ⅰ,A); 不推荐非选择性β受体阻滞剂。高选择性β1阻滞剂对COPD是安全的。",
+          "source_section": "要点8K, 8.11, p.655; 5.2.2.3(5), p.629"
+        },
+        {
+          "text": "哮喘: β受体阻滞剂禁用(表17绝对禁忌); α受体阻滞剂可用于合并哮喘者。",
+          "source_section": "表17, p.628; 5.2.2.3(7), p.629"
+        },
+        {
+          "text": "前列腺增生(BPH): α受体阻滞剂适用于合并良性前列腺增生者; 糖尿病合并前列腺肥大且血压控制不佳可用α受体阻滞剂; 普通片应每晚睡前服, 体位性低血压者禁用。",
+          "source_section": "5.2.2.3(7), p.629; 8.7.2, p.653"
+        },
+        {
+          "text": "肾动脉狭窄: ACEI/ARB可作基础用药, 但双侧肾动脉狭窄或孤立肾肾动脉狭窄禁用ACEI和ARB。",
+          "source_section": "10.2.1.2, p.659"
+        },
+        {
+          "text": "外周动脉疾病: ACEI或ARB可作为初始药物(Ⅱa,B), CCB及利尿剂可作为初始联合方案(Ⅱa,B), β受体阻滞剂也可考虑(Ⅱb,C)。",
+          "source_section": "要点8E, p.651"
+        },
+        {
+          "text": "肥胖: 初始可用ACEI、ARB或CCB; 降压药选择以不恶化肥胖和代谢指标为原则(Ⅰ,C)。",
+          "source_section": "要点8H, 8.8.1, p.653"
+        }
+      ],
+      "contraindications_table": [
+        {
+          "text": "表17 二氢吡啶类CCB — 适应证: 老年高血压、周围血管病、单纯收缩期高血压、稳定性心绞痛、颈动脉粥样硬化、冠状动脉粥样硬化。绝对禁忌: 无。相对禁忌: 快速型心律失常、心力衰竭。",
+          "source_section": "表17, p.627"
+        },
+        {
+          "text": "表17 非二氢吡啶类CCB — 适应证: 心绞痛、颈动脉粥样硬化、室上性快速心律失常。绝对禁忌: 二度至三度房室传导阻滞、心力衰竭。相对禁忌: (未列)。",
+          "source_section": "表17, p.627"
+        },
+        {
+          "text": "表17 ACEI — 适应证: 心力衰竭、冠心病、左心室肥厚、左心室功能不全、心房颤动预防、颈动脉粥样硬化、非糖尿病肾病、糖尿病肾病、蛋白尿/微量白蛋白尿、代谢综合征。绝对禁忌: 妊娠、高血钾、双侧肾动脉重度狭窄。相对禁忌: (未列)。",
+          "source_section": "表17, p.627"
+        },
+        {
+          "text": "表17 ARB — 适应证: 糖尿病肾病、蛋白尿/微量白蛋白尿、冠心病、心力衰竭、左心室肥厚、心房颤动预防、ACEI引起的咳嗽、代谢综合征。绝对禁忌: 妊娠、高血钾、双侧肾动脉重度狭窄。相对禁忌: (未列)。",
+          "source_section": "表17, p.627"
+        },
+        {
+          "text": "表17 ARNI — 适应证: 心力衰竭、心肌梗死后、左心室肥厚、慢性肾脏病、老年高血压。绝对禁忌: 妊娠、高血钾、双侧肾动脉重度狭窄、重度肾功能损害。相对禁忌: 中度肝功能损害。(正文另写: eGFR<30、肾动脉狭窄及中度肝功能损害者慎用, 妊娠禁用。)",
+          "source_section": "表17, p.627; 5.2.2.3(6), p.629"
+        },
+        {
+          "text": "表17 噻嗪类利尿剂 — 适应证: 心力衰竭、老年高血压、高龄老年高血压、单纯收缩期高血压。绝对禁忌: 痛风。相对禁忌: 妊娠。",
+          "source_section": "表17(续), p.628"
+        },
+        {
+          "text": "表17 袢利尿剂 — 适应证: 肾功能不全、心力衰竭。禁忌: (未列)。",
+          "source_section": "表17(续), p.628"
+        },
+        {
+          "text": "表17 盐皮质激素受体拮抗剂 — 适应证: 心力衰竭、心肌梗死后。绝对禁忌: 肾功能衰竭、高血钾。",
+          "source_section": "表17(续), p.628"
+        },
+        {
+          "text": "表17 β受体阻滞剂 — 适应证: 心绞痛、心肌梗死后、快速性心律失常、慢性心力衰竭。绝对禁忌: 二至三度心脏传导阻滞、哮喘。相对禁忌: 慢性阻塞性肺疾病、周围血管病、糖耐量低减、运动员。",
+          "source_section": "表17(续), p.628"
+        },
+        {
+          "text": "表17 α受体阻滞剂 — 适应证: 前列腺增生、高脂血症。绝对禁忌: 体位性低血压。相对禁忌: 心力衰竭。",
+          "source_section": "表17(续), p.628"
+        },
+        {
+          "text": "表17注/正文: 药物的使用方法、不良反应、适应证和禁忌证详见国家药监局批准的说明书。β受体阻滞剂长期应用者突然停药可发生撤药综合征, 应逐渐减量。",
+          "source_section": "表16注, p.627; 5.2.2.3(5), p.629"
+        }
+      ],
+      "resistant": [
+        {
+          "text": "定义: 强化生活方式下, 同时服用3种不同类降压药(含噻嗪类利尿剂)≥4周, 每种为最大或最大耐受剂量, 诊室≥140/90 mmHg且24h动态≥130/80或家庭≥135/85 mmHg; 或需≥4种药才达标。≥5种(含噻嗪类和醛固酮受体拮抗剂)仍不达标为顽固性高血压。",
+          "source_section": "9.1, p.658"
+        },
+        {
+          "text": "先排除假性难治: 测量不规范、白大衣效应、依从性差、搭配不合理或剂量不足、合用升压药物(糖皮质激素、环孢素、促红素、避孕药、NSAID、抗抑郁药、甘草类中成药等)、不良生活方式、合并症控制差。筛查继发因素, 尤其原醛症和睡眠呼吸暂停(Ⅰ,C)。",
+          "source_section": "要点9, 9.2-9.3, p.657-658"
+        },
+        {
+          "text": "处理: 常用长效CCB、ACEI、ARB、ARNI、噻嗪类; CKD 4期以上可用袢利尿剂; 仍未控制加第4种药, 首选醛固酮受体拮抗剂(螺内酯、依普利酮), 其他如β受体阻滞剂、α受体阻滞剂、复方保钾利尿剂及新型药物(内皮素双受体拮抗剂等); 必要时转诊; 部分可考虑RDN(Ⅱb,B)。",
+          "source_section": "9.5, p.658; 要点9, p.657"
+        },
+        {
+          "text": "螺内酯作为四线药物疗效优于α和β受体阻滞剂, 不能耐受者可选依普利酮; 非奈利酮可降低CKD合并难治性高血压患者收缩压, 高钾血症安全性优于螺内酯。",
+          "source_section": "5.2.2.3(9), p.630"
+        }
+      ],
+      "dosing_table": [
+        {
+          "text": "表15 常用的各种降压药(列: 消除半衰期h | 剂量起始~足量 mg/d | 每天服药次数 | 主要不良反应)。注: 用法、不良反应、适应证和禁忌证以国家药监局批准说明书为准; 半衰期仅供参考。",
+          "source_section": "表15, p.624-625"
+        },
+        {
+          "text": "二氢吡啶类CCB(不良反应: 踝部水肿, 头痛, 潮红): 硝苯地平 5h, 10~30, 2~3次; 硝苯地平缓释片 -, 20~40, 2次; 硝苯地平控释片 -, 30~60, 1次; 氨氯地平 30~50h, 2.5~10, 1次; 左氨氯地平 35~50h, 2.5~5, 1次; 非洛地平 10~25h, 2.5~10, 2次; 非洛地平缓释片 -, 2.5~10, 1次; 拉西地平 13~19h, 2~8, 1次; 尼卡地平 8.6h, 40~80, 2次; 尼群地平 10~22h, 20~60, 2~3次; 贝尼地平 1~2h, 2~8, 1次; 乐卡地平 8~10h, 10~20, 1次; 马尼地平 5~7h, 5~20, 1次; 西尼地平 5.2h, 5~10, 1次; 巴尼地平 9.4~11h, 10~15, 1次。",
+          "source_section": "表15, p.624"
+        },
+        {
+          "text": "非二氢吡啶类CCB(房室传导阻滞, 心功能抑制): 维拉帕米 3~7h, 80~480, 2~3次; 维拉帕米缓释片 -, 120~480, 1~2次; 地尔硫卓片 3~5h, 90~180, 3次; 地尔硫卓缓释胶囊 5~7h, 90~360, 1~2次。",
+          "source_section": "表15, p.624"
+        },
+        {
+          "text": "ACEI(咳嗽, 血钾升高, 血管神经性水肿): 卡托普利 3h, 25~300, 2~3次; 依那普利 11h, 2.5~40, 2次; 贝那普利 22h, 5~40, 1~2次; 赖诺普利 12.6h, 2.5~40, 1次; 雷米普利 13~17h, 1.25~20, 1次; 福辛普利 11.5h, 10~40, 1次; 西拉普利 9h, 1.25~5, 1次; 培哚普利 30~120h, 2~8, 1次; 咪哒普利 8h, 2.5~10, 1次。",
+          "source_section": "表15, p.624"
+        },
+        {
+          "text": "ARB(血钾升高, 血管性神经水肿(罕见)): 氯沙坦钾 6~9h, 25~100, 1次; 缬沙坦 9h, 80~160, 1次; 厄贝沙坦 11~15h, 150~300, 1次; 替米沙坦 24h, 20~80, 1次; 坎地沙坦酯 9.5~11.2h, 4~32, 1次; 奥美沙坦酯 13h, 20~40, 1次; 阿利沙坦酯 10h, 240, 1次; 美阿沙坦钾 11h, 40~80, 1次; 阿齐沙坦 12.8~13.2h, 20~40, 1次。",
+          "source_section": "表15, p.624"
+        },
+        {
+          "text": "噻嗪类利尿剂(血钾降低, 血钠降低, 血尿酸升高): 氢氯噻嗪 15h, 6.25~25, 1次; 氯噻酮 35~50h, 12.5~25, 1次; 吲达帕胺 18(14~24)h, 1.25~2.5, 1次; 吲达帕胺缓释片 -, 1.5, 1次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "袢利尿剂(血钾减低): 呋塞米 1h(肾功能受损10以上), 20~80, 2~3次; 托拉塞米 3.5h(肾功能受损4.9), 5~10, 1次。保钾利尿剂(血钾增高): 阿米洛利 6~9h, 5~10, 1~2次; 氨苯蝶啶 1.5~2h, 25~100, 2次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "β受体阻滞剂(支气管痉挛, 心功能抑制): 非选择性 普萘洛尔 2~3h, 20~90, 2~3次; 选择性 美托洛尔平片 3~5h, 50~100, 2次; 美托洛尔缓释片(近恒速释放, 约20h), 47.5~190, 1次; 比索洛尔 10~12h, 2.5~10, 1次; 阿替洛尔 6~7h, 12.5~50, 1~2次; 倍他洛尔 16~20h, 5~20, 1次。α、β受体阻滞剂(体位性低血压, 支气管痉挛): 拉贝洛尔 6~8h, 200~600, 2次; 卡维地洛 6~10h, 12.5~50, 2次; 阿罗洛尔 10h, 10~30, 1~2次; 贝凡洛尔 约10h, 100~200, 2次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "ARNI(低血压、高钾血症、血管神经性水肿(极少见)): 沙库巴曲缬沙坦钠 11.5/9.9h, 200~400, 1次; 沙库巴曲阿利沙坦钙 11.5/10h, 240~480, 1次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "α受体阻滞剂(体位性低血压): 多沙唑嗪 22h, 0.5~8, 1次; 多沙唑嗪缓释片 -, 1~16, 1次; 哌唑嗪 2~3h, 1~10, 2~3次; 特拉唑嗪 12h, 1~20, 1~2次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "盐皮质激素受体拮抗剂: 螺内酯 19(12~25)h, 20~60, 1~3次(血钾增高, 男性乳房发育); 依普利酮 4~6h, 25~100, 1~2次(血钾增高); 非奈利酮 2~3h, 10~20, 1次(血钾增高)。直接肾素抑制剂(腹泻、高血钾): 阿利吉仑 40(34~41)h, 150~300, 1次。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "中枢作用药物: 利血平 45~168h, 0.125~0.5, 1~2次(鼻充血, 心动过缓, 消化性溃疡); 可乐定 12(6~24)h, 0.1~0.8, 2~3次(低血压, 口干, 嗜睡); 可乐定贴片 12.7(6~23)h, 0.25, 1/周(皮肤过敏); 甲基多巴 2h, 250~1000, 2~3次(肝功能损害, 免疫失调)。直接血管扩张药: 米诺地尔 2.8~4.2h, 5~100, 1次(多毛症); 肼屈嗪 3~7h, 25~100, 2次(狼疮综合征)。",
+          "source_section": "表15(续), p.625"
+        },
+        {
+          "text": "表16 常用单片复方制剂(每片组分; 每天片数; 每天次数), 节选: 氯沙坦钾50/氢氯噻嗪12.5(1~2片,1次); 缬沙坦80/氢氯噻嗪12.5(1~2,1); 厄贝沙坦150/氢氯噻嗪12.5(1,1); 替米沙坦40或80/氢氯噻嗪12.5(1,1); 培哚普利4/吲达帕胺1.25(1,1); 缬沙坦80或160/氨氯地平5(1~2,1); 氨氯地平5/贝那普利10(1~2,1); 阿利沙坦酯240/氨氯地平5(1,1); 比索洛尔5/氨氯地平5(1,1); 复方利血平氨苯蝶啶片(利血平0.1/氨苯蝶啶12.5/氢氯噻嗪12.5/双肼屈嗪12.5, 1~2片, 1~2次); 珍菊降压片(可乐定0.03/氢氯噻嗪5, 1~3片, 2~3次); 依那普利10/叶酸0.8(1,1); 氨氯地平5/阿托伐他汀10或20(1,1)。完整列表见原表。",
+          "source_section": "表16, p.626-627"
+        },
+        {
+          "text": "表25 妊娠常用口服药: 拉贝洛尔(α、β阻滞)50~150 mg, 3~4次/d, 最大600 mg/d, 不良反应胎儿心动过缓、皮肤瘙痒; 硝苯地平5~20 mg 3~4次/d, 或缓释10~20 mg 2~3次/d, 或控释30~60 mg 1次/d, 不良反应低血压; 甲基多巴200~500 mg, 3~4次/d, 不良反应抑郁、过度镇静、低血压。注: 本指南推荐最大剂量均低于国外推荐量。",
+          "source_section": "表25, p.647"
+        }
+      ],
+      "patient_points": [
+        {
+          "text": "服药时间: 一般高血压患者通常应在早晨服用降压药; TIME研究显示晚上服药较早上服药不能带来更多心血管获益; 除非明确需要控制夜间血压升高, 不应常规推荐睡前服药。",
+          "source_section": "5.2.2.2(5), p.623"
+        },
+        {
+          "text": "高血压患者不应在夜间使用利尿剂, 以免夜尿过多影响睡眠。",
+          "source_section": "5.2.1 睡眠部分, p.621"
+        },
+        {
+          "text": "α受体阻滞剂普通片应在每晚睡前服用(防体位性低血压); 最好使用控释制剂。",
+          "source_section": "5.2.2.3(7), p.629"
+        },
+        {
+          "text": "β受体阻滞剂长期应用者突然停药可发生反跳(撤药综合征), 停药前应逐渐减量。",
+          "source_section": "5.2.2.3(5), p.629"
+        },
+        {
+          "text": "多数高血压患者需要终生降压治疗; 健康教育内容包括'非药物治疗与坚持终身治疗'、高血压自我管理技能。",
+          "source_section": "5.2.2.5, p.631; 表37, p.671"
+        },
+        {
+          "text": "家庭血压监测(HBPM): 建议连续5~7d, 早晚各测2~3个读数; 早上起床排尿后、服药前、早饭前坐位测, 晚上晚饭后、洗漱后、睡前测; 不少于3d、12个读数取平均值。家庭血压≥135/85 mmHg为高血压诊断界值; 家庭血压目标<135/85 mmHg。",
+          "source_section": "3.2.2, p.609; 表7, p.613; 5.1.3.2, p.617"
+        },
+        {
+          "text": "SPC和每日1次长效制剂有助于提高依从性。",
+          "source_section": "5.2.2.2, p.623; 7.1.3, p.644"
+        },
+        {
+          "text": "社区随访: 血压达标者3个月随访1次, 未达标者2~4周随访1次; 随访评估服药依从性和药物不良反应。",
+          "source_section": "表35-36, p.671"
+        }
+      ],
+      "unverified": [
+        {
+          "text": "未逐字核对表16全部SPC条目(仅抽取部分); 表19(常用降压药不良反应)未提取。",
+          "source_section": "表16, 表19"
+        },
+        {
+          "text": "页码为PDF中该段起始页的期刊页码, 个别跨页段落的后半部分可能在下一页。",
+          "source_section": "全文"
+        },
+        {
+          "text": "房颤合并高血压的降压药物首选在2024版要点中未见单独推荐, 仅见抗凝推荐和表17'心房颤动预防'适应证。",
+          "source_section": "要点5K, 表17"
+        }
+      ]
+    },
+    {
+      "id": "china_primary_care_2025",
+      "citation": "国家心血管病中心国家基本公共卫生服务项目基层高血压管理办公室, 国家基层高血压管理专家委员会. 国家基层高血压防治管理指南2025版. 中国循环杂志, 2025, 40(9): 836-850. DOI: 10.3969/j.issn.1000-3614.2025.09.002",
+      "url": "https://bookcafe.yuntsg.com/ueditor/jsp/upload/file/20251003/1759482019584069121.pdf (第三方托管的期刊PDF副本)",
+      "used_version": "2025版全文PDF(中国循环杂志2025年9月第40卷第9期, 文章编号1000-3614(2025)09-0836-15)。确认存在2020版并已被2025版更新(摘要称2017年首版, 2020年更新)。页码为期刊页码。",
+      "thresholds": [
+        {
+          "text": "所有高血压患者一旦确诊, 建议生活方式干预同时立即启动药物治疗。收缩压<150且舒张压<90 mmHg、且无冠心病、心衰、房颤、脑卒中、动脉粥样硬化性外周血管病、CKD、视网膜病变或糖尿病者, 可根据病情和意愿暂缓给药, 单纯生活方式干预最多3个月, 仍不达标再启动药物。",
+          "source_section": "5.4.1, p.841"
+        },
+        {
+          "text": "正常高值(130~139/85~89 mmHg)且合并脑血管病、冠心病、慢性心衰、房颤、外周血管病、糖尿病、CKD或视网膜病变者, 应给予降压药, 降至<130/80 mmHg。",
+          "source_section": "5.4.7, p.845"
+        }
+      ],
+      "targets": [
+        {
+          "text": "<80岁: 诊室血压<130/80 mmHg; ≥80岁: <150/90 mmHg, 可耐受者<140/90 mmHg。",
+          "source_section": "5.2, p.840"
+        }
+      ],
+      "first_line": [
+        {
+          "text": "尽量选用五大类: ACEI、ARB、β受体阻滞剂、CCB、噻嗪类利尿剂(简称A、B、C、D)及其SPC; 有条件者可按达标情况和适应证用ARNI替代ACEI/ARB。",
+          "source_section": "5.4.2, p.841"
+        },
+        {
+          "text": "B类尤其适用于心率偏快(诊室静息心率≥80次/min)者; 推荐选择性β1阻滞剂及α-β阻滞剂。C类最常用二氢吡啶类, 无绝对禁忌证。",
+          "source_section": "5.4.2, p.841"
+        },
+        {
+          "text": "传统复方制剂(复方利血平片、复方利血平氨苯蝶啶片等)根据情况仍可使用。",
+          "source_section": "5.4.2, p.841"
+        }
+      ],
+      "combos": [
+        {
+          "text": "<80岁无合并症: <150/90 mmHg单药起始(C、A、D或B); ≥150/90 mmHg推荐两药联合(C+A、A+D、C+D或C+B), 首选相应SPC; 第二步三药(C+A+D或C+A+B); 第三步三药足量且含利尿剂仍不达标转诊, 或A+B+C+D四药; 每次调整观察2~4周。≥80岁或衰弱者单药起始。",
+          "source_section": "5.4.3.1, 图2, p.843"
+        },
+        {
+          "text": "合并症方案(表5): 心肌梗死 A+B(小剂量起); 心绞痛 B或A或C; 心衰 A+B, 水钠潴留加D(袢利尿剂), 可加螺内酯, C仅限氨氯地平/非洛地平; 脑卒中 C或A或D; 糖尿病或CKD 首选A, 不达标加C或D。",
+          "source_section": "5.4.3.2, 表5, p.843-844"
+        }
+      ],
+      "avoid": [
+        {
+          "text": "不宜联合应用ACEI与ARB。",
+          "source_section": "5.4.4, p.844"
+        },
+        {
+          "text": "血压≥180/110 mmHg紧急处理时禁止舌下含服硝苯地平快速降压。",
+          "source_section": "5.4.6.1, p.844"
+        }
+      ],
+      "by_condition": [
+        {
+          "text": "A类(ACEI/ARB)禁用: 双侧肾动脉狭窄、血肌酐≥3 mg/dl(265 μmol/L)的严重肾功能不全、高钾血症、妊娠或计划妊娠。",
+          "source_section": "5.4.2, p.841"
+        },
+        {
+          "text": "B类禁用: 严重心动过缓、病态窦房结综合征、二度或三度房室阻滞、支气管哮喘; 运动员、外周血管病及睡眠呼吸暂停者慎用; 长期用药不可突然停药。",
+          "source_section": "5.4.2, p.841"
+        },
+        {
+          "text": "D类: 高尿酸血症慎用, 痛风禁用噻嗪类。",
+          "source_section": "5.4.2, p.841"
+        },
+        {
+          "text": "妊娠和哺乳期高血压不建议在基层就诊(转诊)。",
+          "source_section": "7, p.847"
+        }
+      ],
+      "contraindications_table": [
+        {
+          "text": "表4'基层常用降压药物的用法、适应证、禁忌证及不良反应'存在, 未逐项提取。",
+          "source_section": "表4, p.842-843"
+        }
+      ],
+      "resistant": [
+        {
+          "text": "多种药物无法控制的难治性高血压应转诊上级医院。",
+          "source_section": "7, p.847"
+        }
+      ],
+      "dosing_table": [
+        {
+          "text": "表4给出每次剂量和服药频率, 未提取。",
+          "source_section": "表4, p.842-843"
+        }
+      ],
+      "patient_points": [
+        {
+          "text": "每次调整药物后观察2~4周, 避免频繁换药; 已达标者偶有波动应先排除诱因, 不要依据单次测量频繁调整。",
+          "source_section": "5.4.4-5.4.5, p.844"
+        },
+        {
+          "text": "治疗'三原则': 达标、平稳、综合管理。",
+          "source_section": "3, p.837"
+        }
+      ],
+      "unverified": [
+        {
+          "text": "表4剂量未提取; 2020版原文未查阅。",
+          "source_section": "表4"
+        }
+      ]
+    },
+    {
+      "id": "us_aha_acc_2025",
+      "citation": "Jones DW, Ferdinand KC, Taler SJ, Johnson HM, Shimbo D, et al. 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines. Circulation. 2025;152(11):e114-e218. doi:10.1161/CIR.0000000000001356. Simultaneously published: J Am Coll Cardiol. 2025;86(18):1567-1678. doi:10.1016/j.jacc.2025.05.007 (PMID 40815242; erratum J Am Coll Cardiol 2025;86(18):1679, doi:10.1016/j.jacc.2025.10.006).",
+      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001356",
+      "used_version": "2025 guideline full text (Circulation HTML) read directly; recommendation tables read from the article's table images. It retires and replaces the 2017 ACC/AHA guideline. Section numbers are the guideline's own.",
+      "thresholds": [
+        {
+          "text": "Start BP-lowering drugs in all adults with hypertension when average SBP ≥140 or DBP ≥90 mm Hg (COR 1, LOE A).",
+          "source_section": "5.2.2 recommendations 1-2"
+        },
+        {
+          "text": "With clinical CVD: start drugs at SBP ≥130 (1, A) or DBP ≥80 (1, C-LD).",
+          "source_section": "5.2.2 recs 3-4"
+        },
+        {
+          "text": "Without clinical CVD but with diabetes, CKD, or PREVENT 10-year CVD risk ≥7.5%: start drugs at SBP ≥130 (1, A) / DBP ≥80 (1, C-LD).",
+          "source_section": "5.2.2 recs 5-6"
+        },
+        {
+          "text": "PREVENT risk <7.5%: start drugs if SBP remains ≥130 or DBP ≥80 after a 3- to 6-month lifestyle trial (1, B-R).",
+          "source_section": "5.2.2 recs 7-8"
+        },
+        {
+          "text": "Type 2 diabetes: start drugs at SBP ≥130 (1, A) / DBP ≥80 (1, C-LD).",
+          "source_section": "5.3.1 recs 1-2"
+        },
+        {
+          "text": "Stroke/TIA/ICH without prior hypertension but office BP ≥130/80: drug treatment can be beneficial (2a, B-R).",
+          "source_section": "5.3.9.3 rec 3"
+        },
+        {
+          "text": "BP categories: normal <120/<80; elevated 120-129/<80; stage 1 130-139 or 80-89; stage 2 ≥140 or ≥90.",
+          "source_section": "Top Take-Home Message 4"
+        }
+      ],
+      "targets": [
+        {
+          "text": "Increased CVD risk (PREVENT ≥7.5%): SBP goal at least <130 mm Hg with encouragement to reach <120 (1, A); DBP <80 (1, B-R). Not at increased risk: same goals 'may be reasonable' (2b, B-NR).",
+          "source_section": "5.2.7 recs 1-4"
+        },
+        {
+          "text": "Overarching goal <130/80 mm Hg for all adults, with additional considerations for institutionalized patients, limited life expectancy, or pregnancy; shared decision-making for frail/limited life expectancy.",
+          "source_section": "Top Take-Home Message 1; 5.2.7 synopsis"
+        },
+        {
+          "text": "No separate age-based target for older adults was found in the sections read; target individualization is advised for those with intolerance, limited life expectancy, or institutionalization.",
+          "source_section": "5.2.7 synopsis"
+        },
+        {
+          "text": "Diabetes: SBP <130 with encouragement to <120 (1, A); DBP <80 (1, C-LD).",
+          "source_section": "5.3.1 recs 1-2"
+        },
+        {
+          "text": "CKD (eGFR <60 or albuminuria ≥30 mg/g): SBP <130 (1, A).",
+          "source_section": "5.3.8 rec 1"
+        },
+        {
+          "text": "Secondary stroke prevention: office <130/80 (1, B-R).",
+          "source_section": "5.3.9.3 rec 2"
+        },
+        {
+          "text": "HF prevention: SBP <130 (1, B-R), DBP <80 (1, B-NR). HFrEF: SBP <130 should at least be attained.",
+          "source_section": "5.3.4 recs; 5.3.4.1 synopsis"
+        },
+        {
+          "text": "Pregnancy, chronic hypertension: treat to <140/90 (1, B-R); severe BP ≥160/110 confirmed within 15 min: treat to <160/<110 within 30-60 min (1, B-R).",
+          "source_section": "5.5 recs 3-4"
+        },
+        {
+          "text": "AF: reasonable to apply general goal <130/80.",
+          "source_section": "5.3.5 synopsis"
+        }
+      ],
+      "first_line": [
+        {
+          "text": "First-line: thiazide-type diuretics, long-acting dihydropyridine CCB, and ACEi or ARB to prevent CVD (1, A).",
+          "source_section": "5.2.3 rec 1"
+        },
+        {
+          "text": "Beta-blockers are secondary agents: less effective at preventing stroke and less favorable side-effect profile, so reserved for compelling indications; Table 13 notes beta-blockers not recommended first-line unless CHD or HF.",
+          "source_section": "5.2.3 synopsis; Table 13"
+        },
+        {
+          "text": "Chlorthalidone is longer acting and more potent per mg than HCTZ; a pragmatic RCT switching HCTZ to chlorthalidone did not lower MACE overall.",
+          "source_section": "Table 13; 5.2.3 supportive text"
+        },
+        {
+          "text": "ARNi is not listed as a first-line hypertension class; it appears in HFrEF GDMT (Table 18).",
+          "source_section": "5.2.3; Table 18"
+        }
+      ],
+      "combos": [
+        {
+          "text": "Stage 2 hypertension (≥140/90): start 2 first-line agents of different classes, ideally as a single-pill combination (1, B-R). Initial combination candidates: non-frail adults ≥20/10 mm Hg above target.",
+          "source_section": "5.2.4 rec 1 and supportive text"
+        },
+        {
+          "text": "Stage 1 (130-139/80-89): single first-line drug with titration/sequential addition is reasonable (2a, C-EO); stepped care also reasonable for older adults or those with hypotension/multiple drug side effects.",
+          "source_section": "5.2.4 rec 2 and supportive text"
+        },
+        {
+          "text": "RCT evidence supports an RAS blocker plus a thiazide-type diuretic or dihydropyridine CCB as initial combination.",
+          "source_section": "5.2.4 synopsis"
+        },
+        {
+          "text": "Exceptions allowed: thiazide + potassium-sparing diuretic, thiazide + loop diuretic, dihydropyridine + nondihydropyridine CCB in selected patients.",
+          "source_section": "5.2.4 supportive text 3"
+        }
+      ],
+      "avoid": [
+        {
+          "text": "Combined ACEi, ARB and/or renin inhibitor: not recommended due to potential harm (3: Harm, A).",
+          "source_section": "5.2.4 rec 3"
+        },
+        {
+          "text": "Avoid two drugs of the same class (e.g., 2 beta-blockers, 2 ACEi, 2 dihydropyridine CCB).",
+          "source_section": "5.2.4 supportive text 3"
+        },
+        {
+          "text": "Nondihydropyridine CCB: avoid routine use with beta-blockers (bradycardia, heart block); do not use in HFrEF.",
+          "source_section": "Table 13; 5.3.4.1"
+        }
+      ],
+      "by_condition": [
+        {
+          "text": "Chronic coronary disease: ACEi, ARB and beta-blockers reduce CVD events; add CCB, thiazide-type diuretic and/or MRA if needed; SBP <130; when SBP <130, DBP 70-80 associated with fewer events. Evidence conflicts on long-term (>1 y) BB after MI with preserved EF.",
+          "source_section": "5.3.3 synopsis"
+        },
+        {
+          "text": "HFrEF: uptitrate GDMT to maximally tolerated dose for BP control (ARNi preferred, or ACEi/ARB; evidence-based BB bisoprolol/carvedilol/metoprolol succinate; MRA; SGLT2i); diuretics for volume; dihydropyridine CCB if BP still high; nondihydropyridine CCB not recommended.",
+          "source_section": "5.3.4.1; Table 18"
+        },
+        {
+          "text": "Secondary stroke prevention: thiazide-type diuretic, ACEi, or ARB recommended (1, A).",
+          "source_section": "5.3.9.3 rec 1"
+        },
+        {
+          "text": "Diabetes: all first-line classes useful (1, A); ACEi or ARB recommended if CKD (eGFR <60 or albuminuria ≥30 mg/g) and should be considered with mild albuminuria (<30 mg/g) (1, A).",
+          "source_section": "5.3.1 recs 3-4"
+        },
+        {
+          "text": "CKD with eGFR <60 and albuminuria ≥30 mg/g: RAASi (ACEi or ARB but not both) (1, B-R). Expected eGFR dip up to 30% after RAASi should not by itself lead to stopping.",
+          "source_section": "5.3.8 rec 2; 5.2.9"
+        },
+        {
+          "text": "AF: ACEi/ARB may reduce incident/recurrent AF (more evidence needed); MRAs may reduce AF burden.",
+          "source_section": "5.3.5 synopsis"
+        },
+        {
+          "text": "Pregnancy: labetalol and extended-release nifedipine preferred (1, A); low-dose aspirin 81 mg counselling (1, B-R); do NOT use atenolol, ACEi, ARB, direct renin inhibitors, nitroprusside, or MRA when planning or during pregnancy (3: Harm, C-LD). Table 22 also lists methyldopa and HCTZ (second/third line).",
+          "source_section": "5.5 recs 1, 2, 5; Table 22"
+        },
+        {
+          "text": "Labetalol: avoid in asthma, preexisting myocardial disease, decompensated cardiac function, heart block, bradycardia. Sublingual nifedipine not to be used.",
+          "source_section": "Table 22"
+        },
+        {
+          "text": "Gout: thiazides raise uric acid; monitor patients with history of acute gout unless on urate-lowering therapy.",
+          "source_section": "Table 13 (thiazide comments)"
+        },
+        {
+          "text": "Airway disease: cardioselective BBs preferred if a BB is needed in bronchospastic airway disease; avoid noncardioselective BBs in reactive airways disease.",
+          "source_section": "Table 13 (beta-blocker comments)"
+        },
+        {
+          "text": "BPH: alpha-1 blockers may be considered second-line in symptomatic BPH; risk of orthostatic hypotension especially in older adults.",
+          "source_section": "Table 13 (alpha-1 blocker comments)"
+        }
+      ],
+      "contraindications_table": [
+        {
+          "text": "No standalone indications/contraindications table; Table 13 comments: ACEi—not with ARB/renin inhibitor, hyperkalemia risk, acute renal failure with severe bilateral renal artery stenosis, not after ACEi angioedema, avoid in pregnancy. ARB—same; patients with ACEi angioedema may receive ARB starting 6 weeks after stopping ACEi. MRA—avoid with K supplements/K-sparing diuretics or GFR <45; avoid in pregnancy. K-sparing diuretics—avoid if GFR <45. Aliskiren—not with ACEi/ARB; avoid in pregnancy.",
+          "source_section": "Table 13"
+        }
+      ],
+      "resistant": [
+        {
+          "text": "Evaluate secondary causes and review/remove interfering medications (1, B-NR). Screen for primary aldosteronism in resistant hypertension regardless of potassium (1).",
+          "source_section": "5.6 rec 1; 3.2.3 (Table 1)"
+        },
+        {
+          "text": "Uncontrolled despite ACEi or ARB + CCB + thiazide-like diuretic (chlorthalidone or indapamide) with eGFR ≥45: add an MRA (1, B-R).",
+          "source_section": "5.6 rec 2"
+        },
+        {
+          "text": "If MRA not tolerated/contraindicated: amiloride, BBs, alpha-blockers, central sympatholytics, dual endothelin receptor antagonists, or direct vasodilators reasonable (2a, B-NR).",
+          "source_section": "5.6 rec 3"
+        },
+        {
+          "text": "Renal denervation may be reasonable in carefully selected patients (office 140-180/≥90, eGFR ≥40) (2b, B-R), after multidisciplinary evaluation and shared decision-making.",
+          "source_section": "5.6 recs 4-6"
+        }
+      ],
+      "dosing_table": [
+        {
+          "text": "Table 13 (FDA-approved drugs; usual dose range mg/d; daily frequency), initial-therapy agents: chlorthalidone 12.5-25 qd; HCTZ 25-50 qd; indapamide 1.25-2.5 qd; benazepril 10-40 (1-2); captopril 12.5-150 (2-3); enalapril 5-40 (1-2); fosinopril 10-40 (1); lisinopril 10-40 (1); perindopril 4-16 (1); ramipril 2.5-20 (1-2); azilsartan 40-80; candesartan 8-32; irbesartan 150-300; losartan 50-100 (1-2); olmesartan 20-40; telmisartan 20-80; valsartan 80-320; amlodipine 2.5-10; felodipine 2.5-10; nifedipine LA 30-90 (all 1 unless noted).",
+          "source_section": "Table 13"
+        },
+        {
+          "text": "Table 13 alternative agents (selected): spironolactone 25-100 qd; eplerenone 50-100 (1-2); bisoprolol 2.5-10 qd; metoprolol succinate 50-200 qd; carvedilol 12.5-50 bid; doxazosin 1-16 qd; clonidine 0.1-0.8 bid; diltiazem ER 120-360 qd.",
+          "source_section": "Table 13"
+        }
+      ],
+      "patient_points": [
+        {
+          "text": "Once-daily dosing rather than multiple daily dosing improves adherence (1, B-R); single-pill combinations improve adherence (1, B-R); reminder aids and education/self-management interventions useful (2a, B-R).",
+          "source_section": "5.2.5 recs 1-3"
+        },
+        {
+          "text": "Self-monitoring (HBPM) recommended for ongoing management in all patients willing; home BP target <135/85 cited; HBPM 135/85 corresponds to office 140/90 and HBPM 130/80 to office 130/80 (Table 7).",
+          "source_section": "5.4 supportive text; Table 7"
+        },
+        {
+          "text": "Avoid relying on cuffless devices/smartwatches for BP measurement.",
+          "source_section": "Top Take-Home Message 9"
+        },
+        {
+          "text": "Beta-blockers and clonidine: avoid abrupt cessation/discontinuation (withdrawal).",
+          "source_section": "Table 13"
+        },
+        {
+          "text": "Check basic metabolic panel 2-4 weeks after starting or titrating diuretics, ACEi, ARB, MRA.",
+          "source_section": "5.2.8"
+        },
+        {
+          "text": "Bedtime vs morning dosing: no recommendation found in the full text searched.",
+          "source_section": "full-text search"
+        }
+      ],
+      "unverified": [
+        {
+          "text": "Hypertension journal co-publication DOI (reported as 10.1161/HYP.0000000000000249) not verified.",
+          "source_section": "citation"
+        },
+        {
+          "text": "Recommendation tables for 5.3.3 (CCD), 5.3.5 (AF), 5.3.10 (PAD) and 6.x not viewed; content taken from synopsis text.",
+          "source_section": "5.3.3, 5.3.5"
+        },
+        {
+          "text": "Explicit older-adult (≥65/≥80) numeric targets: none found in sections read.",
+          "source_section": "5.2.7"
+        }
+      ]
+    },
+    {
+      "id": "esc_2024",
+      "citation": "McEvoy JW, McCarthy CP, Bruno RM, Brouwers S, Canavan MD, Ceconi C, et al.; ESC Scientific Document Group. 2024 ESC Guidelines for the management of elevated blood pressure and hypertension. Eur Heart J. 2024;45(38):3912-4018. doi:10.1093/eurheartj/ehae178. PMID 39210715. Errata: Eur Heart J 2025;46(14):1300 (doi:10.1093/eurheartj/ehaf031); Eur Heart J 2025;46(45):4949 (doi:10.1093/eurheartj/ehaf659).",
+      "url": "https://academic.oup.com/eurheartj/article/45/38/3912/7741010",
+      "used_version": "FULL TEXT NOT READ: academic.oup.com blocked access with a bot-check page, and the guideline is not in PMC. Facts below come from summaries written by the guideline's own chair/authors: (a) McCarthy CP, Bruno RM, Rahimi K, Touyz RM, McEvoy JW. What Is New and Different in the 2024 ESC Guidelines... Hypertension. 2025;82(3):432-444, doi:10.1161/HYPERTENSIONAHA.124.24173, plus its online supplement; (b) McCarthy CP, Bruno RM, McEvoy JW, Touyz RM. 2024 ESC Guidelines...: what is new in pharmacotherapy? Eur Heart J Cardiovasc Pharmacother 2025;11(1):7-9, doi:10.1093/ehjcvp/pvae084 (PMC11805683). Citation metadata came from PubMed. Treat as secondary until checked against the full text.",
+      "thresholds": [
+        {
+          "text": "Categories: non-elevated <120/70; elevated 120-139/70-89; hypertension ≥140/90 (office).",
+          "source_section": "Hypertension 2025 review, Abstract"
+        },
+        {
+          "text": "Confirmed hypertension ≥140/90: drug treatment recommended regardless of age and CVD risk (Class I, LOE A).",
+          "source_section": "Hypertension 2025 review, Table 4"
+        },
+        {
+          "text": "Elevated BP 130-139/80-89 after 3 months of lifestyle measures plus high-risk conditions (established CVD, HMOD, diabetes, FH, moderate/severe CKD) or SCORE2/SCORE2-OP ≥10%, or 5%-<10% plus risk modifiers/abnormal risk tests: drug treatment (Class I, A). Exceptions: moderate-severe frailty, symptomatic orthostatic hypotension, age ≥85.",
+          "source_section": "Hypertension 2025 review, Table 4 and footnote"
+        },
+        {
+          "text": "Age ≥85 or moderate-severe frailty or life expectancy <3 years: deferring drugs until ≥140/90 should be considered (IIa).",
+          "source_section": "Hypertension 2025 review, online supplement (Older Adults)"
+        },
+        {
+          "text": "Prior stroke/TIA: start at ≥130/80 (Class I) before discharge.",
+          "source_section": "Hypertension 2025 review, online supplement (Cerebrovascular)"
+        }
+      ],
+      "targets": [
+        {
+          "text": "Default SBP target 120-129 mmHg for most treated adults if tolerated (Class I, A); if not tolerated, 'as low as reasonably achievable' (Class I). DBP target 70-79 (IIb, C).",
+          "source_section": "Hypertension 2025 review, Table 4; EHJ-CVP PharmaPulse"
+        },
+        {
+          "text": "More lenient target (<140/90) should be considered at age ≥85 or symptomatic orthostatic hypotension (IIa, C) and may be considered in moderate-severe frailty/limited life expectancy (IIb, C). Adults <85 without moderate/severe frailty follow the same targets as younger adults (Class I). No age-stratified targets.",
+          "source_section": "Hypertension 2025 review, Table 4 footnote and supplement"
+        },
+        {
+          "text": "Diabetes, moderate-severe CKD, established CVD, prior stroke: SBP target 120-129; individualized targets for eGFR <30 and kidney transplant recipients.",
+          "source_section": "Hypertension 2025 review, online supplement"
+        }
+      ],
+      "first_line": [
+        {
+          "text": "First-line: ACEi or ARB, dihydropyridine CCB, thiazide or thiazide-like diuretic (Class I, A).",
+          "source_section": "Hypertension 2025 review, Table 4 and 'BP-Lowering Treatment Selection'"
+        },
+        {
+          "text": "Beta-blockers not first-line; recommended combined with a first-line class when there is a compelling indication, e.g. HFrEF (Class I). Reason given: no new evidence since 2018 and inferior stroke prevention.",
+          "source_section": "Hypertension 2025 review, 'BP-Lowering Treatment Selection'; PharmaPulse"
+        },
+        {
+          "text": "SGLT2 inhibitors recommended in CKD irrespective of diabetes if eGFR ≥20 (per supplement comparison).",
+          "source_section": "Hypertension 2025 review, online supplement (DM/CKD)"
+        }
+      ],
+      "combos": [
+        {
+          "text": "Upfront low-dose two-drug combination for most patients (Class I), preferably as a single-pill combination; next step low-dose three-drug, then uptitrate to maximally tolerated doses.",
+          "source_section": "EHJ-CVP PharmaPulse; Hypertension 2025 review"
+        },
+        {
+          "text": "Initial monotherapy is an option for age ≥85, moderate/severe frailty, symptomatic orthostatic hypotension, and elevated BP 130-139/80-89 with high CVD risk.",
+          "source_section": "EHJ-CVP PharmaPulse"
+        }
+      ],
+      "avoid": [
+        {
+          "text": "Specific 'avoid' combinations (e.g., ACEi+ARB) not verified from full text.",
+          "source_section": "not read"
+        }
+      ],
+      "by_condition": [
+        {
+          "text": "Resistant hypertension, HFrEF and other compelling indications for BB: see first_line/resistant.",
+          "source_section": "PharmaPulse"
+        },
+        {
+          "text": "Acute ischaemic stroke for thrombolysis/thrombectomy: keep <180/105 for first 24 h (IIa); no reperfusion and BP ≥220/110: lower ~15% in first 24 h (IIa). Acute ICH within 6 h: immediate lowering to SBP 140-160 should be considered (IIa).",
+          "source_section": "Hypertension 2025 review, online supplement (Cerebrovascular)"
+        }
+      ],
+      "contraindications_table": [
+        {
+          "text": "Not read (full text unavailable).",
+          "source_section": "n/a"
+        }
+      ],
+      "resistant": [
+        {
+          "text": "Spironolactone preferred (eplerenone if not tolerated), then beta-blockers, then other drugs, e.g. alpha-blockers, hydralazine, potassium-sparing diuretics (Class IIa). Renal denervation may be considered (IIb); not first-line (III); not if eGFR <40 (III).",
+          "source_section": "EHJ-CVP PharmaPulse; Hypertension 2025 review, 'Management of Resistant Hypertension'"
+        }
+      ],
+      "dosing_table": [
+        {
+          "text": "Not read.",
+          "source_section": "n/a"
+        }
+      ],
+      "patient_points": [
+        {
+          "text": "Out-of-office BP (home or ambulatory) recommended for diagnosis and ongoing management, with office BP if not feasible (Class I, B).",
+          "source_section": "Hypertension 2025 review, Table 3"
+        },
+        {
+          "text": "Multidisciplinary, patient-centred care with task-sharing recommended (Class I).",
+          "source_section": "Hypertension 2025 review, 'Guideline Implementation'"
+        }
+      ],
+      "unverified": [
+        {
+          "text": "Everything from the ESC full text itself, including: compelling-indication tables, pregnancy drugs (recommended/contraindicated), gout/COPD/BPH advice, contraindication table, dosing, home BP thresholds, bedtime dosing, ACEi+ARB avoidance, SPC and class details beyond the summaries.",
+          "source_section": "full text blocked"
+        },
+        {
+          "text": "An MDPI review (Medicina 2025, PMC11857694) states ESC advocates <130/80; this conflicts with the authors' summaries (120-129 SBP) and was NOT used.",
+          "source_section": "excluded source"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "compiled": "2026-11-13",
+    "note": "Each fact: {text, source_section}. China page numbers are journal page numbers from the PDF page headers."
+  }
+}

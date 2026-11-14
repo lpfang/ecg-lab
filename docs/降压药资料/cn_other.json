@@ -1,0 +1,1096 @@
+{
+ "drugs": [
+  {
+   "generic_zh": "氢氯噻嗪",
+   "inn": "hydrochlorothiazide",
+   "forms": [
+    "片剂 25mg（常见）"
+   ],
+   "ingredients": null,
+   "cn_brand": "无统一原研品牌；国内多厂家仿制（如常州制药厂 国药准字H32021683，“双克”等）",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "成人高血压：每日25～100mg，分1～2次服用，按降压效果调整（多家国内说明书一致：北京太洋、东北制药、云鹏等）",
+   "sources": [
+    "https://www.haodf.com/citiao/yaopin-qinglvsaiqinpian2/jieshao.html",
+    "https://drugs.dxy.cn/baidu/aspirin/find_drugs.htm?drugId=89551",
+    "https://ypk.39.net/923782/manual/"
+   ],
+   "uncertain": "原研公司及国家集采批次未核实。注意：说明书写每日25～100mg，但现行指南常用12.5～25mg/日，网站写法以说明书为准。",
+   "class": "噻嗪类利尿剂"
+  },
+  {
+   "generic_zh": "吲达帕胺（普通片）",
+   "inn": "indapamide",
+   "forms": [
+    "片剂 2.5mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内多厂家仿制，如天津力生“寿比山”(国药准字H10880019)、国药工业等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": "据报道已进入国家集采（文章称“吲达帕胺是目前进入集采目录的单用降压类利尿剂”；第二批国采新闻提到高血压用药吲达帕胺片），批次以第二批为最可能但仅有新闻来源",
+   "nrdl": null,
+   "label_dosing": "成人：口服一次2.5mg（1片），每日1次，最好早晨服；每日不应超过2.5mg（加量不增效、增加副作用）",
+   "sources": [
+    "https://ypk.39.net/505765/manual/",
+    "https://m.360lj.com/product/instruction/724594.html",
+    "http://zw.china.com.cn/2020-01/22/content_75639121.html"
+   ],
+   "uncertain": "集采批次未从官方中选结果文件直接核实（第二批新闻中提及吲达帕胺片）。原研普通片在中国是否上市未核实。",
+   "class": "噻嗪样利尿剂"
+  },
+  {
+   "generic_zh": "吲达帕胺缓释片",
+   "inn": "indapamide (sustained release)",
+   "forms": [
+    "缓释片 1.5mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "纳催离（Natrilix SR）",
+   "originator": "施维雅 Servier",
+   "cn_mah": "施维雅（天津）制药有限公司（国药准字H20031281）",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "口服，每24小时1片（1.5mg），最好早晨服，整片吞服不要嚼碎；加大剂量不提高降压疗效，只增加利尿作用",
+   "sources": [
+    "https://drugs.dxy.cn/pc/drug/pcS1UDscQDC4L9kJPrB9EDw",
+    "https://yp.120ask.com/manual/119349.html",
+    "https://www.360kad.com/yaopin/1620244.shtml"
+   ],
+   "uncertain": "集采/医保状态未核实。个别零售网站（360lj）把1.5mg缓释片误写为“一次2.5mg”，属错误。",
+   "class": "噻嗪样利尿剂"
+  },
+  {
+   "generic_zh": "氯噻酮",
+   "inn": "chlortalidone (chlorthalidone)",
+   "forms": null,
+   "ingredients": null,
+   "cn_brand": null,
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": null,
+   "sources": [],
+   "uncertain": "未能确认在中国大陆有获批上市的氯噻酮单方片：多次检索（NMPA相关、国药准字、参比制剂）均未找到任何氯噻酮片批准文号或生产企业。不能断言“未上市”，建议在NMPA数据库直接检索后再写；网站上宜写“国内较难获得/少见”而非给出品牌。",
+   "class": "噻嗪样利尿剂"
+  },
+  {
+   "generic_zh": "呋塞米",
+   "inn": "furosemide",
+   "forms": [
+    "片剂 20mg",
+    "注射液",
+    "口服溶液"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内多厂家仿制（如亚邦药业、扬州艾迪 国药准字H32021036等）",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": "第八批国家集采纳入的是呋塞米注射剂（非口服片）",
+   "nrdl": null,
+   "label_dosing": "高血压：起始每日40～80mg，分2次服用，酌情调整；一般不作原发性高血压首选，适用于噻嗪类效果不佳尤其伴肾功能不全或高血压危象时。水肿：起始20～40mg每日1次",
+   "sources": [
+    "http://www.ybmedicine.com/Uploads/file/20170906/1504681373867743.pdf",
+    "https://ypk.39.net/843338/manual/",
+    "https://m.dayi.org.cn/drug/1152019",
+    "https://www.menet.com.cn/info/202303/20230309094106416_145380.shtml"
+   ],
+   "uncertain": "原研（赛诺菲/Hoechst 速尿 Lasix）在中国现状未核实；口服片是否入国采未核实。",
+   "class": "袢利尿剂"
+  },
+  {
+   "generic_zh": "托拉塞米",
+   "inn": "torasemide",
+   "forms": [
+    "片剂 5mg/10mg/20mg",
+    "注射液"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制，如“特苏敏”、“益耐”、湖北百科亨迪(H20040075)、扬子江(H20100139)",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": "托拉塞米注射剂纳入第八批国家集采；托拉塞米片在河北文件中属“联盟集采”（非国采）",
+   "nrdl": null,
+   "label_dosing": "原发性高血压：起始每次5mg，每日1次；4～6周（益耐说明书写4周）降压不理想可增至10mg每日1次；仍不足则加用其他降压药",
+   "sources": [
+    "https://www.manuallib.com/download//5208E6A782406D202D28CC40FD93E3FB.pdf",
+    "https://ypk.39.net/2013872/manual",
+    "https://ylbzj.sjz.gov.cn/atm/7/20220712165953886.pdf",
+    "https://www.menet.com.cn/info/202303/20230309094106416_145380.shtml"
+   ],
+   "uncertain": "未找到原研（Boehringer Mannheim/罗氏）在中国大陆上市的记录。国内说明书高血压剂量从5mg起；2.5mg仅见于二手资料，不应写入。",
+   "class": "袢利尿剂"
+  },
+  {
+   "generic_zh": "螺内酯",
+   "inn": "spironolactone",
+   "forms": [
+    "片剂 20mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "安体舒通（俗称/部分厂家名）；国内多厂家仿制（如杭州民生 H33020070）",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": "截至第九批未纳入国家集采（医药魔方2024年文章列为“满足集采门槛但尚未纳入”的品种）",
+   "nrdl": null,
+   "label_dosing": "高血压：开始每日40～80mg，分次服用，至少2周，以后酌情调整；说明书提示不宜与ACEI合用以免高钾（高钾血症禁用）。若每日1次应早晨服",
+   "sources": [
+    "https://ypk.39.net/590111/manual/",
+    "https://www.haodf.com/citiao/yaopin-luoneizhipian2/jieshao.html",
+    "https://bydrug.pharmcube.com/news/detail/65638f22c9105d5ae44e3ad765eff967"
+   ],
+   "uncertain": "第十批及以后集采是否纳入未核实。原研（辉瑞Aldactone）中国状态未核实。",
+   "class": "醛固酮受体拮抗剂（保钾利尿剂）"
+  },
+  {
+   "generic_zh": "依普利酮",
+   "inn": "eplerenone",
+   "forms": [
+    "片剂"
+   ],
+   "ingredients": null,
+   "cn_brand": "力美通®",
+   "originator": "原研辉瑞 Inspra（美国2002年上市）；中国大陆获批产品为远大医药与南京卡文迪许合作开发的首仿",
+   "cn_mah": "远大医药（具体持证主体未核实）",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "适应症：高血压（单用或联合）。具体剂量未从中国说明书核实",
+   "sources": [
+    "https://www.jiemian.com/article/9869637.html",
+    "https://www.grandpharma.cn/news/%E8%BF%9C%E5%A4%A7%E5%8C%BB%E8%8D%AF%E6%96%B0%E5%9E%8Bmra%E8%8D%AF%E7%89%A9%E4%BE%9D%E6%99%AE%E5%88%A9%E9%85%AE%E7%89%87%E8%8E%B7%E9%A2%81%E5%8F%91%E8%8D%AF%E5%93%81%E6%B3%A8%E5%86%8C%E8%AF%81/",
+    "https://www.grandpharm.com/news/%E5%8A%9B%E7%BE%8E%E9%80%9A%E4%BE%9D%E6%99%AE%E5%88%A9%E9%85%AE%E7%89%87%E6%AD%A3%E5%BC%8F%E5%BC%80%E5%90%AF%E5%85%A8%E5%9B%BD%E5%AD%A6%E6%9C%AF%E4%B9%8B%E6%97%85/"
+   ],
+   "uncertain": "2023年8月NMPA批准（远大医药公告），获批时称国内独家、原研未在大陆上市。2023年后是否有其他仿制或原研进口、医保状态、说明书剂量均未核实。",
+   "class": "选择性醛固酮受体拮抗剂"
+  },
+  {
+   "generic_zh": "阿米洛利",
+   "inn": "amiloride",
+   "forms": [
+    "复方盐酸阿米洛利片（盐酸阿米洛利2.5mg+氢氯噻嗪25mg）"
+   ],
+   "ingredients": [
+    "盐酸阿米洛利 2.5mg",
+    "氢氯噻嗪 25mg"
+   ],
+   "cn_brand": "复方制剂：武都力（江苏迪赛诺 H10900029）、蒙达清（杭州民生 H10900015）、奥力奇（芜湖康奇 H20084156）等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "蒙达清在39药品通标注医保乙类",
+   "label_dosing": "复方片：口服一次1～2片，一日1次，必要时一日2次，与食物同服；高钾血症、严重肾功能减退禁用",
+   "sources": [
+    "https://drugs.dxy.cn/pc/drug/1yXAMowwYvSAzz3CYenuhw",
+    "https://ypk.39.net/501732/",
+    "https://m.jianke.com/product/59292.html"
+   ],
+   "uncertain": "未找到单方盐酸阿米洛利片在国内的说明书/生产企业；国内常见的是复方盐酸阿米洛利片。",
+   "class": "保钾利尿剂"
+  },
+  {
+   "generic_zh": "氨苯蝶啶",
+   "inn": "triamterene",
+   "forms": [
+    "片剂 50mg",
+    "复方制剂成分（复方利血平氨苯蝶啶片）"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内多厂家：华润双鹤(H11020600)、上海信谊、苏州弘森(H32020048)、山东仁和堂(H37020820)等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "单方：成人开始每日25～100mg，分2次服，与其他利尿药合用时减量；最大不超过每日300mg。说明书适应症为水肿性疾病（未列高血压）",
+   "sources": [
+    "https://zyp.yilianmeiti.com/100091/",
+    "http://drugs.meditool.cn/Drugtype/druginfo?druginfoid=36259&datatype=0&msgtype=1",
+    "https://ypk.39.net/847836/"
+   ],
+   "uncertain": "单方说明书适应症为水肿，降压主要以复方形式使用。",
+   "class": "保钾利尿剂"
+  },
+  {
+   "generic_zh": "酒石酸美托洛尔",
+   "inn": "metoprolol tartrate",
+   "forms": [
+    "普通片 25mg/50mg",
+    "注射液"
+   ],
+   "ingredients": null,
+   "cn_brand": "倍他乐克",
+   "originator": "阿斯利康 AstraZeneca",
+   "cn_mah": null,
+   "vbp": "第五批国家集采（青海第五批中选清单：陕西步长高新制药 酒石酸美托洛尔片25mg）",
+   "nrdl": null,
+   "label_dosing": "高血压：每日100～200mg，分1～2次服用；说明书另处写一般一次25～50mg，一日2～3次。空腹服（随餐生物利用度增加约40%）。停药需约2周逐步减量",
+   "sources": [
+    "https://ypk.39.net/502450/manual",
+    "https://www.manuallib.com/download//C413D405B826F97480AEF01AA5DEAC70.pdf",
+    "https://www.qhggzyjy.gov.cn/wzds/epointtemp/editor/uploadfile/20210914093858988.pdf"
+   ],
+   "uncertain": "倍他乐克普通片当前中国上市许可持有人未核实（阿斯利康中国）。部分网站把“每日100～200mg”误写为“一次”。",
+   "class": "β1选择性β受体阻滞剂"
+  },
+  {
+   "generic_zh": "琥珀酸美托洛尔缓释片",
+   "inn": "metoprolol succinate (extended release)",
+   "forms": [
+    "缓释片 23.75/47.5/95/190mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "倍他乐克（Betaloc ZOK）",
+   "originator": "阿斯利康 AstraZeneca",
+   "cn_mah": "AstraZeneca AB生产、阿斯利康制药有限公司分装（进口文号如HJ20140777）",
+   "vbp": "第七批国家集采（2022年，首次纳入缓控释降压药，降价约53%）；中选企业包括南通联亚、华益泰康、浙江普洛康裕、佛山德芮可等（共6家）；原研是否中选未核实",
+   "nrdl": null,
+   "label_dosing": "每日1次（缓释）；中国说明书高血压具体剂量未直接核实（二手资料：起始47.5～95mg每日1次）",
+   "sources": [
+    "http://static.sse.com.cn/stock/disclosure/announcement/c/202311/001335_20231129_N5EX.pdf",
+    "https://bydrug.pharmcube.com/news/detail/48a4eea95ef4699c5a3d00bb65950b66",
+    "http://ybj.lanzhou.gov.cn/art/2023/2/23/art_15304_1201501.html",
+    "https://m.jianke.com/product/11191.html"
+   ],
+   "uncertain": "高血压剂量需从倍他乐克缓释片说明书原文核实；另2家中选企业未确认。",
+   "class": "β1选择性β受体阻滞剂"
+  },
+  {
+   "generic_zh": "富马酸比索洛尔",
+   "inn": "bisoprolol fumarate",
+   "forms": [
+    "片剂 2.5mg/5mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "康忻（Concor）",
+   "originator": "默克 Merck KGaA",
+   "cn_mah": "进口：Merck Healthcare Germany GmbH（HJ20160474/HJ20160475）；另有默克制药（江苏）有限公司版本（J20170042）",
+   "vbp": "第二批国家集采（2020年）；中选为仿制药成都苑东生物、北京华素制药；原研默克未中选",
+   "nrdl": null,
+   "label_dosing": "未从中国说明书直接核实（通常每日1次）",
+   "sources": [
+    "https://www.pharnexcloud.com/zixun/sd_39055",
+    "http://zw.china.com.cn/2020-01/22/content_75639121.html",
+    "https://ylbzj.sjz.gov.cn/atm/7/20220712165953886.pdf",
+    "https://m.jianke.com/product/7720.html"
+   ],
+   "uncertain": "说明书剂量（高血压一般5mg每日1次，最大10mg）未从中文说明书核实，请补查。",
+   "class": "β1高选择性β受体阻滞剂"
+  },
+  {
+   "generic_zh": "阿替洛尔",
+   "inn": "atenolol",
+   "forms": [
+    "片剂 12.5/25/50/100mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制，如河北天成(H13022302)、北京益民(H11021114)；别名“氨酰心安”，有资料列“天诺敏”",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "成人：开始每次6.25～12.5mg，一日2次，按需要及耐受量渐增至50～200mg；肾功能损害需减量（CrCl<15：每日25mg；15～35：每日最多50mg）",
+   "sources": [
+    "https://ypk.39.net/506520/manual/",
+    "http://www.a-hospital.com/w/%E9%98%BF%E6%9B%BF%E6%B4%9B%E5%B0%94%E7%89%87",
+    "https://drugs.dxy.cn/drug/prNa1q8Z14zhzoUwl8c3CA=="
+   ],
+   "uncertain": "原研（阿斯利康 Tenormin/天诺敏）是否仍在中国上市未核实；说明书“渐增至50～200mg”未写明是否为日总量，原文如此。集采状态未核实。",
+   "class": "β1选择性β受体阻滞剂"
+  },
+  {
+   "generic_zh": "卡维地洛",
+   "inn": "carvedilol",
+   "forms": [
+    "片剂 6.25/10/12.5/20/25mg",
+    "胶囊",
+    "分散片"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内最早1999年丽珠获批；常见品牌“络德”（北京巨能 H20000005，国产仿制，非罗氏）",
+   "originator": "参比制剂为Dilatrend（达利全），持证商 Roche Pharma AG/Cheplapharm（欧盟上市）；药智原研单位列SmithKline Beecham（美国Coreg）",
+   "cn_mah": null,
+   "vbp": "省际联盟集采（河北文件、河南十四省联盟），未找到国家集采证据",
+   "nrdl": "络德在39药品通标注医保乙类",
+   "label_dosing": "高血压（络德）：起始6.25mg一日2次，7～14天后可增至12.5mg一日2次，再可增至25mg一日2次；总量不超过50mg/日；与食物同服。另有厂家说明书为12.5mg每日1次起、25mg每日1次，最大50mg/日",
+   "sources": [
+    "https://ypk.39.net/503803/",
+    "https://db.yaozh.com/orangebook/433.html",
+    "https://ylbzj.sjz.gov.cn/atm/7/20220712165953886.pdf"
+   ],
+   "uncertain": "原研“达利全”目前是否在中国大陆上市、持有人为罗氏还是Cheplapharm均未核实。不同厂家说明书给药方案不同（每日2次 vs 每日1次）。",
+   "class": "α1+β受体阻滞剂"
+  },
+  {
+   "generic_zh": "拉贝洛尔",
+   "inn": "labetalol",
+   "forms": [
+    "片剂 50mg/100mg",
+    "注射液"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制，如江苏迪赛诺“迪赛诺”等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "口服一次100mg，每日2～3次，2～3天后按需加量；常用维持量200～400mg每日2次，饭后服；极量每日2400mg。说明书称可用于妊娠高血压",
+   "sources": [
+    "https://swin.zy91.com/pages/m-instruction/m.instruction.html?webHisId=39504&hospitalCode=1",
+    "https://wapypk.39.net/1000009473/manual/",
+    "https://mzyp.yilianmeiti.com/instructions/113862.html"
+   ],
+   "uncertain": "原研公司/集采/医保未核实。另有版本写“每次100～200mg，每日2～3次”。",
+   "class": "α+β受体阻滞剂"
+  },
+  {
+   "generic_zh": "阿罗洛尔",
+   "inn": "arotinolol",
+   "forms": [
+    "片剂 10mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "阿尔马尔",
+   "originator": "住友制药（原大日本住友）",
+   "cn_mah": "住友制药（苏州）有限公司（国药准字J20110018 等）",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "原发性高血压（轻-中度）：成人每次10mg，每日2次；疗效不充分可增至每日30mg",
+   "sources": [
+    "https://m.360lj.com/product/instruction/720933.html",
+    "https://ypk.39.net/769016/",
+    "https://tricura.medsci.cn/instruction?type=condition&name=%E9%98%BF%E5%B0%94%E9%A9%AC%E5%B0%94&id=1991722128555831298&plaintext=&category=intro",
+    "https://m.163.com/dy/article/I918U18B05563479.html"
+   ],
+   "uncertain": "批准文号写法有J20110018与J20140161两种；国内已有仿制（如苑东生物）；集采状态未核实。",
+   "class": "α+β受体阻滞剂"
+  },
+  {
+   "generic_zh": "奈必洛尔",
+   "inn": "nebivolol",
+   "forms": null,
+   "ingredients": null,
+   "cn_brand": null,
+   "originator": "强生/杨森研发（1997年德国首上市），国外由美纳里尼等销售",
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": null,
+   "sources": [
+    "https://m.1blv.com/answerDetail/18787.html",
+    "https://health.baidu.com/m/detail/ar_6334555285800319845",
+    "https://www.zhaoyaow.com/nble/xw/6639.html",
+    "https://synapse.zhihuiya.com/drug/d10ed9a42aae4d4086f5843bbff7491b",
+    "https://www.ouryao.com/thread-277916-1-1.html"
+   ],
+   "uncertain": "中国大陆上市状态冲突：医伴旅一页面称2021年5月在中国上市，但同站及百度健康、药队长、海得康等称截至2024–2025年4月尚未在中国大陆获批；Synapse/药渡显示国内最高阶段为III期临床；未找到任何NMPA批准或企业获证公告（华海药业获批的是美国FDA ANDA）。结论：不能确认在大陆上市，网站上不宜列为国内可用药物。",
+   "class": "β1高选择性β受体阻滞剂（兼NO介导扩血管）"
+  },
+  {
+   "generic_zh": "普萘洛尔",
+   "inn": "propranolol",
+   "forms": [
+    "片剂 10mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制：江苏亚邦爱普森、上海信谊、江苏云阳、山西云鹏、上海新黄河等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "医保甲类（据药品网站）",
+   "label_dosing": "高血压：初始10mg，每日3～4次，可单用或与利尿剂合用，逐渐增加，日最大200mg",
+   "sources": [
+    "https://www.haodf.com/citiao/yaopin-yansuanpunailuoerpia1/jieshao.html",
+    "https://wapypk.39.net/578531/manual",
+    "https://yjj.sh.gov.cn/ypylqxcpzczxxgg/20250515/f53c29ee9fd84c3997f47808ba90d2bf.html"
+   ],
+   "uncertain": "原研（ICI/阿斯利康 Inderal）中国状态、集采状态未核实；医保甲类仅来自药品网站。",
+   "class": "非选择性β受体阻滞剂"
+  },
+  {
+   "generic_zh": "多沙唑嗪（普通片）",
+   "inn": "doxazosin mesylate",
+   "forms": [
+    "普通片"
+   ],
+   "ingredients": null,
+   "cn_brand": null,
+   "originator": null,
+   "cn_mah": null,
+   "vbp": "截至第九批未纳入国家集采（医药魔方2024）",
+   "nrdl": null,
+   "label_dosing": null,
+   "sources": [
+    "https://bydrug.pharmcube.com/news/detail/65638f22c9105d5ae44e3ad765eff967"
+   ],
+   "uncertain": "普通片在国内的品牌/厂家与说明书剂量未检索核实。",
+   "class": "α1受体阻滞剂"
+  },
+  {
+   "generic_zh": "多沙唑嗪（控释/缓释片）",
+   "inn": "doxazosin mesylate (GITS/XL)",
+   "forms": [
+    "缓释片 4mg（国内通用名为“甲磺酸多沙唑嗪缓释片”）"
+   ],
+   "ingredients": null,
+   "cn_brand": "可多华（Cardura XL）",
+   "originator": "辉瑞 Pfizer",
+   "cn_mah": "Viatris Pharma GmbH（原Pfizer OFG Germany GmbH）；Viatris Pharmaceuticals LLC生产，晖致制药（大连）有限公司分包装；国药准字HJ20170175",
+   "vbp": "截至第九批未纳入国家集采（医药魔方2024）",
+   "nrdl": null,
+   "label_dosing": "高血压：最常用剂量每日1次4mg；调整剂量间隔1–2周；国外最大每日1次16mg；整片吞服不可嚼碎掰开；不受进食影响",
+   "sources": [
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_400847.html",
+    "https://m.jianke.com/product/11945.html",
+    "https://ypk.39.net/2001274/manual/"
+   ],
+   "uncertain": "中国通用名为“缓释片”，不是“控释片”。第十批及以后集采未核实。",
+   "class": "α1受体阻滞剂"
+  },
+  {
+   "generic_zh": "特拉唑嗪",
+   "inn": "terazosin",
+   "forms": [
+    "片剂 1mg/2mg",
+    "胶囊"
+   ],
+   "ingredients": null,
+   "cn_brand": "高特灵（Hytrin）",
+   "originator": "雅培 Abbott",
+   "cn_mah": "上海雅培制药有限公司（国药准字H20023659）",
+   "vbp": "河北医保局文件列为“国家集采”品种（海南绿岛 盐酸特拉唑嗪片2mg；扬子江 胶囊），批次未核实",
+   "nrdl": null,
+   "label_dosing": "高血压：首剂睡前1mg且不应超过（减少首剂低血压）；一周后可加倍；常用维持量每日1次2～10mg；超过20mg不增效",
+   "sources": [
+    "https://dxy.com/medicine/6037",
+    "https://ypk.39.net/2309438/manual/",
+    "https://ylbzj.sjz.gov.cn/atm/7/20220712165953886.pdf"
+   ],
+   "uncertain": "国家集采具体批次未核实。",
+   "class": "α1受体阻滞剂"
+  },
+  {
+   "generic_zh": "哌唑嗪",
+   "inn": "prazosin",
+   "forms": [
+    "片剂 1mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制：常州制药、白云山、广州柏赛罗、山东信谊等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "成人：一次0.5～1mg，每日2～3次（首剂0.5mg，睡前服），逐渐调整为一日6～15mg，分2～3次；超过20mg/日不再增效。注意首剂现象（体位性低血压、晕厥）",
+   "sources": [
+    "https://m.360lj.com/product/instruction/758316.html",
+    "https://zyp.yilianmeiti.com/instructions/5032.html"
+   ],
+   "uncertain": "原研（辉瑞Minipress）中国状态、集采未核实。",
+   "class": "α1受体阻滞剂"
+  },
+  {
+   "generic_zh": "乌拉地尔",
+   "inn": "urapidil",
+   "forms": [
+    "缓释胶囊 30mg",
+    "缓释片 30mg",
+    "注射液"
+   ],
+   "ingredients": null,
+   "cn_brand": "口服缓释胶囊为国产：西安远大德天(H20070161)、华裕(无锡)“裕优定”(H20052741)；缓释片：西安利君(H20000463)。“亚宁定(Ebrantil)”在中国是武田的注射液商品名",
+   "originator": "Byk Gulden研发，后经Altana、Nycomed，现为武田 Takeda",
+   "cn_mah": "原研缓释胶囊（Takeda GmbH）在参比目录中标为“未进口原研药品”；注射液为原研进口",
+   "vbp": "乌拉地尔注射剂纳入第九批国家集采（口服剂型未见）",
+   "nrdl": "德天缓释胶囊标注医保乙类",
+   "label_dosing": "口服缓释胶囊：起始每日30mg，1–2周间隔逐渐增至每日60mg或120mg，分2次服；不可嚼碎",
+   "sources": [
+    "https://www.drugfuture.com/refdrug/index.aspx?SearchType=browse&sort=3&order=1&page=36",
+    "https://dbadminmaster.yaozh.com/pijian/bJmWaWllbWNqlWRilJeVlDkwMzli.html",
+    "https://wapypk.39.net/724861/manual/",
+    "https://www.mrpharma.cn/2/203.html",
+    "https://www.phirda.com/artilce_32527.html?cId=1"
+   ],
+   "uncertain": "药源网版本剂量（30～60mg/次，2次/日，维持30～180mg/日）高于厂家说明书最大120mg/日，以厂家说明书为准。",
+   "class": "α1受体阻滞剂（兼中枢5-HT1A作用）"
+  },
+  {
+   "generic_zh": "可乐定",
+   "inn": "clonidine",
+   "forms": [
+    "片剂 0.075mg",
+    "贴片",
+    "滴眼液"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内：常州制药厂(H32021681)、江苏云阳(H32022620)等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "常药片在39药品通标注医保乙类",
+   "label_dosing": "高血压（非一线）：起始0.1mg一日2次，隔2～4天递增每日0.1～0.2mg；常用维持0.3～0.9mg/日，分2～4次；极量一次0.6mg，一日2.4mg。停药须1～2周内逐渐减量（撤药反跳）",
+   "sources": [
+    "https://ypk.familydoctor.com.cn/98801/instructions/",
+    "https://ypk.39.net/502822/manual",
+    "https://www.chemsrc.com/news/253.html"
+   ],
+   "uncertain": "片剂规格0.075mg而起始剂量写0.1mg，按说明书原文记录；原研（勃林格Catapres）未核实。",
+   "class": "中枢α2受体激动剂"
+  },
+  {
+   "generic_zh": "甲基多巴",
+   "inn": "methyldopa",
+   "forms": [
+    "片剂 250mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内：湖南尔康湘药(H43021077，MAH湖南尔康制药)、华润双鹤(H11020968)",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "华润双鹤片在39药品通标注医保乙类",
+   "label_dosing": "口服250mg/次，每日2～3次，每2天调整一次；维持量0.5～2g/日，分2～4次；最大不超过3g/日",
+   "sources": [
+    "https://drugs.dxy.cn/pc/drug/yPyfnWlrjtWtEuDMJ6AzFRA",
+    "https://ypk.39.net/724693/manual/",
+    "https://ypk.familydoctor.com.cn/195717/instructions/"
+   ],
+   "uncertain": "原研（默沙东Aldomet）未核实。",
+   "class": "中枢α2受体激动剂"
+  },
+  {
+   "generic_zh": "利血平",
+   "inn": "reserpine",
+   "forms": [
+    "片剂 0.25mg",
+    "注射液"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内仿制（如国药准字H11020763等）",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "成人：初始0.1～0.25mg/次，每日1次，经7～14天调整至最小有效维持量；极量一次0.5mg。活动性溃疡、溃疡性结肠炎、抑郁症禁用",
+   "sources": [
+    "https://db.yaozh.com/instruct/50945.html",
+    "http://yao.dxy.com/drug/54530.htm",
+    "https://ypk.39.net/503138/manual"
+   ],
+   "uncertain": "原研、集采未核实。",
+   "class": "外周交感神经抑制剂（耗竭儿茶酚胺）"
+  },
+  {
+   "generic_zh": "肼屈嗪",
+   "inn": "hydralazine",
+   "forms": [
+    "盐酸肼屈嗪片 10/25/50mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "国内：广东雷允上(H44022996)、山东潍坊制药厂(H37020951)、中孚药业(H37020953)",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "39药品通标注医保乙类",
+   "label_dosing": "成人：每次10mg，每日4次，饭后服；2–4天后加至25mg每日4次，第二周后可增至50mg每日4次；最大不超过300mg/日（另一版本：12.5～25mg每日3次起）。不宜单独应用",
+   "sources": [
+    "http://drugs.medlive.cn/drugref/html/2580.shtml",
+    "https://ypk.39.net/496872/",
+    "https://www.yaopinnet.com/huayao/hy26322.htm"
+   ],
+   "uncertain": "批准文号现行有效性未在NMPA核实。注意复方制剂中所含为“硫酸双肼屈嗪”而非肼屈嗪。",
+   "class": "直接血管扩张剂"
+  },
+  {
+   "generic_zh": "米诺地尔（口服）",
+   "inn": "minoxidil",
+   "forms": [
+    "片剂 2.5mg（降压定）"
+   ],
+   "ingredients": null,
+   "cn_brand": null,
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "（来自39药品通，未经说明书原件核实）成人开始2.5mg/次，一日2次，每3日剂量加倍，维持量每日10～40mg，最多一日不超过100mg；二/三线用药，需与利尿药合用",
+   "sources": [
+    "https://ypk.39.net/compare/499130,499272",
+    "https://zxb.ccn.com.cn/html/zxb/20101129/27800.html"
+   ],
+   "uncertain": "口服片在国内曾有批文（2010年报道称NMPA批准有口服片剂；39药品通页面列“米诺地尔片(降压定)”，可能对应国药准字H31021677），但生产企业及批文现行有效性未核实；国内市场以外用生发制剂为主。",
+   "class": "直接血管扩张剂（钾通道开放剂）"
+  },
+  {
+   "generic_zh": "阿利吉仑",
+   "inn": "aliskiren",
+   "forms": [
+    "片剂 150mg/300mg"
+   ],
+   "ingredients": null,
+   "cn_brand": "锐思力（Rasilez）",
+   "originator": "诺华 Novartis（与Speedel合作）；2016年Rasilez/Tekturna转让给Noden Pharma",
+   "cn_mah": "2017年起李氏大药厂获中国大陆/港澳台独家代理；Synapse列持有方包括LXO Ireland DAC；药学数据中心有进口文号HC20191004/5/6",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": null,
+   "sources": [
+    "https://synapse.zhihuiya.com/drug/15203a71d4214ccaaf13bb47d4103998",
+    "https://m.medvalley.cn/article/223-0-47897",
+    "https://www.gelonghui.com/p/166455",
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/index_285.html"
+   ],
+   "uncertain": "2010年中国获批；但当前是否仍在大陆实际供应、注册证是否有效未能核实（文章称2013年后基本不再推广）。另：2025年底上海医药苹果酸司妥吉仑片（另一肾素抑制剂）据报道获批，未核实。",
+   "class": "直接肾素抑制剂"
+  },
+  {
+   "generic_zh": "复方利血平片（复方降压片）",
+   "inn": "compound reserpine tablets",
+   "forms": [
+    "片剂"
+   ],
+   "ingredients": [
+    "利血平 0.032mg",
+    "氢氯噻嗪 3.1mg",
+    "维生素B6 1.0mg",
+    "混旋泛酸钙 1.0mg",
+    "三硅酸镁 30mg",
+    "氯化钾 30mg",
+    "维生素B1 1.0mg",
+    "硫酸双肼屈嗪 4.2mg",
+    "盐酸异丙嗪 2.1mg"
+   ],
+   "cn_brand": "多厂家：华润双鹤、上海信谊嘉华、上海复旦复华、亚宝、牡丹江宇德(H23022878)等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "39药品通标注医保乙类、2012年基本药物",
+   "label_dosing": "口服一次1～2片，一日3次；胃及十二指肠溃疡禁用",
+   "sources": [
+    "https://www.dayi.org.cn/drug/1026114",
+    "https://drugs.dxy.cn/pc/drug/yz7hVVlwgGJ-MOpcJiXW1Jg?ky=%E5%A4%8D%E6%96%B9%E5%88%A9%E8%A1%80%E5%B9%B3%E7%89%87",
+    "https://ypk.39.net/508449/manual"
+   ],
+   "uncertain": "共9种成分（含维生素B1）。A+医学百科写维生素B6 3.1mg、双肼屈嗪4.1mg，与各厂家说明书不符，判为错误。",
+   "class": "传统复方降压片"
+  },
+  {
+   "generic_zh": "复方利血平氨苯蝶啶片（北京降压0号）",
+   "inn": "compound hypotensive tablets",
+   "forms": [
+    "薄膜衣片"
+   ],
+   "ingredients": [
+    "氢氯噻嗪 12.5mg",
+    "氨苯蝶啶 12.5mg",
+    "硫酸双肼屈嗪 12.5mg",
+    "利血平 0.1mg"
+   ],
+   "cn_brand": "北京降压0号",
+   "originator": "北京双鹤（现华润双鹤药业股份有限公司，H11022335）",
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "常用量：一次1片，一日1次；维持量：一次1片，二～三日1次。活动性溃疡、溃疡性结肠炎、抑郁症、严重肾功能障碍禁用",
+   "sources": [
+    "https://drugs.dxy.cn/pc/drug/y9QLdx2B57TTOSE4yYM3nEA",
+    "https://www.dayi.org.cn/drug/1146645.html",
+    "http://heart.dxy.cn/article/518984"
+   ],
+   "uncertain": "39药品通页面OCR错误显示“125mg/01mg”，应为12.5mg/0.1mg。",
+   "class": "传统复方降压片"
+  },
+  {
+   "generic_zh": "珍菊降压片",
+   "inn": null,
+   "forms": [
+    "薄膜衣片"
+   ],
+   "ingredients": [
+    "盐酸可乐定 0.03mg",
+    "氢氯噻嗪 5mg",
+    "芦丁 20mg",
+    "野菊花膏粉（含量说明书未标）",
+    "珍珠层粉（含量说明书未标）"
+   ],
+   "cn_brand": "多厂家：亚宝药业(Z14020772)、吉林东北亚(Z20053152)、华佗国药、雷氏等",
+   "originator": null,
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "医保乙类（2025版，据药品网站）",
+   "label_dosing": "口服一次1片，一日3次或遵医嘱；不宜作为首选；停药须在医生指导下2～4天逐渐减量（可乐定撤药反应）",
+   "sources": [
+    "https://www.nmpa.gov.cn/directory/web/nmpa/xxgk/yjjsh/ypblfytb/20130304120001746.html",
+    "https://m.jianke.com/product/3089.html",
+    "https://m.360lj.com/product/instruction/724657.html"
+   ],
+   "uncertain": "维基百科称野菊花膏粉1000mg、珍珠层粉100mg，与0.25–0.27g片重不符，可能为投料/折算量，不应写作每片含量。",
+   "class": "中西药复方制剂（处方药）"
+  },
+  {
+   "generic_zh": "缬沙坦氨氯地平片（Ⅰ）",
+   "inn": "valsartan/amlodipine",
+   "forms": [
+    "片剂 80mg/5mg"
+   ],
+   "ingredients": [
+    "缬沙坦 80mg",
+    "氨氯地平 5mg"
+   ],
+   "cn_brand": "倍博特（Exforge）",
+   "originator": "诺华 Novartis（2009年在中国获批）",
+   "cn_mah": "Novartis Pharma Schweiz AG（国药准字HJ20150310，北京诺华分装）",
+   "vbp": "已纳入国家集采（河北续约文件、江西“国采1–4批”），具体批次未核实",
+   "nrdl": null,
+   "label_dosing": "原发性高血压，用于单药控制不佳者；（推断每日1次1片，未从说明书原文核实）",
+   "sources": [
+    "https://m.jianke.com/product/12034.html",
+    "http://static.cninfo.com.cn/finalpage/2023-01-19/1215649649.PDF",
+    "https://ylbzj.sjz.gov.cn/atm/7/20220712165953886.pdf"
+   ],
+   "uncertain": "集采批次（疑为第四批）与说明书给药频率需补核实。",
+   "class": "ARB+CCB单片复方"
+  },
+  {
+   "generic_zh": "缬沙坦氢氯噻嗪片",
+   "inn": "valsartan/hydrochlorothiazide",
+   "forms": [
+    "片剂 80mg/12.5mg"
+   ],
+   "ingredients": [
+    "缬沙坦 80mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "复代文（Co-Diovan）",
+   "originator": "诺华 Novartis",
+   "cn_mah": "北京诺华制药有限公司（39药品通列H20130317）",
+   "vbp": "第四批国家集采（北京百奥、华润赛科中选）",
+   "nrdl": null,
+   "label_dosing": "每次1片，每日1次，与进餐无关；不用于初始治疗；2–4周达最大疗效",
+   "sources": [
+    "https://ypk.39.net/2307984/manual/",
+    "https://ypk.familydoctor.com.cn/265157/instructions/",
+    "http://www.foshandelin.com/UploadFile/%E7%AC%AC%E5%9B%9B%E6%89%B9%E5%9B%BD%E5%AE%B6%E9%9B%86%E9%87%87%E4%B8%AD%E9%80%89%E8%8D%AF%E5%93%81%E6%8C%82%E7%BD%91%E7%9B%AE%E5%BD%95.pdf",
+    "https://www.withoutpain.net/ueditor/php/upload/file/20220908/1662602654312843.pdf"
+   ],
+   "uncertain": "当前MAH是否为Novartis Pharma Schweiz AG（与倍博特同）未核实。",
+   "class": "ARB+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "厄贝沙坦氢氯噻嗪片",
+   "inn": "irbesartan/hydrochlorothiazide",
+   "forms": [
+    "片剂 150mg/12.5mg",
+    "300mg/12.5mg"
+   ],
+   "ingredients": [
+    "厄贝沙坦 150mg或300mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "安博诺（CoAprovel）",
+   "originator": "赛诺菲 Sanofi",
+   "cn_mah": "进口：Sanofi-aventis groupe（HJ20140196/HJ20140197，赛诺菲(杭州)分包装）；2025年国产：赛诺菲（杭州）制药有限公司（国药准字H20255336，说明书核准2025-09-02）",
+   "vbp": "第一批国家集采（4+7扩围）；2026年已进入期满接续采购（赛诺菲杭州、南京正大天晴等中选）",
+   "nrdl": null,
+   "label_dosing": "未从说明书原文核实（每日1次）",
+   "sources": [
+    "https://www.sanofi.cn/assets/dot-cn/pages/docs/products/prescription-products/20250902_CoAprovel.pdf",
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_399765.html",
+    "https://www.qhggzyjy.gov.cn/wzds/epointtemp/editor/uploadfile/20211223105945648.pdf",
+    "https://qzybj.quanzhou.gov.cn/zwgk/zfxxgk/fdzdgknr/zcwj/202604/P020260401623614886498.pdf"
+   ],
+   "uncertain": "2025年国产版说明书摘录未显示“安博诺”商品名；剂量需读赛诺菲PDF核实。",
+   "class": "ARB+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "氯沙坦钾氢氯噻嗪片",
+   "inn": "losartan potassium/hydrochlorothiazide",
+   "forms": [
+    "片剂 50mg/12.5mg",
+    "100mg/12.5mg"
+   ],
+   "ingredients": [
+    "氯沙坦钾 50或100mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "海捷亚（Hyzaar）",
+   "originator": "默沙东 MSD（现归欧加隆 Organon）",
+   "cn_mah": "N.V. Organon（原Merck Sharp & Dohme B.V.）；Organon Pharma (UK) Ltd生产，杭州默沙东分装；HJ20171067（50/12.5）、HJ20181181（100/12.5）",
+   "vbp": "第八批国家集采（2023年）；中选：华海、乐普、浙江诺得、苏州东瑞",
+   "nrdl": null,
+   "label_dosing": "未从说明书原文核实",
+   "sources": [
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_400204.html",
+    "https://m.jianke.com/product/13710.html?originType=100",
+    "https://www.yicai.com/news/101716983.html",
+    "http://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2023/2023-3/2023-03-31/8931858.PDF"
+   ],
+   "uncertain": "中选企业名单来自新闻汇总（福元公告称4家中选），未见官方结果表。",
+   "class": "ARB+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "替米沙坦氢氯噻嗪片",
+   "inn": "telmisartan/hydrochlorothiazide",
+   "forms": [
+    "片剂 80mg/12.5mg（另有40/12.5）"
+   ],
+   "ingredients": [
+    "替米沙坦 80mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "美嘉素（Micardis Plus）",
+   "originator": "勃林格殷格翰 Boehringer Ingelheim（2008年12月中国获批）",
+   "cn_mah": "Boehringer Ingelheim International GmbH（HJ20171206/HJ20171208），上海勃林格殷格翰分包装",
+   "vbp": "截至第九批未纳入国家集采（医药魔方2024）",
+   "nrdl": null,
+   "label_dosing": "用于替米沙坦单药控制不佳者；轻中度肝损害不超过40/12.5mg每日1次",
+   "sources": [
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_400073.html",
+    "https://wapypk.39.net/2309132/manual/",
+    "https://bydrug.pharmcube.com/news/detail/65638f22c9105d5ae44e3ad765eff967"
+   ],
+   "uncertain": "第十批及以后集采未核实；国内另有仿制如“欣通平”。",
+   "class": "ARB+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "奥美沙坦酯氢氯噻嗪片",
+   "inn": "olmesartan medoxomil/hydrochlorothiazide",
+   "forms": [
+    "片剂 20mg/12.5mg"
+   ],
+   "ingredients": [
+    "奥美沙坦酯 20mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "复傲坦",
+   "originator": "第一三共 Daiichi Sankyo",
+   "cn_mah": "第一三共制药（上海）有限公司（国药准字H20100035）",
+   "vbp": "第九批国家集采（2023年；华海、天宇、华润双鹤、国药现代等中选）",
+   "nrdl": null,
+   "label_dosing": "口服每日1次，每次1片；不用于初始治疗；2–4周可调整剂量",
+   "sources": [
+    "https://www.daiichisankyo.com.cn/data/upload/file/20221122/6380472265601219728351108.pdf",
+    "https://ypk.39.net/889415/manual",
+    "https://ybj.shaanxi.gov.cn/zfxxgk/fdzdgknr/zcwj/202503/P020250314554768675370.pdf",
+    "https://finance.sina.cn/2023-08-29/detail-imziwefy3749892.d.html"
+   ],
+   "uncertain": null,
+   "class": "ARB+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "奥美沙坦酯氨氯地平片",
+   "inn": "olmesartan medoxomil/amlodipine",
+   "forms": [
+    "片剂 20mg/5mg"
+   ],
+   "ingredients": [
+    "奥美沙坦酯 20mg",
+    "氨氯地平 5mg"
+   ],
+   "cn_brand": "思卫卡（Sevikar）",
+   "originator": "第一三共 Daiichi Sankyo",
+   "cn_mah": "第一三共制药（上海）有限公司（国药准字H20180009）",
+   "vbp": "第九批国家集采（如诺泰生物拟中选）",
+   "nrdl": null,
+   "label_dosing": "每日1次，每次1片，每日同一时间服；最大每日不超过2片（40mg/10mg）；≥75岁先调好单药",
+   "sources": [
+    "https://www.360lj.com/product/instruction/947300.html",
+    "https://bydrug.pharmcube.com/news/detail/1909e77e691fbb473f3c8e2bf40f6a84",
+    "https://www.phirda.com/artilce_32527.html?cId=1"
+   ],
+   "uncertain": "说明书来自零售网站转载。",
+   "class": "ARB+CCB单片复方"
+  },
+  {
+   "generic_zh": "培哚普利吲达帕胺片",
+   "inn": "perindopril tert-butylamine/indapamide",
+   "forms": [
+    "片剂 4mg/1.25mg"
+   ],
+   "ingredients": [
+    "培哚普利叔丁胺盐 4mg",
+    "吲达帕胺 1.25mg"
+   ],
+   "cn_brand": "百普乐（Bi-Preterax）",
+   "originator": "施维雅 Servier",
+   "cn_mah": "施维雅（天津）制药有限公司（国药准字H20051756）",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "口服每日1次，每次1片，最好清晨餐前服",
+   "sources": [
+    "https://drugs.dxy.cn/pc/drug/ysAoqd_L_rPa-WGCndOBt3w",
+    "https://ypk.39.net/885463/manual"
+   ],
+   "uncertain": "部分旧零售页面写2mg/0.625mg规格，丁香园2023版说明书只列4mg/1.25mg；集采/医保未核实。",
+   "class": "ACEI+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "培哚普利氨氯地平片",
+   "inn": "perindopril arginine/amlodipine",
+   "forms": [
+    "片剂（Ⅱ）5mg/10mg",
+    "（Ⅲ）10mg/5mg",
+    "（Ⅰ）未核实"
+   ],
+   "ingredients": [
+    "培哚普利精氨酸盐",
+    "苯磺酸氨氯地平（按氨氯地平计）"
+   ],
+   "cn_brand": "开素达（Coveram）",
+   "originator": "施维雅 Servier（2018年4月中国进口获批）",
+   "cn_mah": "(Ⅱ) LES LABORATOIRES SERVIER（HJ20180016）；(Ⅲ) 施维雅(天津)制药（HJ20180015 / 分包装HJ20191023）",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "未从说明书核实",
+   "sources": [
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_400429.html",
+    "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_400432.html",
+    "https://www.servier.com.cn/hypertension/",
+    "https://static.cninfo.com.cn/finalpage/2025-07-29/1224317113.PDF"
+   ],
+   "uncertain": "(Ⅰ)规格未核实；施维雅中国官网仅列(Ⅲ)10mg/5mg；2025年康恩贝仿制(Ⅲ)获批。注意培哚普利盐型为精氨酸盐（与百普乐的叔丁胺盐不同）。",
+   "class": "ACEI+CCB单片复方"
+  },
+  {
+   "generic_zh": "贝那普利氢氯噻嗪片",
+   "inn": "benazepril/hydrochlorothiazide",
+   "forms": [
+    "片剂 10mg/12.5mg"
+   ],
+   "ingredients": [
+    "盐酸贝那普利 10mg",
+    "氢氯噻嗪 12.5mg"
+   ],
+   "cn_brand": "依思汀（注意：洛汀新是单方贝那普利）",
+   "originator": "诺华 Novartis",
+   "cn_mah": "北京诺华制药有限公司（国药准字H20090180）",
+   "vbp": null,
+   "nrdl": "39药品通标注医保甲类",
+   "label_dosing": "推荐10/12.5mg，每天1次",
+   "sources": [
+    "https://ypk.39.net/887480/manual",
+    "http://www.nbdyf.com/yaopinmulu/1368.html"
+   ],
+   "uncertain": "当前是否仍在售/MAH未在NMPA核实；国内另有仿制（广州南新“双赛普利”）。",
+   "class": "ACEI+利尿剂单片复方"
+  },
+  {
+   "generic_zh": "氨氯地平贝那普利片",
+   "inn": "amlodipine/benazepril",
+   "forms": [
+    "(Ⅰ) 2.5mg/10mg",
+    "(Ⅱ) 5mg/10mg"
+   ],
+   "ingredients": [
+    "氨氯地平",
+    "盐酸贝那普利"
+   ],
+   "cn_brand": "(Ⅱ)地奥氨贝（成都地奥，H20090309）；(Ⅰ)百安新（扬子江广州海瑞，H20110072）",
+   "originator": "诺华 Lotrel（未发现在中国上市）",
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": "地奥氨贝在39药品通标注医保乙类",
+   "label_dosing": "非初治；用于单药控制不佳或替代两药联用；（频率未从原文摘录，预期每日1次）",
+   "sources": [
+    "https://wapypk.39.net/888360/manual/",
+    "http://www.diao.com/productinfo.aspx?NId=62&NodeID=285",
+    "https://ypk.39.net/1000006616/manual"
+   ],
+   "uncertain": "中国市场无原研，以国产为主；给药频率需核实。",
+   "class": "CCB+ACEI单片复方"
+  },
+  {
+   "generic_zh": "氨氯地平阿托伐他汀钙片",
+   "inn": "amlodipine/atorvastatin",
+   "forms": [
+    "片剂 5mg/10mg",
+    "5mg/20mg"
+   ],
+   "ingredients": [
+    "氨氯地平 5mg",
+    "阿托伐他汀 10mg或20mg"
+   ],
+   "cn_brand": "多达一（Caduet）",
+   "originator": "辉瑞 Pfizer",
+   "cn_mah": "瀚晖制药有限公司（2021年7月由辉瑞关联公司PF Prism CV技术转让，国药准字H20217056；生产地址仍为辉瑞德国Freiburg工厂）——不是晖致",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "适用于高血压/心绞痛合并高胆固醇血症；氨氯地平最大10mg每日1次",
+   "sources": [
+    "https://finance.sina.com.cn/stock/hkstock/ggscyd/2021-07-15/doc-ikqcfnca7045087.shtml",
+    "https://m.jianke.com/product/59207.html",
+    "https://www.298.cn/show-152389.html"
+   ],
+   "uncertain": "集采/医保未核实。",
+   "class": "CCB+他汀单片复方"
+  },
+  {
+   "generic_zh": "马来酸依那普利叶酸片",
+   "inn": "enalapril maleate/folic acid",
+   "forms": [
+    "5mg/0.4mg",
+    "10mg/0.4mg",
+    "10mg/0.8mg"
+   ],
+   "ingredients": [
+    "马来酸依那普利",
+    "叶酸"
+   ],
+   "cn_brand": "依叶",
+   "originator": "深圳奥萨制药有限公司（国药准字H20103723）",
+   "cn_mah": "深圳奥萨制药有限公司",
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": "适用于伴血浆同型半胱氨酸升高的原发性高血压；通常起始每日5mg/0.4mg，按反应调整",
+   "sources": [
+    "https://www.xinyao.com.cn/yaopin/s127700.htm",
+    "https://m.360lj.com/product/usage/724504.html"
+   ],
+   "uncertain": "说明书写“降低同型半胱氨酸能否预防心脑血管事件尚不明确”；集采/医保未核实。",
+   "class": "ACEI+叶酸复方（中国原研）"
+  },
+  {
+   "generic_zh": "阿利沙坦酯氨氯地平片",
+   "inn": "allisartan isoproxil/amlodipine",
+   "forms": [
+    "片剂 240mg/5mg"
+   ],
+   "ingredients": [
+    "阿利沙坦酯 240mg",
+    "苯磺酸氨氯地平（按氨氯地平计）5mg"
+   ],
+   "cn_brand": "复立坦®",
+   "originator": "深圳信立泰药业股份有限公司",
+   "cn_mah": "深圳信立泰药业股份有限公司（国药准字H20240016，2024年5月获批）",
+   "vbp": null,
+   "nrdl": "2024年11月谈判纳入国家医保目录（乙类，限原发性高血压；协议期2025-01-01至2026-12-31）",
+   "label_dosing": "用于单用阿利沙坦酯或氨氯地平控制不佳的成人原发性高血压；剂量频率未从说明书核实",
+   "sources": [
+    "https://dbadminmaster.yaozh.com/pijian/bJqab2JibWFjlWRilJaUlTkwMzli.html",
+    "https://finance.sina.com.cn/jjxw/2024-11-29/doc-incxspka9055855.shtml",
+    "https://pdf.dfcfw.com/pdf/H2_AN202405211634059274_1.pdf"
+   ],
+   "uncertain": "2027年起医保续约状态未知。",
+   "class": "ARB+CCB单片复方（中国原研）"
+  },
+  {
+   "generic_zh": "沙库巴曲缬沙坦",
+   "inn": "sacubitril/valsartan",
+   "forms": null,
+   "ingredients": null,
+   "cn_brand": "诺欣妥",
+   "originator": "诺华",
+   "cn_mah": null,
+   "vbp": null,
+   "nrdl": null,
+   "label_dosing": null,
+   "sources": [
+    "https://bydrug.pharmcube.com/news/detail/65638f22c9105d5ae44e3ad765eff967"
+   ],
+   "uncertain": "按任务说明（no）未展开；医药魔方2024称其截至第九批未纳入国采。",
+   "class": "ARNI（非单纯复方降压片）"
+  }
+ ]
+}

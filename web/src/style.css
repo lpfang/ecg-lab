@@ -1636,18 +1636,21 @@ body.tour-dim .case-info .card {
 .av-legend .av-h { color: #374151; }
 
 /* ---------------------------------------------------------------- 读片手册 */
-#handbook {
+#handbook,
+#drugbook {
   width: min(1060px, 94vw);
   height: 88vh;
   max-height: 88vh;
 }
-#handbook.max {
+#handbook.max,
+#drugbook.max {
   width: calc(100vw - 24px);
   max-width: none;
   height: calc(100vh - 24px);
   max-height: none;
 }
-#handbook[open] {
+#handbook[open],
+#drugbook[open] {
   display: flex;
   flex-direction: column;
 }
@@ -1934,4 +1937,139 @@ body.quizzing .hb-demo { display: none; }
 }
 .term-hb {
   font-size: 13px;
+}
+
+/* 降压药手册 */
+.dg-warn {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.dg-q {
+  width: 100%;
+  max-width: 420px;
+  font-size: 15px;
+  padding: 6px 10px;
+}
+.dg-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 14px 10px;
+  margin: 12px 0;
+  background: #fff;
+}
+.dg-card.flash {
+  animation: dg-flash 1.6s ease-out;
+}
+@keyframes dg-flash {
+  from {
+    box-shadow: 0 0 0 4px #fdba74;
+  }
+  to {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.dg-card h4 {
+  margin: 8px 0 4px;
+  font-size: 15.5px;
+}
+.dg-card p {
+  margin: 4px 0;
+}
+.dg-table {
+  width: 100%;
+}
+.dg-table th {
+  width: 7em;
+  font-weight: 600;
+}
+.dg-table td:first-child {
+  white-space: normal;
+  font-weight: normal;
+}
+.dg-table ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.dg-cls {
+  font-size: 12px;
+  font-weight: normal;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 8px;
+  margin-left: 4px;
+  text-decoration: none;
+}
+.dg-tag {
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 10px;
+  padding: 0 8px;
+  margin-left: 4px;
+}
+.dg-tag.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+.dg-name {
+  background: #f0f7ff;
+  border-left: 4px solid #60a5fa;
+  border-radius: 6px;
+  padding: 6px 14px;
+  margin: 10px 0 14px;
+}
+.dg-name-h {
+  font-weight: 700;
+  color: #1d4ed8;
+  margin: 4px 0;
+}
+.dg-name ul {
+  margin: 4px 0;
+  padding-left: 1.3em;
+}
+.dg-figure {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 6px 14px;
+  margin: 12px 0;
+  background: #fcfcfc;
+}
+.dg-chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 13.5px;
+}
+.dg-chain span {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+details.dg-pro {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin: 14px 0;
+  font-size: 13.5px;
+}
+details.dg-pro summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.dg-list h3 {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+/* 降压药手册：难字注音 */
+#dg-body ruby rt {
+  font-size: 0.62em;
+  color: var(--muted, #888);
+  font-weight: normal;
+  letter-spacing: 0;
 }

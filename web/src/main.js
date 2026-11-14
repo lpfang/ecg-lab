@@ -22,6 +22,7 @@ import { rateTruth, axisTruth, vectorTruth, intervalTruth } from './quiz/answers
 import { vectorFigure } from './quiz/vectorFig.js';
 import { HANDBOOK, chapterById, chaptersForTerm, termNames, termRegex } from './content/handbook.js';
 import { axisWidget, qtcWidget, linkTerms } from './views/handbook.js';
+import { renderDrugNav, renderDrugChapter, renderDrugSearch, drugById, DRUG_CLASSES, addPinyinAll } from './views/drugbook.js';
 import { medianBeat } from './ecg/median.js';
 import { drawBeatCompare, drawRhythmCompare, beatRange, BEAT_SPEED, RHYTHM_SPEED } from './views/compare.js';
 import {
@@ -1254,8 +1255,69 @@ function openHandbook(id) {
   history.replaceState(null, '', u);
 }
 
+// ================================================================ 降压药手册
+
+const dg = { chapter: null };
+
+/** id：章节 id、'search'，或 'drug:<药物 id>'（打开该药所在类别的章节并滚动到卡片） */
+function openDrugbook(id) {
+  let target = id ?? dg.chapter ?? 'd-why';
+  let card = null;
+  if (target.startsWith('drug:')) {
+    const d = drugById(target.slice(5));
+    card = d?.id ?? null;
+    target = (d && DRUG_CLASSES.find((c) => c.id === d.cls)?.chapter) ?? 'search';
+  }
+  const body = $('#dg-body');
+  let ch = renderDrugChapter(body, target);
+  if (!ch) ch = renderDrugChapter(body, (target = 'd-why'));
+  dg.chapter = target;
+  renderDrugNav($('#dg-nav'), target);
+  if (target === 'search') {
+    const q = $('#dg-q');
+    renderDrugSearch(body, '');
+    let composing = false;
+    q.addEventListener('compositionstart', () => (composing = true));
+    q.addEventListener('compositionend', () => {
+      composing = false;
+      renderDrugSearch(body, q.value);
+    });
+    q.addEventListener('input', () => !composing && renderDrugSearch(body, q.value));
+  } else {
+    linkTerms(body.querySelector('.hb-text'), ch.terms ?? [], (t) => termRegex(termNames(t)));
+    addPinyinAll(body);
+  }
+  $('#term-pop').hidden = true;
+  const d = $('#drugbook');
+  if (!d.open) d.showModal();
+  body.scrollTop = 0;
+  if (card) {
+    const el = body.querySelector(`#drug-${card}`);
+    if (el) {
+      el.scrollIntoView({ block: 'start' });
+      el.classList.add('flash');
+    }
+  }
+  if (target === 'search') $('#dg-q').focus();
+  const u = new URL(location.href);
+  u.searchParams.set('drug', card ? `drug:${card}` : target);
+  history.replaceState(null, '', u);
+}
+
+/** 关闭对话框，并去掉网址里对应的直达参数（Esc 关闭时由 close 事件处理） */
+const DLG_PARAM = { handbook: 'read', drugbook: 'drug' };
+function closeDlg(id) {
+  const d = $(`#${id}`);
+  if (d.open) d.close();
+  if (DLG_PARAM[id]) {
+    const u = new URL(location.href);
+    u.searchParams.delete(DLG_PARAM[id]);
+    history.replaceState(null, '', u);
+  }
+}
+
 function closeHandbook() {
-  $('#handbook').close();
+  closeDlg('handbook');
 }
 
 /** "在图上演示"：关闭手册，加载病例并定位；顶部提示条说明看什么 */
@@ -1782,6 +1844,13 @@ function bindControls() {
     openHandbook(ch);
   };
   $('#hb-btn').onclick = () => openHandbook(hb.chapter);
+  $('#dg-btn').onclick = () => openDrugbook(dg.chapter);
+  $('#drugbook-close').onclick = () => closeDlg('drugbook');
+  $('#drugbook').addEventListener('close', () => {
+    const u = new URL(location.href);
+    u.searchParams.delete('drug');
+    history.replaceState(null, '', u);
+  });
   $('#handbook-close').onclick = closeHandbook;
   $('#handbook').addEventListener('close', () => {
     const u = new URL(location.href);
@@ -1811,7 +1880,7 @@ function bindControls() {
   $('#hb-demo-close').onclick = () => ($('#hb-demo').hidden = true);
   $('#primer-close').onclick = () => $('#primer').close();
   // 对话框关闭或其中内容滚动时，收起挂在对话框里的术语弹窗
-  for (const id of ['handbook', 'primer', 'glossary']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
+  for (const id of ['handbook', 'primer', 'glossary', 'drugbook']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
   document.addEventListener(
     'scroll',
     (e) => {
@@ -1825,6 +1894,7 @@ function bindControls() {
     ['primer', 'ecg-lab:primerMax'],
     ['glossary', 'ecg-lab:glossaryMax'],
     ['handbook', 'ecg-lab:handbookMax'],
+    ['drugbook', 'ecg-lab:drugbookMax'],
   ]) {
     const d = $(`#${dlg}`);
     const btn = $(`#${dlg}-max`);
@@ -1888,9 +1958,16 @@ function bindControls() {
     if (rd) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      if ($('#glossary').open) $('#glossary').close();
-      if ($('#primer').open) $('#primer').close();
+      for (const id of ['glossary', 'primer', 'drugbook']) if ($(`#${id}`).open) closeDlg(id);
       openHandbook(rd.dataset.hbRead);
+      return;
+    }
+    const dc = e.target.closest('[data-drug-ch], [data-drug]');
+    if (dc) {
+      e.preventDefault();
+      $('#term-pop').hidden = true;
+      for (const id of ['glossary', 'primer', 'handbook']) if ($(`#${id}`).open) closeDlg(id);
+      openDrugbook(dc.dataset.drugCh ?? `drug:${dc.dataset.drug}`);
       return;
     }
     const pr = e.target.closest('[data-primer]');
@@ -1964,6 +2041,8 @@ async function boot() {
   if (wantQuiz && !wantTour) startQuiz(wantQuiz);
   const wantRead = new URLSearchParams(location.search).get('read');
   if (wantRead && !wantQuiz) openHandbook(wantRead);
+  const wantDrug = new URLSearchParams(location.search).get('drug');
+  if (wantDrug && !wantQuiz && !wantRead) openDrugbook(wantDrug);
 }
 
 function toast(msg) {

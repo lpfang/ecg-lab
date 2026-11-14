@@ -74,6 +74,41 @@ export const REFS = {
     note: '心动过缓与传导延迟指南：房室传导阻滞的分型',
     status: 'listed',
   },
+  cn2024: {
+    text: '中国高血压防治指南修订委员会, 等. 中国高血压防治指南（2024 年修订版）. 中华高血压杂志（中英文）. 2024;32(7):603–700. DOI: 10.16439/j.issn.1673-7245.2024.07.002',
+    note: '降压药手册的主要依据：表 15（常用降压药与剂量）、表 16（单片复方）、表 17（适应证与禁忌证）、表 18（联合方案）、表 25（妊娠用药）',
+    status: 'listed',
+  },
+  cnBasic2025: {
+    text: '国家心血管病中心国家基本公共卫生服务项目基层高血压管理办公室, 等. 国家基层高血压防治管理指南 2025 版. 中国循环杂志. 2025;40(9):836–850. DOI: 10.3969/j.issn.1000-3614.2025.09.002',
+    note: '基层用药流程（A、B、C、D 四类药与联合步骤）',
+    status: 'listed',
+  },
+  aha2025: {
+    text: 'Jones DW, et al. 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults. Circulation. 2025;152(11):e114–e218. doi:10.1161/CIR.0000000000001356',
+    note: '美国 2025 高血压指南（取代 2017 版）',
+    status: 'listed',
+  },
+  esc2024: {
+    text: 'McEvoy JW, et al. 2024 ESC Guidelines for the management of elevated blood pressure and hypertension. Eur Heart J. 2024;45(38):3912–4018. doi:10.1093/eurheartj/ehae178',
+    note: '欧洲 2024 指南。本站未能读到全文，相关内容来自指南作者在 Hypertension 2025;82:432–444 发表的解读，引用时已注明',
+    status: 'listed',
+  },
+  nmpaLabel: {
+    text: '国家食品药品监督管理局. 药品说明书和标签管理规定（局令第 24 号）. 2006.',
+    note: '药品标签上通用名与商品名的字体要求',
+    status: 'listed',
+  },
+  innStems: {
+    text: 'World Health Organization. The use of stems in the selection of International Nonproprietary Names (INN) for pharmaceutical substances.',
+    note: 'WHO 国际非专利药名的词干（-pril、-sartan、-dipine、-olol、-azosin 等）',
+    status: 'listed',
+  },
+  fdaLabels: {
+    text: '美国 FDA 药品说明书（DailyMed，dailymed.nlm.nih.gov）与 Drugs@FDA 数据库。',
+    note: '美国商品名、黑框警告、上市与停产状态；具体链接见每张药物卡片',
+    status: 'listed',
+  },
   textbook: {
     text: '常用教学范围，各教材略有差异；具体出处待核实。',
     status: 'listed',

@@ -1,0 +1,2120 @@
+{
+ "generated": "2026-11-13",
+ "method": "Labels via openFDA drug/label (SPL text, same as DailyMed); product/NDA status via openFDA drugsfda (Drugs@FDA/Orange Book data). nda_holder = CURRENT application holder in Drugs@FDA, not necessarily original developer.",
+ "drugs": [
+  {
+   "inn": "captopril",
+   "us_status": "yes (generics only; brand Capoten discontinued)",
+   "us_brands": [
+    "Capoten (discontinued)"
+   ],
+   "nda_holder": "NDA018343 Capoten – current holder per Drugs@FDA: Aarxion ANDA Holding; all NDA products Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity to captopril/any ACEI (e.g., prior ACEI angioedema)",
+    "Aliskiren coadministration in diabetes",
+    "With neprilysin inhibitor; 36-h gap to/from sacubitril/valsartan"
+   ],
+   "common_ar": [
+    "Rash ± pruritus/fever ~4–7/100 (usually first 4 weeks)",
+    "Dysgeusia (taste loss) ~2–4/100, reversible",
+    "Proteinuria ~1/100",
+    "Pruritus without rash ~2/100",
+    "Cough (ACEI class)",
+    "Neutropenia/agranulocytosis (see warnings)"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)",
+    "Neutropenia/agranulocytosis (rare)",
+    "Persistent dry cough (class effect)",
+    "Neutropenia/agranulocytosis emphasized, esp. renal impairment/collagen vascular disease",
+    "Proteinuria"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema"
+   ],
+   "patient_notes": [
+    "Take one hour before meals (food reduces absorption 30–40%)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1395ba5b-2fc9-41ff-9c43-e0740d781dee",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018343"
+   ],
+   "uncertain": [
+    "Label used is a generic (ANDA074677) old-format label; frequency figures are from that label. Original NDA sponsor not verified (Drugs@FDA shows current holder only)."
+   ]
+  },
+  {
+   "inn": "enalapril",
+   "us_status": "yes",
+   "us_brands": [
+    "Vasotec (tablet)",
+    "Epaned (oral solution)"
+   ],
+   "nda_holder": "NDA018998 Vasotec – current holder Bausch (Drugs@FDA); Epaned NDA208686 Azurity",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity; history of ACEI-related angioedema; hereditary/idiopathic angioedema",
+    "Aliskiren in diabetes",
+    "With neprilysin inhibitor; 36-h gap from sacubitril/valsartan"
+   ],
+   "common_ar": [
+    "Hypertension trials (>1%): headache 5.2%, dizziness 4.3%, fatigue 3.0%, diarrhea 1.4%, nausea 1.4%, rash 1.4%, cough 1.3%, orthostatic effects 1.2%"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)",
+    "Neutropenia/agranulocytosis (rare)",
+    "Persistent dry cough (class effect)"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema",
+    "Injectable gold: nitritoid reactions"
+   ],
+   "patient_notes": [
+    "Absorption not influenced by food (label PK)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=39631f1f-5d19-43c1-b504-bf56d991ed97",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018998"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "benazepril",
+   "us_status": "yes",
+   "us_brands": [
+    "Lotensin"
+   ],
+   "nda_holder": "NDA019851 Lotensin – current holder Validus (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity to benazepril/any ACEI",
+    "History of angioedema (with or without ACEI)",
+    "With neprilysin inhibitor; 36-h gap",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "≥1% more than placebo: headache 6% vs 4%, dizziness 4% vs 2%, somnolence 2%, postural dizziness 2%",
+    "Most common reasons for stopping: headache 0.6%, cough 0.5%"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema",
+    "Injectable gold: nitritoid reactions",
+    "Antidiabetics (insulin, oral agents): ↑hypoglycemia risk"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2abb091b-a53e-46b0-9b84-e5ee8f2bdd8e",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019851"
+   ],
+   "uncertain": [],
+   "patient_notes": []
+  },
+  {
+   "inn": "lisinopril",
+   "us_status": "yes",
+   "us_brands": [
+    "Zestril",
+    "Prinivil (discontinued)",
+    "Qbrelis (oral solution)"
+   ],
+   "nda_holder": "NDA019777 Zestril – current holder TWi Pharms (Drugs@FDA); NDA019558 Prinivil (Merck) Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "History of ACEI angioedema/hypersensitivity; hereditary or idiopathic angioedema",
+    "With neprilysin inhibitor; 36-h gap",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Label threshold: events ≥2% greater than placebo",
+    "Hypertension: headache, dizziness, cough",
+    "Heart failure: hypotension, chest pain",
+    "Acute MI: hypotension"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema",
+    "Injectable gold: nitritoid reactions",
+    "Antidiabetics: ↑hypoglycemia risk"
+   ],
+   "patient_notes": [
+    "Food does not alter bioavailability (label PK)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=838c2d78-d2d8-4981-9ec9-e50ef9e1a5d8",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019777",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019558"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "ramipril",
+   "us_status": "yes (generics; brand Altace discontinued)",
+   "us_brands": [
+    "Altace (capsule & tablet, discontinued)"
+   ],
+   "nda_holder": "NDA019901 Altace capsule – King Pharms; NDA022021 tablet – King/Pfizer; both Discontinued in Drugs@FDA",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity/prior ACEI angioedema; hereditary or idiopathic angioedema",
+    "With neprilysin inhibitor; 36-h gap",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Hypertension: headache, dizziness, fatigue, cough"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)",
+    "Neutropenia/agranulocytosis (rare)",
+    "Avoid concomitant ACEI + ARB"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema",
+    "Injectable gold: nitritoid reactions"
+   ],
+   "patient_notes": [
+    "Swallow capsule whole, or open and sprinkle on ~4 oz applesauce (or mix in water/apple juice per label)",
+    "Food reduces rate but not extent of absorption"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f6c86139-b1f7-4e84-944f-94af883ce4ea",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019901",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=022021"
+   ],
+   "uncertain": [
+    "Label used is a generic ANDA label (ANDA091604)."
+   ]
+  },
+  {
+   "inn": "fosinopril",
+   "us_status": "yes (generics; brand Monopril discontinued)",
+   "us_brands": [
+    "Monopril (discontinued)"
+   ],
+   "nda_holder": "NDA019915 Monopril – Bristol-Myers Squibb; Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity to fosinopril/any ACEI (e.g., prior ACEI angioedema)"
+   ],
+   "common_ar": [
+    "Most frequent reasons for discontinuation (0.4–0.9%): headache, elevated transaminases, fatigue, cough, diarrhea, nausea/vomiting"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity"
+   ],
+   "patient_notes": [
+    "No food interaction (label)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aee04f17-8ee9-42f5-861f-b6ba17220ca4",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019915"
+   ],
+   "uncertain": [
+    "Generic label (Aurobindo ANDA091163) contraindications section did not list aliskiren/neprilysin items (they appear in Drug Interactions) – other fosinopril labels may differ."
+   ]
+  },
+  {
+   "inn": "perindopril",
+   "us_status": "yes (generics; brand Aceon discontinued)",
+   "us_brands": [
+    "Aceon (discontinued)"
+   ],
+   "nda_holder": "NDA020184 Aceon – current holder Symplmed (Drugs@FDA); Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity incl. angioedema to perindopril/any ACEI; hereditary or idiopathic angioedema",
+    "Aliskiren in diabetes",
+    "With neprilysin inhibitor; 36-h gap"
+   ],
+   "common_ar": [
+    "Hypertension (≥5%): cough, dizziness, back pain",
+    "Stable CAD: discontinuations mainly cough, drug intolerance, hypotension"
+   ],
+   "warnings": [
+    "Angioedema (head/neck & intestinal); higher rate in Black patients; risk ↑ with mTOR inhibitors or neprilysin inhibitor",
+    "Anaphylactoid reactions (desensitization, high-flux dialysis, LDL apheresis)",
+    "Hypotension (esp. volume/salt-depleted, on diuretics)",
+    "Impaired renal function / renal artery stenosis – monitor",
+    "Hyperkalemia – monitor K+",
+    "Cholestatic jaundice/hepatic failure (rare)"
+   ],
+   "interactions": [
+    "Aliskiren: contraindicated in diabetes; avoid if GFR<60",
+    "Dual RAS blockade (ARB/ACEI/aliskiren): ↑hypotension, hyperkalemia, renal failure",
+    "NSAIDs incl. COX-2: renal deterioration, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Diuretics: first-dose hypotension",
+    "Lithium: lithium toxicity",
+    "Neprilysin inhibitor (sacubitril): contraindicated, 36-h washout",
+    "mTOR inhibitors: angioedema",
+    "Injectable gold: nitritoid reactions"
+   ],
+   "patient_notes": [
+    "Food does not lower perindopril absorption, but reduces conversion to perindoprilat ~43% (ACE inhibition ~20% lower, probably clinically insignificant)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=87768fbf-7c63-47da-8925-0316f343d6ef",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020184"
+   ],
+   "uncertain": [
+    "Generic label (ANDA079070)."
+   ]
+  },
+  {
+   "inn": "imidapril",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22IMIDAPRIL%22"
+   ],
+   "uncertain": [
+    "No US label exists; China label must be used."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "losartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Cozaar",
+    "Arbli (oral suspension)"
+   ],
+   "nda_holder": "NDA020386 Cozaar – current holder Organon (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity to any component",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "≥2% and > placebo: dizziness, upper respiratory infection, nasal congestion, back pain"
+   ],
+   "warnings": [
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Hyperkalemia – monitor K+"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose: take when remembered; skip if near next dose (patient info)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9949448f-c3b9-44ee-94ed-c1aca8c90f39",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020386"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "valsartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Diovan",
+    "Prexxartan (oral solution)"
+   ],
+   "nda_holder": "NDA021283 Diovan tablet – Novartis (Drugs@FDA); NDA020665 capsule Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity to any component",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Hypertension: headache, dizziness, viral infection, fatigue, abdominal pain",
+    "Heart failure: dizziness, hypotension, diarrhea, arthralgia, back pain, fatigue, hyperkalemia"
+   ],
+   "warnings": [
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Hyperkalemia – monitor K+"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose (label 2.6): take ASAP unless almost time for next; do not double"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5ddba454-f3e6-43c2-a7a6-58365d297213",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021283"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "irbesartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Avapro"
+   ],
+   "nda_holder": "NDA020757 Avapro – Sanofi-Aventis US (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Diabetic nephropathy (more than placebo): hyperkalemia, dizziness, orthostatic dizziness, orthostatic hypotension"
+   ],
+   "warnings": [
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Hyperkalemia – monitor K+"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity"
+   ],
+   "patient_notes": [
+    "With or without food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7885b2a8-be4e-48ab-8113-4e6ab791eb98",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020757"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "telmisartan",
+   "us_status": "yes (generics; brand Micardis discontinued)",
+   "us_brands": [
+    "Micardis (discontinued)"
+   ],
+   "nda_holder": "NDA020850 Micardis – Boehringer Ingelheim; Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Known hypersensitivity (e.g., anaphylaxis/angioedema)",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Hypertension (≥1%): back pain, sinusitis, diarrhea"
+   ],
+   "warnings": [
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Hyperkalemia – monitor K+",
+    "Hepatic impairment – monitor",
+    "Avoid ACEI+ARB (renal dysfunction with ramipril)"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity",
+    "Digoxin: ↑digoxin levels (peak +49%) – monitor"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose: take when remembered; skip if near next dose"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=56a72ddf-c2a2-45ce-91b1-1fcfbff52c10",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020850"
+   ],
+   "uncertain": [
+    "Label used is generic ANDA205150."
+   ]
+  },
+  {
+   "inn": "candesartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Atacand"
+   ],
+   "nda_holder": "NDA020838 Atacand – current holder ANI Pharms (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "Discontinuation causes – hypertension: headache 0.6%, dizziness 0.3%; heart failure: hypotension 4.1%, abnormal renal function 6.3%, hyperkalemia 2.4%"
+   ],
+   "warnings": [
+    "Children <1 year must not receive for hypertension",
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Hyperkalemia – monitor K+"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose: take when remembered; skip if almost time for next; no double dose"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=15601654-76da-04cf-e063-6394a90a2cb5",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020838"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "olmesartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Benicar"
+   ],
+   "nda_holder": "NDA021286 Benicar – current holder Cosette (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Aliskiren coadministration in diabetes (only listed contraindication)"
+   ],
+   "common_ar": [
+    "Most common in adults: dizziness (3%)"
+   ],
+   "warnings": [
+    "Not recommended in children <1 year",
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor",
+    "Sprue-like enteropathy (severe chronic diarrhea, weight loss)"
+   ],
+   "interactions": [
+    "Aliskiren: do not coadminister in diabetes; avoid if GFR<60",
+    "Dual RAS blockade: ↑hypotension, hyperkalemia, renal impairment",
+    "NSAIDs incl. COX-2: renal impairment, ↓BP effect",
+    "K-sparing diuretics/K supplements/salt substitutes: hyperkalemia",
+    "Lithium: ↑lithium levels/toxicity",
+    "Colesevelam: give olmesartan ≥4 h before"
+   ],
+   "patient_notes": [
+    "With or without food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dc3f1fd4-5578-4c5d-be7b-12e3f8f3e7df",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021286"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "azilsartan",
+   "us_status": "yes",
+   "us_brands": [
+    "Edarbi"
+   ],
+   "nda_holder": "NDA200796 Edarbi – current holder Azurity (Drugs@FDA)",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Aliskiren-containing products in diabetes"
+   ],
+   "common_ar": [
+    "Most common in adults: diarrhea (2%)"
+   ],
+   "warnings": [
+    "Hypotension in volume/salt-depleted patients – correct first",
+    "Impaired renal function – monitor"
+   ],
+   "interactions": [
+    "Dual RAS blockade: renal impairment, hypotension, hyperkalemia",
+    "Lithium: ↑levels/toxicity",
+    "NSAIDs: renal deterioration, ↓BP effect"
+   ],
+   "patient_notes": [
+    "With or without food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c09103d8-c094-473d-a303-bbb4f334aa8c",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=200796"
+   ],
+   "uncertain": [
+    "Label used: authorized-generic azilsartan medoxomil (Wilshire) under NDA200796, not Edarbi-branded SPL."
+   ]
+  },
+  {
+   "inn": "allisartan",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22ALLISARTAN%22"
+   ],
+   "uncertain": [
+    "Not US-approved; China-only."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "sacubitril/valsartan",
+   "us_status": "yes (US indication: heart failure, not hypertension)",
+   "us_brands": [
+    "Entresto",
+    "Entresto Sprinkle"
+   ],
+   "nda_holder": "NDA207620 Entresto – Novartis; NDA218591 Entresto Sprinkle – Novartis",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "Hypersensitivity",
+    "History of angioedema with prior ACEI or ARB",
+    "Concomitant ACEI; 36-h gap",
+    "Aliskiren in diabetes"
+   ],
+   "common_ar": [
+    "≥5%: hypotension, hyperkalemia, cough, dizziness, renal failure"
+   ],
+   "warnings": [
+    "Angioedema – stop permanently",
+    "Hypotension",
+    "Impaired renal function",
+    "Hyperkalemia"
+   ],
+   "interactions": [
+    "ACEI: contraindicated (angioedema)",
+    "Avoid with ARB (contains valsartan)",
+    "Aliskiren: contraindicated in diabetes; avoid if eGFR<60",
+    "K-sparing diuretics: ↑K+",
+    "NSAIDs: renal impairment",
+    "Lithium: toxicity"
+   ],
+   "patient_notes": [
+    "Missed dose: take when remembered; skip if near next dose",
+    "Sprinkle: do not swallow capsule; do not chew/crush pellets"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=000dc81d-ab91-450c-8eae-8eb74e72296f",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=207620"
+   ],
+   "uncertain": [
+    "US indications read: chronic heart failure (adult) – pediatric HF indication not checked in detail. Hypertension is NOT a US indication."
+   ]
+  },
+  {
+   "inn": "amlodipine",
+   "us_status": "yes",
+   "us_brands": [
+    "Norvasc",
+    "Katerzia (suspension)"
+   ],
+   "nda_holder": "NDA019787 Norvasc – current holder Viatris (Drugs@FDA)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Known sensitivity to amlodipine"
+   ],
+   "common_ar": [
+    "Edema, dose-related (2.5 mg 1.8%, 5 mg 3.0%, 10 mg 10.8% vs placebo 0.6%)",
+    "Also dose-related: dizziness, flushing, palpitation",
+    "Non-dose-related >1%: fatigue, nausea, abdominal pain, somnolence"
+   ],
+   "warnings": [
+    "Symptomatic hypotension (esp. severe aortic stenosis)",
+    "Worsening angina/acute MI after start or dose increase (severe obstructive CAD)",
+    "Severe hepatic impairment – titrate slowly"
+   ],
+   "interactions": [
+    "Moderate/strong CYP3A inhibitors: ↑amlodipine – monitor hypotension/edema",
+    "CYP3A inducers: monitor BP",
+    "Simvastatin: do not exceed 20 mg/day",
+    "Sildenafil: monitor hypotension",
+    "Grapefruit juice: no impact on exposure (label)"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose: take when remembered; skip if >12 h passed (patient info)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=180ee374-24f2-4b9c-9d54-8815f2b1dc9b",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019787"
+   ],
+   "uncertain": [
+    "Label used is Mylan/Viatris generic SPL under NDA019787."
+   ]
+  },
+  {
+   "inn": "levamlodipine",
+   "us_status": "approved but all products Discontinued per Drugs@FDA",
+   "us_brands": [
+    "Conjupri (discontinued)"
+   ],
+   "nda_holder": "NDA212895 Conjupri – CSPC Ouyi (Drugs@FDA); Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Known sensitivity to amlodipine"
+   ],
+   "common_ar": [
+    "Edema (dose-related); others >1%: fatigue, nausea, abdominal pain, somnolence (amlodipine data)"
+   ],
+   "warnings": [
+    "Symptomatic hypotension (esp. severe aortic stenosis)",
+    "Worsening angina/acute MI after start or dose increase (severe obstructive CAD)",
+    "Severe hepatic impairment – titrate slowly"
+   ],
+   "interactions": [
+    "CYP3A inhibitors: ↑exposure",
+    "CYP3A inducers: monitor BP",
+    "Simvastatin ≤20 mg/day",
+    "Sildenafil: hypotension"
+   ],
+   "patient_notes": [
+    "Food does not alter bioavailability"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c3cca66e-348a-43e8-8f96-e995104dae3d",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=212895"
+   ],
+   "uncertain": [
+    "DailyMed still hosts a 2024 Conjupri SPL despite Discontinued status."
+   ]
+  },
+  {
+   "inn": "nifedipine",
+   "us_status": "yes – ER (Procardia XL) and IR capsules (generics; Procardia/Adalat capsules and Adalat CC discontinued)",
+   "us_brands": [
+    "Procardia XL (ER, Rx)",
+    "Procardia (IR capsule, discontinued)",
+    "Adalat CC (ER, discontinued)",
+    "Adalat (capsule, discontinued)"
+   ],
+   "nda_holder": "NDA019684 Procardia XL – Pfizer; NDA018482 Procardia capsule – Pfizer (Disc.); NDA020198 Adalat CC – current holder Norwich (Disc.)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Known hypersensitivity to nifedipine (both IR and ER labels)"
+   ],
+   "common_ar": [
+    "ER (Procardia XL): edema, dose-related ~10%–30%; headache 15.8% (vs 9.8%); fatigue 5.9%, dizziness 4.1%, constipation 3.3%, nausea 3.3%",
+    "IR capsule (~10%): peripheral edema, dizziness/lightheadedness, nausea, headache & flushing, weakness"
+   ],
+   "warnings": [
+    "Excessive hypotension (esp. with beta-blockers; fentanyl surgery)",
+    "Increased angina/MI at start or dose increase",
+    "Beta-blocker withdrawal: taper",
+    "Heart failure (esp. aortic stenosis)",
+    "ER: GI obstruction/bezoars (strictures)",
+    "IR capsule: NOT for acute BP reduction (sublingual/oral – profound hypotension, MI, death)",
+    "IR capsule: NOT approved and should not be used for chronic essential hypertension; avoid within 1–2 weeks after MI/ACS"
+   ],
+   "interactions": [
+    "Beta-blockers: occasional CHF, severe hypotension, angina",
+    "Digoxin: ↑levels (~45%)",
+    "CYP3A4 inhibitors/inducers alter levels",
+    "Grapefruit juice: ~2× AUC – avoid"
+   ],
+   "patient_notes": [
+    "ER: swallow whole; do not bite or divide",
+    "Avoid grapefruit juice"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8ebcb33c-f43b-4b36-9f94-9774b2a59e06",
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=472621b6-c2b7-4582-9ceb-7cead55ff247",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019684",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018482",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020198"
+   ],
+   "uncertain": [
+    "IR capsule label read is a generic (ANDA202644, Cardinal Health). US IR capsule indications = angina only."
+   ]
+  },
+  {
+   "inn": "felodipine",
+   "us_status": "yes (generic ER only; brand Plendil discontinued)",
+   "us_brands": [
+    "Plendil (discontinued)"
+   ],
+   "nda_holder": "NDA019834 Plendil – AstraZeneca; Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Hypersensitivity to product"
+   ],
+   "common_ar": [
+    "Most common: peripheral edema (age- and dose-related; ~3% discontinued) and headache; flushing"
+   ],
+   "warnings": [
+    "Hypotension, rarely syncope; reflex tachycardia may precipitate angina",
+    "Heart failure – caution",
+    "Elderly/hepatic impairment: higher levels"
+   ],
+   "interactions": [
+    "CYP3A4 inhibitors (ketoconazole, itraconazole, erythromycin, cimetidine, grapefruit juice): several-fold ↑felodipine",
+    "Grapefruit juice ~2× bioavailability"
+   ],
+   "patient_notes": [
+    "Take regularly without food or with a light meal",
+    "Swallow whole; do not crush or chew"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0bef7cf2-012b-4804-ac93-0a8b333035db",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019834"
+   ],
+   "uncertain": [
+    "Label used is a generic ANDA (Avet ANDA201964)."
+   ]
+  },
+  {
+   "inn": "lacidipine",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22LACIDIPINE%22"
+   ],
+   "uncertain": [
+    "Not US-approved; use China/EU label."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "benidipine",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22BENIDIPINE%22"
+   ],
+   "uncertain": [
+    "Not US-approved; use China/EU label."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "lercanidipine",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22LERCANIDIPINE%22"
+   ],
+   "uncertain": [
+    "Not US-approved; use China/EU label."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "cilnidipine",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22CILNIDIPINE%22"
+   ],
+   "uncertain": [
+    "Not US-approved; use China/EU label."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "nitrendipine",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22NITRENDIPINE%22"
+   ],
+   "uncertain": [
+    "Not US-approved; use China/EU label."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "diltiazem",
+   "us_status": "yes",
+   "us_brands": [
+    "Cardizem (IR tablet)",
+    "Cardizem CD",
+    "Cardizem LA",
+    "Tiazac",
+    "Dilacor XR (disc.)",
+    "Cardizem SR (disc.)"
+   ],
+   "nda_holder": "Bausch: NDA018602 Cardizem, NDA020062 Cardizem CD, NDA021392 Cardizem LA, NDA020401 Tiazac",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Sick sinus syndrome or 2nd/3rd-degree AV block without functioning ventricular pacemaker",
+    "Hypotension (SBP <90)",
+    "Hypersensitivity",
+    "Acute MI with pulmonary congestion"
+   ],
+   "common_ar": [
+    "Cardizem CD placebo-controlled: headache 5.4%, bradycardia 3.3%, 1st-degree AV block 3.3%, dizziness 3.0%, edema 2.6%, asthenia 1.8%"
+   ],
+   "warnings": [
+    "Cardiac conduction: bradycardia, 2nd/3rd-degree AV block (0.40%)",
+    "Congestive heart failure (impaired LV function) – caution",
+    "Hypotension",
+    "Acute hepatic injury (rare)",
+    "Dermatologic reactions"
+   ],
+   "interactions": [
+    "Beta-blockers/digitalis: additive AV-conduction effects",
+    "CYP3A4 & P-gp substrate and inhibitor",
+    "Statins (CYP3A4): ↑myopathy/rhabdo risk",
+    "Rifampin/CYP3A4 inducers: avoid"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1042fa13-e6af-46b9-8008-6c941f0978b1",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020062"
+   ],
+   "uncertain": [
+    "Read Cardizem CD label only; other formulations may differ in AR table."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "verapamil",
+   "us_status": "yes",
+   "us_brands": [
+    "Verelan",
+    "Verelan PM",
+    "Calan / Calan SR (disc.)",
+    "Isoptin (disc.)",
+    "Covera-HS (disc.)"
+   ],
+   "nda_holder": "Azurity: NDA019614 Verelan, NDA020943 Verelan PM; Pfizer NDA018817 Calan (Disc.)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Severe LV dysfunction",
+    "Hypotension (SBP<90) or cardiogenic shock",
+    "Sick sinus syndrome or 2nd/3rd-degree AV block without pacemaker",
+    "AF/flutter with accessory pathway (WPW, LGL)",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "SR capsules (>1%): constipation 7.4%, headache 5.3%, dizziness 4.2%, lethargy 3.2%, dyspepsia 2.5%, rash, ankle edema, sleep disturbance, myalgia"
+   ],
+   "warnings": [
+    "Heart failure (negative inotropy; 1.8% CHF/pulmonary edema); avoid severe LV dysfunction or with β-blocker if any LV dysfunction",
+    "Hypotension",
+    "Elevated liver enzymes",
+    "AV block",
+    "Rapid ventricular response in accessory-pathway AF"
+   ],
+   "interactions": [
+    "CYP3A4 inhibitors (erythromycin, ritonavir) ↑ / inducers (rifampin) ↓ verapamil",
+    "Telithromycin: hypotension, bradyarrhythmia",
+    "Ivabradine: avoid",
+    "CYP3A4 statins (e.g., atorvastatin): dose adjust",
+    "Beta-blockers: additive HR/AV/contractility effects",
+    "Digoxin: reduce dose, monitor",
+    "Clonidine: monitor HR",
+    "Grapefruit juice: ↑verapamil"
+   ],
+   "patient_notes": [
+    "SR capsule: do not crush/chew; swallow whole or sprinkle contents on applesauce",
+    "Food does not affect absorption of controlled-release capsule"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f9399858-fd7a-4b73-8759-3e5bf3af2666",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019614"
+   ],
+   "uncertain": [
+    "Label read is verapamil SR capsule (Verelan authorized generic, Wilshire). IR tablet label not read."
+   ]
+  },
+  {
+   "inn": "hydrochlorothiazide",
+   "us_status": "yes",
+   "us_brands": [
+    "Microzide (capsule)",
+    "HydroDiuril (disc.)",
+    "Esidrix (disc.)"
+   ],
+   "nda_holder": "NDA020504 Microzide – current holder Teva Branded (Drugs@FDA); NDA011835 HydroDiuril (Merck) and NDA011793 Esidrix (Novartis) Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Anuria",
+    "Hypersensitivity to HCTZ or other sulfonamide-derived drugs"
+   ],
+   "common_ar": [
+    "Dose-related; 12.5 mg comparable to placebo. Reported (≥25 mg): weakness, (orthostatic) hypotension, GI upset, pancreatitis, photosensitivity, electrolyte imbalance, hyperglycemia, hyperuricemia, muscle spasm"
+   ],
+   "warnings": [
+    "Acute myopia & secondary angle-closure glaucoma",
+    "Latent diabetes may manifest",
+    "Azotemia in renal disease",
+    "Electrolytes: hypokalemia, hyponatremia, hypochloremic alkalosis – monitor",
+    "Hyperuricemia/acute gout",
+    "Non-melanoma skin cancer – sun protection, skin checks"
+   ],
+   "interactions": [
+    "Lithium: generally do not combine (toxicity)",
+    "Antidiabetics: dose adjustment",
+    "Cholestyramine/colestipol: ↓absorption 85%/43%",
+    "Corticosteroids/ACTH: hypokalemia",
+    "Alcohol, barbiturates, narcotics: orthostatic hypotension",
+    "NSAIDs: may ↓diuretic/antihypertensive effect"
+   ],
+   "patient_notes": [
+    "Protect skin from sun; regular skin-cancer screening"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5bacc909-6b02-4815-85ef-55fd25b1b1f7",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020504",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=011835"
+   ],
+   "uncertain": [
+    "Label read is QPharma SPL under NDA020504 (Microzide RLD); not the Teva-branded SPL."
+   ]
+  },
+  {
+   "inn": "chlorthalidone",
+   "us_status": "yes",
+   "us_brands": [
+    "Thalitone",
+    "Hemiclor",
+    "Hygroton (disc.)"
+   ],
+   "nda_holder": "NDA019574 Thalitone – Casper Pharma; NDA218647 Hemiclor – PRM Pharma; NDA012283 Hygroton (Sanofi) Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Anuria",
+    "Hypersensitivity to chlorthalidone or other sulfonamide-derived drugs"
+   ],
+   "common_ar": [
+    "Frequency not estimable: anorexia, GI upset, dizziness, paresthesia, headache, photosensitivity, rash, hypokalemia, hyperuricemia, hyperglycemia"
+   ],
+   "warnings": [
+    "Hypotension",
+    "Impaired renal function / AKI risk – monitor",
+    "Electrolytes (hypokalemia, hyponatremia, hypomagnesemia, hypercalcemia) – monitor",
+    "Hyperuricemia, may precipitate gout",
+    "Metabolic: hyperglycemia"
+   ],
+   "interactions": [
+    "Lithium: ↓clearance → toxicity, monitor",
+    "Other antihypertensives: additive",
+    "Tubocurarine: ↑response"
+   ],
+   "patient_notes": [
+    "Thalitone: hypertension start 15 mg once daily with food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=bc5a0299-115b-4e60-bb3f-c75a95c51c15",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019574",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=012283"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "indapamide",
+   "us_status": "yes (generics; brand Lozol discontinued)",
+   "us_brands": [
+    "Lozol (discontinued)"
+   ],
+   "nda_holder": "NDA018538 Lozol – Sanofi-Aventis US; Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Anuria",
+    "Hypersensitivity to indapamide or other sulfonamide-derived drugs"
+   ],
+   "common_ar": [
+    "1.25 mg trials (≥5%): headache, infection, pain, back pain, dizziness, rhinitis, etc. (table)"
+   ],
+   "warnings": [
+    "Severe hyponatremia with hypokalemia, mainly elderly women; dose-related – start 1.25 mg",
+    "Hypokalemia – monitor electrolytes",
+    "Hyperuricemia/gout",
+    "Lithium – do not combine generally"
+   ],
+   "interactions": [
+    "Lithium: high risk of toxicity",
+    "Other antihypertensives: additive",
+    "Norepinephrine: ↓arterial response"
+   ],
+   "patient_notes": [
+    "Single daily dose taken in the morning"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=59cd3331-7afe-432a-8b50-39533fd5f392",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018538"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "furosemide",
+   "us_status": "yes",
+   "us_brands": [
+    "Lasix (tablet)",
+    "Furoscix (SC)",
+    "Lasix ONYU (SC)"
+   ],
+   "nda_holder": "NDA016273 Lasix tablet – Validus (Drugs@FDA lists Discontinued); many generic NDAs/ANDAs Rx",
+   "boxed_warning": "Prominent 'WARNING' at top of label (coded as boxed in some generic SPLs, not in Lasix SPL): potent diuretic – excess can cause profound diuresis with water/electrolyte depletion; careful supervision",
+   "contraindications": [
+    "Anuria",
+    "Hypersensitivity to furosemide"
+   ],
+   "common_ar": [
+    "Listed by system, no frequencies: GI (pancreatitis, jaundice, anorexia, nausea), tinnitus/hearing loss, paresthesia, dizziness, photosensitivity/rash, blood dyscrasias, hyperglycemia, hyperuricemia, muscle spasm"
+   ],
+   "warnings": [
+    "Cirrhosis/ascites: start in hospital (hepatic coma risk)",
+    "Ototoxicity (rapid IV, renal impairment, aminoglycosides)",
+    "Fluid/electrolyte depletion, hypokalemia, dehydration, thrombosis in elderly",
+    "Hyperuricemia; gout rarely",
+    "Sulfonamide cross-allergy possible"
+   ],
+   "interactions": [
+    "Lithium: generally not with diuretics",
+    "Aminoglycosides/ethacrynic acid: ototoxicity",
+    "ACEI/ARB: hypotension, renal deterioration",
+    "NSAIDs: ↓effect",
+    "Succinylcholine/tubocurarine"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=668e9f1f-0df0-45f6-8281-f1b98a4a681d",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=016273"
+   ],
+   "uncertain": [
+    "Drugs@FDA marks Lasix tablet NDA016273 Discontinued, yet DailyMed has a 2025 Validus Lasix SPL – status conflicting. Generic SPL (ANDA216629) used for sections."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "torsemide",
+   "us_status": "yes",
+   "us_brands": [
+    "Soaanz",
+    "Demadex (disc.)"
+   ],
+   "nda_holder": "NDA213218 Soaanz – Sarfe Pharms; NDA020136 Demadex tablet – current holder Pharmobedient (Disc.)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Hypersensitivity to torsemide or povidone",
+    "Anuria",
+    "Hepatic coma"
+   ],
+   "common_ar": [
+    "Most common: excessive urination (6.7%)"
+   ],
+   "warnings": [
+    "Hypotension & worsening renal function",
+    "Electrolyte/metabolic: hypokalemia, hyponatremia, hypomagnesemia, hypocalcemia, alkalosis, hyperglycemia, hyperuricemia/gout (rare)",
+    "Ototoxicity"
+   ],
+   "interactions": [
+    "NSAIDs: ↓effect, renal risk",
+    "CYP2C9 inhibitors ↑torsemide; affects warfarin/phenytoin",
+    "Cholestyramine ↓",
+    "Lithium toxicity",
+    "RAS inhibitors: hypotension/renal",
+    "Radiocontrast: renal toxicity",
+    "Corticosteroids/ACTH: hypokalemia"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5eeca7b4-92ac-bb1f-e063-6394a90a036a",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=213218",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020136"
+   ],
+   "uncertain": [
+    "Generic label (ANDA079234)."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "spironolactone",
+   "us_status": "yes",
+   "us_brands": [
+    "Aldactone",
+    "CaroSpir (suspension)"
+   ],
+   "nda_holder": "NDA012151 Aldactone – Pfizer; NDA209478 CaroSpir – CMP Dev",
+   "boxed_warning": "No in current Aldactone label (older generic SPLs still carry a boxed tumorigenicity warning)",
+   "contraindications": [
+    "Hyperkalemia",
+    "Addison's disease",
+    "Concomitant eplerenone"
+   ],
+   "common_ar": [
+    "No % table; listed: gynecomastia, GI (gastritis, bleeding, diarrhea), decreased libido/impotence, menstrual irregularities, hyperkalemia"
+   ],
+   "warnings": [
+    "Hyperkalemia – check K+ within 1 week of start/titration",
+    "Hypotension & worsening renal function",
+    "Electrolyte/metabolic abnormalities (monitor uric acid, glucose)",
+    "Gynecomastia"
+   ],
+   "interactions": [
+    "K supplements/K-raising drugs (ACEI, ARB): severe hyperkalemia",
+    "Lithium toxicity",
+    "NSAIDs: ↓effect",
+    "Digoxin assay interference",
+    "Cholestyramine: hyperkalemic acidosis",
+    "Aspirin may ↓efficacy",
+    "Abiraterone: ↑PSA",
+    "Mitotane: avoid"
+   ],
+   "patient_notes": [
+    "With or without food but consistently",
+    "Avoid potassium supplements and high-K foods/salt substitutes"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0fed2822-3a03-4b64-9857-c682fcd462bc",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=012151"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "eplerenone",
+   "us_status": "yes",
+   "us_brands": [
+    "Inspra"
+   ],
+   "nda_holder": "NDA021437 Inspra – current holder Upjohn/Viatris (Drugs@FDA)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "All: K+ >5.5 at start; CrCl ≤30; strong CYP3A inhibitors (ketoconazole, itraconazole, clarithromycin, ritonavir, etc.)",
+    "Hypertension: type 2 diabetes with microalbuminuria; SCr >2.0 (M)/>1.8 (F); CrCl <50; K supplements or K-sparing diuretics"
+   ],
+   "common_ar": [
+    "Post-MI HFrEF (>2% & > placebo): hyperkalemia, increased creatinine",
+    "Hypertension: adverse reactions uncommon"
+   ],
+   "warnings": [
+    "Hyperkalemia (↑ with renal impairment, diabetes, proteinuria, ACEI/ARB, NSAIDs, moderate CYP3A inhibitors)"
+   ],
+   "interactions": [
+    "Strong CYP3A inhibitors: contraindicated",
+    "Moderate CYP3A inhibitors (verapamil, erythromycin, fluconazole): HTN start 25 mg, max 25 mg BID",
+    "Grapefruit juice: +25% exposure",
+    "ACEI/ARB/NSAIDs: hyperkalemia"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1a52bedc-8e2c-4116-a296-a87770676b4a",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021437"
+   ],
+   "uncertain": [],
+   "patient_notes": []
+  },
+  {
+   "inn": "amiloride",
+   "us_status": "yes",
+   "us_brands": [
+    "Midamor"
+   ],
+   "nda_holder": "NDA018200 Midamor – current holder Padagis US (Drugs@FDA)",
+   "boxed_warning": "Yes – HYPERKALEMIA (>5.5 mEq/L), potentially fatal; ~10% without kaliuretic diuretic; higher in renal impairment, diabetes, elderly",
+   "contraindications": [
+    "K+ >5.5",
+    "Other K-conserving agents (spironolactone, triamterene) or K supplementation (except severe hypokalemia)",
+    "Anuria, acute or chronic renal insufficiency, diabetic nephropathy",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Hyperkalemia",
+    "Minor reactions ~20% (similar to HCTZ): nausea/anorexia, abdominal pain, flatulence, mild rash, headache"
+   ],
+   "warnings": [
+    "Hyperkalemia; risk ↑ with ACEI, ARB, cyclosporine, tacrolimus",
+    "Hyponatremia/hypochloremia, ↑BUN with other diuretics"
+   ],
+   "interactions": [
+    "ACEI/ARB/cyclosporine/tacrolimus: hyperkalemia",
+    "Lithium: generally avoid",
+    "NSAIDs: ↓effect; hyperkalemia"
+   ],
+   "patient_notes": [
+    "Administer with food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5eedadbd-9be9-b920-e063-6394a90afa68",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018200"
+   ],
+   "uncertain": [
+    "US indication: adjunct to thiazide/kaliuretic diuretic in HTN or CHF (not monotherapy)."
+   ]
+  },
+  {
+   "inn": "triamterene",
+   "us_status": "yes",
+   "us_brands": [
+    "Dyrenium"
+   ],
+   "nda_holder": "NDA013174 Dyrenium – Advanz Pharma",
+   "boxed_warning": "Yes – HYPERKALEMIA (≥5.5 mEq/L) with all K-sparing agents; more likely in renal impairment, diabetes, elderly/ill; monitor K+",
+   "contraindications": [
+    "Anuria; severe/progressive renal disease; severe hepatic disease",
+    "Pre-existing hyperkalemia",
+    "K supplements/K salts/K salt substitutes",
+    "Other K-sparing agents",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "All rare (≤1/1000): rash/photosensitivity, hyperkalemia, azotemia, renal stones, nausea, dizziness, headache, dry mouth"
+   ],
+   "warnings": [
+    "Hyperkalemia; ECG if suspected",
+    "Blood dyscrasias/liver damage (monitor)",
+    "Periodic BUN/K+"
+   ],
+   "interactions": [
+    "Lithium toxicity",
+    "NSAIDs (indomethacin): acute renal failure",
+    "ACEI: hyperkalemia",
+    "Potentiates antihypertensives"
+   ],
+   "patient_notes": [
+    "Take after meals",
+    "Missed dose: do not exceed prescribed dose at next interval"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ebb177c0-d45d-4443-a85a-e76bd9931a42",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=013174"
+   ],
+   "uncertain": [
+    "US label indication is edema only (not hypertension monotherapy)."
+   ]
+  },
+  {
+   "inn": "metoprolol tartrate",
+   "us_status": "yes",
+   "us_brands": [
+    "Lopressor (tablet, oral solution)"
+   ],
+   "nda_holder": "NDA017963 Lopressor tablet – current holder Validus (Drugs@FDA)",
+   "boxed_warning": "No in current Lopressor label (2023); abrupt cessation in W&P 5.1",
+   "contraindications": [
+    "Severe bradycardia; 2nd/3rd-degree heart block; sick sinus (no pacemaker)",
+    "Cardiogenic shock; SBP <100; decompensated HF",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Most common: tiredness, dizziness, depression, shortness of breath, bradycardia, hypotension, diarrhea, pruritus, rash"
+   ],
+   "warnings": [
+    "Abrupt cessation → ischemia; taper over 1–2 weeks",
+    "Worsening heart failure",
+    "Bronchospastic disease: avoid",
+    "Pheochromocytoma: alpha-blocker first",
+    "Major surgery: don't routinely withdraw",
+    "May mask hypoglycemia",
+    "Thyrotoxicosis (thyroid storm on withdrawal)",
+    "PVD aggravation"
+   ],
+   "interactions": [
+    "Catecholamine depleters (reserpine, MAOIs): additive",
+    "CYP2D6 inhibitors (quinidine, fluoxetine, paroxetine): ↑metoprolol",
+    "Digoxin, clonidine, diltiazem, verapamil: bradycardia",
+    "Clonidine withdrawal rebound",
+    "Epinephrine may be less effective for anaphylaxis"
+   ],
+   "patient_notes": [
+    "Take with or immediately after meals",
+    "Missed dose: take only next scheduled dose (no doubling)",
+    "Don't stop without doctor"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0283bc9d-6998-493a-824a-d4c85f704111",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=017963"
+   ],
+   "uncertain": [
+    "Some older generic metoprolol SPLs may still carry a boxed 'Ischemic heart disease' warning."
+   ]
+  },
+  {
+   "inn": "metoprolol succinate",
+   "us_status": "yes",
+   "us_brands": [
+    "Toprol-XL",
+    "Kapspargo Sprinkle"
+   ],
+   "nda_holder": "NDA019962 Toprol-XL – current holder Melinta (Drugs@FDA)",
+   "boxed_warning": "No in current Toprol-XL label (2026-03); some older generic ER SPLs still show boxed 'WARNING: ISCHEMIC HEART DISEASE' (abrupt cessation)",
+   "contraindications": [
+    "Severe bradycardia; 2nd/3rd-degree heart block; sick sinus (no pacemaker)",
+    "Cardiogenic shock; decompensated HF",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Most common: tiredness, dizziness, depression, shortness of breath, bradycardia, hypotension, diarrhea, pruritus, rash"
+   ],
+   "warnings": [
+    "Abrupt cessation → ischemia",
+    "Worsening HF",
+    "Bronchospasm: avoid",
+    "With digoxin/clonidine/diltiazem/verapamil: bradycardia",
+    "Pheochromocytoma",
+    "Major surgery",
+    "Hypoglycemia risk/masking",
+    "Thyrotoxicosis",
+    "PVD",
+    "Epinephrine unresponsiveness"
+   ],
+   "interactions": [
+    "Catecholamine depleters",
+    "Strong CYP2D6 inhibitors: ~2× metoprolol",
+    "Clonidine withdrawal rebound"
+   ],
+   "patient_notes": [
+    "Tablets scored, can be split; do not crush or chew",
+    "Preferably with or immediately after meals",
+    "Missed dose: take only next scheduled dose"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=496ddfaa-7c9c-4888-b747-a210249b367a",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019962"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "bisoprolol",
+   "us_status": "yes (generics; brand Zebeta discontinued)",
+   "us_brands": [
+    "Zebeta (discontinued)"
+   ],
+   "nda_holder": "NDA019982 Zebeta – current holder Teva Branded (Drugs@FDA); Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Cardiogenic shock",
+    "Overt cardiac failure",
+    "2nd/3rd-degree AV block",
+    "Marked sinus bradycardia"
+   ],
+   "common_ar": [
+    "Placebo-controlled (≥1%; 5–20 mg vs placebo): headache 10.9% vs 8.8%, dizziness 3.5% vs 2.9%, arthralgia; fatigue; withdrawals for bradycardia/fatigue <1%"
+   ],
+   "warnings": [
+    "Cardiac failure",
+    "Abrupt cessation (angina, MI, VA)",
+    "Bronchospastic disease (low dose with caution)",
+    "Major surgery",
+    "Diabetes/hypoglycemia masking",
+    "Thyrotoxicosis",
+    "PVD"
+   ],
+   "interactions": [
+    "Other beta-blockers: do not combine",
+    "Reserpine/guanethidine",
+    "Clonidine: stop bisoprolol days before clonidine withdrawal",
+    "Verapamil/diltiazem, disopyramide: caution",
+    "Digitalis: bradycardia"
+   ],
+   "patient_notes": [
+    "Absorption not affected by food"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6566dcbe-3e25-4828-9c10-3d041000bc77",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019982"
+   ],
+   "uncertain": [
+    "Generic label (ANDA217617, repackager PD-Rx); AR % values parsed from table – verify."
+   ]
+  },
+  {
+   "inn": "atenolol",
+   "us_status": "yes",
+   "us_brands": [
+    "Tenormin"
+   ],
+   "nda_holder": "NDA018240 Tenormin tablet – current holder TWi Pharms (Drugs@FDA); IV NDA019058 Discontinued",
+   "boxed_warning": "No in current Tenormin SPL (2025-09; cessation warning in WARNINGS); many generic atenolol SPLs still show boxed 'Cessation of Therapy' warning",
+   "contraindications": [
+    "Sinus bradycardia",
+    "Heart block > first degree",
+    "Cardiogenic shock",
+    "Overt cardiac failure",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Volunteered (US): bradycardia 3%, dizziness 4%, fatigue 3%, postural hypotension 2%; elicited: tiredness, cold extremities, dizziness higher"
+   ],
+   "warnings": [
+    "Cardiac failure",
+    "Cessation: do not stop abruptly (CAD)",
+    "Bronchospastic disease",
+    "Major surgery",
+    "Diabetes/hypoglycemia masking",
+    "Thyrotoxicosis",
+    "Renal impairment: caution"
+   ],
+   "interactions": [
+    "Reserpine: additive",
+    "Calcium channel blockers: additive",
+    "Disopyramide, amiodarone",
+    "Clonidine: withdraw beta-blocker days before clonidine"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018240"
+   ],
+   "uncertain": [
+    "Boxed status differs between brand and generics – confirm which label the site cites."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "carvedilol",
+   "us_status": "yes",
+   "us_brands": [
+    "Coreg",
+    "Coreg CR"
+   ],
+   "nda_holder": "NDA020297 Coreg & NDA022012 Coreg CR – current holder Waylis Therapeutics (Drugs@FDA)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Bronchial asthma/bronchospastic conditions",
+    "2nd/3rd-degree AV block; sick sinus; severe bradycardia (no pacemaker)",
+    "Cardiogenic shock or decompensated HF needing IV inotropes",
+    "Severe hepatic impairment",
+    "Serious hypersensitivity (SJS, anaphylaxis, angioedema)"
+   ],
+   "common_ar": [
+    "Hypertension (≥5%): dizziness",
+    "HF/post-MI LVD: dizziness, fatigue, hypotension, diarrhea, hyperglycemia, asthenia, bradycardia, weight increase"
+   ],
+   "warnings": [
+    "Do not stop abruptly",
+    "Bradycardia, hypotension, worsening HF/fluid retention",
+    "Non-allergic bronchospasm: avoid",
+    "May mask hypoglycemia/alter glucose"
+   ],
+   "interactions": [
+    "CYP2D6 inhibitors ↑; rifampin ↓",
+    "Reserpine/MAOIs/clonidine: hypotension, bradycardia",
+    "Cyclosporine/digoxin levels ↑",
+    "Amiodarone",
+    "Verapamil/diltiazem",
+    "Insulin/oral hypoglycemics enhanced"
+   ],
+   "patient_notes": [
+    "Take with food (reduces orthostatic effects)",
+    "Missed dose: take when remembered unless time for next; don't double"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=07c619c6-4a0c-445e-94fa-664a54f68a39",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=020297",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=022012"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "labetalol",
+   "us_status": "yes (oral generics; Trandate/Normodyne tablets discontinued)",
+   "us_brands": [
+    "Trandate (discontinued)",
+    "Normodyne (discontinued)"
+   ],
+   "nda_holder": "NDA018716 Trandate tablet – current holder Alvogen (Disc.); NDA018687 Normodyne tablet – Schering (Disc.)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Bronchial asthma / obstructive airway disease",
+    "Overt cardiac failure",
+    "Heart block > first degree",
+    "Cardiogenic shock",
+    "Severe bradycardia",
+    "Severe prolonged hypotension",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Controlled trials (labetalol vs placebo): dizziness 11%, fatigue, nausea, dyspepsia 3%, nasal stuffiness 3%, ejaculation failure 2%; transient scalp tingling at start"
+   ],
+   "warnings": [
+    "Hepatic injury (rare, can be fatal) – check LFTs at first symptoms",
+    "Cardiac failure",
+    "Abrupt withdrawal (ischemic heart disease)",
+    "Nonallergic bronchospasm",
+    "Diabetes",
+    "Intraoperative floppy iris syndrome"
+   ],
+   "interactions": [
+    "Tricyclic antidepressants: tremor",
+    "Blunts beta-agonist bronchodilators",
+    "Cimetidine ↑bioavailability",
+    "Nitroglycerin: blunts reflex tachycardia, additive hypotension",
+    "Verapamil-type calcium antagonists: caution",
+    "Digitalis: AV conduction slowing/bradycardia"
+   ],
+   "patient_notes": [
+    "Bioavailability increased with food (label PK)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e4562c70-f245-4dbe-8fe1-0bb64a91a315",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018716"
+   ],
+   "uncertain": [
+    "Generic label (ANDA074787)."
+   ]
+  },
+  {
+   "inn": "nebivolol",
+   "us_status": "yes",
+   "us_brands": [
+    "Bystolic"
+   ],
+   "nda_holder": "NDA021742 Bystolic – current holder Allergan (Drugs@FDA)",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Severe bradycardia",
+    "Heart block > first degree",
+    "Cardiogenic shock",
+    "Decompensated cardiac failure",
+    "Sick sinus (no pacemaker)",
+    "Severe hepatic impairment (Child-Pugh >B)",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Most common: headache, fatigue"
+   ],
+   "warnings": [
+    "Do not stop abruptly; taper 1–2 weeks",
+    "May mask hypoglycemia",
+    "Bronchospasm, surgery, thyrotoxicosis, PVD (class)"
+   ],
+   "interactions": [
+    "CYP2D6 inhibitors ↑nebivolol",
+    "Other β-blockers: don't combine",
+    "Reserpine/clonidine: excessive sympathetic reduction",
+    "Digitalis: bradycardia",
+    "Verapamil/diltiazem: excessive ↓HR/BP"
+   ],
+   "patient_notes": [
+    "With or without food",
+    "Missed dose: take next scheduled dose only (professional label) / or when remembered unless near next (patient info); don't double"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8b8ad213-1dc8-454e-a524-075685c0e1a8",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021742"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "propranolol",
+   "us_status": "yes",
+   "us_brands": [
+    "Inderal LA",
+    "InnoPran XL",
+    "Inderal XL",
+    "Hemangeol (infant hemangioma)",
+    "Inderal tablet (disc.)"
+   ],
+   "nda_holder": "NDA018553 Inderal LA & NDA021438 InnoPran XL – ANI Pharms; NDA016418 Inderal tablet (Wyeth) Discontinued",
+   "boxed_warning": "No in Inderal LA / InnoPran XL / current generic IR SPLs read; a few generic SPLs code the angina/abrupt-cessation warning as boxed",
+   "contraindications": [
+    "Cardiogenic shock",
+    "Sinus bradycardia and > first-degree block",
+    "Bronchial asthma",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Listed without %: bradycardia, CHF, hypotension, Raynaud-type insufficiency; fatigue, lethargy, vivid dreams (dose-related), depression; GI upset; bronchospasm"
+   ],
+   "warnings": [
+    "Abrupt discontinuation → angina/MI; taper over weeks",
+    "Hypersensitivity/skin reactions",
+    "Cardiac failure",
+    "Bronchospasm",
+    "Major surgery",
+    "Diabetes/hypoglycemia masking",
+    "Thyrotoxicosis",
+    "WPW"
+   ],
+   "interactions": [
+    "CYP2D6, 1A2, 2C19 drugs alter levels",
+    "Propafenone, quinidine, amiodarone",
+    "Lidocaine toxicity",
+    "AV-node-slowing drugs (digitalis, diltiazem, verapamil)",
+    "Not for hypertensive emergencies"
+   ],
+   "patient_notes": [
+    "IR (other indications): doses before meals and at bedtime"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=85973689-bb21-483f-becb-c5c8bfb05658",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018553",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021438",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=016418"
+   ],
+   "uncertain": [
+    "IR tablet label read is generic (ANDA070322)."
+   ]
+  },
+  {
+   "inn": "arotinolol",
+   "us_status": "no (no record in Drugs@FDA)",
+   "us_brands": [],
+   "nda_holder": null,
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22AROTINOLOL%22"
+   ],
+   "uncertain": [
+    "Not US-approved (Japan/China)."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "doxazosin",
+   "us_status": "yes",
+   "us_brands": [
+    "Cardura (IR: BPH + hypertension)",
+    "Cardura XL (ER: BPH only)"
+   ],
+   "nda_holder": "NDA019668 Cardura & NDA021269 Cardura XL – Viatris",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Hypersensitivity to doxazosin or other quinazolines (prazosin, terazosin)"
+   ],
+   "common_ar": [
+    "Most common: fatigue, malaise, hypotension, dizziness"
+   ],
+   "warnings": [
+    "Postural hypotension/syncope esp. first dose or dose increase",
+    "Intraoperative floppy iris syndrome (cataract surgery)",
+    "Screen for prostate cancer (BPH)",
+    "Priapism (rare)"
+   ],
+   "interactions": [
+    "Strong CYP3A inhibitors: ↑exposure, hypotension",
+    "PDE-5 inhibitors: additive hypotension"
+   ],
+   "patient_notes": [
+    "Food effect not clinically significant (label PK)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=445dc831-1960-4b25-e063-6294a90a6efd",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019668",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021269"
+   ],
+   "uncertain": [
+    "Label read is Greenstone/Viatris-distributed SPL under NDA019668."
+   ]
+  },
+  {
+   "inn": "terazosin",
+   "us_status": "yes (generic capsules; Hytrin discontinued)",
+   "us_brands": [
+    "Hytrin (discontinued)",
+    "Tezruly (oral solution, disc.)"
+   ],
+   "nda_holder": "NDA019057/NDA020347 Hytrin – Abbott; Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Hypersensitivity to terazosin"
+   ],
+   "common_ar": [
+    "BPH (significantly > placebo): asthenia, postural hypotension, dizziness, somnolence, nasal congestion/rhinitis, impotence"
+   ],
+   "warnings": [
+    "Syncope & first-dose effect – start 1 mg at bedtime; recurs if interrupted several days",
+    "Prostate cancer screening",
+    "Intraoperative floppy iris syndrome",
+    "Priapism"
+   ],
+   "interactions": [
+    "Other antihypertensives, especially verapamil: significant hypotension – reduce dose",
+    "PDE-5 inhibitors: hypotension reported"
+   ],
+   "patient_notes": [
+    "First dose 1 mg at bedtime"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9d8fd052-b478-447e-a884-74fcd21275bb",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=019057"
+   ],
+   "uncertain": [
+    "Generic label (ANDA075317)."
+   ]
+  },
+  {
+   "inn": "prazosin",
+   "us_status": "yes",
+   "us_brands": [
+    "Minipress",
+    "Minipress XL (disc.)"
+   ],
+   "nda_holder": "NDA017442 Minipress – Pfizer",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Known sensitivity to quinazolines, prazosin or inert ingredients"
+   ],
+   "common_ar": [
+    "Dizziness 10.3%, headache 7.8%, drowsiness 7.6%, lack of energy 6.9%, weakness 6.5%, palpitations 5.3%, nausea 4.9%"
+   ],
+   "warnings": [
+    "Syncope with sudden loss of consciousness, usually 30–90 min after first dose (~1% at ≥2 mg); start 1 mg",
+    "Intraoperative floppy iris syndrome"
+   ],
+   "interactions": [
+    "Diuretics/other antihypertensives: additive hypotension – reduce prazosin to 1–2 mg TID and retitrate",
+    "PDE-5 inhibitors: additive hypotension – start PDE-5 at lowest dose"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2f86fc8e-71c1-4749-b67e-86d86cf1d984",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=017442"
+   ],
+   "uncertain": [
+    "Label read is a repackager SPL under NDA017442."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "clonidine",
+   "us_status": "yes",
+   "us_brands": [
+    "Catapres-TTS (patch)",
+    "Catapres tablet (disc.)",
+    "Kapvay/Nexiclon XR (ADHD/ER)"
+   ],
+   "nda_holder": "NDA017407 Catapres tablet – Boehringer Ingelheim (Disc.); NDA018891 Catapres-TTS – current holder Lavipharm",
+   "boxed_warning": "No for oral tablets (only epidural Duraclon has a boxed warning)",
+   "contraindications": [
+    "Known hypersensitivity to clonidine"
+   ],
+   "common_ar": [
+    "Dose-related: dry mouth ~40/100, drowsiness ~33/100, dizziness ~16/100, constipation and sedation ~10/100 each"
+   ],
+   "warnings": [
+    "Withdrawal: sudden stop → nervousness, agitation, headache, tremor, rapid BP rise (rarely encephalopathy, stroke, death); taper over 2–4 days",
+    "Worse with high dose or concurrent beta-blocker"
+   ],
+   "interactions": [
+    "Alcohol/barbiturates/sedatives: ↑CNS depression",
+    "Tricyclics: ↓BP effect",
+    "Neuroleptics: orthostatic problems",
+    "Digitalis, CCBs, beta-blockers: bradycardia/AV block; with diltiazem/verapamil severe bradycardia"
+   ],
+   "patient_notes": [
+    "Do not stop without doctor",
+    "Larger dose at bedtime reduces dry mouth/drowsiness",
+    "Caution driving; dry eyes with contact lenses"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5366a055-47fd-41eb-81d8-ffb3be1dc38c",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=017407",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018891"
+   ],
+   "uncertain": [
+    "Generic tablet label (ANDA091368)."
+   ]
+  },
+  {
+   "inn": "methyldopa",
+   "us_status": "yes (few generic tablets; Aldomet discontinued)",
+   "us_brands": [
+    "Aldomet (discontinued)"
+   ],
+   "nda_holder": "NDA013400 Aldomet tablet – Merck; Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Active hepatic disease (acute hepatitis, active cirrhosis)",
+    "Prior methyldopa-associated liver disorder",
+    "Hypersensitivity",
+    "MAO inhibitor therapy"
+   ],
+   "common_ar": [
+    "Sedation (early/after dose increase), headache, asthenia/weakness; no % given"
+   ],
+   "warnings": [
+    "Positive Coombs test (10–20% with prolonged use), hemolytic anemia",
+    "Liver disorders (hepatitis) – can be fatal",
+    "Edema/weight gain; stop if heart failure signs"
+   ],
+   "interactions": [
+    "Other antihypertensives: potentiation",
+    "Anesthetics: lower doses may be needed",
+    "Lithium: monitor toxicity",
+    "Ferrous sulfate/gluconate: ↓methyldopa bioavailability – not recommended",
+    "MAOIs: contraindicated"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9e22e1d8-04ec-4b67-92ea-b09c706f2703",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=013400"
+   ],
+   "uncertain": [
+    "Generic label (Rising ANDA070076)."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "reserpine",
+   "us_status": "approved historically; all Drugs@FDA single-ingredient products Discontinued",
+   "us_brands": [
+    "Serpasil (disc.) and many others (disc.)"
+   ],
+   "nda_holder": "e.g., NDA009115 Serpasil – Novartis; Discontinued",
+   "boxed_warning": null,
+   "contraindications": [],
+   "common_ar": [],
+   "warnings": [],
+   "interactions": [],
+   "sources": [
+    "https://api.fda.gov/drug/drugsfda.json?search=products.active_ingredients.name:%22RESERPINE%22",
+    "https://dailymed.nlm.nih.gov/dailymed/search.cfm?query=reserpine"
+   ],
+   "uncertain": [
+    "No current single-ingredient Rx reserpine label found on DailyMed (only bulk powder SPLs) – US label content NOT verified."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "hydralazine",
+   "us_status": "yes (generics; Apresoline discontinued)",
+   "us_brands": [
+    "Apresoline (discontinued)"
+   ],
+   "nda_holder": "NDA008303 Apresoline – Novartis; Discontinued",
+   "boxed_warning": "No",
+   "contraindications": [
+    "Hypersensitivity",
+    "Coronary artery disease",
+    "Mitral valvular rheumatic heart disease"
+   ],
+   "common_ar": [
+    "Common (no %): headache, anorexia, nausea, vomiting, diarrhea, palpitations, tachycardia, angina"
+   ],
+   "warnings": [
+    "Drug-induced lupus-like syndrome incl. glomerulonephritis",
+    "Myocardial stimulation → angina/ischemia/MI",
+    "Peripheral neuritis (antipyridoxine effect – add pyridoxine if symptoms)",
+    "Blood dyscrasias"
+   ],
+   "interactions": [
+    "MAO inhibitors: caution",
+    "Diazoxide and other potent parenteral antihypertensives: profound hypotension"
+   ],
+   "patient_notes": [
+    "Food increases plasma levels (label)"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=336b11da-e592-4386-921f-3c136d754f2a",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=008303"
+   ],
+   "uncertain": [
+    "Generic label (ANDA040858)."
+   ]
+  },
+  {
+   "inn": "minoxidil",
+   "us_status": "yes (oral generics; Loniten discontinued; topical OTC Rogaine separate)",
+   "us_brands": [
+    "Loniten (discontinued)"
+   ],
+   "nda_holder": "NDA018154 Loniten – Pfizer; Discontinued",
+   "boxed_warning": "Yes – powerful agent; may cause pericardial effusion (→tamponade) and worsen angina; reserve for patients not controlled on max diuretic + two other agents; give under close supervision, usually with a beta-blocker and a diuretic (often loop)",
+   "contraindications": [
+    "Pheochromocytoma",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "Hypertrichosis ~80% (3–6 weeks)",
+    "Edema/salt-water retention 7% (in non-edematous)",
+    "Pericarditis/effusion/tamponade",
+    "ECG T-wave changes"
+   ],
+   "warnings": [
+    "Salt/water retention & CHF – adequate (usually loop) diuretic required",
+    "Pericardial effusion",
+    "Reflex tachycardia/angina – use beta-blocker",
+    "Guanethidine interaction (orthostatic hypotension)"
+   ],
+   "interactions": [
+    "Guanethidine: profound orthostatic hypotension"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0b4fc036-9497-442b-b629-c4b386932789",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018154"
+   ],
+   "uncertain": [
+    "Generic label (ANDA071826/071839)."
+   ],
+   "patient_notes": []
+  },
+  {
+   "inn": "aliskiren",
+   "us_status": "yes",
+   "us_brands": [
+    "Tekturna"
+   ],
+   "nda_holder": "NDA021985 Tekturna – current holder LXO Ireland (Drugs@FDA); pellet NDA210709 Discontinued",
+   "boxed_warning": "Yes – FETAL TOXICITY: discontinue as soon as pregnancy detected; RAS drugs can injure/kill the fetus.",
+   "contraindications": [
+    "With ARBs or ACEIs in diabetes",
+    "Hypersensitivity",
+    "Children <2 years"
+   ],
+   "common_ar": [
+    "Most common: diarrhea (2.3%)"
+   ],
+   "warnings": [
+    "Avoid with ARB/ACEI esp. CrCl<60",
+    "Anaphylaxis & head/neck angioedema",
+    "Hypotension",
+    "Impaired renal function",
+    "Hyperkalemia"
+   ],
+   "interactions": [
+    "Cyclosporine: avoid",
+    "Itraconazole: avoid",
+    "NSAIDs: renal deterioration, ↓effect",
+    "ACEI/ARB: see above",
+    "Furosemide: aliskiren reduces furosemide exposure – monitor",
+    "Potassium supplements/K salt substitutes: advise patients not to use"
+   ],
+   "patient_notes": [
+    "Keep a routine pattern relative to meals; high-fat meals substantially decrease absorption"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3dd61fa5-1620-4ebf-bbdb-ede29b92fce2",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=021985"
+   ],
+   "uncertain": []
+  },
+  {
+   "inn": "aprocitentan",
+   "us_status": "yes (approved 2024-03-19)",
+   "us_brands": [
+    "Tryvio"
+   ],
+   "nda_holder": "NDA217686 Tryvio – Idorsia",
+   "boxed_warning": "Yes – EMBRYO-FETAL TOXICITY: contraindicated in pregnancy; exclude pregnancy before start; effective contraception during and 1 month after; stop if pregnant",
+   "contraindications": [
+    "Pregnancy",
+    "Hypersensitivity"
+   ],
+   "common_ar": [
+    "≥2% and > placebo: edema/fluid retention, anemia"
+   ],
+   "warnings": [
+    "Embryo-fetal toxicity (pregnancy test before start)",
+    "Hepatotoxicity (ERA class) – LFTs before and periodically",
+    "Fluid retention",
+    "Hemoglobin decrease",
+    "Decreased sperm counts"
+   ],
+   "interactions": [
+    "None listed in openFDA-parsed Drug Interactions section"
+   ],
+   "patient_notes": [
+    "12.5 mg once daily with or without food; swallow whole",
+    "Missed dose: skip; don't take two doses same day",
+    "US indication: add-on for hypertension not controlled on other drugs"
+   ],
+   "sources": [
+    "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dfe7a2ee-612c-4aba-834a-d68e6b59a0a6",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=217686"
+   ],
+   "uncertain": [
+    "REMS: current label (Aug 2026) contains no REMS reference; Drugs@FDA shows REMS supplements (2024-08, 2024-12, 2025-04). REMS likely removed but removal not verified. Drug Interactions section content not verified."
+   ]
+  }
+ ]
+}
