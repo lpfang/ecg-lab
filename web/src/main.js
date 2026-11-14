@@ -995,6 +995,7 @@ async function selectCase(id, retry = () => selectCase(id)) {
     renderST(ecg.meta);
     renderCompare(ecg);
     state.caseBroken = false;
+    document.body.classList.remove('case-stale');
     $('#paper-msg').hidden = true; // 各面板都更新完再收起提示；中途出错时提示和重试按钮仍可见
     // 测验中下拉框只显示"测验中"：病例标题会泄露诊断题的答案
     $('#case-select').value = quiz.set ? QUIZ_OPT : id;
@@ -1010,6 +1011,15 @@ async function selectCase(id, retry = () => selectCase(id)) {
     console.error(e);
     $('#paper-msg').hidden = false;
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
+    if (state.caseBroken) {
+      // 波形已换成新病例，但右侧面板可能还是上一个病例的：先藏起来，免得把旧数值当成新病例的
+      document.body.classList.add('case-stale');
+      if (!quiz.set) {
+        const u = new URL(location.href);
+        u.searchParams.set('case', state.caseId);
+        history.replaceState(null, '', u);
+      }
+    }
     // 下拉框退回到仍在显示的病例，免得和波形对不上
     if (!quiz.set && state.caseId) $('#case-select').value = state.caseId;
     $('#retry').onclick = () => retry();
@@ -1238,7 +1248,7 @@ async function exitTour({ keepCase = false } = {}) {
 
 // ================================================================ 读片手册
 
-const hb = { chapter: null, demoToken: 0, demoLoading: false, primerFrom: null };
+const hb = { chapter: null, demoToken: 0, demoLoading: false, demoFailed: false, primerFrom: null };
 
 function openHandbook(id) {
   const ch = chapterById(id) ?? chapterById(hb.chapter) ?? HANDBOOK[0].chapters[0];
@@ -1375,6 +1385,13 @@ function stopDemo() {
   hb.demoToken++;
   if (hb.demoLoading) cancelPendingLoad();
   hb.demoLoading = false;
+  // 演示加载失败后关掉演示：波形区属于这个演示的错误和重试也一并收起。
+  // 若新病例已画上但面板渲染失败，仍要留着提示，重试改为只重新加载病例、不再打开演示。
+  if (hb.demoFailed) {
+    hb.demoFailed = false;
+    if (state.caseBroken) $('#retry').onclick = () => selectCase(state.caseId);
+    else if (state.ecg) $('#paper-msg').hidden = true;
+  }
 }
 
 /** "在图上演示"：关闭手册，加载病例并定位；顶部提示条说明看什么 */
@@ -1384,6 +1401,7 @@ async function runDemo(chId, i) {
   if (!demo) return;
   const token = ++hb.demoToken;
   hb.demoLoading = false;
+  hb.demoFailed = false;
   closeHandbook();
   if (tour.def) await exitTour({ keepCase: true });
   if (token !== hb.demoToken) return;
@@ -1397,6 +1415,7 @@ async function runDemo(chId, i) {
     hb.demoLoading = false;
     if (!ok) {
       $('#hb-demo-note').textContent = '病例加载失败，请回到手册重试。';
+      hb.demoFailed = true;
       return;
     }
   }

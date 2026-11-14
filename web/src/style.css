@@ -2099,3 +2099,12 @@ details.dg-pro summary {
 .dg-row > .dg-card {
   margin: 4px 0 12px 18px;
 }
+
+/* 新病例的面板渲染失败：右侧可能还是上一个病例的内容，先隐藏，等重试成功 */
+body.case-stale .case-card,
+body.case-stale .diag-card,
+body.case-stale .measure-card,
+body.case-stale .compare-card,
+body.case-stale .case-info {
+  display: none;
+}
