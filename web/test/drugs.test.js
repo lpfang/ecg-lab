@@ -1,4 +1,4 @@
-// 降压药手册：结构、药物数据、检索、与术语表/读片手册的链接
+// 降压药手册：结构、药物数据、检索、与术语表/心电图手册的链接
 import { describe, it, expect } from 'vitest';
 import { DRUG_BOOK, DRUG_CHAPTERS, DRUG_CLASSES, DRUGS, classById, drugById } from '../src/content/drugs.js';
 import { searchDrugs } from '../src/views/drugbook.js';
@@ -40,7 +40,7 @@ describe('手册结构', () => {
           DRUG_CHAPTERS.some((x) => x.id === m[1]),
           `${c.id} → ${m[1]}`,
         ).toBe(true);
-    expect(chapterById('p-drugs')).toBeTruthy(); // ecg: true 链接到读片手册这一章
+    expect(chapterById('p-drugs')).toBeTruthy(); // ecg: true 链接到心电图手册这一章
   });
 });
 

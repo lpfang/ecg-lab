@@ -1,4 +1,4 @@
-// 读片手册：患者篇 + 专业篇。每章：正文（HTML 段落）、"在图上演示"（加载真实病例并定位）、相关导览、可选的交互演示。
+// 心电图手册：患者篇 + 专业篇。每章：正文（HTML 段落）、"在图上演示"（加载真实病例并定位）、相关导览、可选的交互演示。
 //
 // 章节字段：
 //   id, title, en      章节 id（URL ?read=id 可直达）、标题
@@ -8,7 +8,7 @@
 //                        note 一句话说明"看什么"，演示时显示在顶部提示条里
 //   tours              相关导览 id
 //   terms              本章术语（terms.js 的 id）：章末列出，正文里每个术语第一次出现处自动加链接；
-//                        术语表与术语弹窗据此反查"读片手册中讲到"
+//                        术语表与术语弹窗据此反查"心电图手册中讲到"
 //   widget             交互演示：'axis'（拖动电轴看六个肢体导联）| 'qtc'（调心率看 QT / QTc）| 'mi'（心梗定位）
 //   refs               出处（refs.js 的 id）
 //
@@ -111,6 +111,7 @@ export const HANDBOOK = [
         id: 'p-htn',
         title: '高血压与心脏',
         en: 'Hypertension and the heart',
+        heart: 'int',
         body: `
 <p>血压长期偏高，左心室每次都要更用力地把血泵出去，心肌会逐渐变厚（<b>左心室肥厚</b>）。变厚的心肌电信号更强，心电图上胸前导联的波会变高、变深。</p>
 <p>心肌肥厚进一步发展，心电图上还可能出现 ST 段压低、T 波倒置（常称"劳损"）；左心房压力升高会扩大，P 波变宽；心房扩大又容易引发<b>心房颤动</b>。</p>
@@ -233,6 +234,7 @@ export const HANDBOOK = [
         id: 'p-mi',
         title: '心肌梗死：心电图能看出什么，胸痛怎么办',
         en: 'Heart attack and the ECG',
+        heart: 'ext',
         body: `
 <p class="hb-urgent"><b>如果你现在胸痛、胸闷，请先拨打 120，不要继续看本页。</b></p>
 <p><b>心肌梗死</b>（心梗）是给心脏供血的冠状动脉突然堵住，下游的心肌因为缺血而坏死。</p>
@@ -301,6 +303,7 @@ export const HANDBOOK = [
         id: 's-ephys',
         title: '心电活动与心电图波形',
         en: 'Cardiac electrophysiology',
+        heart: 'cond',
         body: `
 <p>窦房结发出冲动 → 心房除极（<b>P 波</b>）→ 房室结延搁（<b>PR 段</b>）→ 希氏束、左右束支、浦肯野纤维快速传导，心室除极（<b>QRS 波群</b>）→ 心室复极（<b>ST 段、T 波</b>）。心房复极波很小，通常被 QRS 掩盖。</p>
 <p>体表导联记录的是心肌细胞群电活动的综合向量在该导联轴上的投影：除极波面朝向导联正极时波形向上，背离时向下。</p>
@@ -457,6 +460,7 @@ export const HANDBOOK = [
         id: 's-hypertrophy',
         title: '心室肥厚与心房异常',
         en: 'Hypertrophy and atrial abnormality',
+        heart: 'int',
         body: `
 <p><b>左心室肥厚</b>的电压标准（本站在每个病例上实时计算，右栏"左室肥厚电压"页）：</p>
 <ul>
@@ -512,6 +516,7 @@ export const HANDBOOK = [
         id: 's-conduction',
         title: '传导阻滞',
         en: 'Conduction blocks',
+        heart: 'cond',
         body: `
 <p><b>房室传导阻滞</b>：</p>
 <ul>
@@ -609,6 +614,7 @@ export const HANDBOOK = [
         id: 's-stemi',
         title: '急性 ST 段抬高型心肌梗死：标准、定位与演变',
         en: 'Acute ST-Elevation Myocardial Infarction (STEMI)',
+        heart: 'ext',
         body: `
 <h3>心电图标准</h3>
 <p><b>ST 段抬高型心肌梗死</b>（STEMI）的心电图标准，第四版全球心肌梗死定义（表 2）与中国 2019 基层指南相同：相邻两个导联在 <b>J 点</b>新出现 ST 段抬高，阈值如下（前提是没有左心室肥厚和束支阻滞；欧洲 2023 指南写作左束支阻滞）。美国 2025、欧洲 2023 指南采用同样的数值。</p>

@@ -1,4 +1,4 @@
-// 读片手册：章节结构、演示病例与定位、交互演示的计算
+// 心电图手册：章节结构、演示病例与定位、交互演示的计算
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { HANDBOOK, CHAPTERS, chapterById } from '../src/content/handbook.js';

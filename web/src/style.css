@@ -800,6 +800,7 @@ p.nr-warn.show {
 }
 /* 最大化：铺满窗口（四周留一点边），读图入门的图也跟着放大 */
 #glossary.max,
+#anatomy.max,
 #primer.max {
   width: calc(100vw - 24px);
   max-width: none;
@@ -1306,7 +1307,11 @@ body.touring .tour-focus {
 
 /* 顶栏在较窄屏幕上保持一行 */
 .topbar {
-  gap: 12px;
+  gap: 10px;
+}
+.tb-group {
+  display: flex;
+  gap: 4px;
 }
 @media (max-width: 1500px) {
   .topbar h1 .en {
@@ -1643,7 +1648,7 @@ body.tour-dim .case-info .card {
 .av-legend .av-b { color: #dc2626; font-weight: 600; }
 .av-legend .av-h { color: #374151; }
 
-/* ---------------------------------------------------------------- 读片手册 */
+/* ---------------------------------------------------------------- 心电图手册 */
 #handbook,
 #drugbook {
   width: min(1060px, 94vw);
@@ -1919,7 +1924,7 @@ body.quizzing .hb-demo { display: none; }
   background: #f3e8ff;
 }
 
-/* 读片手册 ↔ 术语表 */
+/* 心电图手册 ↔ 术语表 */
 .term-pop.in-dlg {
   position: fixed;
   z-index: 50;
@@ -2176,7 +2181,7 @@ body.case-stale .case-info {
   color: #fff;
 }
 
-/* 读片手册：急症提示 */
+/* 心电图手册：急症提示 */
 .hb-urgent {
   background: #fef2f2;
   border: 1px solid #fca5a5;
@@ -2266,4 +2271,120 @@ body.case-stale .case-info {
   font-size: 10px;
   text-anchor: middle;
   fill: #374151;
+}
+
+/* 心脏结构图 */
+#anatomy {
+  width: min(1400px, 96vw);
+  max-width: none;
+  max-height: 92vh;
+}
+.an-intro {
+  margin: 8px 0 4px;
+}
+.an-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 10px;
+}
+.an-tabs button {
+  padding: 4px 14px;
+  border: 1px solid #cfc7bf;
+  background: #fff;
+  border-radius: 16px;
+}
+.an-tabs button.on {
+  background: #22645d;
+  border-color: #22645d;
+  color: #fff;
+}
+.an-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 14px;
+  align-items: start;
+}
+.an-fig h4,
+.an-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.an-fig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(92vh - 200px);
+  margin-top: 4px;
+}
+#anatomy.max .an-fig svg {
+  max-height: calc(100vh - 210px);
+}
+.an-info {
+  position: sticky;
+  top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.an-info p {
+  margin: 6px 0;
+}
+.an-ecg {
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 8px;
+}
+.an-ecg b:first-child {
+  color: #22645d;
+}
+.an-src {
+  font-size: 12px;
+  color: var(--muted);
+}
+.an-src abbr {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+.an-lab {
+  cursor: pointer;
+  outline: none;
+}
+.an-lab text {
+  font-size: 25px;
+  fill: #1f2937;
+  font-weight: 600;
+}
+.an-lab rect {
+  fill: transparent;
+}
+.an-lab:hover text,
+.an-lab:focus-visible text,
+.an-lab.on text {
+  fill: #06675b;
+}
+.an-lab.on text {
+  text-decoration: underline;
+}
+.an-lab.on rect,
+.an-lab:focus-visible rect {
+  fill: #e2f1ee;
+}
+.an-ext {
+  stroke: #111;
+  stroke-width: 2.2;
+  fill: none;
+}
+.an-ext.on {
+  stroke: #06675b;
+  stroke-width: 4;
+}
+.an-credit {
+  margin-top: 10px;
+  line-height: 1.7;
+}
+.pr-heart {
+  margin: 8px 0 0;
+  font-size: 14px;
 }

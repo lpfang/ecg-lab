@@ -9,6 +9,8 @@ import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
 import { PlanesView } from './views/planes.js';
 import { buildPrimer, selectLead as primerSelect } from './views/primer.js';
+import { buildAnatomy } from './views/anatomy.js';
+import { FIGS as HEART_FIGS } from './content/anatomy.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
 import { searchTerms, tokens } from './content/search.js';
@@ -827,13 +829,13 @@ function termHtml(id, full = false) {
   );
 }
 
-/** "读片手册中讲到"：从各章的 terms 反查 */
+/** "心电图手册中讲到"：从各章的 terms 反查 */
 function termChapters(id) {
   const chs = chaptersForTerm(id);
   if (!chs.length) return '';
   const cur = $('#handbook').open ? hb.chapter : null;
   return (
-    '<p class="term-hb">读片手册中讲到：' +
+    '<p class="term-hb">心电图手册中讲到：' +
     chs
       .map((c) =>
         c.id === cur
@@ -874,7 +876,7 @@ function openTerm(id, anchor) {
 }
 
 /** 打开读图入门，滚动到指定小节，并高亮当前选中的导联 */
-/** fromChapter：从读片手册某章打开时，窗口顶部显示"回到手册" */
+/** fromChapter：从心电图手册某章打开时，窗口顶部显示"回到手册" */
 function openPrimer(section, fromChapter = null) {
   hb.primerFrom = fromChapter;
   $('#primer-back').hidden = !fromChapter;
@@ -884,6 +886,19 @@ function openPrimer(section, fromChapter = null) {
   primerSelect(body, state.selectedLead, state.level);
   const target = body.querySelector(`#pr-sec-${section}`);
   if (target) target.scrollIntoView({ block: 'start' });
+}
+
+/** 打开心脏结构图（fig = ext / int / cond）；fromChapter 同读图入门 */
+function openAnatomy(fig, fromChapter = null) {
+  if (!HEART_FIGS[fig]) fig = 'ext';
+  hb.anatomyFrom = fromChapter;
+  $('#anatomy-back').hidden = !fromChapter;
+  buildAnatomy($('#anatomy-body'), fig);
+  $('#anatomy').showModal();
+  $('#anatomy-body').scrollTop = 0;
+  const u = new URL(location.href);
+  u.searchParams.set('heart', fig);
+  history.replaceState(null, '', u);
 }
 
 function openGlossary() {
@@ -1200,7 +1215,7 @@ function renderTourText(step, i) {
         : `<details class="pro-more"><summary>专业说明</summary><p class="pro">${fill(step.pro)}</p></details>`
       : '');
   const ch = step.read && chapterById(step.read);
-  if (ch) $('#tour-body').insertAdjacentHTML('beforeend', `<p class="small"><a href="#" data-hb-read="${ch.id}">读片手册：${esc(ch.title)} →</a></p>`);
+  if (ch) $('#tour-body').insertAdjacentHTML('beforeend', `<p class="small"><a href="#" data-hb-read="${ch.id}">心电图手册：${esc(ch.title)} →</a></p>`);
   const last = i === tour.def.steps.length - 1;
   $('#tour-prev').disabled = i === 0;
   $('#tour-next').hidden = last;
@@ -1252,14 +1267,17 @@ async function exitTour({ keepCase = false } = {}) {
 }
 
 
-// ================================================================ 读片手册
+// ================================================================ 心电图手册
 
-const hb = { chapter: null, demoToken: 0, demoLoading: false, demoFailed: false, primerFrom: null };
+const hb = { chapter: null, demoToken: 0, demoLoading: false, demoFailed: false, primerFrom: null, anatomyFrom: null };
+
+const HEART_LINK = { ext: '看图认识心脏外观和冠状动脉', int: '看图认识心脏的四个腔室和心壁', cond: '看图认识心脏的传导系统' };
 
 function openHandbook(id) {
   const ch = chapterById(id) ?? chapterById(hb.chapter) ?? HANDBOOK[0].chapters[0];
   hb.chapter = ch.id;
   $('#hb-nav').innerHTML =
+    '<p class="hb-nav-primer"><a href="#" data-heart="ext">先认识心脏：腔室、血管、传导系统<span class="muted small">心脏结构</span></a></p>' +
     '<p class="hb-nav-primer"><a href="#" data-primer="intro">图解：12 导联是怎么来的<span class="muted small">读图入门</span></a></p>' +
     HANDBOOK.map(
     (part) =>
@@ -1295,6 +1313,7 @@ function openHandbook(id) {
       )
       .join('') +
     '</ul>' +
+    (ch.heart ? `<p><a href="#" data-heart="${ch.heart}">${HEART_LINK[ch.heart]}：心脏结构图 →</a></p>` : '') +
     (ch.primer ? `<p><a href="#" data-primer="${ch.primer}">看图了解 12 个导联：读图入门 →</a></p>` : '') +
     (tours.length
       ? `<p class="hb-tours">相关导览：${tours.map((t) => `<button data-hb-tour="${t.id}">${esc(t.title)} →</button>`).join(' ')}</p>`
@@ -1371,7 +1390,7 @@ function openDrugbook(id) {
 }
 
 /** 关闭对话框，并去掉网址里对应的直达参数（Esc 关闭时由 close 事件处理） */
-const DLG_PARAM = { handbook: 'read', drugbook: 'drug' };
+const DLG_PARAM = { handbook: 'read', drugbook: 'drug', anatomy: 'heart' };
 function closeDlg(id) {
   const d = $(`#${id}`);
   if (d.open) d.close();
@@ -1940,6 +1959,18 @@ function bindControls() {
     $('#primer').close();
     openHandbook(ch);
   };
+  $('#anatomy-back').onclick = () => {
+    const ch = hb.anatomyFrom;
+    closeDlg('anatomy');
+    openHandbook(ch);
+  };
+  $('#anatomy-close').onclick = () => closeDlg('anatomy');
+  $('#anatomy').addEventListener('close', () => {
+    const u = new URL(location.href);
+    u.searchParams.delete('heart');
+    history.replaceState(null, '', u);
+  });
+  $('#heart-btn').onclick = () => openAnatomy('ext');
   $('#hb-btn').onclick = () => openHandbook(hb.chapter);
   $('#dg-btn').onclick = () => openDrugbook(dg.chapter);
   $('#drugbook-close').onclick = () => closeDlg('drugbook');
@@ -1977,7 +2008,7 @@ function bindControls() {
   $('#hb-demo-close').onclick = stopDemo;
   $('#primer-close').onclick = () => $('#primer').close();
   // 对话框关闭或其中内容滚动时，收起挂在对话框里的术语弹窗
-  for (const id of ['handbook', 'primer', 'glossary', 'drugbook']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
+  for (const id of ['handbook', 'primer', 'glossary', 'drugbook', 'anatomy']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
   document.addEventListener(
     'scroll',
     (e) => {
@@ -1989,6 +2020,7 @@ function bindControls() {
   // 读图入门、术语表：最大化 / 还原（各自记住选择，下次打开保持）
   for (const [dlg, key] of [
     ['primer', 'ecg-lab:primerMax'],
+    ['anatomy', 'ecg-lab:anatomyMax'],
     ['glossary', 'ecg-lab:glossaryMax'],
     ['handbook', 'ecg-lab:handbookMax'],
     ['drugbook', 'ecg-lab:drugbookMax'],
@@ -2055,7 +2087,7 @@ function bindControls() {
     if (rd) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      for (const id of ['glossary', 'primer', 'drugbook']) if ($(`#${id}`).open) closeDlg(id);
+      for (const id of ['glossary', 'primer', 'drugbook', 'anatomy']) if ($(`#${id}`).open) closeDlg(id);
       openHandbook(rd.dataset.hbRead);
       return;
     }
@@ -2063,8 +2095,18 @@ function bindControls() {
     if (dc) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      for (const id of ['glossary', 'primer', 'handbook']) if ($(`#${id}`).open) closeDlg(id);
+      for (const id of ['glossary', 'primer', 'handbook', 'anatomy']) if ($(`#${id}`).open) closeDlg(id);
       openDrugbook(dc.dataset.drugCh ?? `drug:${dc.dataset.drug}`);
+      return;
+    }
+    const ht = e.target.closest('[data-heart]');
+    if (ht) {
+      e.preventDefault();
+      $('#term-pop').hidden = true;
+      for (const id of ['glossary', 'primer', 'drugbook']) if ($(`#${id}`).open) closeDlg(id);
+      const fromHb = $('#handbook').open ? hb.chapter : null;
+      if (fromHb) closeHandbook();
+      openAnatomy(ht.dataset.heart, fromHb);
       return;
     }
     const pr = e.target.closest('[data-primer]');
@@ -2072,6 +2114,7 @@ function bindControls() {
       e.preventDefault();
       $('#term-pop').hidden = true;
       if ($('#glossary').open) $('#glossary').close();
+      if ($('#anatomy').open) closeDlg('anatomy');
       const fromHb = $('#handbook').open ? hb.chapter : null;
       if (fromHb) closeHandbook();
       openPrimer(pr.dataset.primer, fromHb);
@@ -2140,6 +2183,8 @@ async function boot() {
   if (wantRead && !wantQuiz) openHandbook(wantRead);
   const wantDrug = new URLSearchParams(location.search).get('drug');
   if (wantDrug && !wantQuiz && !wantRead) openDrugbook(wantDrug);
+  const wantHeart = new URLSearchParams(location.search).get('heart');
+  if (wantHeart && !wantTour && !wantQuiz && !wantRead && !wantDrug) openAnatomy(wantHeart);
 }
 
 function toast(msg) {

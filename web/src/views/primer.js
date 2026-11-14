@@ -261,6 +261,8 @@ export function buildPrimer(root, level) {
   root.innerHTML = `
     <p class="pr-info" id="pr-info">每个导联就像一台从固定方向"看"心脏的相机。点上面的导联名，下面三张图会同时标出它用到的电极和它看心脏的方向。</p>
 
+    <p class="pr-heart">还不熟悉心脏的结构？<a href="#" data-heart="ext">先看心脏结构图 →</a>（腔室、大血管、冠状动脉、传导系统）</p>
+
     <section class="pr-sec" id="pr-sec-intro">
       <h4>一句话</h4>
       <p>做心电图时，身上贴 <b>10 个电极</b>：四肢 4 个，胸前 6 个。仪器把这些电极测到的电位<b>两两相减</b>（或与一个"中心点"相减），

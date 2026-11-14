@@ -28,16 +28,21 @@
       <span class="seg" title="讲解深度">
         <button data-level="plain">通俗</button><button data-level="pro">专业</button>
       </span>
-      <button id="tour-btn" class="primary">导览</button>
-      <button id="quiz-btn">测验</button>
-      <button id="hb-btn">读片手册</button>
-      <button id="dg-btn">降压药</button>
-      <button id="glossary-btn">术语表</button>
+      <span class="tb-group">
+        <button id="tour-btn" class="primary">导览</button>
+        <button id="quiz-btn">测验</button>
+      </span>
+      <span class="tb-group">
+        <button id="heart-btn" title="先认识心脏：腔室、血管、传导系统">心脏结构</button>
+        <button id="hb-btn">心电图手册</button>
+        <button id="dg-btn">降压药</button>
+        <button id="glossary-btn">术语表</button>
+      </span>
     </header>
 
     <!-- 手册"在图上演示"后的提示条：说明看什么，可回到手册 -->
     <section id="hb-demo" class="hb-demo" hidden aria-live="polite">
-      <span class="hb-demo-tag">读片手册 · 演示</span>
+      <span class="hb-demo-tag">心电图手册 · 演示</span>
       <b id="hb-demo-label"></b>
       <span id="hb-demo-note"></span>
       <span class="spacer"></span>
@@ -289,6 +294,20 @@
     </dialog>
     <div id="term-pop" class="term-pop" hidden></div>
 
+    <dialog id="anatomy" class="dlg">
+      <div class="dlg-top">
+        <div class="gl-head">
+          <h3>心脏的结构 <span class="en">Heart anatomy</span></h3>
+          <span class="dlg-btns">
+            <button id="anatomy-back" hidden>↩ 回到手册</button>
+            <button id="anatomy-max" title="最大化窗口，图看得更大">⤢ 最大化</button>
+            <button id="anatomy-close">关闭</button>
+          </span>
+        </div>
+      </div>
+      <div id="anatomy-body" class="dlg-body"></div>
+    </dialog>
+
     <dialog id="primer" class="dlg">
       <!-- 标题与导联按钮合成一个不透明的固定顶栏，滚动内容不会从缝隙中露出 -->
       <div class="dlg-top">
@@ -308,7 +327,7 @@
     <dialog id="handbook" class="dlg">
       <div class="dlg-top">
         <div class="gl-head">
-          <h3>读片手册 <span class="en">Handbook</span></h3>
+          <h3>心电图手册 <span class="en">ECG Handbook</span></h3>
           <span class="dlg-btns">
             <button id="handbook-max" title="最大化窗口">⤢ 最大化</button>
             <button id="handbook-close">关闭</button>

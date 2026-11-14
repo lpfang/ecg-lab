@@ -139,7 +139,7 @@ export function renderDrugChapter(bodyEl, id) {
           : '';
       })
       .join('') +
-    (ch.ecg ? `<p class="small"><a href="#" data-hb-read="p-drugs">这类药对心电图的影响：读片手册 →</a></p>` : '') +
+    (ch.ecg ? `<p class="small"><a href="#" data-hb-read="p-drugs">这类药对心电图的影响：心电图手册 →</a></p>` : '') +
     (refs ? `<details class="refs"><summary>出处</summary><ul>${refs}</ul></details>` : '') +
     (ch.part === 'basics' ? DISCLAIMER : '') +
     `<p class="muted small hb-disclaimer">本手册未经医生或药师审定；企业与商品名信息核实于 ${esc(DRUG_CHECKED)}，之后可能变化，以药盒和说明书为准。</p>`;
