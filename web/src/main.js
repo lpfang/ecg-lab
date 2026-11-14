@@ -893,12 +893,14 @@ function openAnatomy(fig, fromChapter = null) {
   if (!HEART_FIGS[fig]) fig = 'ext';
   hb.anatomyFrom = fromChapter;
   $('#anatomy-back').hidden = !fromChapter;
-  buildAnatomy($('#anatomy-body'), fig);
+  buildAnatomy($('#anatomy-body'), fig, (key) => {
+    // 切图时网址跟着变，刷新或复制链接都回到当前这幅
+    const u = new URL(location.href);
+    u.searchParams.set('heart', key);
+    history.replaceState(null, '', u);
+  });
   $('#anatomy').showModal();
   $('#anatomy-body').scrollTop = 0;
-  const u = new URL(location.href);
-  u.searchParams.set('heart', fig);
-  history.replaceState(null, '', u);
 }
 
 function openGlossary() {

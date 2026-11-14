@@ -58,3 +58,10 @@ describe('心脏结构图', () => {
     expect(src).toContain('creativecommons.org/licenses/by/4.0');
   });
 });
+
+describe('切图时的选中项', () => {
+  it('默认结构左心室在三幅图上都有标注', async () => {
+    const { figIds } = await import('../src/views/anatomy.js');
+    for (const k of FIG_KEYS) expect(figIds(k).has('lv'), k).toBe(true);
+  });
+});

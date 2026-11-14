@@ -63,10 +63,18 @@ export function figureSvg(key) {
 }
 
 let current = 'lv';
+let onFig = null;
 
-/** 在 root 里画出心脏结构图，起始显示 key 这幅 */
-export function buildAnatomy(root, key = 'ext') {
+/** 某幅图上标注了哪些结构 */
+export function figIds(key) {
+  const f = FIGS[key];
+  return new Set([...f.L, ...f.R, ...(f.inside ?? []).map((t) => [0, t.id])].map((r) => r[1]));
+}
+
+/** 在 root 里画出心脏结构图，起始显示 key 这幅；切图时调用 onChange(key)（用来更新网址） */
+export function buildAnatomy(root, key = 'ext', onChange = null) {
   if (!FIGS[key]) key = 'ext';
+  onFig = onChange;
   root.innerHTML = `
     <p class="an-intro">先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上的中文标注查看说明。</p>
     <div class="an-tabs" role="tablist">
@@ -112,7 +120,6 @@ export function buildAnatomy(root, key = 'ext') {
     }
   });
   show(root, key);
-  select(root, current);
 }
 
 /** 切换到某幅图 */
@@ -131,7 +138,9 @@ export function show(root, key) {
   svg.setAttribute('aria-label', f.title);
   svg.innerHTML = figureSvg(key);
   root.dataset.fig = key;
-  mark(root, current);
+  // 选中的结构这幅图上也有就保留，否则改选左心室（三幅图都有）
+  select(root, figIds(key).has(current) ? current : 'lv');
+  onFig?.(key);
 }
 
 function mark(root, id) {
