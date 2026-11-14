@@ -320,6 +320,9 @@ function renderStatus() {
   // 幅度归一化的病例（LUDB）：纵向只是相对幅度，不写 mV
   const amp = state.ecg?.meta.amplitudeNormalized ? `${state.gain} mm/单位相对幅度（不是真实 mV）` : `${state.gain} mm/mV`;
   $('#paper-scale').textContent = `${state.speed} mm/s · ${amp} · 原始数据（未滤波）`;
+  // 增益下拉框的单位跟着改
+  const unit = state.ecg?.meta.amplitudeNormalized ? 'mm/单位相对幅度' : 'mm/mV';
+  for (const o of $('#gain').options) o.textContent = `${o.value} ${unit}`;
   const b = $('#calib-badge');
   b.textContent = state.calibrated ? '已校准' : '未校准';
   b.title = state.calibrated
