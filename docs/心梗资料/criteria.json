@@ -1,378 +1,388 @@
 {
-  "checked": "2026-11-13",
-  "sources_key": {
-    "UDMI4": "Thygesen K, Alpert JS, Jaffe AS, et al. Fourth Universal Definition of Myocardial Infarction (2018). Circulation. 2018;138:e618-e651. DOI 10.1161/CIR.0000000000000617 (co-published Eur Heart J 2019;40:237-269 and J Am Coll Cardiol 2018;72:2231-2264). Read as full-text PDF of the Circulation version (ahajournals download stamp) hosted at https://lahrs.org/wp_lahrs/wp-content/uploads/2020/03/Fourth-Universal-Definition-of-Myocardial-Infarction-2018.pdf because ahajournals/OUP/JACC returned HTTP 403. Page numbers below are Circulation e-pages.",
-    "WAGNER2009": "Wagner GS, Macfarlane P, Wellens H, et al. AHA/ACCF/HRS Recommendations for the Standardization and Interpretation of the Electrocardiogram. Part VI: Acute Ischemia/Infarction. J Am Coll Cardiol. 2009;53:1003-1011 (DOI 10.1016/j.jacc.2008.12.016); co-published Circulation 2009;119:e262-e270 (DOI 10.1161/CIRCULATIONAHA.108.191098). Read as full-text PDF of the JACC version hosted at https://fd.org.ua/wp-content/uploads/2019/03/AHAA-CCF-HRS-Recommendations-for-the-Standardization-and-Interpretation-of-the-Electrocardiogram-Part-VI.pdf (Circulation site returned 403). Page numbers below are JACC pages.",
-    "ESC2023": "Byrne RA, Rossello X, Coughlan JJ, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44:3720-3826. DOI 10.1093/eurheartj/ehad191. Read as full text: advance-article PDF (pages 1-107, so page numbers differ from print) hosted at https://sochicar.cl/wp-content/uploads/2023/09/ehad191.pdf, plus Supplementary data PDF hosted at https://www.uniklinik-ulm.de/fileadmin/default/09_Sonstige/Klinische-Chemie/Downloads/ehad191_supplementary_data_ESC_Guideline_ACS_2023.pdf. Only section/table/figure numbers are cited.",
-    "ACC2025": "Rao SV, O'Donoghue ML, Ruel M, et al. 2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for the Management of Patients With Acute Coronary Syndromes. Circulation. 2025;151:e771- (DOI 10.1161/CIR.0000000000001309); also J Am Coll Cardiol 2025. Read as full text: early-release PDF (page header 'Circulation. 2025;151:e00-e00', 'TBD TBD, 2025') hosted at https://jordan-cardiac.org/wp-content/uploads/2025/02/2025_ACCAHAACEPNAEMSPSCAI_Guideline_for_the_Management_of_Patients.pdf. e-page numbers from that early release may not match the final issue; the starting page 'e771' is from memory and is NOT verified.",
-    "CSC2019": "中华医学会心血管病学分会, 中华心血管病杂志编辑委员会. 急性ST段抬高型心肌梗死诊断和治疗指南（2019）. 中华心血管病杂志, 2019,47(10):766-783. DOI 10.3760/cma.j.issn.0253-3758.2019.10.003. Read as full text (publisher HTML on seleguide.yiigle.com); HTML has no page numbers, so section headings are cited.",
-    "CMA_PRIMARY2019": "中华医学会, 中华医学会杂志社, 中华医学会全科医学分会, 中华医学会《中华全科医师杂志》编辑委员会, 心血管系统疾病基层诊疗指南编写专家组. ST段抬高型心肌梗死基层诊疗指南（2019年）. 中华全科医师杂志, 2020,19(12):1083-1091. DOI 10.3760/cma.j.cn114798-20200904-00961. (Practice version: 中华全科医师杂志, 2020,19(12):1092-1099, DOI 10.3760/cma.j.cn114798-20200904-00962.) Read as full text (publisher HTML on cmab.yiigle.com).",
-    "PTBXL": "Wagner P, Strodthoff N, Bousseljot RD, Kreiseler D, Lunze FI, Samek W, Schaeffter T. PTB-XL, a large publicly available electrocardiography dataset. Sci Data. 2020;7:154. DOI 10.1038/s41597-020-0495-6. PMCID PMC7248071. Read as full text (Europe PMC full-text XML). Plus PhysioNet PTB-XL v1.0.3 page and its files scp_statements.csv and ptbxl_database.csv (downloaded and read directly)."
+ "checked": "2026-11-13",
+ "sources_key": {
+  "UDMI4": "Thygesen K, Alpert JS, Jaffe AS, et al. Fourth Universal Definition of Myocardial Infarction (2018). Circulation. 2018;138:e618-e651. DOI 10.1161/CIR.0000000000000617 (co-published Eur Heart J 2019;40:237-269 and J Am Coll Cardiol 2018;72:2231-2264). Read as full-text PDF of the Circulation version (ahajournals download stamp) hosted at https://lahrs.org/wp_lahrs/wp-content/uploads/2020/03/Fourth-Universal-Definition-of-Myocardial-Infarction-2018.pdf because ahajournals/OUP/JACC returned HTTP 403. Page numbers below are Circulation e-pages.",
+  "WAGNER2009": "Wagner GS, Macfarlane P, Wellens H, et al. AHA/ACCF/HRS Recommendations for the Standardization and Interpretation of the Electrocardiogram. Part VI: Acute Ischemia/Infarction. J Am Coll Cardiol. 2009;53:1003-1011 (DOI 10.1016/j.jacc.2008.12.016); co-published Circulation 2009;119:e262-e270 (DOI 10.1161/CIRCULATIONAHA.108.191098). Read as full-text PDF of the JACC version hosted at https://fd.org.ua/wp-content/uploads/2019/03/AHAA-CCF-HRS-Recommendations-for-the-Standardization-and-Interpretation-of-the-Electrocardiogram-Part-VI.pdf (Circulation site returned 403). Page numbers below are JACC pages.",
+  "ESC2023": "Byrne RA, Rossello X, Coughlan JJ, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44:3720-3826. DOI 10.1093/eurheartj/ehad191. Read as full text: advance-article PDF (pages 1-107, so page numbers differ from print) hosted at https://sochicar.cl/wp-content/uploads/2023/09/ehad191.pdf, plus Supplementary data PDF hosted at https://www.uniklinik-ulm.de/fileadmin/default/09_Sonstige/Klinische-Chemie/Downloads/ehad191_supplementary_data_ESC_Guideline_ACS_2023.pdf. Only section/table/figure numbers are cited.",
+  "ACC2025": "Rao SV, O'Donoghue ML, Ruel M, et al. 2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for the Management of Patients With Acute Coronary Syndromes. Circulation. 2025;151:e771- (DOI 10.1161/CIR.0000000000001309); also J Am Coll Cardiol 2025. Read as full text: early-release PDF (page header 'Circulation. 2025;151:e00-e00', 'TBD TBD, 2025') hosted at https://jordan-cardiac.org/wp-content/uploads/2025/02/2025_ACCAHAACEPNAEMSPSCAI_Guideline_for_the_Management_of_Patients.pdf. e-page numbers from that early release may not match the final issue; the starting page 'e771' is from memory and is NOT verified.",
+  "CSC2019": "中华医学会心血管病学分会, 中华心血管病杂志编辑委员会. 急性ST段抬高型心肌梗死诊断和治疗指南（2019）. 中华心血管病杂志, 2019,47(10):766-783. DOI 10.3760/cma.j.issn.0253-3758.2019.10.003. Read as full text (publisher HTML on seleguide.yiigle.com); HTML has no page numbers, so section headings are cited.",
+  "CMA_PRIMARY2019": "中华医学会, 中华医学会杂志社, 中华医学会全科医学分会, 中华医学会《中华全科医师杂志》编辑委员会, 心血管系统疾病基层诊疗指南编写专家组. ST段抬高型心肌梗死基层诊疗指南（2019年）. 中华全科医师杂志, 2020,19(12):1083-1091. DOI 10.3760/cma.j.cn114798-20200904-00961. (Practice version: 中华全科医师杂志, 2020,19(12):1092-1099, DOI 10.3760/cma.j.cn114798-20200904-00962.) Read as full text (publisher HTML on cmab.yiigle.com).",
+  "PTBXL": "Wagner P, Strodthoff N, Bousseljot RD, Kreiseler D, Lunze FI, Samek W, Schaeffter T. PTB-XL, a large publicly available electrocardiography dataset. Sci Data. 2020;7:154. DOI 10.1038/s41597-020-0495-6. PMCID PMC7248071. Read as full text (Europe PMC full-text XML). Plus PhysioNet PTB-XL v1.0.3 page and its files scp_statements.csv and ptbxl_database.csv (downloaded and read directly)."
+ },
+ "items": [
+  {
+   "topic": "1. STEMI ECG criteria (UDMI4)",
+   "claim_en": "ST-elevation criterion: 'New ST-elevation at the J-point in 2 contiguous leads with the cut-point: ≥1 mm in all leads other than leads V2–V3 where the following cut-points apply: ≥2 mm in men ≥40 years; ≥2.5 mm in men <40 years, or ≥1.5 mm in women regardless of age.' Applies in the absence of left ventricular hypertrophy and bundle branch block.",
+   "claim_zh": "心电图上判断“ST段抬高”的标准：在相邻的两个导联上，J点（QRS波结束、ST段开始的那个点）新出现抬高。V2、V3以外的导联抬高达到1毫米（1小格）及以上就算；V2、V3这两个导联正常人本来就会高一点，所以门槛更高：40岁及以上男性2毫米，40岁以下男性2.5毫米，女性不论年龄1.5毫米。前提是没有左心室肥厚和束支传导阻滞。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 27 'Electrocardiographic Detection of Myocardial Infarction'; Table 2 'Electrocardiographic Manifestations Suggestive of Acute Myocardial Ischemia (In the Absence of Left Ventricular Hypertrophy and Bundle Branch Block)', p. e638",
+   "read_level": "full text",
+   "notes": "1 mm = 0.1 mV stated in text. Table 2 footnote: when V2/V3 J-point magnitudes are known from a prior ECG, new J-point elevation ≥1 mm compared with the earlier ECG should be considered an ischemic response. Text example: ≥2 mm in V2 plus ≥1 mm in V1 meets '2 abnormal contiguous leads' in a man ≥40. Text: ≥1 mm and <2 mm ST-elevation seen only in V2–V3 in men (or <1.5 mm in women) may be a normal finding."
   },
-  "items": [
-    {
-      "topic": "1. STEMI ECG criteria (UDMI4)",
-      "claim_en": "ST-elevation criterion: 'New ST-elevation at the J-point in 2 contiguous leads with the cut-point: ≥1 mm in all leads other than leads V2–V3 where the following cut-points apply: ≥2 mm in men ≥40 years; ≥2.5 mm in men <40 years, or ≥1.5 mm in women regardless of age.' Applies in the absence of left ventricular hypertrophy and bundle branch block.",
-      "claim_zh": "心电图上判断“ST段抬高”的标准：在相邻的两个导联上，J点（QRS波结束、ST段开始的那个点）新出现抬高。V2、V3以外的导联抬高达到1毫米（1小格）及以上就算；V2、V3这两个导联正常人本来就会高一点，所以门槛更高：40岁及以上男性2毫米，40岁以下男性2.5毫米，女性不论年龄1.5毫米。前提是没有左心室肥厚和束支传导阻滞。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 27 'Electrocardiographic Detection of Myocardial Infarction'; Table 2 'Electrocardiographic Manifestations Suggestive of Acute Myocardial Ischemia (In the Absence of Left Ventricular Hypertrophy and Bundle Branch Block)', p. e638",
-      "read_level": "full text",
-      "notes": "1 mm = 0.1 mV stated in text. Table 2 footnote: when V2/V3 J-point magnitudes are known from a prior ECG, new J-point elevation ≥1 mm compared with the earlier ECG should be considered an ischemic response. Text example: ≥2 mm in V2 plus ≥1 mm in V1 meets '2 abnormal contiguous leads' in a man ≥40. Text: ≥1 mm and <2 mm ST-elevation seen only in V2–V3 in men (or <1.5 mm in women) may be a normal finding."
-    },
-    {
-      "topic": "1. STEMI ECG criteria (UDMI4) - ST depression / T wave",
-      "claim_en": "'New horizontal or downsloping ST-depression ≥0.5 mm in 2 contiguous leads and/or T inversion >1 mm in 2 contiguous leads with prominent R wave or R/S ratio >1.' Text adds that lesser degrees of ST displacement or T inversion can also represent acute ischemia.",
-      "claim_zh": "心肌缺血也可以表现为ST段“往下掉”：在相邻两个导联上新出现水平型或下斜型的ST段压低，达到0.5毫米（半小格）及以上；或者在R波明显的相邻两个导联上，T波倒置超过1毫米。比这更轻的变化也不能完全排除缺血。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 27; Table 2 (row 'ST-depression and T wave changes'), p. e638",
-      "read_level": "full text",
-      "notes": "ST depression is a marker of ischemia (NSTE pattern), not by itself a STEMI criterion. Wagner 2009 gives a different depression threshold (see WAGNER2009 thresholds item)."
-    },
-    {
-      "topic": "1. Measurement point (UDMI4)",
-      "claim_en": "The J-point (junction between QRS termination and ST-segment onset) is used to measure ST shift, with the onset of the QRS as the reference point (rather than the TP segment, because tachycardia and baseline shift are common in the acute setting).",
-      "claim_zh": "量ST段抬高多少，是在J点量，以QRS波起点的高度当“地面”来比。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 27, pp. e637-e638; Figure 8 'Electrocardiogram example of ST-segment elevation'",
-      "read_level": "full text",
-      "notes": "UDMI notes the TP segment is more accurate with a stable baseline and helps distinguish pericarditis (PTa depression)."
-    },
-    {
-      "topic": "1. Posterior leads V7-V9 (UDMI4)",
-      "claim_en": "Isolated ST depression ≥0.5 mm in V1–V3 may indicate left circumflex occlusion; record posterior leads at the fifth intercostal space (V7 left posterior axillary line, V8 left midscapular line, V9 left paraspinal border). 'A cut-off point of 0.5 mm ST elevation is recommended in leads V7–V9; specificity is increased at a cut-off point ≥1 mm ST-elevation and this cut-off point should be used in men <40 years old.' ST depression in V1–V3 'may be suggestive of inferobasal myocardial ischemia (previously termed posterior infarction), especially when the terminal T wave is positive (ST-elevation equivalent); however, this is nonspecific.'",
-      "claim_zh": "心脏后面那块（以前叫“后壁”）出问题时，常规12导联不一定能直接看到抬高，只会在V1到V3看到ST段压低。这时可以在背后加贴V7、V8、V9三个电极（第五肋间，从左腋后线往脊柱方向排）。V7到V9抬高0.5毫米就有意义；40岁以下男性要用1毫米的标准。这种情况常与左回旋支堵塞有关。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 28 'Application of Supplemental Electrocardiogram Leads', p. e638",
-      "read_level": "full text",
-      "notes": "Note the age cut for V7-V9 in UDMI4 is men <40 (≥1 mm), whereas Wagner 2009 gives 0.5 mm for all men and women. UDMI4 uses the term 'inferobasal' and says 'previously termed posterior'; Wagner 2009 recommended retaining 'posterior'; ESC 2023 and ACC 2025 still say 'posterior STEMI'."
-    },
-    {
-      "topic": "1. Right-sided leads V3R/V4R (UDMI4)",
-      "claim_en": "In inferior and suspected right ventricular infarction, aVR or V1 may show ST elevation ≥1 mm. 'The early recording of right precordial leads V3R and V4R should be performed, since ST-elevation ≥0.5 mm (≥1 mm in men <30 years old) provides supportive criteria for the diagnosis.' Changes in right precordial leads may be transient; their absence does not exclude RV infarction.",
-      "claim_zh": "下壁心梗时可能连带右心室也缺血。这时要尽早在右胸贴V3R、V4R（和左胸位置左右对称）。抬高0.5毫米就支持右心室梗死（30岁以下男性用1毫米）。这种改变来得快去得也快，没看到也不能排除。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 28, pp. e638-e639",
-      "read_level": "full text",
-      "notes": "CSC2019 instead says right precordial (especially V4R) ST elevation ≥0.1 mV (1 mm) 'highly suggests' RV infarction — a different number; see CSC2019 RV item."
-    },
-    {
-      "topic": "1. Contiguous leads (UDMI4)",
-      "claim_en": "UDMI4 does not give a stand-alone definition of 'contiguous leads'. The only explicit grouping is in the Q-wave table: 'any 2 leads of a contiguous lead grouping (I, aVL; V1–V6; II, III, aVF)'. Text: 'The criteria in Table 2 require that the ST shift be present in ≥2 contiguous leads.'",
-      "claim_zh": "“相邻导联”指看向心脏同一片区域的导联。指南里给出的分组是：I和aVL一组；V1到V6按顺序相邻；II、III、aVF一组。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Table 3 (p. e639) for the grouping; Section 27 text (p. e638) for the ≥2 contiguous leads requirement",
-      "read_level": "full text",
-      "notes": "See WAGNER2009 'Concept of Anatomically Contiguous Leads' for the anatomic (Cabrera) ordering aVL, I, −aVR, II, aVF, III."
-    },
-    {
-      "topic": "1. Hyperacute T waves and other ECG signs (UDMI4)",
-      "claim_en": "'Increased hyperacute T wave amplitude, with prominent symmetrical T waves in at least 2 contiguous leads, is an early sign that may precede the elevation of the ST-segment.' 'Prolonged new convex ST-segment elevation, particularly when associated with reciprocal ST-segment depression, usually reflects acute coronary occlusion.' 'Reciprocal changes can help to differentiate STEMI from pericarditis or early repolarization changes.'",
-      "claim_zh": "心梗最早的信号可能是T波突然变得又高又尖（“超急性T波”），出现在ST段抬高之前。之后ST段向上拱起抬高，同时在“对面”的导联出现ST段压低（镜像改变）。有没有这种镜像改变，可以帮助区分心梗和心包炎、早复极。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 27, p. e637",
-      "read_level": "full text",
-      "notes": "UDMI4 describes hyperacute T waves as 'symmetrical'; CSC2019 describes them as '异常高大且两支不对称' (abnormally tall, with asymmetric limbs). The two sources disagree on symmetry — present carefully."
-    },
-    {
-      "topic": "1. aVR / multivessel (UDMI4)",
-      "claim_en": "ST depression ≥1 mm in 6 leads, possibly with ST elevation in aVR or V1 and hemodynamic compromise, is suggestive of multivessel or left main disease. ST elevation in aVR >1 mm may accompany anterior or inferior STEMI and is associated with increased 30-day mortality.",
-      "claim_zh": "如果很多导联（6个及以上）ST段都压低，同时aVR导联抬高，提示可能是多支血管或左主干（冠脉总干）严重狭窄，风险高。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 27, pp. e637-e638",
-      "read_level": "full text",
-      "notes": "ESC2023 Section 3.2.1 and CMA_PRIMARY2019 repeat the same pattern."
-    },
-    {
-      "topic": "1. Pathologic Q waves / prior MI (UDMI4)",
-      "claim_en": "Table 3 (in the absence of LVH and LBBB): 'Any Q wave in leads V2–V3 >0.02 s or QS complex in leads V2–V3.' 'Q wave ≥0.03 s and ≥1 mm deep or QS complex in leads I, II, aVL, aVF or V4–V6 in any 2 leads of a contiguous lead grouping (I, aVL; V1–V6; II, III, aVF).' 'R wave >0.04 s in V1–V2 and R/S >1 with a concordant positive T wave in absence of conduction defect.' Footnote: same criteria used for V7–V9.",
-      "claim_zh": "旧心梗会留下“病理性Q波”这个疤痕记号：V2、V3上任何宽度超过0.02秒（半小格）的Q波都算；其他导联（I、II、aVL、aVF、V4到V6）里，同组相邻两个导联上Q波宽度至少0.03秒、深度至少1毫米也算。V1、V2上出现又宽又高的R波（配正向T波）可能是后面那块心肌的旧梗死。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 30 'Prior or Silent/Unrecognized Myocardial Infarction'; Table 3 'Electrocardiographic Changes Associated With Prior Myocardial Infarction (In the Absence of Left Ventricular Hypertrophy and Left Bundle Branch Block)', p. e639",
-      "read_level": "full text",
-      "notes": "Text: specificity greatest when Q waves occur in several leads/groupings or are >0.04 s; minor Q waves ≥0.02 s and <0.03 s ≥1 mm deep suggest prior MI if accompanied by inverted T waves in the same lead group. Silent/unrecognized Q-wave MI accounted for 9%–37% of non-fatal MI events in serial-ECG studies."
-    },
-    {
-      "topic": "1/5. Normal Q waves and Q-wave mimics (UDMI4)",
-      "claim_en": "A QS complex in V1 is normal. A Q wave <0.03 s and <0.25 of R amplitude in III is normal if frontal axis −30° to 0°; Q may be normal in aVL if axis 60°–90°. Septal Q waves (<0.03 s, <0.25 of R) in I, aVL, aVF, V4–V6 are normal. Pre-excitation, cardiomyopathy, Takotsubo, cardiac amyloidosis, LBBB, left anterior hemiblock, LVH, RVH, myocarditis, acute cor pulmonale, or hyperkalemia may cause Q/QS without MI.",
-      "claim_zh": "不是所有Q波都代表旧心梗：V1出现QS是正常的；左胸导联小而窄的“间隔Q波”也正常。预激综合征、心肌病、应激性心肌病、淀粉样变、左束支阻滞、心室肥厚、心肌炎、急性肺心病、高钾血症等也会出现类似Q波。",
-      "source": "UDMI4",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "Section 31 'Conditions That Confound the Electrocardiographic Diagnosis of Myocardial Infarction', pp. e639-e640",
-      "read_level": "full text",
-      "notes": ""
-    },
-    {
-      "topic": "1. 2023 ESC ACS guideline - STEMI criteria",
-      "claim_en": "Same numeric ST-elevation thresholds as UDMI4: new ST elevation at the J-point in at least two contiguous leads: ≥2.5 mm in men <40, ≥2 mm in men ≥40, or ≥1.5 mm in women regardless of age in V2–V3 and/or ≥1 mm in the other leads (in the absence of LV hypertrophy or LBBB). In suspected inferior STEMI it is recommended to record V3R and V4R; V7–V9 can also be recorded to investigate posterior STEMI. ST depression in V1–V3 (especially with positive terminal T wave) and/or ST elevation in V7–V9 are highly suggestive of posterior coronary occlusion (often LCx). ST elevation in V3R/V4R is highly suggestive of ongoing RV ischaemia.",
-      "claim_zh": "2023年欧洲心脏病学会（ESC）指南沿用了同样的数字标准。另外强调：怀疑下壁心梗时要加做右胸导联V3R、V4R；必要时加做背后的V7到V9，查看“后壁”心梗。",
-      "source": "ESC2023",
-      "url": "https://doi.org/10.1093/eurheartj/ehad191",
-      "where": "Section 3.2.1 'Acute coronary syndrome with persistent ST-segment elevation (suspected ST-elevation myocardial infarction)'; Recommendation Table 1 ('The use of additional ECG leads (V3R, V4R, and V7–V9) is recommended in cases of inferior STEMI or if total vessel occlusion is suspected and standard leads are inconclusive' — Class I, Level B)",
-      "read_level": "full text",
-      "notes": "Differences vs UDMI4: (a) ESC2023 main text gives no separate mm threshold for V3R/V4R; Supplementary Figure S2 row (i) footnote 'a Including V3R and V4R' places V3R/V4R inside the general '≥1 mm in other leads' rule, versus UDMI4's ≥0.5 mm. (b) Supplementary Figure S2 row (ii) Posterior STEMI: ST depression V1–V3, especially with positive terminal T wave, 'and concomitant ST-segment elevation ≥0.5 mm recorded in leads V7−V9' — no men <40 ≥1 mm caveat. (c) ESC2023 says LBBB, RBBB, or paced rhythm with highly suspicious symptoms should be managed like clear ST elevation regardless of whether BBB was known. (d) ESC2023 still uses 'posterior'."
-    },
-    {
-      "topic": "1. 2025 ACC/AHA ACS guideline - STEMI criteria",
-      "claim_en": "Table 3: STEMI = 'New or presumed new ST-elevation of ≥1 mm in ≥2 anatomically contiguous leads (measured at the J-point) in all leads other than V2-V3 and ≥2 mm in men ≥40 y, ≥2.5 mm in men <40 y, and ≥1.5 mm in women regardless of age in leads V2-V3.' 'Posterior leads (V7-V9) should be obtained in patients with suspected left circumflex occlusion particularly in the setting of isolated ST-segment depression ≥0.5 mm in leads V1-V3.' NSTE-ACS: new or presumed new, usually dynamic horizontal or downsloping ST depression ≥0.5 mm in ≥2 contiguous leads and/or T inversion >1 mm with prominent R or R/S >1, or transient ST elevation.",
-      "claim_zh": "2025年美国心脏病学会/美国心脏协会（ACC/AHA）指南的数字标准和上面完全一致，表格注明是改编自第四版全球心梗定义。",
-      "source": "ACC2025",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309",
-      "where": "Section 2.1 'Definition and Classification of ACS'; Table 3 'Electrocardiographic Interpretation for Patients With Suspected Acute Coronary Syndromes' (p. e9-e10 of the early-release PDF)",
-      "read_level": "full text",
-      "notes": "Table 3 footnote: ST changes may be seen in acute pericarditis, LVH, LBBB, Brugada syndrome, right ventricular pacing, Takotsubo syndrome, and early repolarization; new or presumably new LBBB 'should not be considered diagnostic of AMI in isolation'; 'A new LBBB in an asymptomatic patient does not constitute a STEMI equivalent.' Table 3 does not give V3R/V4R thresholds."
-    },
-    {
-      "topic": "2. China CSC 2019 STEMI guideline - ECG",
-      "claim_en": "Record a 12-lead ECG within 10 min of FMC (I, B); 18-lead ECG recommended, especially V3R–V5R and V7–V9 in inferior MI (IIa, B). Characteristic STEMI ECG: coved (dome-shaped, monophasic) ST elevation with or without pathologic Q waves and R-wave loss (ST change may be inconspicuous in true posterior MI), often with reciprocal ST depression. Early STEMI often instead shows hyperacute T waves (abnormally tall, asymmetric limbs) and/or straight upsloping ST elevation, evolving to ST-T fusion. Repeat ECG within 15–30 min if the first is nondiagnostic and symptoms persist. Difficult settings listed: LBBB, RBBB, ventricular pacing, 'minimal' STEMI (<0.1 mV elevation), normal ECG. Left-main patterns, Wellens syndrome and de Winter syndrome are regarded as STEMI-equivalent changes.",
-      "claim_zh": "中国2019年指南：怀疑心梗的胸痛病人，医生第一次接触后10分钟内要做好12导联心电图，最好做18导联（加右胸和背后导联）。典型表现是ST段像拱桥一样向上抬高，对面导联镜像压低。但发病最早期常常看不到典型抬高，只能看到T波突然变得又高又大，所以第一份心电图正常也不能放松，症状持续要在15到30分钟内复查。",
-      "source": "CSC2019",
-      "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
-      "where": "诊断和危险分层 > 一、初始诊断 > 3．心电图",
-      "read_level": "full text",
-      "notes": "IMPORTANT: the CSC 2019 main guideline's ECG section does NOT itself list the J-point mm thresholds by sex/age (it cites the UDMI4 definition in '心肌梗死定义和分型'). The numeric thresholds appear in the companion CMA primary-care guideline (next item). The only numbers in CSC2019 are: prehospital fibrinolysis criterion (limb leads ≥0.1 mV, chest leads ≥0.2 mV, or new LBBB/RBBB) in 再灌注治疗 > 溶栓治疗 > 院前溶栓; fibrinolysis indication ST elevation >0.1 mV in ≥2 contiguous leads for 12–24 h presenters; and V4R ≥0.1 mV for RV infarction."
-    },
-    {
-      "topic": "2. China primary-care STEMI guideline 2019 - numeric ECG criteria",
-      "claim_en": "Per UDMI4, STEMI diagnosis requires both acute myocardial injury (cTn elevated, at least once above the 99th percentile URL) and new ischemic ECG change (ST elevation). ST elevation criterion: new J-point ST elevation in 2 contiguous leads, V2–V3 ≥2.5 mm (men <40), ≥2 mm (men ≥40), ≥1.5 mm (women regardless of age); other leads ≥1.0 mm.",
-      "claim_zh": "中国基层诊疗指南（2019）用中文写明了同样的标准：相邻2个导联J点新出现ST段抬高，V2到V3导联男性40岁以下≥2.5毫米、40岁及以上≥2毫米、女性≥1.5毫米；其他导联≥1毫米。同时还要有血里肌钙蛋白升高。",
-      "source": "CMA_PRIMARY2019",
-      "url": "https://cmab.yiigle.com/uploads/guide_html/ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E5%9F%BA%E5%B1%82%E8%AF%8A%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%E5%B9%B4%EF%BC%89%20-%20%E4%B8%AD%E5%8D%8E%E5%85%A8%E7%A7%91%E5%8C%BB%E5%B8%88%E6%9D%82%E5%BF%97.html",
-      "where": "三、诊断与鉴别诊断 > （三）诊断标准",
-      "read_level": "full text",
-      "notes": "Same text in the practice version (中华全科医师杂志 2020;19(12):1092-1099, '≥2.0 mm' wording). Clinical caveat for patient pages: symptoms + ECG alone justify reperfusion without waiting for troponin (CSC2019 诊断和危险分层 > 一、初始诊断, paragraph after 心电图)."
-    },
-    {
-      "topic": "2. China CSC 2019 - symptoms",
-      "claim_en": "Typical ischemic chest pain: severe retrosternal or precordial pressing/crushing pain (usually >10–20 min), may radiate to left upper arm, jaw, neck, back or shoulder; often with nausea, vomiting, sweating, dyspnea; some patients faint. Not fully relieved by sublingual nitroglycerin. Attention to equivalent and nonspecific symptoms.",
-      "claim_zh": "心梗典型的胸痛：胸骨后面或心前区剧烈的压榨样疼痛，通常持续10到20分钟以上，可以放射到左上臂、下巴、脖子、后背或肩膀；常伴恶心、呕吐、大汗、喘不上气，有的人会晕倒。含硝酸甘油也不能完全缓解。有些人症状不典型。",
-      "source": "CSC2019",
-      "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
-      "where": "诊断和危险分层 > 一、初始诊断 > 1．症状和病史",
-      "read_level": "full text",
-      "notes": ""
-    },
-    {
-      "topic": "2. China CSC 2019 - call 120 / patient delay",
-      "claim_en": "Public education should teach early STEMI symptoms; patients with suspected MI symptoms (chest pain) should call the '120' emergency centre as early as possible and seek care promptly, avoiding delay from self-medication or repeated prolonged self-assessment of symptoms. Shortening onset-to-FMC and arriving at hospital under medical protection clearly improves prognosis (I, A).",
-      "claim_zh": "怀疑心梗（胸痛）时，要尽早拨打120，别自己吃药扛着、也别反复观察“看看会不会好”。在医护人员保护下到医院，结果明显更好。",
-      "source": "CSC2019",
-      "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
-      "where": "诊断和危险分层 > 二、院前及院内急救 > 1．减少患者自身延误，缩短自发病至FMC的时间",
-      "read_level": "full text",
-      "notes": "CSC2019 does NOT contain an explicit 'do not drive yourself' sentence (searched for 驾/开车: no hits). For that message use ACC2025 (primary) or the Beijing health commission page (secondary) below."
-    },
-    {
-      "topic": "2. China CSC 2019 - time targets",
-      "claim_en": "Prehospital-diagnosed STEMI: primary PCI preferred if transfer to PCI centre and PCI can be completed within 120 min (FMC-to-wire-crossing <120 min), bypassing the ED (I, B); otherwise prehospital fibrinolysis (I, A). Non-PCI hospital: transfer if FMC-to-reperfusion within 120 min, patient transferred out within 30 min of arrival (I, B); if FMC-to-wire >120 min, start fibrinolysis within 30 min of FMC (I, A). Self-presenting to a PCI hospital: primary PCI within 90 min of FMC (I, C); PCI-capable hospitals: FMC-to-wire ≤90 min (I, A). First ECG within 10 min of FMC, transmit, diagnose within 10 min (I, B). Primary PCI indicated for STEMI within 12 h of onset (I, A).",
-      "claim_zh": "时间就是心肌：直接到能做支架的医院，目标是从第一次接触医护人员到导丝打通血管不超过90分钟；需要转院时，总时间争取在120分钟内；做不到就先溶栓（打开血管的药），溶栓要在接触医护后30分钟内开始。发病12小时内是急诊介入的主要窗口。",
-      "source": "CSC2019",
-      "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
-      "where": "诊断和危险分层 > 二、院前及院内急救 > 2．减少院前系统和院内救治延误; 再灌注治疗 > 一、再灌注策略选择; 再灌注治疗 > 直接PCI 适应证",
-      "read_level": "full text",
-      "notes": "CSC2019 measures to 'wire crossing the IRA' (导丝通过IRA), not 'device'."
-    },
-    {
-      "topic": "2. ACC 2025 - call 9-1-1, do not drive yourself; FMC-to-device",
-      "claim_en": "Successful STEMI systems have robust mechanisms for '(1) educating the public of the need to immediately call 9-1-1 (or other appropriate local emergency services) for ischemic symptoms and not driving themselves to the nearest hospital'. Prehospital-identified STEMI should be taken to a PCI-capable hospital with a goal of FMC-to-first-device time ≤90 minutes; where not feasible, direct transport may be considered if anticipated FMC-to-device ≤120 minutes. Each 30 minutes of PPCI delay is associated with a 7.5% increase in relative risk of 1-year mortality.",
-      "claim_zh": "美国2025年指南明确：出现缺血症状要马上打急救电话（在中国是120），不要自己开车去最近的医院。",
-      "source": "ACC2025",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309",
-      "where": "'Do not drive' text: Section 5.1 'Regional Systems of STEMI Care', recommendation-specific supportive text (around p. e33-e34 of the early-release PDF). FMC-to-device and 7.5% figure: Section 3.1.1 'Prehospital Assessment and Management', supportive text item 3 (p. e12 of the early-release PDF)",
-      "read_level": "full text",
-      "notes": "Early-release page numbers may differ in the final issue."
-    },
-    {
-      "topic": "2. ESC 2023 - contact EMS; time targets",
-      "claim_en": "'The recommended action should be to contact the EMS rather than to self-present to an ED or primary care clinician.' The public should be educated to call EMS directly rather than a primary care physician. For simplicity an absolute 120 min from STEMI diagnosis to PCI-mediated reperfusion (wire crossing) is used as the limit for choosing PPCI over fibrinolysis; 10 min from STEMI diagnosis to fibrinolytic bolus. Failed fibrinolysis = ST resolution <50% within 60–90 min.",
-      "claim_zh": "欧洲2023年指南也说：有心梗症状应直接叫急救车，而不是自己跑去急诊或先去找家庭医生。",
-      "source": "ESC2023",
-      "url": "https://doi.org/10.1093/eurheartj/ehad191",
-      "where": "Section 4.1.2 'Healthcare systems and system delays' / 4.1.3 'Emergency medical services' (EMS sentence), Section 4.1.4 'General practitioners' (call EMS not GP), Section 4.1.5 and Figure 7 'Modes of presentation and pathways to invasive management...' (120 min, 10 min)",
-      "read_level": "full text",
-      "notes": "Figure 7 also shows 'Aim: <60 min to wire crossing' and 'Aim: <90 min to wire crossing' but the text-extracted figure did not let me confirm which pathway each applies to; see unverified."
-    },
-    {
-      "topic": "2. Chinese public message - do not drive yourself (secondary)",
-      "claim_en": "Beijing Municipal Health Commission public-health page (article from Beijing Jishuitan Hospital cardiology, 2025-11-20, 'Myocardial infarction rescue day' 11/20): call 120 immediately; do not drive, ride a bike, or have family take a taxi; say 'suspected acute MI' and give location; stop activity and lie down or half-sit while waiting. The 'two 120s': chest pain → call 120; golden 120 minutes for MI treatment.",
-      "claim_zh": "北京市卫健委网站上的科普（北京积水潭医院心内科）：怀疑心梗立刻拨打120，千万不要自己开车、骑车，也不要让家人打车送；打电话时说清“疑似急性心梗”和地址；等车时停止一切活动，平躺或半躺。记住“双120”：有胸痛打120；心梗救治黄金120分钟。",
-      "source": "北京市卫生健康委员会网站, 健康知识栏目, '积医科普：心梗救治日丨牢记“双120”，为心脏抢时间', 来源：北京积水潭医院, 2025-11-20",
-      "url": "https://wjw.beijing.gov.cn/bmfw_20143/jkzs/jksh/202511/t20251120_4289805.html",
-      "where": "Section '❤急救流程 疑似心梗时的“生死三步法”', step 1 and step 2",
-      "read_level": "secondary",
-      "notes": "Hospital-authored public education, not a guideline. The same page advises chewing aspirin 300 mg if no allergy/bleeding history — that is drug advice and was NOT checked against a guideline here; do not publish it from this source alone."
-    },
-    {
-      "topic": "2. Newer Chinese guidance",
-      "claim_en": "CSC published '非ST段抬高型急性冠脉综合征诊断和治疗指南（2024）' (中华心血管病杂志 2024;52(6):615-646, DOI 10.3760/cma.j.cn112148-20240107-00014). It covers NSTE-ACS, not STEMI. I found no newer CSC STEMI-specific guideline replacing CSC2019.",
-      "claim_zh": "中华医学会心血管病学分会2024年出了新的“非ST段抬高型”急性冠脉综合征指南；ST段抬高型心梗目前查到的最新专门指南仍是2019版。",
-      "source": "中华医学会心血管病学分会 website listing",
-      "url": "https://csc.cma.org.cn/art/2024/6/24/art_619_57179.html",
-      "where": "Guideline listing page (not read in full)",
-      "read_level": "secondary",
-      "notes": "Seen only via search results/listing; content not read. The '1120 中国心梗救治日' campaign exists (multiple secondary reports) but no primary 胸痛中心 document was read."
-    },
-    {
-      "topic": "3. Localization - leads vs anatomic labels (WAGNER2009)",
-      "claim_en": "Recommendation: 'Labeling specific leads as anterior, inferior, and lateral should be avoided. Leads should be identified according to their original nomenclature, that is, leads I, II, III, aVR, aVL, aVF, and V1 through V6. This recommendation refers only to the labeling of the leads. Reference to the anatomic location of the ischemic/infarcted region, such as anterior or inferior, is still recommended and is based on the leads that show the ST-segment alterations.' Rationale: ST depression in V1–V2 is a common manifestation of a posterior or lateral ST-elevation infarction.",
-      "claim_zh": "2009年美国心电图标准建议：导联本身就叫I、II、aVF、V1这些名字，不要把导联直接叫作“前壁导联”“下壁导联”，因为V1、V2的ST段压低可能其实反映的是心脏背面的问题。但描述心肌受损的部位（前壁、下壁等）仍然可以，并且是根据哪些导联出现ST改变来判断的。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Meaning and Importance of ST-Segment Elevation and Depression', Recommendation 1, JACC p. 1004",
-      "read_level": "full text",
-      "notes": "Our teaching site can still say 'II/III/aVF reflect the inferior wall', but should frame it as 'these leads show changes when the inferior wall is involved'."
-    },
-    {
-      "topic": "3. Localization - contiguous leads, Cabrera order (WAGNER2009)",
-      "claim_en": "Chest leads V1–V6 are displayed in anatomically contiguous order (right anterior V1 to left lateral V6); limb leads are not. For anatomic contiguity the display should be aVL, I, −aVR, II, aVF, III (Cabrera format; −aVR at 30°). Recommendation: ECG machines should allow limb leads to be displayed and labeled in their anatomically contiguous sequence.",
-      "claim_zh": "胸前导联V1到V6本来就是从右前到左侧依次排列的，挨着的就是相邻的。肢体导联按方向排应该是：aVL、I、−aVR（把aVR倒过来）、II、aVF、III，这样相邻关系才一目了然。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Concept of Anatomically Contiguous Leads' and its Recommendation 1, JACC pp. 1004-1005",
-      "read_level": "full text",
-      "notes": ""
-    },
-    {
-      "topic": "3. ST thresholds (WAGNER2009) - incl. V3R/V4R, V7-V9, depression",
-      "claim_en": "Recommendations: (1) men ≥40: abnormal J-point elevation 0.2 mV (2 mm) in V2 and V3 and 0.1 mV (1 mm) in all other leads; (2) men <40: 0.25 mV (2.5 mm) in V2 and V3; (3) women: 0.15 mV (1.5 mm) in V2 and V3 and >0.1 mV (1 mm) in all other leads; (4) V3R and V4R: 0.05 mV (0.5 mm), except males <30 for whom 0.1 mV (1 mm) is more appropriate; (5) V7 through V9: 0.05 mV (0.5 mm) for men and women; (6) J-point depression threshold −0.05 mV (−0.5 mm) in V2 and V3 and −0.1 mV (−1 mm) in all other leads, men and women of all ages.",
-      "claim_zh": "2009年美国标准给的门槛和后来的全球定义基本一致；右胸V3R、V4R是0.5毫米（30岁以下男性1毫米），背后V7到V9是0.5毫米。ST段压低的门槛：V2、V3是0.5毫米，其他导联1毫米。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Threshold Values for ST-Segment Changes', Recommendations 1-6, JACC p. 1005",
-      "read_level": "full text",
-      "notes": "Differences: UDMI4 ST-depression threshold is ≥0.5 mm in any 2 contiguous leads (horizontal/downsloping), whereas Wagner 2009 uses −1 mm outside V2–V3. UDMI4 uses ≥1 mm in V7–V9 for men <40; Wagner 2009 uses 0.5 mm for all."
-    },
-    {
-      "topic": "3. Localization - anterior / LAD (WAGNER2009)",
-      "claim_en": "'Anterior wall ischemia/infarction is invariably due to occlusion of the left anterior descending coronary artery', expressed as ST elevation in some or all of V1–V6. Proximal LAD (above first septal and first diagonal): ST elevation in V1–V4, I, aVL and often aVR, with reciprocal ST depression in II, III, aVF and often V5. Between first septal and first diagonal: V1 not elevated, aVL elevated, III depressed. Distal LAD (below both): no elevation in V1, aVR, aVL; no depression in II, III, aVF; ST elevation may appear in II, III, aVF and be more prominent in V3–V6.",
-      "claim_zh": "前壁心梗几乎都是“前降支”（左冠状动脉往前走的那根）堵了，表现为V1到V6里部分或全部ST段抬高。堵的位置越靠近起点，波及越大：近端堵塞时V1到V4、I、aVL都抬高，下壁导联II、III、aVF反而压低；远端堵塞则主要是V3到V6抬高。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Correlation of ST-Segment Elevation and Depression to the Region Involved and to the Occluded Vessel', JACC p. 1006, and Recommendations 3-4 of that section",
-      "read_level": "full text",
-      "notes": "Wagner 2009 does NOT give a simple table 'anteroseptal V1–V2 / anterior V3–V4 / lateral I, aVL, V5–V6'. ACC2025 Section 3 supportive text uses the phrase 'anteroseptal leads (V1-V3)'. See unverified for the classic textbook mapping."
-    },
-    {
-      "topic": "3. Localization - inferior, RCA vs LCx, right ventricle (WAGNER2009)",
-      "claim_en": "Inferior wall infarction with ST elevation in only II, III, aVF may be due to RCA or LCx occlusion, depending on which provides the posterior descending branch (dominance). RCA: ST elevation greater in III than II, often ST depression in I and aVL. LCx: ST may be elevated more in II than III and may be isoelectric or elevated in I and aVL. Proximal RCA occlusion may cause RV infarction with ST elevation in V3R, V4R and often V1; V4R is the most commonly used right-sided lead; RV ST elevation persists for a much shorter time than inferior ST elevation, so V3R/V4R should be recorded as rapidly as possible. It is not possible to determine RCA vs LCx when inferior changes are accompanied by ST depression in V1–V3; absence of such changes is more suggestive of RCA.",
-      "claim_zh": "下壁心梗（II、III、aVF抬高）可能是右冠状动脉堵了，也可能是左回旋支堵了，取决于这个人谁是“优势血管”（因人而异）。III比II抬得更高、I和aVL压低，更像右冠；II比III高、I和aVL不压低，更像回旋支。右冠近端堵塞还会连累右心室，在右胸V4R上能看到抬高，但这个表现消失得快，要尽早做。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Same section, JACC p. 1006 (inferior/RV paragraphs and the paragraph after the posterior Recommendation)",
-      "read_level": "full text",
-      "notes": "Recommendation: ECG machines should suggest recording V3R and V4R when ST elevation >0.1 mV occurs in II, III, aVF. ESC2023 also says posterior occlusion is 'often the left circumflex artery'."
-    },
-    {
-      "topic": "3. Terminology - 'posterior' (WAGNER2009 vs UDMI4)",
-      "claim_en": "Wagner 2009 reviews that ST depression in V1–V3 with inferior MI has been termed posterior/posterolateral; imaging suggested the region is lateral rather than posterior, and Bayés de Luna et al. (endorsed by ISHNE) proposed replacing 'posterior' with 'lateral', 'inferolateral', or 'basal-lateral'. Recommendation (exact): 'It is the opinion of the committee that for the present, and not withstanding the recommendation of the International Society for Holter and Noninvasive Electrocardiography, the current ECG terminology of posterior be retained to describe ST depression in leads V1 and V2 and the subsequent development of broad R waves in these leads, as described in the previously published section concerning terminology.' Further collaborative studies were recommended. By contrast UDMI4 (2018) writes 'inferobasal myocardial ischemia (previously termed posterior infarction)'.",
-      "claim_zh": "“后壁心梗”这个名字有争议：影像研究发现那块心肌其实更偏侧面，有学会建议改叫“侧壁”“下侧壁”。但2009年美国标准明确决定暂时保留“后壁”这个叫法；2018年全球心梗定义则改称“下基底部”，并注明“以前叫后壁”。现在的欧美指南仍常说“后壁STEMI”。",
-      "source": "WAGNER2009; UDMI4",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "WAGNER2009: Recommendation following the inferior-wall/posterior discussion, JACC p. 1006. UDMI4: Section 28, p. e638",
-      "read_level": "full text",
-      "notes": "The 2009 statement does NOT discourage 'posterior' — it explicitly retains it, against the ISHNE proposal. ISHNE paper (ref 26): Bayés de Luna A, Wagner G, Birnbaum Y, et al. Circulation 2006 (not read)."
-    },
-    {
-      "topic": "3. Reciprocal ST depression (WAGNER2009)",
-      "claim_en": "ST elevation in any lead is usually associated with reciprocal ST depression in leads whose positive pole is directed opposite (~180°). ST depression in aVL is the reciprocal of and similar in meaning to ST elevation in III, and vice versa. ST depression in V1 and V2 is the reciprocal of the ST elevation that would be recorded with posterior electrodes (V8, V9). Reciprocal change may be absent if no lead is opposite, or masked by LVH, conduction disturbance, or pericarditis. ST elevation in more than 1 discrete region is characteristic of pericarditis.",
-      "claim_zh": "“镜像改变”：一个方向的导联看到ST段抬高，正对面方向的导联往往看到ST段压低。例如III抬高常伴aVL压低；V1、V2压低，相当于背后导联的抬高。但有时对面没有导联，就看不到镜像。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Meaning and Importance of ST-Segment Elevation and Depression', JACC p. 1004; pericarditis sentence p. 1007",
-      "read_level": "full text",
-      "notes": ""
-    },
-    {
-      "topic": "4. Evolution of STEMI ECG",
-      "claim_en": "Sequence stated by sources: hyperacute T waves may precede ST elevation (UDMI4 Section 27); early STEMI shows hyperacute T and/or straight ST elevation that evolves into ST-T fusion (CSC2019); 'the development of new Q waves indicates myocardial necrosis, which starts minutes/hours after the myocardial insult' (UDMI4); 'Reperfusion is usually associated with a large and prompt reduction in ST-segment elevation' (UDMI4); 'after ischemia and infarction, T waves become inverted in leads with previous ST-segment elevation and remain inverted for varying periods that range from days to permanently' (WAGNER2009). Wagner 2009 lists the overall changes as peaking of T waves (hyperacute), ST elevation and/or depression, QRS changes, and inverted T waves.",
-      "claim_zh": "心梗心电图大致的演变：先是T波变得高尖，然后ST段抬高（可连成一片），心肌开始坏死后慢慢出现Q波（坏死在受伤后几分钟到几小时开始），之后T波倒置，倒置可以持续几天，也可能一直不恢复。血管被打通后，抬高的ST段通常会很快明显回落。",
-      "source": "UDMI4 Section 27 (p. e637); CSC2019 诊断和危险分层 > 一、初始诊断 > 3．心电图; WAGNER2009 'Postischemic T-Wave Changes' (JACC p. 1007) and introduction (p. 1003)",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "See source field",
-      "read_level": "full text",
-      "notes": "No source read gives hour/day time frames for each stage beyond 'minutes/hours' (Q-wave necrosis onset) and 'days to permanently' (T inversion). Thrombolysis success criterion (CSC2019 and ESC2023): ST resolution ≥50% within 60–90 min. Transient Q waves can occur during ischemia or rarely after successful reperfusion (UDMI4)."
-    },
-    {
-      "topic": "4. Wellens pattern (deep T inversion)",
-      "claim_en": "A subgroup develops deeply inverted T waves (>0.5 mV) in V2, V3, V4 (occasionally V5), often with QT prolongation, after chest pain without evolving infarction; angiography usually shows severe proximal LAD stenosis. Recommendation: this pattern should be interpreted as consistent with severe proximal LAD stenosis or recent intracranial hemorrhage (CVA pattern).",
-      "claim_zh": "胸痛过后V2到V4出现很深的倒置T波，可能提示前降支近端严重狭窄，是即将发生大面积前壁心梗的警报（颅内出血也能出现类似图形）。",
-      "source": "WAGNER2009",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "Section 'Postischemic T-Wave Changes' and Recommendation 1, JACC pp. 1007-1008",
-      "read_level": "full text",
-      "notes": "ESC2023 calls this 'Wellens' sign' (Section 3.2.2); CSC2019 lists Wellens and de Winter syndromes as STEMI-equivalent changes."
-    },
-    {
-      "topic": "5. STEMI mimics / confounders",
-      "claim_en": "UDMI4: ST deviation may be observed in acute pericarditis, LVH, LBBB, Brugada syndrome, Takotsubo syndrome (TTS), and early repolarization patterns; also pulmonary embolism, intracranial processes, electrolyte abnormalities, hypothermia, perimyocarditis. WAGNER2009: ST depression from hypertrophy, cardioactive drugs, low potassium; ST elevation from pericarditis, elevated potassium, Osborn waves, acute myocarditis, certain cardiac tumors, and early repolarization. ACC2025 Table 3 footnote: acute pericarditis, LVH, LBBB, Brugada, right ventricular pacing, Takotsubo, early repolarization. CSC2019: difficult in LBBB, RBBB, ventricular pacing; acute pericarditis shows PR depression and concave ST elevation without reciprocal changes.",
-      "claim_zh": "不是所有ST段抬高都是心梗。常见的“像心梗”的情况：心包炎（抬高范围广、PR段压低、没有镜像改变）、左心室肥厚（高血压病人常见）、左束支传导阻滞、心脏起搏器心律、早期复极（年轻人常见的正常变异）、Brugada综合征、应激性心肌病、高钾血症、心肌炎等。所以医生要结合症状、旧心电图和抽血结果综合判断。",
-      "source": "UDMI4 Section 27 (pp. e637-e638); WAGNER2009 p. 1004; ACC2025 Table 3 footnote; CSC2019 诊断和危险分层 > 一、初始诊断 > 3．心电图 and 4.鉴别诊断 paragraph",
-      "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
-      "where": "See source field",
-      "read_level": "full text",
-      "notes": "Relevant to hypertension audience: LVH is listed by UDMI4 and ACC2025 as a confounder, and UDMI4 Table 2 thresholds apply 'in the absence of LVH'."
-    },
-    {
-      "topic": "5. LBBB / paced rhythm and Sgarbossa criteria",
-      "claim_en": "WAGNER2009: ST criteria are not affected by fascicular blocks or RBBB but are affected by LBBB. Published criteria (Sgarbossa et al., GUSTO-I; ref 33) include ST elevation ≥0.1 mV (1 mm) in leads with a positive QRS and ST depression ≥0.1 mV (1 mm) in V1–V3 (concordant changes), and ST elevation ≥0.5 mV (5 mm) in leads with a negative QRS (discordant). Concordant changes: high specificity, low sensitivity; the most recent study cited found discordant changes had very low specificity and sensitivity. UDMI4: in LBBB, ST elevation ≥1 mm concordant with the QRS in any lead may indicate acute ischemia; similar findings useful in RV paced rhythm. ESC2023 Supplementary: Sgarbossa criteria may help; LBBB in isolation does not suggest occlusion; >50% of ED chest-pain patients with LBBB end up with a non-MI diagnosis.",
-      "claim_zh": "左束支传导阻滞或起搏器心律本身就会让ST段变形，常规标准不好用。医生会用专门的“Sgarbossa标准”：和QRS波同方向的ST段抬高≥1毫米、V1到V3的ST段压低≥1毫米，这两条比较可靠；反方向的ST段抬高≥5毫米这一条不太可靠。症状很像心梗时，即使是早就有的左束支阻滞，也要按心梗紧急处理。",
-      "source": "WAGNER2009; UDMI4; ESC2023",
-      "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
-      "where": "WAGNER2009 'Diagnosis of Ischemia/Infarction in the Setting of Intraventricular Conduction Disturbances', JACC p. 1008. UDMI4 Section 32 'Conduction Disturbances and Pacemakers', p. e640. ESC2023 Supplementary data Section 3.2.1 (supplementary PDF p. 7-8) and main text Section 3.2.1 'Bundle branch block' paragraph",
-      "read_level": "full text",
-      "notes": "Sgarbossa original paper (N Engl J Med 1996) was NOT read; criteria recorded as stated by Wagner 2009. Modified (Smith) Sgarbossa criteria not covered."
-    },
-    {
-      "topic": "6. PTB-XL infarction_stadium1 / infarction_stadium2",
-      "claim_en": "Table 2 (columns of ptbxl_database.csv): infarction_stadium1 — 'infarction stadium (see Table 11)'; infarction_stadium2 — 'second infarction stadium (see Table 11)'. Text: 'In case of myocardial infarction, potentially multiple entries for infarction stadium (infarction_stadium and infarction_stadium2) were extracted from the report string. ... In particular, we distinguish also intermediate stages \"stadium I-II\" and \"stadium II-III\" in addition to the conventionally used infarction stages I, II, and III.' Table 11 keywords: Stadium I = 'acut, early'; Stadium I–II = 'acut/subacut, ablaufend'; Stadium II = 'recent, subacut, bereits abgelaufen'; Stadium II–III = 'subacut/chronisch'; Stadium III = 'old, abgelaufen, chronisch'; unknown = 'uncertain, unknown, unbekannt'. Table 11 note: columns 'are only set to a value if at least one statement belongs to the superclass of Myocardial Infarction (MI)'.",
-      "claim_zh": "PTB-XL数据集里的“infarction_stadium”（梗死分期）是从德国医生的诊断报告里提取出来的：Stadium I＝急性/早期；Stadium II＝近期/亚急性；Stadium III＝陈旧/慢性；I-II和II-III是介于两者之间。只有当这份心电图被标了“心梗”类诊断时才会填这一栏；第二列用于报告里写了第二个分期的情况。",
-      "source": "PTBXL",
-      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7248071/",
-      "where": "Data Records > Metadata > Table 2 'Columns provided in the metadata table ptbxl_database.csv'; ECG Statements subsection paragraph 'heart_axis, infarction_stadium1 and infarction_stadium2'; Table 11 'Distribution of infarction stadium across the dataset'",
-      "read_level": "full text",
-      "notes": "The paper defines stadium ONLY by these German/English report keywords and refers to ref 7 (Bousseljot & Kreiseler, Herzschrittmachertherapie + Elektrophysiologie 2000;11:197-206; not read) 'for further details'. It does not give ECG criteria or time windows for each stadium. The text says 'infarction_stadium' in one place but the actual column is 'infarction_stadium1'. German glosses: 'ablaufend' ≈ evolving/in progress, 'abgelaufen' ≈ completed/past, 'bereits abgelaufen' ≈ already completed — my translation, not from the paper. Counts in Table 11 (cumulated over both columns): I 186, I–II 5, II 107, II–III 943, III 1045, unknown 3443. My count of v1.0.3 ptbxl_database.csv: stadium1 = unknown 3430, III 980, II-III 943, I 166, II 88, I-II 5; stadium2 = III 65, I 19, II 19 (sums: I 185, II 107, III 1045, unknown 3430) — small differences from the paper for I and unknown. CSV value strings are 'Stadium I', 'Stadium I-II', 'Stadium II', 'Stadium II-III', 'Stadium III', 'unknown' (ASCII hyphen)."
-    },
-    {
-      "topic": "6. PhysioNet PTB-XL v1.0.3 page - stadium",
-      "claim_en": "'Each record was annotated with a report string (generated by cardiologist or automatic interpretation by ECG-device) which was converted into a standardized set of SCP-ECG statements (scp_codes). For most records also the heart's axis (heart_axis) and infarction stadium (infarction_stadium1 and infarction_stadium2, if present) were extracted.'",
-      "claim_zh": "PhysioNet说明页确认：分期这两列是从报告文字里自动提取的，不是按统一心电图标准重新判读的。",
-      "source": "Wagner P, Strodthoff N, Bousseljot R, Samek W, Schaeffter T. PTB-XL, a large publicly available electrocardiography dataset (version 1.0.3). PhysioNet. 2022. DOI 10.13026/kfzx-aw45",
-      "url": "https://physionet.org/content/ptb-xl/1.0.3/",
-      "where": "Methods > Data Acquisition, item 3; Data Description > ECG statements",
-      "read_level": "full text",
-      "notes": "PhysioNet v1.0.3 DOI and 2022 date are from memory, not verified on the page."
-    },
-    {
-      "topic": "6. PTB-XL INJAS / INJAL / INJIN / INJLA / INJIL",
-      "claim_en": "Table 6 (Diagnostic Statement Overview): INJAS 'subendocardial injury in anteroseptal leads' (215 records, superclass MI, subclass AMI); INJAL 'subendocardial injury in anterolateral leads' (148, MI, AMI); INJIN 'subendocardial injury in inferior leads' (18, MI, IMI); INJLA 'subendocardial injury in lateral leads' (17, MI, AMI); INJIL 'subendocardial injury in inferolateral leads' (15, MI, IMI). scp_statements.csv (v1.0.3) gives for all five: diagnostic=1.0, diagnostic_class=MI, 'Statement Category' = 'ischemic ST-T changes compatible with subendocardial injury', and 'SCP-ECG Statement Description' = 'in anteroseptal leads' / 'in anterolateral leads' / 'in inferior leads' / 'in lateral leads' / 'in inferolateral leads' respectively.",
-      "claim_zh": "PTB-XL里INJ开头的几个标签意思是“某组导联上有提示心内膜下损伤的缺血性ST-T改变”：INJAS＝前间壁导联，INJAL＝前侧壁导联，INJIN＝下壁导联，INJLA＝侧壁导联，INJIL＝下侧壁导联。数据集把它们归在“心梗”大类下面（INJLA被归到前壁心梗子类，INJIN和INJIL归到下壁心梗子类）。",
-      "source": "PTBXL (Table 6) and PhysioNet PTB-XL v1.0.3 scp_statements.csv",
-      "url": "https://physionet.org/files/ptb-xl/1.0.3/scp_statements.csv",
-      "where": "Paper: Table 6 'Diagnostic Statement Overview', with super/subclass acronyms in Table 5. CSV: rows INJAS, INJAL, INJIN, INJLA, INJIL",
-      "read_level": "full text",
-      "notes": "Neither the paper nor the CSV says what ST pattern (e.g. ST depression) defines these labels, nor which exact leads make up 'anteroseptal', 'lateral', etc. 'Subendocardial injury' is classically associated with ST depression, but that link is NOT stated in PTB-XL — treat as unverified. Note these labels sit under the MI superclass even though they describe ST-T changes; for teaching, do not equate them with STEMI."
-    }
-  ],
-  "unverified": [
-    "A single authoritative table mapping 'anteroseptal V1–V2, anterior V3–V4, lateral I/aVL/V5–V6' to LV walls was NOT found in UDMI4, WAGNER2009, ESC2023, ACC2025, or CSC2019. Only partial support: anterior = V1–V6 (Wagner 2009); inferior = II, III, aVF (Wagner 2009; UDMI4 grouping); RV = V3R/V4R (all); posterior = V1–V3 depression ± V7–V9 elevation (UDMI4, ESC2023, ACC2025); 'anteroseptal leads (V1-V3)' phrase (ACC2025 Section 3 supportive text, p. e10-e11 early release). 'Lateral = I, aVL, V5, V6' has no primary source read here.",
-    "'Posterior MI = ST depression with tall R in V1–V3': sources say ST depression in V1–V3 (UDMI4, ESC2023, ACC2025) and, for the chronic phase, R >0.04 s in V1–V2 with R/S >1 and positive T (UDMI4 Table 3) / 'broad R waves' in V1–V2 (Wagner 2009). A combined acute 'ST depression + tall R in V1–V3' criterion was not found as such.",
-    "Typical time frames for each ECG stage (hyperacute T minutes; ST elevation hours; Q waves hours–days; T inversion days–weeks; ST normalization in ~2 weeks, etc.) — no primary source read gives these numbers except 'minutes/hours' for necrosis/Q-wave onset (UDMI4) and 'days to permanently' for T inversion (Wagner 2009).",
-    "Clinical definitions/time windows of PTB-XL 'Stadium I/II/III' beyond the report keywords in Table 11; the referenced Bousseljot & Kreiseler 2000 paper was not read. The German textbook convention for Stadium I–III was not checked.",
-    "Whether PTB-XL INJ* labels specifically mean ST depression, and which leads constitute each lead group in the PTB/Schiller report system.",
-    "ESC2023 Figure 7: which pathway carries 'Aim: <60 min to wire crossing' vs 'Aim: <90 min to wire crossing' (text extraction lost the layout). Commonly cited as <60 min for patients presenting to a PCI centre and <90 min for EMS/transfer pathway, but not confirmed here.",
-    "Exact print page numbers of ESC2023 (read the 1–107 advance-article PDF) and the final-issue e-pages of ACC2025 (read the early-release PDF; final citation 'Circulation. 2025;151:e771–e862' is from memory, not verified).",
-    "Sgarbossa original paper (Sgarbossa EB et al., N Engl J Med 1996;334:481-487) not read; criteria recorded only as restated by Wagner 2009. Smith-modified Sgarbossa not covered.",
-    "A Chinese guideline or 胸痛中心 primary document stating 'do not drive yourself' was not found; CSC2019 says call 120 but has no driving sentence. The Chinese 'do not drive' wording comes from a hospital-authored article on the Beijing health commission site (secondary).",
-    "Whether CSC has published a STEMI guideline newer than 2019 (none found by search as of 2026-11-13); the 2024 NSTE-ACS guideline was seen only as a listing, not read.",
-    "UDMI4 page numbers were read from the Circulation PDF; equivalent EHJ/JACC page numbers not recorded.",
-    "Aspirin 300 mg chewing advice seen on the Beijing page was not verified against a guideline and is excluded from claims."
-  ]
+  {
+   "topic": "1. STEMI ECG criteria (UDMI4) - ST depression / T wave",
+   "claim_en": "'New horizontal or downsloping ST-depression ≥0.5 mm in 2 contiguous leads and/or T inversion >1 mm in 2 contiguous leads with prominent R wave or R/S ratio >1.' Text adds that lesser degrees of ST displacement or T inversion can also represent acute ischemia.",
+   "claim_zh": "心肌缺血也可以表现为ST段“往下掉”：在相邻两个导联上新出现水平型或下斜型的ST段压低，达到0.5毫米（半小格）及以上；或者在R波明显的相邻两个导联上，T波倒置超过1毫米。比这更轻的变化也不能完全排除缺血。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 27; Table 2 (row 'ST-depression and T wave changes'), p. e638",
+   "read_level": "full text",
+   "notes": "ST depression is a marker of ischemia (NSTE pattern), not by itself a STEMI criterion. Wagner 2009 gives a different depression threshold (see WAGNER2009 thresholds item)."
+  },
+  {
+   "topic": "1. Measurement point (UDMI4)",
+   "claim_en": "The J-point (junction between QRS termination and ST-segment onset) is used to measure ST shift, with the onset of the QRS as the reference point (rather than the TP segment, because tachycardia and baseline shift are common in the acute setting).",
+   "claim_zh": "量ST段抬高多少，是在J点量，以QRS波起点的高度当“地面”来比。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 27, pp. e637-e638; Figure 8 'Electrocardiogram example of ST-segment elevation'",
+   "read_level": "full text",
+   "notes": "UDMI notes the TP segment is more accurate with a stable baseline and helps distinguish pericarditis (PTa depression)."
+  },
+  {
+   "topic": "1. Posterior leads V7-V9 (UDMI4)",
+   "claim_en": "Isolated ST depression ≥0.5 mm in V1–V3 may indicate left circumflex occlusion; record posterior leads at the fifth intercostal space (V7 left posterior axillary line, V8 left midscapular line, V9 left paraspinal border). 'A cut-off point of 0.5 mm ST elevation is recommended in leads V7–V9; specificity is increased at a cut-off point ≥1 mm ST-elevation and this cut-off point should be used in men <40 years old.' ST depression in V1–V3 'may be suggestive of inferobasal myocardial ischemia (previously termed posterior infarction), especially when the terminal T wave is positive (ST-elevation equivalent); however, this is nonspecific.'",
+   "claim_zh": "心脏后面那块（以前叫“后壁”）出问题时，常规12导联不一定能直接看到抬高，只会在V1到V3看到ST段压低。这时可以在背后加贴V7、V8、V9三个电极（第五肋间，从左腋后线往脊柱方向排）。V7到V9抬高0.5毫米就有意义；40岁以下男性要用1毫米的标准。这种情况常与左回旋支堵塞有关。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 28 'Application of Supplemental Electrocardiogram Leads', p. e638",
+   "read_level": "full text",
+   "notes": "Note the age cut for V7-V9 in UDMI4 is men <40 (≥1 mm), whereas Wagner 2009 gives 0.5 mm for all men and women. UDMI4 uses the term 'inferobasal' and says 'previously termed posterior'; Wagner 2009 recommended retaining 'posterior'; ESC 2023 and ACC 2025 still say 'posterior STEMI'."
+  },
+  {
+   "topic": "1. Right-sided leads V3R/V4R (UDMI4)",
+   "claim_en": "In inferior and suspected right ventricular infarction, aVR or V1 may show ST elevation ≥1 mm. 'The early recording of right precordial leads V3R and V4R should be performed, since ST-elevation ≥0.5 mm (≥1 mm in men <30 years old) provides supportive criteria for the diagnosis.' Changes in right precordial leads may be transient; their absence does not exclude RV infarction.",
+   "claim_zh": "下壁心梗时可能连带右心室也缺血。这时要尽早在右胸贴V3R、V4R（和左胸位置左右对称）。抬高0.5毫米就支持右心室梗死（30岁以下男性用1毫米）。这种改变来得快去得也快，没看到也不能排除。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 28, pp. e638-e639",
+   "read_level": "full text",
+   "notes": "CSC2019 instead says right precordial (especially V4R) ST elevation ≥0.1 mV (1 mm) 'highly suggests' RV infarction — a different number; see CSC2019 RV item."
+  },
+  {
+   "topic": "1. Contiguous leads (UDMI4)",
+   "claim_en": "UDMI4 does not give a stand-alone definition of 'contiguous leads'. The only explicit grouping is in the Q-wave table: 'any 2 leads of a contiguous lead grouping (I, aVL; V1–V6; II, III, aVF)'. Text: 'The criteria in Table 2 require that the ST shift be present in ≥2 contiguous leads.'",
+   "claim_zh": "“相邻导联”指看向心脏同一片区域的导联。指南里给出的分组是：I和aVL一组；V1到V6按顺序相邻；II、III、aVF一组。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Table 3 (p. e639) for the grouping; Section 27 text (p. e638) for the ≥2 contiguous leads requirement",
+   "read_level": "full text",
+   "notes": "See WAGNER2009 'Concept of Anatomically Contiguous Leads' for the anatomic (Cabrera) ordering aVL, I, −aVR, II, aVF, III."
+  },
+  {
+   "topic": "1. Hyperacute T waves and other ECG signs (UDMI4)",
+   "claim_en": "'Increased hyperacute T wave amplitude, with prominent symmetrical T waves in at least 2 contiguous leads, is an early sign that may precede the elevation of the ST-segment.' 'Prolonged new convex ST-segment elevation, particularly when associated with reciprocal ST-segment depression, usually reflects acute coronary occlusion.' 'Reciprocal changes can help to differentiate STEMI from pericarditis or early repolarization changes.'",
+   "claim_zh": "心梗最早的信号可能是T波突然变得又高又尖（“超急性T波”），出现在ST段抬高之前。之后ST段向上拱起抬高，同时在“对面”的导联出现ST段压低（镜像改变）。有没有这种镜像改变，可以帮助区分心梗和心包炎、早复极。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 27, p. e637",
+   "read_level": "full text",
+   "notes": "UDMI4 describes hyperacute T waves as 'symmetrical'; CSC2019 describes them as '异常高大且两支不对称' (abnormally tall, with asymmetric limbs). The two sources disagree on symmetry — present carefully."
+  },
+  {
+   "topic": "1. aVR / multivessel (UDMI4)",
+   "claim_en": "ST depression ≥1 mm in 6 leads, possibly with ST elevation in aVR or V1 and hemodynamic compromise, is suggestive of multivessel or left main disease. ST elevation in aVR >1 mm may accompany anterior or inferior STEMI and is associated with increased 30-day mortality.",
+   "claim_zh": "如果很多导联（6个及以上）ST段都压低，同时aVR导联抬高，提示可能是多支血管或左主干（冠脉总干）严重狭窄，风险高。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 27, pp. e637-e638",
+   "read_level": "full text",
+   "notes": "ESC2023 Section 3.2.1 and CMA_PRIMARY2019 repeat the same pattern."
+  },
+  {
+   "topic": "1. Pathologic Q waves / prior MI (UDMI4)",
+   "claim_en": "Table 3 (in the absence of LVH and LBBB): 'Any Q wave in leads V2–V3 >0.02 s or QS complex in leads V2–V3.' 'Q wave ≥0.03 s and ≥1 mm deep or QS complex in leads I, II, aVL, aVF or V4–V6 in any 2 leads of a contiguous lead grouping (I, aVL; V1–V6; II, III, aVF).' 'R wave >0.04 s in V1–V2 and R/S >1 with a concordant positive T wave in absence of conduction defect.' Footnote: same criteria used for V7–V9.",
+   "claim_zh": "旧心梗会留下“病理性Q波”这个疤痕记号：V2、V3上任何宽度超过0.02秒（半小格）的Q波都算；其他导联（I、II、aVL、aVF、V4到V6）里，同组相邻两个导联上Q波宽度至少0.03秒、深度至少1毫米也算。V1、V2上出现又宽又高的R波（配正向T波）可能是后面那块心肌的旧梗死。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 30 'Prior or Silent/Unrecognized Myocardial Infarction'; Table 3 'Electrocardiographic Changes Associated With Prior Myocardial Infarction (In the Absence of Left Ventricular Hypertrophy and Left Bundle Branch Block)', p. e639",
+   "read_level": "full text",
+   "notes": "Text: specificity greatest when Q waves occur in several leads/groupings or are >0.04 s; minor Q waves ≥0.02 s and <0.03 s ≥1 mm deep suggest prior MI if accompanied by inverted T waves in the same lead group. Silent/unrecognized Q-wave MI accounted for 9%–37% of non-fatal MI events in serial-ECG studies."
+  },
+  {
+   "topic": "1/5. Normal Q waves and Q-wave mimics (UDMI4)",
+   "claim_en": "A QS complex in V1 is normal. A Q wave <0.03 s and <0.25 of R amplitude in III is normal if frontal axis −30° to 0°; Q may be normal in aVL if axis 60°–90°. Septal Q waves (<0.03 s, <0.25 of R) in I, aVL, aVF, V4–V6 are normal. Pre-excitation, cardiomyopathy, Takotsubo, cardiac amyloidosis, LBBB, left anterior hemiblock, LVH, RVH, myocarditis, acute cor pulmonale, or hyperkalemia may cause Q/QS without MI.",
+   "claim_zh": "不是所有Q波都代表旧心梗：V1出现QS是正常的；左胸导联小而窄的“间隔Q波”也正常。预激综合征、心肌病、应激性心肌病、淀粉样变、左束支阻滞、心室肥厚、心肌炎、急性肺心病、高钾血症等也会出现类似Q波。",
+   "source": "UDMI4",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "Section 31 'Conditions That Confound the Electrocardiographic Diagnosis of Myocardial Infarction', pp. e639-e640",
+   "read_level": "full text",
+   "notes": ""
+  },
+  {
+   "topic": "1. 2023 ESC ACS guideline - STEMI criteria",
+   "claim_en": "Same numeric ST-elevation thresholds as UDMI4: new ST elevation at the J-point in at least two contiguous leads: ≥2.5 mm in men <40, ≥2 mm in men ≥40, or ≥1.5 mm in women regardless of age in V2–V3 and/or ≥1 mm in the other leads (in the absence of LV hypertrophy or LBBB). In suspected inferior STEMI it is recommended to record V3R and V4R; V7–V9 can also be recorded to investigate posterior STEMI. ST depression in V1–V3 (especially with positive terminal T wave) and/or ST elevation in V7–V9 are highly suggestive of posterior coronary occlusion (often LCx). ST elevation in V3R/V4R is highly suggestive of ongoing RV ischaemia.",
+   "claim_zh": "2023年欧洲心脏病学会（ESC）指南沿用了同样的数字标准。另外强调：怀疑下壁心梗时要加做右胸导联V3R、V4R；必要时加做背后的V7到V9，查看“后壁”心梗。",
+   "source": "ESC2023",
+   "url": "https://doi.org/10.1093/eurheartj/ehad191",
+   "where": "Section 3.2.1 'Acute coronary syndrome with persistent ST-segment elevation (suspected ST-elevation myocardial infarction)'; Recommendation Table 1 ('The use of additional ECG leads (V3R, V4R, and V7–V9) is recommended in cases of inferior STEMI or if total vessel occlusion is suspected and standard leads are inconclusive' — Class I, Level B)",
+   "read_level": "full text",
+   "notes": "Differences vs UDMI4: (a) ESC2023 main text gives no separate mm threshold for V3R/V4R; Supplementary Figure S2 row (i) footnote 'a Including V3R and V4R' places V3R/V4R inside the general '≥1 mm in other leads' rule, versus UDMI4's ≥0.5 mm. (b) Supplementary Figure S2 row (ii) Posterior STEMI: ST depression V1–V3, especially with positive terminal T wave, 'and concomitant ST-segment elevation ≥0.5 mm recorded in leads V7−V9' — no men <40 ≥1 mm caveat. (c) ESC2023 says LBBB, RBBB, or paced rhythm with highly suspicious symptoms should be managed like clear ST elevation regardless of whether BBB was known. (d) ESC2023 still uses 'posterior'."
+  },
+  {
+   "topic": "1. 2025 ACC/AHA ACS guideline - STEMI criteria",
+   "claim_en": "Table 3: STEMI = 'New or presumed new ST-elevation of ≥1 mm in ≥2 anatomically contiguous leads (measured at the J-point) in all leads other than V2-V3 and ≥2 mm in men ≥40 y, ≥2.5 mm in men <40 y, and ≥1.5 mm in women regardless of age in leads V2-V3.' 'Posterior leads (V7-V9) should be obtained in patients with suspected left circumflex occlusion particularly in the setting of isolated ST-segment depression ≥0.5 mm in leads V1-V3.' NSTE-ACS: new or presumed new, usually dynamic horizontal or downsloping ST depression ≥0.5 mm in ≥2 contiguous leads and/or T inversion >1 mm with prominent R or R/S >1, or transient ST elevation.",
+   "claim_zh": "2025年美国心脏病学会/美国心脏协会（ACC/AHA）指南的数字标准和上面完全一致，表格注明是改编自第四版全球心梗定义。",
+   "source": "ACC2025",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309",
+   "where": "Section 2.1 'Definition and Classification of ACS'; Table 3 'Electrocardiographic Interpretation for Patients With Suspected Acute Coronary Syndromes' (p. e9-e10 of the early-release PDF)",
+   "read_level": "full text",
+   "notes": "Table 3 footnote: ST changes may be seen in acute pericarditis, LVH, LBBB, Brugada syndrome, right ventricular pacing, Takotsubo syndrome, and early repolarization; new or presumably new LBBB 'should not be considered diagnostic of AMI in isolation'; 'A new LBBB in an asymptomatic patient does not constitute a STEMI equivalent.' Table 3 does not give V3R/V4R thresholds."
+  },
+  {
+   "topic": "2. China CSC 2019 STEMI guideline - ECG",
+   "claim_en": "Record a 12-lead ECG within 10 min of FMC (I, B); 18-lead ECG recommended, especially V3R–V5R and V7–V9 in inferior MI (IIa, B). Characteristic STEMI ECG: coved (dome-shaped, monophasic) ST elevation with or without pathologic Q waves and R-wave loss (ST change may be inconspicuous in true posterior MI), often with reciprocal ST depression. Early STEMI often instead shows hyperacute T waves (abnormally tall, asymmetric limbs) and/or straight upsloping ST elevation, evolving to ST-T fusion. Repeat ECG within 15–30 min if the first is nondiagnostic and symptoms persist. Difficult settings listed: LBBB, RBBB, ventricular pacing, 'minimal' STEMI (<0.1 mV elevation), normal ECG. Left-main patterns, Wellens syndrome and de Winter syndrome are regarded as STEMI-equivalent changes.",
+   "claim_zh": "中国2019年指南：怀疑心梗的胸痛病人，医生第一次接触后10分钟内要做好12导联心电图，最好做18导联（加右胸和背后导联）。典型表现是ST段像拱桥一样向上抬高，对面导联镜像压低。但发病最早期常常看不到典型抬高，只能看到T波突然变得又高又大，所以第一份心电图正常也不能放松，症状持续要在15到30分钟内复查。",
+   "source": "CSC2019",
+   "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
+   "where": "诊断和危险分层 > 一、初始诊断 > 3．心电图",
+   "read_level": "full text",
+   "notes": "IMPORTANT: the CSC 2019 main guideline's ECG section does NOT itself list the J-point mm thresholds by sex/age (it cites the UDMI4 definition in '心肌梗死定义和分型'). The numeric thresholds appear in the companion CMA primary-care guideline (next item). The only numbers in CSC2019 are: prehospital fibrinolysis criterion (limb leads ≥0.1 mV, chest leads ≥0.2 mV, or new LBBB/RBBB) in 再灌注治疗 > 溶栓治疗 > 院前溶栓; fibrinolysis indication ST elevation >0.1 mV in ≥2 contiguous leads for 12–24 h presenters; and V4R ≥0.1 mV for RV infarction."
+  },
+  {
+   "topic": "2. China primary-care STEMI guideline 2019 - numeric ECG criteria",
+   "claim_en": "Per UDMI4, STEMI diagnosis requires both acute myocardial injury (cTn elevated, at least once above the 99th percentile URL) and new ischemic ECG change (ST elevation). ST elevation criterion: new J-point ST elevation in 2 contiguous leads, V2–V3 ≥2.5 mm (men <40), ≥2 mm (men ≥40), ≥1.5 mm (women regardless of age); other leads ≥1.0 mm.",
+   "claim_zh": "中国基层诊疗指南（2019）用中文写明了同样的标准：相邻2个导联J点新出现ST段抬高，V2到V3导联男性40岁以下≥2.5毫米、40岁及以上≥2毫米、女性≥1.5毫米；其他导联≥1毫米。同时还要有血里肌钙蛋白升高。",
+   "source": "CMA_PRIMARY2019",
+   "url": "https://cmab.yiigle.com/uploads/guide_html/ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E5%9F%BA%E5%B1%82%E8%AF%8A%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%E5%B9%B4%EF%BC%89%20-%20%E4%B8%AD%E5%8D%8E%E5%85%A8%E7%A7%91%E5%8C%BB%E5%B8%88%E6%9D%82%E5%BF%97.html",
+   "where": "三、诊断与鉴别诊断 > （三）诊断标准",
+   "read_level": "full text",
+   "notes": "Same text in the practice version (中华全科医师杂志 2020;19(12):1092-1099, '≥2.0 mm' wording). Clinical caveat for patient pages: symptoms + ECG alone justify reperfusion without waiting for troponin (CSC2019 诊断和危险分层 > 一、初始诊断, paragraph after 心电图)."
+  },
+  {
+   "topic": "2. China CSC 2019 - symptoms",
+   "claim_en": "Typical ischemic chest pain: severe retrosternal or precordial pressing/crushing pain (usually >10–20 min), may radiate to left upper arm, jaw, neck, back or shoulder; often with nausea, vomiting, sweating, dyspnea; some patients faint. Not fully relieved by sublingual nitroglycerin. Attention to equivalent and nonspecific symptoms.",
+   "claim_zh": "心梗典型的胸痛：胸骨后面或心前区剧烈的压榨样疼痛，通常持续10到20分钟以上，可以放射到左上臂、下巴、脖子、后背或肩膀；常伴恶心、呕吐、大汗、喘不上气，有的人会晕倒。含硝酸甘油也不能完全缓解。有些人症状不典型。",
+   "source": "CSC2019",
+   "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
+   "where": "诊断和危险分层 > 一、初始诊断 > 1．症状和病史",
+   "read_level": "full text",
+   "notes": ""
+  },
+  {
+   "topic": "2. China CSC 2019 - call 120 / patient delay",
+   "claim_en": "Public education should teach early STEMI symptoms; patients with suspected MI symptoms (chest pain) should call the '120' emergency centre as early as possible and seek care promptly, avoiding delay from self-medication or repeated prolonged self-assessment of symptoms. Shortening onset-to-FMC and arriving at hospital under medical protection clearly improves prognosis (I, A).",
+   "claim_zh": "怀疑心梗（胸痛）时，要尽早拨打120，别自己吃药扛着、也别反复观察“看看会不会好”。在医护人员保护下到医院，结果明显更好。",
+   "source": "CSC2019",
+   "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
+   "where": "诊断和危险分层 > 二、院前及院内急救 > 1．减少患者自身延误，缩短自发病至FMC的时间",
+   "read_level": "full text",
+   "notes": "CSC2019 does NOT contain an explicit 'do not drive yourself' sentence (searched for 驾/开车: no hits). For that message use ACC2025 (primary) or the Beijing health commission page (secondary) below."
+  },
+  {
+   "topic": "2. China CSC 2019 - time targets",
+   "claim_en": "Prehospital-diagnosed STEMI: primary PCI preferred if transfer to PCI centre and PCI can be completed within 120 min (FMC-to-wire-crossing <120 min), bypassing the ED (I, B); otherwise prehospital fibrinolysis (I, A). Non-PCI hospital: transfer if FMC-to-reperfusion within 120 min, patient transferred out within 30 min of arrival (I, B); if FMC-to-wire >120 min, start fibrinolysis within 30 min of FMC (I, A). Self-presenting to a PCI hospital: primary PCI within 90 min of FMC (I, C); PCI-capable hospitals: FMC-to-wire ≤90 min (I, A). First ECG within 10 min of FMC, transmit, diagnose within 10 min (I, B). Primary PCI indicated for STEMI within 12 h of onset (I, A).",
+   "claim_zh": "时间就是心肌：直接到能做支架的医院，目标是从第一次接触医护人员到导丝打通血管不超过90分钟；需要转院时，总时间争取在120分钟内；做不到就先溶栓（打开血管的药），溶栓要在接触医护后30分钟内开始。发病12小时内是急诊介入的主要窗口。",
+   "source": "CSC2019",
+   "url": "https://seleguide.yiigle.com/uploads/guide_html/%E6%80%A5%E6%80%A7ST%E6%AE%B5%E6%8A%AC%E9%AB%98%E5%9E%8B%E5%BF%83%E8%82%8C%E6%A2%97%E6%AD%BB%E8%AF%8A%E6%96%AD%E5%92%8C%E6%B2%BB%E7%96%97%E6%8C%87%E5%8D%97%EF%BC%882019%EF%BC%89.html",
+   "where": "诊断和危险分层 > 二、院前及院内急救 > 2．减少院前系统和院内救治延误; 再灌注治疗 > 一、再灌注策略选择; 再灌注治疗 > 直接PCI 适应证",
+   "read_level": "full text",
+   "notes": "CSC2019 measures to 'wire crossing the IRA' (导丝通过IRA), not 'device'."
+  },
+  {
+   "topic": "2. ACC 2025 - call 9-1-1, do not drive yourself; FMC-to-device",
+   "claim_en": "Successful STEMI systems have robust mechanisms for '(1) educating the public of the need to immediately call 9-1-1 (or other appropriate local emergency services) for ischemic symptoms and not driving themselves to the nearest hospital'. Prehospital-identified STEMI should be taken to a PCI-capable hospital with a goal of FMC-to-first-device time ≤90 minutes; where not feasible, direct transport may be considered if anticipated FMC-to-device ≤120 minutes. Each 30 minutes of PPCI delay is associated with a 7.5% increase in relative risk of 1-year mortality.",
+   "claim_zh": "美国2025年指南明确：出现缺血症状要马上打急救电话（在中国是120），不要自己开车去最近的医院。",
+   "source": "ACC2025",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309",
+   "where": "'Do not drive' text: Section 5.1 'Regional Systems of STEMI Care', recommendation-specific supportive text (around p. e33-e34 of the early-release PDF). FMC-to-device and 7.5% figure: Section 3.1.1 'Prehospital Assessment and Management', supportive text item 3 (p. e12 of the early-release PDF)",
+   "read_level": "full text",
+   "notes": "Early-release page numbers may differ in the final issue."
+  },
+  {
+   "topic": "2. ESC 2023 - contact EMS; time targets",
+   "claim_en": "'The recommended action should be to contact the EMS rather than to self-present to an ED or primary care clinician.' The public should be educated to call EMS directly rather than a primary care physician. For simplicity an absolute 120 min from STEMI diagnosis to PCI-mediated reperfusion (wire crossing) is used as the limit for choosing PPCI over fibrinolysis; 10 min from STEMI diagnosis to fibrinolytic bolus. Failed fibrinolysis = ST resolution <50% within 60–90 min.",
+   "claim_zh": "欧洲2023年指南也说：有心梗症状应直接叫急救车，而不是自己跑去急诊或先去找家庭医生。",
+   "source": "ESC2023",
+   "url": "https://doi.org/10.1093/eurheartj/ehad191",
+   "where": "Section 4.1.2 'Healthcare systems and system delays' / 4.1.3 'Emergency medical services' (EMS sentence), Section 4.1.4 'General practitioners' (call EMS not GP), Section 4.1.5 and Figure 7 'Modes of presentation and pathways to invasive management...' (120 min, 10 min)",
+   "read_level": "full text",
+   "notes": "Figure 7 also shows 'Aim: <60 min to wire crossing' and 'Aim: <90 min to wire crossing' but the text-extracted figure did not let me confirm which pathway each applies to; see unverified."
+  },
+  {
+   "topic": "2. Chinese public message - do not drive yourself (secondary)",
+   "claim_en": "Beijing Municipal Health Commission public-health page (article from Beijing Jishuitan Hospital cardiology, 2025-11-20, 'Myocardial infarction rescue day' 11/20): call 120 immediately; do not drive, ride a bike, or have family take a taxi; say 'suspected acute MI' and give location; stop activity and lie down or half-sit while waiting. The 'two 120s': chest pain → call 120; golden 120 minutes for MI treatment.",
+   "claim_zh": "北京市卫健委网站上的科普（北京积水潭医院心内科）：怀疑心梗立刻拨打120，千万不要自己开车、骑车，也不要让家人打车送；打电话时说清“疑似急性心梗”和地址；等车时停止一切活动，平躺或半躺。记住“双120”：有胸痛打120；心梗救治黄金120分钟。",
+   "source": "北京市卫生健康委员会网站, 健康知识栏目, '积医科普：心梗救治日丨牢记“双120”，为心脏抢时间', 来源：北京积水潭医院, 2025-11-20",
+   "url": "https://wjw.beijing.gov.cn/bmfw_20143/jkzs/jksh/202511/t20251120_4289805.html",
+   "where": "Section '❤急救流程 疑似心梗时的“生死三步法”', step 1 and step 2",
+   "read_level": "secondary",
+   "notes": "Hospital-authored public education, not a guideline. The same page advises chewing aspirin 300 mg if no allergy/bleeding history — that is drug advice and was NOT checked against a guideline here; do not publish it from this source alone."
+  },
+  {
+   "topic": "2. Newer Chinese guidance",
+   "claim_en": "CSC published '非ST段抬高型急性冠脉综合征诊断和治疗指南（2024）' (中华心血管病杂志 2024;52(6):615-646, DOI 10.3760/cma.j.cn112148-20240107-00014). It covers NSTE-ACS, not STEMI. I found no newer CSC STEMI-specific guideline replacing CSC2019.",
+   "claim_zh": "中华医学会心血管病学分会2024年出了新的“非ST段抬高型”急性冠脉综合征指南；ST段抬高型心梗目前查到的最新专门指南仍是2019版。",
+   "source": "中华医学会心血管病学分会 website listing",
+   "url": "https://csc.cma.org.cn/art/2024/6/24/art_619_57179.html",
+   "where": "Guideline listing page (not read in full)",
+   "read_level": "secondary",
+   "notes": "Seen only via search results/listing; content not read. The '1120 中国心梗救治日' campaign exists (multiple secondary reports) but no primary 胸痛中心 document was read."
+  },
+  {
+   "topic": "3. Localization - leads vs anatomic labels (WAGNER2009)",
+   "claim_en": "Recommendation: 'Labeling specific leads as anterior, inferior, and lateral should be avoided. Leads should be identified according to their original nomenclature, that is, leads I, II, III, aVR, aVL, aVF, and V1 through V6. This recommendation refers only to the labeling of the leads. Reference to the anatomic location of the ischemic/infarcted region, such as anterior or inferior, is still recommended and is based on the leads that show the ST-segment alterations.' Rationale: ST depression in V1–V2 is a common manifestation of a posterior or lateral ST-elevation infarction.",
+   "claim_zh": "2009年美国心电图标准建议：导联本身就叫I、II、aVF、V1这些名字，不要把导联直接叫作“前壁导联”“下壁导联”，因为V1、V2的ST段压低可能其实反映的是心脏背面的问题。但描述心肌受损的部位（前壁、下壁等）仍然可以，并且是根据哪些导联出现ST改变来判断的。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Meaning and Importance of ST-Segment Elevation and Depression', Recommendation 1, JACC p. 1004",
+   "read_level": "full text",
+   "notes": "Our teaching site can still say 'II/III/aVF reflect the inferior wall', but should frame it as 'these leads show changes when the inferior wall is involved'."
+  },
+  {
+   "topic": "3. Localization - contiguous leads, Cabrera order (WAGNER2009)",
+   "claim_en": "Chest leads V1–V6 are displayed in anatomically contiguous order (right anterior V1 to left lateral V6); limb leads are not. For anatomic contiguity the display should be aVL, I, −aVR, II, aVF, III (Cabrera format; −aVR at 30°). Recommendation: ECG machines should allow limb leads to be displayed and labeled in their anatomically contiguous sequence.",
+   "claim_zh": "胸前导联V1到V6本来就是从右前到左侧依次排列的，挨着的就是相邻的。肢体导联按方向排应该是：aVL、I、−aVR（把aVR倒过来）、II、aVF、III，这样相邻关系才一目了然。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Concept of Anatomically Contiguous Leads' and its Recommendation 1, JACC pp. 1004-1005",
+   "read_level": "full text",
+   "notes": ""
+  },
+  {
+   "topic": "3. ST thresholds (WAGNER2009) - incl. V3R/V4R, V7-V9, depression",
+   "claim_en": "Recommendations: (1) men ≥40: abnormal J-point elevation 0.2 mV (2 mm) in V2 and V3 and 0.1 mV (1 mm) in all other leads; (2) men <40: 0.25 mV (2.5 mm) in V2 and V3; (3) women: 0.15 mV (1.5 mm) in V2 and V3 and >0.1 mV (1 mm) in all other leads; (4) V3R and V4R: 0.05 mV (0.5 mm), except males <30 for whom 0.1 mV (1 mm) is more appropriate; (5) V7 through V9: 0.05 mV (0.5 mm) for men and women; (6) J-point depression threshold −0.05 mV (−0.5 mm) in V2 and V3 and −0.1 mV (−1 mm) in all other leads, men and women of all ages.",
+   "claim_zh": "2009年美国标准给的门槛和后来的全球定义基本一致；右胸V3R、V4R是0.5毫米（30岁以下男性1毫米），背后V7到V9是0.5毫米。ST段压低的门槛：V2、V3是0.5毫米，其他导联1毫米。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Threshold Values for ST-Segment Changes', Recommendations 1-6, JACC p. 1005",
+   "read_level": "full text",
+   "notes": "Differences: UDMI4 ST-depression threshold is ≥0.5 mm in any 2 contiguous leads (horizontal/downsloping), whereas Wagner 2009 uses −1 mm outside V2–V3. UDMI4 uses ≥1 mm in V7–V9 for men <40; Wagner 2009 uses 0.5 mm for all."
+  },
+  {
+   "topic": "3. Localization - anterior / LAD (WAGNER2009)",
+   "claim_en": "'Anterior wall ischemia/infarction is invariably due to occlusion of the left anterior descending coronary artery', expressed as ST elevation in some or all of V1–V6. Proximal LAD (above first septal and first diagonal): ST elevation in V1–V4, I, aVL and often aVR, with reciprocal ST depression in II, III, aVF and often V5. Between first septal and first diagonal: V1 not elevated, aVL elevated, III depressed. Distal LAD (below both): no elevation in V1, aVR, aVL; no depression in II, III, aVF; ST elevation may appear in II, III, aVF and be more prominent in V3–V6.",
+   "claim_zh": "前壁心梗几乎都是“前降支”（左冠状动脉往前走的那根）堵了，表现为V1到V6里部分或全部ST段抬高。堵的位置越靠近起点，波及越大：近端堵塞时V1到V4、I、aVL都抬高，下壁导联II、III、aVF反而压低；远端堵塞则主要是V3到V6抬高。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Correlation of ST-Segment Elevation and Depression to the Region Involved and to the Occluded Vessel', JACC p. 1006, and Recommendations 3-4 of that section",
+   "read_level": "full text",
+   "notes": "Wagner 2009 does NOT give a simple table 'anteroseptal V1–V2 / anterior V3–V4 / lateral I, aVL, V5–V6'. ACC2025 Section 3 supportive text uses the phrase 'anteroseptal leads (V1-V3)'. See unverified for the classic textbook mapping."
+  },
+  {
+   "topic": "3. Localization - inferior, RCA vs LCx, right ventricle (WAGNER2009)",
+   "claim_en": "Inferior wall infarction with ST elevation in only II, III, aVF may be due to RCA or LCx occlusion, depending on which provides the posterior descending branch (dominance). RCA: ST elevation greater in III than II, often ST depression in I and aVL. LCx: ST may be elevated more in II than III and may be isoelectric or elevated in I and aVL. Proximal RCA occlusion may cause RV infarction with ST elevation in V3R, V4R and often V1; V4R is the most commonly used right-sided lead; RV ST elevation persists for a much shorter time than inferior ST elevation, so V3R/V4R should be recorded as rapidly as possible. It is not possible to determine RCA vs LCx when inferior changes are accompanied by ST depression in V1–V3; absence of such changes is more suggestive of RCA.",
+   "claim_zh": "下壁心梗（II、III、aVF抬高）可能是右冠状动脉堵了，也可能是左回旋支堵了，取决于这个人谁是“优势血管”（因人而异）。III比II抬得更高、I和aVL压低，更像右冠；II比III高、I和aVL不压低，更像回旋支。右冠近端堵塞还会连累右心室，在右胸V4R上能看到抬高，但这个表现消失得快，要尽早做。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Same section, JACC p. 1006 (inferior/RV paragraphs and the paragraph after the posterior Recommendation)",
+   "read_level": "full text",
+   "notes": "Recommendation: ECG machines should suggest recording V3R and V4R when ST elevation >0.1 mV occurs in II, III, aVF. ESC2023 also says posterior occlusion is 'often the left circumflex artery'."
+  },
+  {
+   "topic": "3. Terminology - 'posterior' (WAGNER2009 vs UDMI4)",
+   "claim_en": "Wagner 2009 reviews that ST depression in V1–V3 with inferior MI has been termed posterior/posterolateral; imaging suggested the region is lateral rather than posterior, and Bayés de Luna et al. (endorsed by ISHNE) proposed replacing 'posterior' with 'lateral', 'inferolateral', or 'basal-lateral'. Recommendation (exact): 'It is the opinion of the committee that for the present, and not withstanding the recommendation of the International Society for Holter and Noninvasive Electrocardiography, the current ECG terminology of posterior be retained to describe ST depression in leads V1 and V2 and the subsequent development of broad R waves in these leads, as described in the previously published section concerning terminology.' Further collaborative studies were recommended. By contrast UDMI4 (2018) writes 'inferobasal myocardial ischemia (previously termed posterior infarction)'.",
+   "claim_zh": "“后壁心梗”这个名字有争议：影像研究发现那块心肌其实更偏侧面，有学会建议改叫“侧壁”“下侧壁”。但2009年美国标准明确决定暂时保留“后壁”这个叫法；2018年全球心梗定义则改称“下基底部”，并注明“以前叫后壁”。现在的欧美指南仍常说“后壁STEMI”。",
+   "source": "WAGNER2009; UDMI4",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "WAGNER2009: Recommendation following the inferior-wall/posterior discussion, JACC p. 1006. UDMI4: Section 28, p. e638",
+   "read_level": "full text",
+   "notes": "The 2009 statement does NOT discourage 'posterior' — it explicitly retains it, against the ISHNE proposal. ISHNE paper (ref 26): Bayés de Luna A, Wagner G, Birnbaum Y, et al. Circulation 2006 (not read)."
+  },
+  {
+   "topic": "3. Reciprocal ST depression (WAGNER2009)",
+   "claim_en": "ST elevation in any lead is usually associated with reciprocal ST depression in leads whose positive pole is directed opposite (~180°). ST depression in aVL is the reciprocal of and similar in meaning to ST elevation in III, and vice versa. ST depression in V1 and V2 is the reciprocal of the ST elevation that would be recorded with posterior electrodes (V8, V9). Reciprocal change may be absent if no lead is opposite, or masked by LVH, conduction disturbance, or pericarditis. ST elevation in more than 1 discrete region is characteristic of pericarditis.",
+   "claim_zh": "“镜像改变”：一个方向的导联看到ST段抬高，正对面方向的导联往往看到ST段压低。例如III抬高常伴aVL压低；V1、V2压低，相当于背后导联的抬高。但有时对面没有导联，就看不到镜像。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Meaning and Importance of ST-Segment Elevation and Depression', JACC p. 1004; pericarditis sentence p. 1007",
+   "read_level": "full text",
+   "notes": ""
+  },
+  {
+   "topic": "4. Evolution of STEMI ECG",
+   "claim_en": "Sequence stated by sources: hyperacute T waves may precede ST elevation (UDMI4 Section 27); early STEMI shows hyperacute T and/or straight ST elevation that evolves into ST-T fusion (CSC2019); 'the development of new Q waves indicates myocardial necrosis, which starts minutes/hours after the myocardial insult' (UDMI4); 'Reperfusion is usually associated with a large and prompt reduction in ST-segment elevation' (UDMI4); 'after ischemia and infarction, T waves become inverted in leads with previous ST-segment elevation and remain inverted for varying periods that range from days to permanently' (WAGNER2009). Wagner 2009 lists the overall changes as peaking of T waves (hyperacute), ST elevation and/or depression, QRS changes, and inverted T waves.",
+   "claim_zh": "心梗心电图大致的演变：先是T波变得高尖，然后ST段抬高（可连成一片），心肌开始坏死后慢慢出现Q波（坏死在受伤后几分钟到几小时开始），之后T波倒置，倒置可以持续几天，也可能一直不恢复。血管被打通后，抬高的ST段通常会很快明显回落。",
+   "source": "UDMI4 Section 27 (p. e637); CSC2019 诊断和危险分层 > 一、初始诊断 > 3．心电图; WAGNER2009 'Postischemic T-Wave Changes' (JACC p. 1007) and introduction (p. 1003)",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "See source field",
+   "read_level": "full text",
+   "notes": "No source read gives hour/day time frames for each stage beyond 'minutes/hours' (Q-wave necrosis onset) and 'days to permanently' (T inversion). Thrombolysis success criterion (CSC2019 and ESC2023): ST resolution ≥50% within 60–90 min. Transient Q waves can occur during ischemia or rarely after successful reperfusion (UDMI4)."
+  },
+  {
+   "topic": "4. Wellens pattern (deep T inversion)",
+   "claim_en": "A subgroup develops deeply inverted T waves (>0.5 mV) in V2, V3, V4 (occasionally V5), often with QT prolongation, after chest pain without evolving infarction; angiography usually shows severe proximal LAD stenosis. Recommendation: this pattern should be interpreted as consistent with severe proximal LAD stenosis or recent intracranial hemorrhage (CVA pattern).",
+   "claim_zh": "胸痛过后V2到V4出现很深的倒置T波，可能提示前降支近端严重狭窄，是即将发生大面积前壁心梗的警报（颅内出血也能出现类似图形）。",
+   "source": "WAGNER2009",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "Section 'Postischemic T-Wave Changes' and Recommendation 1, JACC pp. 1007-1008",
+   "read_level": "full text",
+   "notes": "ESC2023 calls this 'Wellens' sign' (Section 3.2.2); CSC2019 lists Wellens and de Winter syndromes as STEMI-equivalent changes."
+  },
+  {
+   "topic": "5. STEMI mimics / confounders",
+   "claim_en": "UDMI4: ST deviation may be observed in acute pericarditis, LVH, LBBB, Brugada syndrome, Takotsubo syndrome (TTS), and early repolarization patterns; also pulmonary embolism, intracranial processes, electrolyte abnormalities, hypothermia, perimyocarditis. WAGNER2009: ST depression from hypertrophy, cardioactive drugs, low potassium; ST elevation from pericarditis, elevated potassium, Osborn waves, acute myocarditis, certain cardiac tumors, and early repolarization. ACC2025 Table 3 footnote: acute pericarditis, LVH, LBBB, Brugada, right ventricular pacing, Takotsubo, early repolarization. CSC2019: difficult in LBBB, RBBB, ventricular pacing; acute pericarditis shows PR depression and concave ST elevation without reciprocal changes.",
+   "claim_zh": "不是所有ST段抬高都是心梗。常见的“像心梗”的情况：心包炎（抬高范围广、PR段压低、没有镜像改变）、左心室肥厚（高血压病人常见）、左束支传导阻滞、心脏起搏器心律、早期复极（年轻人常见的正常变异）、Brugada综合征、应激性心肌病、高钾血症、心肌炎等。所以医生要结合症状、旧心电图和抽血结果综合判断。",
+   "source": "UDMI4 Section 27 (pp. e637-e638); WAGNER2009 p. 1004; ACC2025 Table 3 footnote; CSC2019 诊断和危险分层 > 一、初始诊断 > 3．心电图 and 4.鉴别诊断 paragraph",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000000617",
+   "where": "See source field",
+   "read_level": "full text",
+   "notes": "Relevant to hypertension audience: LVH is listed by UDMI4 and ACC2025 as a confounder, and UDMI4 Table 2 thresholds apply 'in the absence of LVH'."
+  },
+  {
+   "topic": "5. LBBB / paced rhythm and Sgarbossa criteria",
+   "claim_en": "WAGNER2009: ST criteria are not affected by fascicular blocks or RBBB but are affected by LBBB. Published criteria (Sgarbossa et al., GUSTO-I; ref 33) include ST elevation ≥0.1 mV (1 mm) in leads with a positive QRS and ST depression ≥0.1 mV (1 mm) in V1–V3 (concordant changes), and ST elevation ≥0.5 mV (5 mm) in leads with a negative QRS (discordant). Concordant changes: high specificity, low sensitivity; the most recent study cited found discordant changes had very low specificity and sensitivity. UDMI4: in LBBB, ST elevation ≥1 mm concordant with the QRS in any lead may indicate acute ischemia; similar findings useful in RV paced rhythm. ESC2023 Supplementary: Sgarbossa criteria may help; LBBB in isolation does not suggest occlusion; >50% of ED chest-pain patients with LBBB end up with a non-MI diagnosis.",
+   "claim_zh": "左束支传导阻滞或起搏器心律本身就会让ST段变形，常规标准不好用。医生会用专门的“Sgarbossa标准”：和QRS波同方向的ST段抬高≥1毫米、V1到V3的ST段压低≥1毫米，这两条比较可靠；反方向的ST段抬高≥5毫米这一条不太可靠。症状很像心梗时，即使是早就有的左束支阻滞，也要按心梗紧急处理。",
+   "source": "WAGNER2009; UDMI4; ESC2023",
+   "url": "https://doi.org/10.1016/j.jacc.2008.12.016",
+   "where": "WAGNER2009 'Diagnosis of Ischemia/Infarction in the Setting of Intraventricular Conduction Disturbances', JACC p. 1008. UDMI4 Section 32 'Conduction Disturbances and Pacemakers', p. e640. ESC2023 Supplementary data Section 3.2.1 (supplementary PDF p. 7-8) and main text Section 3.2.1 'Bundle branch block' paragraph",
+   "read_level": "full text",
+   "notes": "Sgarbossa original paper (N Engl J Med 1996) was NOT read; criteria recorded as stated by Wagner 2009. Modified (Smith) Sgarbossa criteria not covered."
+  },
+  {
+   "topic": "6. PTB-XL infarction_stadium1 / infarction_stadium2",
+   "claim_en": "Table 2 (columns of ptbxl_database.csv): infarction_stadium1 — 'infarction stadium (see Table 11)'; infarction_stadium2 — 'second infarction stadium (see Table 11)'. Text: 'In case of myocardial infarction, potentially multiple entries for infarction stadium (infarction_stadium and infarction_stadium2) were extracted from the report string. ... In particular, we distinguish also intermediate stages \"stadium I-II\" and \"stadium II-III\" in addition to the conventionally used infarction stages I, II, and III.' Table 11 keywords: Stadium I = 'acut, early'; Stadium I–II = 'acut/subacut, ablaufend'; Stadium II = 'recent, subacut, bereits abgelaufen'; Stadium II–III = 'subacut/chronisch'; Stadium III = 'old, abgelaufen, chronisch'; unknown = 'uncertain, unknown, unbekannt'. Table 11 note: columns 'are only set to a value if at least one statement belongs to the superclass of Myocardial Infarction (MI)'.",
+   "claim_zh": "PTB-XL数据集里的“infarction_stadium”（梗死分期）是从德国医生的诊断报告里提取出来的：Stadium I＝急性/早期；Stadium II＝近期/亚急性；Stadium III＝陈旧/慢性；I-II和II-III是介于两者之间。只有当这份心电图被标了“心梗”类诊断时才会填这一栏；第二列用于报告里写了第二个分期的情况。",
+   "source": "PTBXL",
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7248071/",
+   "where": "Data Records > Metadata > Table 2 'Columns provided in the metadata table ptbxl_database.csv'; ECG Statements subsection paragraph 'heart_axis, infarction_stadium1 and infarction_stadium2'; Table 11 'Distribution of infarction stadium across the dataset'",
+   "read_level": "full text",
+   "notes": "The paper defines stadium ONLY by these German/English report keywords and refers to ref 7 (Bousseljot & Kreiseler, Herzschrittmachertherapie + Elektrophysiologie 2000;11:197-206; not read) 'for further details'. It does not give ECG criteria or time windows for each stadium. The text says 'infarction_stadium' in one place but the actual column is 'infarction_stadium1'. German glosses: 'ablaufend' ≈ evolving/in progress, 'abgelaufen' ≈ completed/past, 'bereits abgelaufen' ≈ already completed — my translation, not from the paper. Counts in Table 11 (cumulated over both columns): I 186, I–II 5, II 107, II–III 943, III 1045, unknown 3443. My count of v1.0.3 ptbxl_database.csv: stadium1 = unknown 3430, III 980, II-III 943, I 166, II 88, I-II 5; stadium2 = III 65, I 19, II 19 (sums: I 185, II 107, III 1045, unknown 3430) — small differences from the paper for I and unknown. CSV value strings are 'Stadium I', 'Stadium I-II', 'Stadium II', 'Stadium II-III', 'Stadium III', 'unknown' (ASCII hyphen)."
+  },
+  {
+   "topic": "6. PhysioNet PTB-XL v1.0.3 page - stadium",
+   "claim_en": "'Each record was annotated with a report string (generated by cardiologist or automatic interpretation by ECG-device) which was converted into a standardized set of SCP-ECG statements (scp_codes). For most records also the heart's axis (heart_axis) and infarction stadium (infarction_stadium1 and infarction_stadium2, if present) were extracted.'",
+   "claim_zh": "PhysioNet说明页确认：分期这两列是从报告文字里自动提取的，不是按统一心电图标准重新判读的。",
+   "source": "Wagner P, Strodthoff N, Bousseljot R, Samek W, Schaeffter T. PTB-XL, a large publicly available electrocardiography dataset (version 1.0.3). PhysioNet. 2022. DOI 10.13026/kfzx-aw45",
+   "url": "https://physionet.org/content/ptb-xl/1.0.3/",
+   "where": "Methods > Data Acquisition, item 3; Data Description > ECG statements",
+   "read_level": "full text",
+   "notes": "PhysioNet v1.0.3 DOI and 2022 date are from memory, not verified on the page."
+  },
+  {
+   "topic": "6. PTB-XL INJAS / INJAL / INJIN / INJLA / INJIL",
+   "claim_en": "Table 6 (Diagnostic Statement Overview): INJAS 'subendocardial injury in anteroseptal leads' (215 records, superclass MI, subclass AMI); INJAL 'subendocardial injury in anterolateral leads' (148, MI, AMI); INJIN 'subendocardial injury in inferior leads' (18, MI, IMI); INJLA 'subendocardial injury in lateral leads' (17, MI, AMI); INJIL 'subendocardial injury in inferolateral leads' (15, MI, IMI). scp_statements.csv (v1.0.3) gives for all five: diagnostic=1.0, diagnostic_class=MI, 'Statement Category' = 'ischemic ST-T changes compatible with subendocardial injury', and 'SCP-ECG Statement Description' = 'in anteroseptal leads' / 'in anterolateral leads' / 'in inferior leads' / 'in lateral leads' / 'in inferolateral leads' respectively.",
+   "claim_zh": "PTB-XL里INJ开头的几个标签意思是“某组导联上有提示心内膜下损伤的缺血性ST-T改变”：INJAS＝前间壁导联，INJAL＝前侧壁导联，INJIN＝下壁导联，INJLA＝侧壁导联，INJIL＝下侧壁导联。数据集把它们归在“心梗”大类下面（INJLA被归到前壁心梗子类，INJIN和INJIL归到下壁心梗子类）。",
+   "source": "PTBXL (Table 6) and PhysioNet PTB-XL v1.0.3 scp_statements.csv",
+   "url": "https://physionet.org/files/ptb-xl/1.0.3/scp_statements.csv",
+   "where": "Paper: Table 6 'Diagnostic Statement Overview', with super/subclass acronyms in Table 5. CSV: rows INJAS, INJAL, INJIN, INJLA, INJIL",
+   "read_level": "full text",
+   "notes": "Neither the paper nor the CSV says what ST pattern (e.g. ST depression) defines these labels, nor which exact leads make up 'anteroseptal', 'lateral', etc. 'Subendocardial injury' is classically associated with ST depression, but that link is NOT stated in PTB-XL — treat as unverified. Note these labels sit under the MI superclass even though they describe ST-T changes; for teaching, do not equate them with STEMI."
+  },
+  {
+   "topic": "2. STEMI vs NSTEMI classification (ACC2025)",
+   "claim_en": "ACS includes 3 related clinical conditions along a continuum of severity: (1) unstable angina, (2) non–ST-segment elevation myocardial infarction (NSTEMI), and (3) STEMI. The initial diagnosis and classification of ACS should be based on the clinical history and symptomatology, interpretation of the ECG (Table 3), and assessment of cardiac troponin (cTn). Patients with NSTEMI may have a partially occluded coronary artery leading to subendocardial ischemia, while those with STEMI typically have a completely occluded vessel leading to transmural myocardial ischemia and infarction. Patients can rapidly progress from one clinical condition to another.",
+   "claim_zh": "急性冠脉综合征分三种：不稳定型心绞痛、非 ST 段抬高型心肌梗死（NSTEMI）、ST 段抬高型心肌梗死（STEMI）。区分要看症状、心电图和抽血查肌钙蛋白。NSTEMI 的血管往往是部分堵塞，STEMI 通常是完全堵死；三种情况之间可以很快转变。",
+   "source": "ACC2025",
+   "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309",
+   "where": "Section 2.1 'Definition and Classification of ACS' (early-release PDF)",
+   "read_level": "full text",
+   "notes": "2026-11-13 added by main session; read from the jordan-cardiac.org mirror PDF via pdftotext."
+  }
+ ],
+ "unverified": [
+  "A single authoritative table mapping 'anteroseptal V1–V2, anterior V3–V4, lateral I/aVL/V5–V6' to LV walls was NOT found in UDMI4, WAGNER2009, ESC2023, ACC2025, or CSC2019. Only partial support: anterior = V1–V6 (Wagner 2009); inferior = II, III, aVF (Wagner 2009; UDMI4 grouping); RV = V3R/V4R (all); posterior = V1–V3 depression ± V7–V9 elevation (UDMI4, ESC2023, ACC2025); 'anteroseptal leads (V1-V3)' phrase (ACC2025 Section 3 supportive text, p. e10-e11 early release). 'Lateral = I, aVL, V5, V6' has no primary source read here.",
+  "'Posterior MI = ST depression with tall R in V1–V3': sources say ST depression in V1–V3 (UDMI4, ESC2023, ACC2025) and, for the chronic phase, R >0.04 s in V1–V2 with R/S >1 and positive T (UDMI4 Table 3) / 'broad R waves' in V1–V2 (Wagner 2009). A combined acute 'ST depression + tall R in V1–V3' criterion was not found as such.",
+  "Typical time frames for each ECG stage (hyperacute T minutes; ST elevation hours; Q waves hours–days; T inversion days–weeks; ST normalization in ~2 weeks, etc.) — no primary source read gives these numbers except 'minutes/hours' for necrosis/Q-wave onset (UDMI4) and 'days to permanently' for T inversion (Wagner 2009).",
+  "Clinical definitions/time windows of PTB-XL 'Stadium I/II/III' beyond the report keywords in Table 11; the referenced Bousseljot & Kreiseler 2000 paper was not read. The German textbook convention for Stadium I–III was not checked.",
+  "Whether PTB-XL INJ* labels specifically mean ST depression, and which leads constitute each lead group in the PTB/Schiller report system.",
+  "ESC2023 Figure 7: which pathway carries 'Aim: <60 min to wire crossing' vs 'Aim: <90 min to wire crossing' (text extraction lost the layout). Commonly cited as <60 min for patients presenting to a PCI centre and <90 min for EMS/transfer pathway, but not confirmed here.",
+  "Exact print page numbers of ESC2023 (read the 1–107 advance-article PDF) and the final-issue e-pages of ACC2025 (read the early-release PDF; final citation 'Circulation. 2025;151:e771–e862' is from memory, not verified).",
+  "Sgarbossa original paper (Sgarbossa EB et al., N Engl J Med 1996;334:481-487) not read; criteria recorded only as restated by Wagner 2009. Smith-modified Sgarbossa not covered.",
+  "A Chinese guideline or 胸痛中心 primary document stating 'do not drive yourself' was not found; CSC2019 says call 120 but has no driving sentence. The Chinese 'do not drive' wording comes from a hospital-authored article on the Beijing health commission site (secondary).",
+  "Whether CSC has published a STEMI guideline newer than 2019 (none found by search as of 2026-11-13); the 2024 NSTE-ACS guideline was seen only as a listing, not read.",
+  "UDMI4 page numbers were read from the Circulation PDF; equivalent EHJ/JACC page numbers not recorded.",
+  "Aspirin 300 mg chewing advice seen on the Beijing page was not verified against a guideline and is excluded from claims."
+ ]
 }

@@ -580,7 +580,7 @@ export const TOURS = [
         spot: { leads: ['II', 'III', 'aVF', 'I', 'aVL'], beat: 3 },
         plain:
           '这位 67 岁女性：II、III、aVF 三个导联的 ST 段明显抬高（III 为 {stj:III} mV）。心脏下壁受累时，改变就出现在这三个导联上。同时 I、aVL 的 ST 段压低（aVL 为 {stj:aVL} mV），像镜子里的倒影，叫"对应性改变"。<b>出现持续胸痛，请立即拨打 120。</b>',
-        pro: 'II、III、aVF 均 ≥ 1 mm，满足 STEMI 阈值。III 抬高 > II、I 和 aVL 压低，按 AHA 2009 更像右冠状动脉阻塞（本例无造影资料）。下壁 STEMI 应尽早加做 V3R、V4R 排查右心室受累。',
+        pro: 'II、III、aVF 均 ≥ 1 mm，达到 ST 段抬高型心梗（STEMI）的心电图阈值。III 抬高 > II、I 和 aVL 压低，按 AHA 2009 更像右冠状动脉阻塞（本例无造影资料）。下壁 STEMI 应尽早加做 V3R、V4R 排查右心室受累。',
       },
       {
         title: '急性前壁和侧壁心肌梗死',
@@ -592,7 +592,7 @@ export const TOURS = [
         spot: { leads: ['V2', 'V3', 'V4', 'I', 'aVL'], beat: 3 },
         plain:
           '这位 68 岁男性：胸前的 V2–V6 和 I、II、aVL 都抬高，V3 抬高 {stj:V3} mV，约 10 小格。抬高的导联越多，受累的心肌往往越多。原报告记录 V2、V3 已出现 Q 波。',
-        pro: '前壁 STEMI 几乎都由左前降支阻塞引起（AHA 2009）。AHA 2009 所说近段阻塞的典型表现是 V1–V4 与 I、aVL 抬高、II、III、aVF 压低；本例 II 反而抬高（{stj:II} mV），只有 III 轻度压低（{stj:III} mV），具体阻塞位置无法从心电图确定（无造影资料）。',
+        pro: '前壁的 ST 段抬高型心梗（STEMI）几乎都由左前降支阻塞引起（AHA 2009）。AHA 2009 所说近段阻塞的典型表现是 V1–V4 与 I、aVL 抬高、II、III、aVF 压低；本例 II 反而抬高（{stj:II} mV），只有 III 轻度压低（{stj:III} mV），具体阻塞位置无法从心电图确定（无造影资料）。',
       },
       {
         title: '看不见的后壁：V1–V3 的"镜像"',
