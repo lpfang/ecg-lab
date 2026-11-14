@@ -1,5 +1,5 @@
 // 心脏结构图：原图 + 可点击的中文标注。数据见 content/anatomy.js。
-import { ANATOMY, FIGS, REF_SHORT, AN_GO } from '../content/anatomy.js';
+import { ANATOMY, FIGS, REF_SHORT, AN_GO, HEART_KEYS, BP_KEYS } from '../content/anatomy.js';
 import { REFS } from '../content/refs.js';
 
 const M = 330; // 两侧留给标注的宽度（图片像素）
@@ -118,8 +118,8 @@ export function figureSvg(key) {
   return s;
 }
 
-let current = 'lv';
-let onFig = null;
+// 每个窗口（root）各自记住：当前选中的结构、切图回调、有哪些图、跳到别的窗口的回调
+const STATE = new WeakMap();
 
 /** 某幅图上标注了哪些结构 */
 export function figIds(key) {
@@ -135,46 +135,65 @@ export function figIds(key) {
   return new Set([...f.L, ...f.R, ...(f.inside ?? []).map((t) => [0, t.id])].map((r) => r[1]));
 }
 
-/** 在 root 里画出心脏结构图，起始显示 key 这幅；切图时调用 onChange(key)（用来更新网址） */
-export function buildAnatomy(root, key = 'ext', onChange = null) {
-  if (!FIGS[key]) key = 'ext';
-  onFig = onChange;
-  root.innerHTML = `
-    <p class="an-intro">先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上的中文标注查看说明。</p>
-    <div class="an-tabs" role="tablist">
-      ${Object.entries(FIGS)
-        .map(([k, f]) => `<button role="tab" data-fig="${k}">${f.title}</button>`)
-        .join('')}
-    </div>
-    <div class="an-grid">
-      <div class="an-fig">
-        <h4 id="an-title"></h4><span class="muted small" id="an-sub"></span>
-        <svg id="an-svg" role="group"></svg>
-        <p class="muted small" id="an-note"></p>
-        <div class="an-more" id="an-more"></div>
-      </div>
-      <aside class="an-info" aria-live="polite">
-        <span class="muted small">说明</span>
-        <h4 id="an-zh"></h4><p class="muted" id="an-en" lang="en"></p>
-        <p id="an-plain"></p>
-        <p id="an-valve" class="muted" hidden></p>
-        <div class="an-ecg"><b>和心电图的关系</b><p id="an-rel"></p></div>
-        <p id="an-go" hidden></p>
-        <p class="an-src" id="an-src"></p>
-      </aside>
-    </div>
-    <p class="an-credit muted small">
-      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27、19.29、20.12，
+const HEART_INTRO = '先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上的中文标注查看说明。';
+const HEART_CREDIT = `<p class="an-credit muted small">
+      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27、19.29，
       采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noopener">19.1 Heart Anatomy</a>、
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-2-cardiac-muscle-and-electrical-activity" target="_blank" rel="noopener">19.2 Cardiac Muscle and Electrical Activity</a>、
-      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>、
-      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/20-2-blood-flow-blood-pressure-and-resistance" target="_blank" rel="noopener">20.2 Blood Flow, Blood Pressure, and Resistance</a>。
-      本站的改动：裁去（图 19.27、19.29、20.12 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；图 19.29 加上"收缩压""舒张压"、图 20.12 加上"动脉血压"标注；说明文字为本站编写。<br>
-      "电子血压计"一图是 Amirhossein Ashrafzadeh 用示波器记录的家用电子血压计信号，来自
-      <a href="https://commons.wikimedia.org/wiki/File:Oscillometric_Blood_Pressure_Waveform.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>，
-      采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> 许可。本站裁去示波器的界面和英文、在上方加了空白并写上中文标注，改动后的图片同样按 CC BY-SA 4.0 提供。
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>。
+      本站的改动：裁去（图 19.27、19.29 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；图 19.29 加上"收缩压""舒张压"标注；说明文字为本站编写。
     </p>`;
+
+/** "量血压"窗口：听诊法、电子血压计的原理、电子血压计实测 */
+export const BP_VIEW = {
+  keys: BP_KEYS,
+  intro: '血压计量的是手臂动脉里的压力。先看医生用听诊器怎样量，再看家里的电子血压计怎样量。点击图上的中文标注查看说明。',
+  credit: `<p class="an-credit muted small">
+      "医生用听诊器量"一图来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 20.12，
+      采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/20-2-blood-flow-blood-pressure-and-resistance" target="_blank" rel="noopener">20.2 Blood Flow, Blood Pressure, and Resistance</a>。
+      本站抹去英文标注，改为可点击的中文标注，加上"动脉血压"标注。<br>
+      "电子血压计的原理"示意图为本站绘制，原理依据 Babbs 2012。<br>
+      "电子血压计实测"一图是 Amirhossein Ashrafzadeh 用示波器记录的家用电子血压计信号，来自
+      <a href="https://commons.wikimedia.org/wiki/File:Oscillometric_Blood_Pressure_Waveform.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>，
+      采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> 许可。本站裁去示波器的界面和英文、在上方加了空白并写上中文标注，改动后的图片同样按 CC BY-SA 4.0 提供。<br>
+      说明文字为本站编写。
+    </p>`,
+};
+
+/**
+ * 在 root 里画出一组图（默认心脏结构；量血压用 BP_VIEW），起始显示 key 这幅。
+ * 切图时调用 onChange(key)（用来更新网址）；跳到不在这组里的图时调用 opts.onGo(key)（打开另一个窗口）。
+ */
+export function buildAnatomy(root, key = 'ext', onChange = null, opts = {}) {
+  const keys = opts.keys ?? HEART_KEYS;
+  if (!keys.includes(key)) key = keys[0];
+  STATE.set(root, { current: 'lv', onFig: onChange, keys, onGo: opts.onGo });
+  root.innerHTML = `
+    <p class="an-intro">${opts.intro ?? HEART_INTRO}</p>
+    <div class="an-tabs" role="tablist">
+      ${keys.map((k) => `<button role="tab" data-fig="${k}">${FIGS[k].title}</button>`).join('')}
+    </div>
+    <div class="an-grid">
+      <div class="an-fig">
+        <h4 data-an="title"></h4><span class="muted small" data-an="sub"></span>
+        <svg data-an="svg" role="group"></svg>
+        <p class="muted small" data-an="note"></p>
+        <div class="an-more" data-an="more"></div>
+      </div>
+      <aside class="an-info" aria-live="polite">
+        <span class="muted small">说明</span>
+        <h4 data-an="zh"></h4><p class="muted" data-an="en" lang="en"></p>
+        <p data-an="plain"></p>
+        <p data-an="valve" class="muted" hidden></p>
+        <div class="an-ecg"><b>和心电图的关系</b><p data-an="rel"></p></div>
+        <p data-an="go" hidden></p>
+        <p class="an-src" data-an="src"></p>
+      </aside>
+    </div>
+    ${opts.credit ?? HEART_CREDIT}
+`;
   root.querySelector('.an-tabs').onclick = (e) => {
     const b = e.target.closest('[data-fig]');
     if (b) show(root, b.dataset.fig);
@@ -184,10 +203,12 @@ export function buildAnatomy(root, key = 'ext', onChange = null) {
     const a = e.target.closest('[data-go]');
     if (!a) return;
     e.preventDefault();
+    const st = STATE.get(root);
+    if (!st.keys.includes(a.dataset.go)) return st.onGo?.(a.dataset.go);
     show(root, a.dataset.go);
     root.querySelector('.an-tabs')?.scrollIntoView({ block: 'nearest' });
   });
-  const svg = root.querySelector('#an-svg');
+  const svg = root.querySelector('[data-an=svg]');
   svg.addEventListener('click', (e) => {
     const g = e.target.closest('.an-lab');
     if (g) select(root, g.dataset.id);
@@ -210,22 +231,23 @@ export function show(root, key) {
     b.classList.toggle('on', b.dataset.fig === key);
     b.setAttribute('aria-selected', b.dataset.fig === key);
   });
-  root.querySelector('#an-title').textContent = f.title;
-  root.querySelector('#an-sub').textContent = f.sub;
-  root.querySelector('#an-note').textContent = f.note;
-  const svg = root.querySelector('#an-svg');
+  root.querySelector('[data-an=title]').textContent = f.title;
+  root.querySelector('[data-an=sub]').textContent = f.sub;
+  root.querySelector('[data-an=note]').textContent = f.note;
+  const svg = root.querySelector('[data-an=svg]');
   const m = f.overlay || f.plot ? 0 : M; // 图内标注的图两侧不留空
   svg.setAttribute('viewBox', `${-m} 0 ${f.w + 2 * m} ${f.h}`);
   svg.setAttribute('aria-label', f.title);
   svg.classList.toggle('tall', !!f.overlay); // 心动周期图又高又细，不限高度，靠滚动
   svg.innerHTML = figureSvg(key);
-  root.querySelector('#an-more').innerHTML = (f.more ?? [])
+  root.querySelector('[data-an=more]').innerHTML = (f.more ?? [])
     .map((x) => `<section><h5>${x.h}</h5>${x.html}<p class="an-src">出处：${sourceHtml(x.src)}</p></section>`)
     .join('');
   root.dataset.fig = key;
   // 选中的结构这幅图上也有就保留，否则改选这幅图的默认项（解剖图都是左心室）
-  select(root, figIds(key).has(current) ? current : (f.def ?? 'lv'));
-  onFig?.(key);
+  const st = STATE.get(root);
+  select(root, figIds(key).has(st.current) ? st.current : (f.def ?? 'lv'));
+  st.onFig?.(key);
 }
 
 function mark(root, id) {
@@ -236,17 +258,17 @@ function mark(root, id) {
 /** 选中一个结构，右侧显示说明 */
 export function select(root, id) {
   if (!ANATOMY[id]) return;
-  current = id;
+  STATE.get(root).current = id;
   const [zh, en, plain, rel, src, valve] = ANATOMY[id];
-  root.querySelector('#an-zh').textContent = zh;
-  root.querySelector('#an-en').textContent = en;
-  root.querySelector('#an-plain').textContent = plain;
-  const v = root.querySelector('#an-valve');
+  root.querySelector('[data-an=zh]').textContent = zh;
+  root.querySelector('[data-an=en]').textContent = en;
+  root.querySelector('[data-an=plain]').textContent = plain;
+  const v = root.querySelector('[data-an=valve]');
   v.textContent = valve ? `瓣膜：${valve}` : '';
   v.hidden = !valve;
-  root.querySelector('#an-rel').innerHTML = rel;
-  root.querySelector('#an-src').innerHTML = `出处：${sourceHtml(src)}`;
-  const go = root.querySelector('#an-go');
+  root.querySelector('[data-an=rel]').innerHTML = rel;
+  root.querySelector('[data-an=src]').innerHTML = `出处：${sourceHtml(src)}`;
+  const go = root.querySelector('[data-an=go]');
   const link = AN_GO[id];
   go.innerHTML = link ? `<a href="#" data-go="${link[0]}">${link[1]}</a>` : '';
   go.hidden = !link;

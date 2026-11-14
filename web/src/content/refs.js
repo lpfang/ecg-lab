@@ -1,6 +1,6 @@
 // 参考文献。讲解中的数值标准都通过 id 引用这里。
 // status：'listed' = 根据公开文献整理，尚未逐条核对原文；'verified' = 已核对原文。
-// 血压测量的两篇（bpm2019、kal2017）已读全文，标为 'verified'；其余为 'listed'。
+// 血压测量的三篇（bpm2019、kal2017、babbs2012）已读全文，标为 'verified'；其余为 'listed'。
 
 export const REFS = {
   aha1: {
@@ -82,6 +82,11 @@ export const REFS = {
   kal2017: {
     text: 'Kallioinen N, et al. Sources of inaccuracy in the measurement of adult patients\u2019 resting blood pressure in clinical settings: a systematic review. J Hypertens. 2017;35(3):421–441. doi:10.1097/HJH.0000000000001197',
     note: '放气过快等因素对读数的影响方向和大小；已读全文（PMC5278896）',
+    status: 'verified',
+  },
+  babbs2012: {
+    text: 'Babbs CF. Oscillometric measurement of systolic and diastolic blood pressures validated in a physiologic mathematical model. Biomed Eng Online. 2012;11:56. doi:10.1186/1475-925X-11-56',
+    note: '示波法的原理：抖动为什么先增大后减小、最大处对应平均动脉压、收缩压和舒张压的经验比例；已读全文（PMC3541069）',
     status: 'verified',
   },
   cn2024: {

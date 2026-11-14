@@ -1,7 +1,7 @@
 // 心脏结构图：每条引线都指向有说明的结构，出处有效，图片存在，标注不重叠
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
-import { ANATOMY, FIGS, FIG_KEYS, REF_SHORT, AN_GO } from '../src/content/anatomy.js';
+import { ANATOMY, FIGS, FIG_KEYS, HEART_KEYS, BP_KEYS, REF_SHORT, AN_GO } from '../src/content/anatomy.js';
 import { REFS } from '../src/content/refs.js';
 import { CHAPTERS } from '../src/content/handbook.js';
 import { spread, sourceHtml } from '../src/views/anatomy.js';
@@ -9,8 +9,18 @@ import { spread, sourceHtml } from '../src/views/anatomy.js';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
 describe('心脏结构图', () => {
-  it('七幅图：外观、内部、传导系统、心动周期、压力曲线、血压计、电子血压计', () => {
-    expect(FIG_KEYS).toEqual(['ext', 'int', 'cond', 'cycle', 'press', 'bp', 'osc']);
+  it('心脏结构五幅：外观、内部、传导系统、心动周期、压力曲线；量血压三幅：听诊、电子血压计原理、实测', () => {
+    expect(HEART_KEYS).toEqual(['ext', 'int', 'cond', 'cycle', 'press']);
+    expect(BP_KEYS).toEqual(['ausc', 'osc', 'oscreal']);
+  });
+
+  it('量血压：网页里有对话框和顶栏按钮；降压药手册的 data-bp 链接指向量血压的图', () => {
+    expect(html).toContain('<dialog id="bpm"');
+    expect(html).toContain('id="bpm-btn"');
+    const drugs = readFileSync(new URL('../src/content/drugs.js', import.meta.url), 'utf8');
+    const links = [...drugs.matchAll(/data-bp="(\w+)"/g)].map((m) => m[1]);
+    expect(links.length).toBeGreaterThan(0);
+    for (const k of links) expect(BP_KEYS).toContain(k);
   });
 
   it.each(FIG_KEYS.filter((k) => FIGS[k].plot))('%s（曲线图）：图片存在，标注都有说明、落在图内，默认选中项在图上', async (k) => {
@@ -42,7 +52,7 @@ describe('心脏结构图', () => {
   });
 
   it('血压测量的文献已收进参考文献，出处显示为简称', () => {
-    for (const k of ['bpm2019', 'kal2017']) {
+    for (const k of ['bpm2019', 'kal2017', 'babbs2012']) {
       expect(REFS[k], k).toBeTruthy();
       expect(sourceHtml(k)).toContain(REF_SHORT[k]);
     }

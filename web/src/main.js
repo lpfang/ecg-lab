@@ -9,7 +9,7 @@ import { beatBaseline, LIMB_LEADS } from './vcg/vector.js';
 import { renderAxes } from './views/axes2d.js';
 import { PlanesView } from './views/planes.js';
 import { buildPrimer, selectLead as primerSelect } from './views/primer.js';
-import { buildAnatomy } from './views/anatomy.js';
+import { buildAnatomy, BP_VIEW } from './views/anatomy.js';
 import { FIGS as HEART_FIGS } from './content/anatomy.js';
 import { PHASE_INFO } from './content/phases.js';
 import { TERMS } from './content/terms.js';
@@ -890,17 +890,44 @@ function openPrimer(section, fromChapter = null) {
 
 /** 打开心脏结构图（fig = ext / int / cond）；fromChapter 同读图入门 */
 function openAnatomy(fig, fromChapter = null) {
-  if (!HEART_FIGS[fig]) fig = 'ext';
+  if (!HEART_FIGS[fig] || BP_VIEW.keys.includes(fig)) fig = 'ext';
   hb.anatomyFrom = fromChapter;
   $('#anatomy-back').hidden = !fromChapter;
-  buildAnatomy($('#anatomy-body'), fig, (key) => {
-    // 切图时网址跟着变，刷新或复制链接都回到当前这幅
-    const u = new URL(location.href);
-    u.searchParams.set('heart', key);
-    history.replaceState(null, '', u);
+  buildAnatomy($('#anatomy-body'), fig, (key) => setParam('heart', key), {
+    // 压力曲线里"血压计怎样量出这个数"跳到量血压窗口，回来时回到这幅图
+    onGo: (key) => {
+      const from = new URL(location.href).searchParams.get('heart');
+      closeDlg('anatomy');
+      openBpm(key, { heart: from });
+    },
   });
   $('#anatomy').showModal();
   $('#anatomy-body').scrollTop = 0;
+}
+
+/** 切图时网址跟着变，刷新或复制链接都回到当前这幅 */
+function setParam(name, value) {
+  const u = new URL(location.href);
+  u.searchParams.set(name, value);
+  history.replaceState(null, '', u);
+}
+
+/** 打开量血压窗口（fig = ausc / osc / oscreal）；from 记住从哪里来，"返回"回到那里：{ heart: 图 } 或 { drug: 章节 } */
+const bpm = { from: null };
+function openBpm(fig, from = null) {
+  if (!BP_VIEW.keys.includes(fig)) fig = BP_VIEW.keys[0];
+  bpm.from = from;
+  $('#bpm-back').hidden = !from;
+  $('#bpm-back').textContent = from?.drug ? '↩ 回到降压药手册' : '↩ 回到心脏结构';
+  buildAnatomy($('#bpm-body'), fig, (key) => setParam('bp', key), {
+    ...BP_VIEW,
+    onGo: (key) => {
+      closeDlg('bpm');
+      openAnatomy(key);
+    },
+  });
+  $('#bpm').showModal();
+  $('#bpm-body').scrollTop = 0;
 }
 
 function openGlossary() {
@@ -1392,7 +1419,7 @@ function openDrugbook(id) {
 }
 
 /** 关闭对话框，并去掉网址里对应的直达参数（Esc 关闭时由 close 事件处理） */
-const DLG_PARAM = { handbook: 'read', drugbook: 'drug', anatomy: 'heart' };
+const DLG_PARAM = { handbook: 'read', drugbook: 'drug', anatomy: 'heart', bpm: 'bp' };
 function closeDlg(id) {
   const d = $(`#${id}`);
   if (d.open) d.close();
@@ -1973,6 +2000,19 @@ function bindControls() {
     history.replaceState(null, '', u);
   });
   $('#heart-btn').onclick = () => openAnatomy('ext');
+  $('#bpm-btn').onclick = () => openBpm(BP_VIEW.keys[0]);
+  $('#bpm-close').onclick = () => closeDlg('bpm');
+  $('#bpm').addEventListener('close', () => {
+    const u = new URL(location.href);
+    u.searchParams.delete('bp');
+    history.replaceState(null, '', u);
+  });
+  $('#bpm-back').onclick = () => {
+    const from = bpm.from;
+    closeDlg('bpm');
+    if (from?.drug) openDrugbook(from.drug);
+    else openAnatomy(from?.heart ?? 'ext');
+  };
   $('#hb-btn').onclick = () => openHandbook(hb.chapter);
   $('#dg-btn').onclick = () => openDrugbook(dg.chapter);
   $('#drugbook-close').onclick = () => closeDlg('drugbook');
@@ -2010,7 +2050,7 @@ function bindControls() {
   $('#hb-demo-close').onclick = stopDemo;
   $('#primer-close').onclick = () => $('#primer').close();
   // 对话框关闭或其中内容滚动时，收起挂在对话框里的术语弹窗
-  for (const id of ['handbook', 'primer', 'glossary', 'drugbook', 'anatomy']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
+  for (const id of ['handbook', 'primer', 'glossary', 'drugbook', 'anatomy', 'bpm']) $(`#${id}`).addEventListener('close', () => ($('#term-pop').hidden = true));
   document.addEventListener(
     'scroll',
     (e) => {
@@ -2023,6 +2063,7 @@ function bindControls() {
   for (const [dlg, key] of [
     ['primer', 'ecg-lab:primerMax'],
     ['anatomy', 'ecg-lab:anatomyMax'],
+    ['bpm', 'ecg-lab:bpmMax'],
     ['glossary', 'ecg-lab:glossaryMax'],
     ['handbook', 'ecg-lab:handbookMax'],
     ['drugbook', 'ecg-lab:drugbookMax'],
@@ -2089,7 +2130,7 @@ function bindControls() {
     if (rd) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      for (const id of ['glossary', 'primer', 'drugbook', 'anatomy']) if ($(`#${id}`).open) closeDlg(id);
+      for (const id of ['glossary', 'primer', 'drugbook', 'anatomy', 'bpm']) if ($(`#${id}`).open) closeDlg(id);
       openHandbook(rd.dataset.hbRead);
       return;
     }
@@ -2097,15 +2138,24 @@ function bindControls() {
     if (dc) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      for (const id of ['glossary', 'primer', 'handbook', 'anatomy']) if ($(`#${id}`).open) closeDlg(id);
+      for (const id of ['glossary', 'primer', 'handbook', 'anatomy', 'bpm']) if ($(`#${id}`).open) closeDlg(id);
       openDrugbook(dc.dataset.drugCh ?? `drug:${dc.dataset.drug}`);
+      return;
+    }
+    const bl = e.target.closest('[data-bp]');
+    if (bl) {
+      e.preventDefault();
+      $('#term-pop').hidden = true;
+      const fromDrug = $('#drugbook').open ? dg.chapter : null;
+      for (const id of ['glossary', 'primer', 'handbook', 'drugbook', 'anatomy']) if ($(`#${id}`).open) closeDlg(id);
+      openBpm(bl.dataset.bp, fromDrug ? { drug: fromDrug } : null);
       return;
     }
     const ht = e.target.closest('[data-heart]');
     if (ht) {
       e.preventDefault();
       $('#term-pop').hidden = true;
-      for (const id of ['glossary', 'primer', 'drugbook']) if ($(`#${id}`).open) closeDlg(id);
+      for (const id of ['glossary', 'primer', 'drugbook', 'bpm']) if ($(`#${id}`).open) closeDlg(id);
       const fromHb = $('#handbook').open ? hb.chapter : null;
       if (fromHb) closeHandbook();
       openAnatomy(ht.dataset.heart, fromHb);
@@ -2117,6 +2167,7 @@ function bindControls() {
       $('#term-pop').hidden = true;
       if ($('#glossary').open) $('#glossary').close();
       if ($('#anatomy').open) closeDlg('anatomy');
+      if ($('#bpm').open) closeDlg('bpm');
       const fromHb = $('#handbook').open ? hb.chapter : null;
       if (fromHb) closeHandbook();
       openPrimer(pr.dataset.primer, fromHb);
@@ -2187,6 +2238,8 @@ async function boot() {
   if (wantDrug && !wantQuiz && !wantRead) openDrugbook(wantDrug);
   const wantHeart = new URLSearchParams(location.search).get('heart');
   if (wantHeart && !wantTour && !wantQuiz && !wantRead && !wantDrug) openAnatomy(wantHeart);
+  const wantBp = new URLSearchParams(location.search).get('bp');
+  if (wantBp && !wantTour && !wantQuiz && !wantRead && !wantDrug && !wantHeart) openBpm(wantBp);
 }
 
 function toast(msg) {

@@ -801,6 +801,7 @@ p.nr-warn.show {
 /* 最大化：铺满窗口（四周留一点边），读图入门的图也跟着放大 */
 #glossary.max,
 #anatomy.max,
+#bpm.max,
 #primer.max {
   width: calc(100vw - 24px);
   max-width: none;
@@ -1314,8 +1315,18 @@ body.touring .tour-focus {
   gap: 4px;
 }
 @media (max-width: 1500px) {
+  .topbar {
+    gap: 6px;
+    padding-inline: 14px;
+  }
+  .topbar h1 {
+    margin-right: 4px;
+  }
   .topbar h1 .en {
     display: none;
+  }
+  #case-select {
+    max-width: 196px;
   }
 }
 
@@ -2273,8 +2284,9 @@ body.case-stale .case-info {
   fill: #374151;
 }
 
-/* 心脏结构图 */
-#anatomy {
+/* 心脏结构图、量血压（同一套点图看说明） */
+#anatomy,
+#bpm {
   width: min(1400px, 96vw);
   max-width: none;
   max-height: 92vh;
@@ -2316,7 +2328,8 @@ body.case-stale .case-info {
   max-height: calc(92vh - 200px);
   margin-top: 4px;
 }
-#anatomy.max .an-fig svg {
+#anatomy.max .an-fig svg,
+#bpm.max .an-fig svg {
   max-height: calc(100vh - 210px);
 }
 .an-info {
@@ -2463,10 +2476,10 @@ body.case-stale .case-info {
   stroke-dasharray: 6 5;
   fill: none;
 }
-#an-plain {
+[data-an=plain] {
   white-space: pre-line;
 }
-#an-go a,
+[data-an=go] a,
 .an-more a {
   color: #22645d;
 }
