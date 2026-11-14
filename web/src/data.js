@@ -37,6 +37,13 @@ export function validateMeta(meta, id) {
   if (sig.layout !== 'lead-major') bad(`排列 ${sig.layout}（只支持 lead-major）`);
   const f = sig.file;
   if (typeof f !== 'string' || !/^[\w.-]+$/.test(f)) bad(`波形文件名 ${f}`);
+  // 各面板渲染要用的字段
+  if (!Array.isArray(meta.issues)) bad('缺少质量报告 issues');
+  if (typeof meta.source?.name !== 'string') bad('缺少来源 source');
+  for (const k of ['measurements', 'amplitudes']) if (meta[k] != null && !Array.isArray(meta[k])) bad(`${k} 不是列表`);
+  const beats = meta.annotations?.beats;
+  if (beats != null && (!Array.isArray(beats) || beats.some((b) => b.QRS && !(b.QRS.on <= b.QRS.off))))
+    bad('心搏标注格式有误');
   const dur = (meta.nSamples / meta.fs) * 1000;
   if (!(Math.abs(meta.durationMs - dur) <= 1000 / meta.fs + 1))
     bad(`时长 ${meta.durationMs} ms 与采样点数不符（应约 ${dur} ms）`);

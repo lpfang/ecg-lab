@@ -20,6 +20,9 @@ describe('validateMeta', () => {
     expect(bad({ signal: { ...ok.signal, unit: 'mV' } })).toThrow(/uV/);
     expect(bad({ signal: { ...ok.signal, layout: 'sample-major' } })).toThrow(/lead-major/);
     expect(bad({ leads: ['I', 'II', 'III', 'aVR', 'aVL', 'aVF'] })).toThrow(/缺少导联 V1/);
+    expect(bad({ issues: undefined })).toThrow(/issues/);
+    expect(bad({ source: null })).toThrow(/source/);
+    expect(bad({ annotations: { beats: [{ QRS: { on: 500, off: 400 } }] } })).toThrow(/心搏标注/);
   });
 });
 
@@ -30,6 +33,11 @@ describe('ST（J + 80 ms）', () => {
       expect(v.II.ST80, id).toBeNull();
       expect(v.II.ST80inT, id).toBeGreaterThan(0.5);
     }
+  });
+  it('没有 T 波标注时给固定时点读数，并标明无法确认', () => {
+    const v = meta('ptbxl-8048').amplitudes.find((a) => a.id === 'area').values;
+    expect(v.II.ST80).not.toBeNull();
+    expect(v.II.ST80unconfirmed).toBe(1);
   });
   it('其余病例：本站 J+80 只来自 T 波起点之前', () => {
     const v = meta('ptbxl-33').amplitudes.find((a) => a.id === 'area').values;

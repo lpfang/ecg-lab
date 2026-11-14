@@ -436,10 +436,13 @@ function renderST(meta) {
     (gl ? '<th class="num src" title="Glasgow Uni-G">Glasgow<br>J + 80 ms</th>' : '') +
     '</tr>';
   const inT = own.values.II?.ST80inT ?? 0; // 各导联相同：J+80 落进 T 波的心搏比例
+  const unconf = own.values.II?.ST80unconfirmed ?? 0; // 没有 T 波标注、无法确认的心搏比例（此时读数不着色）
   const st80 = (v) =>
     v.ST80 == null && inT
       ? `<td class="num muted" title="多数心搏的 J+80 ms 已落在 T 波上，这个时点读到的不是 ST 段">T 波内</td>`
-      : `<td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>`;
+      : unconf
+        ? `<td class="num muted" title="固定时点读数：多数心搏没有 T 波标注，无法确认是否还在 ST 段">${fmt2(v.ST80)}?</td>`
+        : `<td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>`;
   $('#st-table tbody').innerHTML = ST_LEADS.map((l) => {
     const v = own.values[l] ?? {};
     const g = gl?.values[l]?.ST80;
@@ -460,6 +463,10 @@ function renderST(meta) {
           ? '本站这一列不给数值，请以 J 点读数为准。'
           : '本站"J + 80 ms"只用了还没进入 T 波的心跳。') +
         'Glasgow 一列是算法按固定时点给出的，仅供对照。'
+      : '') +
+    (unconf
+      ? `<br>本例 ${Math.round(unconf * 100)}% 的心跳没有 T 波标注，无法确认 J 点后 80 ms 是否还在 ST 段。` +
+        '本站"J + 80 ms"一列是固定时点读数（带"?"），不做异常着色，请以 J 点读数为准。'
       : '');
 }
 
@@ -973,12 +980,12 @@ async function selectCase(id) {
       'paper',
       'linked',
     );
-    $('#paper-msg').hidden = true;
     renderCaseInfo(ecg.meta, state.index.cases.find((c) => c.id === id));
     renderMeasurements(ecg.meta);
     renderLVH(ecg.meta);
     renderST(ecg.meta);
     renderCompare(ecg);
+    $('#paper-msg').hidden = true; // 各面板都更新完再收起提示；中途出错时提示和重试按钮仍可见
     // 测验中下拉框只显示"测验中"：病例标题会泄露诊断题的答案
     $('#case-select').value = quiz.set ? QUIZ_OPT : id;
     // 测验中地址栏不写病例编号（编号可以查到诊断）
@@ -991,6 +998,7 @@ async function selectCase(id) {
   } catch (e) {
     if (token !== loadToken) return null;
     console.error(e);
+    $('#paper-msg').hidden = false;
     $('#paper-msg').innerHTML = `病例加载失败：${esc(e.message)} <button id="retry">重试</button>`;
     // 下拉框退回到仍在显示的病例，免得和波形对不上
     if (!quiz.set && state.caseId) $('#case-select').value = state.caseId;

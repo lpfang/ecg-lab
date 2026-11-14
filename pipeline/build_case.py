@@ -138,10 +138,13 @@ def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
     S = 第一个正向波（≥ 0.05 mV）之后的最深负向偏移：R′ 比 R 高时，夹在中间的深 S 也算进来；
         没有正向波（QS 型）时取整个 QRS 的最深点。
     STJ = J 点（QRS 终点）。
-    ST80 = J 点后 80 ms，只用 J+80 仍在 T 波起点之前的心搏；落进 T 波的心搏不计。
-        合格心搏不到一半时 ST80 记为 None，并在 ST80inT 里给出落进 T 波的心搏比例。"""
-    per = {l: {"R": [], "S": [], "STJ": [], "ST80": []} for l in LEADS}
-    n_st80 = n_in_t = 0
+    ST80 = J 点后 80 ms，只用能确认 J+80 仍在 T 波起点之前的心搏。
+        能确认的心搏不到一半时：
+          - 多数落进 T 波 → ST80 记为 None；
+          - 多数没有 T 波标注（无法确认）→ 仍给出固定时点读数，但标 ST80unconfirmed，网页不按 ST 阈值着色。
+        ST80inT / ST80unconfirmed 是落进 T 波 / 没有 T 波标注的心搏比例。"""
+    per = {l: {"R": [], "S": [], "STJ": [], "ST80": [], "ST80u": []} for l in LEADS}
+    n_st80 = n_in_t = n_no_t = 0
     idx = lambda t: int(round(t / 1000 * fs))  # noqa: E731
     n = sig_uV.shape[1]
     for b in beats:
@@ -151,12 +154,15 @@ def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
         a = max(b["P"]["off"], on - 40) if "P" in b else on - 40
         if idx(a) < 0 or idx(off) >= n:  # 记录首尾不完整的心搏
             continue
-        st80_ok = idx(off + 80) < n
-        if st80_ok:
+        st80 = None  # "ok"：确认在 T 波之前；"unk"：没有 T 波标注，无法确认
+        if idx(off + 80) < n:
             n_st80 += 1
-            if "T" in b and off + 80 >= b["T"]["on"]:
-                st80_ok = False
+            if "T" not in b:
+                st80, n_no_t = "unk", n_no_t + 1
+            elif off + 80 >= b["T"]["on"]:
                 n_in_t += 1
+            else:
+                st80 = "ok"
         for li, lead in enumerate(LEADS):
             x = sig_uV[li]
             win = x[idx(a): idx(on - 4) + 1]
@@ -170,14 +176,25 @@ def measure_amplitudes(sig_uV: np.ndarray, fs: float, beats: list) -> dict:
             tail = q[pos[0]:] if pos.size else q
             per[lead]["S"].append(max(0.0, -float(tail.min())))
             per[lead]["STJ"].append(float(x[idx(off)] - base))
-            if st80_ok:
-                per[lead]["ST80"].append(float(x[idx(off + 80)] - base))
+            if st80:
+                per[lead]["ST80" if st80 == "ok" else "ST80u"].append(float(x[idx(off + 80)] - base))
     med = lambda v: None if not v else round(float(np.median(v)) / 1000, 3)  # noqa: E731
-    enough = n_st80 and (n_st80 - n_in_t) * 2 >= n_st80
-    out = {l: {k: (None if k == "ST80" and not enough else med(v)) for k, v in d.items()} for l, d in per.items()}
-    if n_in_t:
-        for d in out.values():
-            d["ST80inT"] = round(n_in_t / n_st80, 2)
+    n_ok = n_st80 - n_in_t - n_no_t
+    if n_ok * 2 >= n_st80 and n_ok:
+        mode = "ok"
+    elif n_no_t > n_in_t:
+        mode = "unconfirmed"
+    else:
+        mode = "none"
+    out = {}
+    for l, d in per.items():
+        o = {k: med(d[k]) for k in ("R", "S", "STJ")}
+        o["ST80"] = med(d["ST80"]) if mode == "ok" else med(d["ST80"] + d["ST80u"]) if mode == "unconfirmed" else None
+        if n_in_t:
+            o["ST80inT"] = round(n_in_t / n_st80, 2)
+        if mode == "unconfirmed":
+            o["ST80unconfirmed"] = round(n_no_t / n_st80, 2)
+        out[l] = o
     return out
 
 
