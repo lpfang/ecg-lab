@@ -1,5 +1,5 @@
 // 心脏结构图：原图 + 可点击的中文标注。数据见 content/anatomy.js。
-import { ANATOMY, FIGS, REF_SHORT } from '../content/anatomy.js';
+import { ANATOMY, FIGS, REF_SHORT, AN_GO } from '../content/anatomy.js';
 import { REFS } from '../content/refs.js';
 
 const M = 330; // 两侧留给标注的宽度（图片像素）
@@ -16,7 +16,7 @@ export function spread(rows) {
 
 /** 出处文字：refs.js 的 id 换成简称，悬停看完整文献 */
 export function sourceHtml(src) {
-  return esc(src).replace(/\b(aha3|aha5|aha6|udmi4|brady2018|cn2024)\b/g, (k) => `<abbr title="${esc(REFS[k].text)}">${REF_SHORT[k]}</abbr>`);
+  return esc(src).replace(new RegExp(`\\b(${Object.keys(REF_SHORT).join('|')})\\b`, 'g'), (k) => `<abbr title="${esc(REFS[k].text)}">${REF_SHORT[k]}</abbr>`);
 }
 
 /** 图内标注的图（心动周期）：标注直接写在原来英文的位置上 */
@@ -45,10 +45,39 @@ function overlaySvg(f) {
   return s;
 }
 
+/** 曲线图（压力曲线、血压计）：中文写在原来英文的位置上，可以左对齐、右对齐、上色 */
+function plotSvg(f) {
+  const p = f.plot;
+  const fs = p.fs ?? 34;
+  const lh = Math.round(fs * 1.24);
+  const g = (id, inner) => `<g class="an-lab an-pl" data-id="${id}" tabindex="0" role="button" aria-label="${ANATOMY[id][0]}">${inner}</g>`;
+  const box = (x, y, n, rows, anchor) => {
+    const w = n * fs + fs / 2;
+    const x0 = anchor === 'start' ? x - fs / 4 : anchor === 'end' ? x - w + fs / 4 : x - w / 2;
+    return `<rect x="${x0}" y="${y - fs}" width="${w}" height="${rows * lh + fs / 4}" rx="${fs / 5}"/>`;
+  };
+  let s = `<g style="font-size:${fs}px"><image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
+  for (const [x1, y1, x2, y2] of p.lines ?? []) s += `<path class="an-pl-line" d="M${x1} ${y1} L${x2} ${y2}"/>`;
+  for (const [id, x, y, lines, anchor, color] of p.labels) {
+    let t = box(x, y, Math.max(...lines.map((l) => l.length)), lines.length, anchor);
+    lines.forEach((l, i) => (t += `<text x="${x}" y="${y + i * lh}" text-anchor="${anchor}"${color ? ` style="fill:${color}"` : ''}>${l}</text>`));
+    s += g(id, t);
+  }
+  for (const [id, x, y, text] of p.vtext ?? []) {
+    s += g(id, `<g transform="translate(${x} ${y}) rotate(-90)">${box(0, fs / 2, text.length, 1, 'middle')}<text text-anchor="middle" dominant-baseline="central">${text}</text></g>`);
+  }
+  for (const [id, x, y, text, dot] of p.add ?? []) {
+    s += g(id, `${dot ? `<circle class="an-pl-dot" cx="${dot[0]}" cy="${dot[1]}" r="${fs / 4}"/>` : ''}${box(x, y, text.length, 1, 'start')}<text class="an-pl-add" x="${x}" y="${y}">${text}</text>`);
+  }
+  for (const [x, y, text] of p.plain ?? []) s += `<text class="an-pl-plain" x="${x}" y="${y}">${text}</text>`;
+  return s + '</g>';
+}
+
 /** 一幅图的 SVG 内容（图片 + 引线 + 标注） */
 export function figureSvg(key) {
   const f = FIGS[key];
   if (f.overlay) return overlaySvg(f);
+  if (f.plot) return plotSvg(f);
   let s = `<image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
   const label = (id, x, y, left, name = ANATOMY[id][0]) => {
     const w = name.length * 26 + 10;
@@ -95,6 +124,10 @@ let onFig = null;
 /** 某幅图上标注了哪些结构 */
 export function figIds(key) {
   const f = FIGS[key];
+  if (f.plot) {
+    const p = f.plot;
+    return new Set([...p.labels, ...(p.vtext ?? []), ...(p.add ?? [])].map((r) => r[0]));
+  }
   if (f.overlay) {
     const { top, bottom, left, right } = f.ring;
     return new Set([...f.overlay.map((r) => r[0]), top[0], bottom[0], left[0], right[0]]);
@@ -118,28 +151,42 @@ export function buildAnatomy(root, key = 'ext', onChange = null) {
         <h4 id="an-title"></h4><span class="muted small" id="an-sub"></span>
         <svg id="an-svg" role="group"></svg>
         <p class="muted small" id="an-note"></p>
+        <div class="an-more" id="an-more"></div>
       </div>
       <aside class="an-info" aria-live="polite">
-        <span class="muted small">结构说明</span>
+        <span class="muted small">说明</span>
         <h4 id="an-zh"></h4><p class="muted" id="an-en" lang="en"></p>
         <p id="an-plain"></p>
         <p id="an-valve" class="muted" hidden></p>
         <div class="an-ecg"><b>和心电图的关系</b><p id="an-rel"></p></div>
+        <p id="an-go" hidden></p>
         <p class="an-src" id="an-src"></p>
       </aside>
     </div>
     <p class="an-credit muted small">
-      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27，
+      图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27、19.29、20.12，
       采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noopener">19.1 Heart Anatomy</a>、
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-2-cardiac-muscle-and-electrical-activity" target="_blank" rel="noopener">19.2 Cardiac Muscle and Electrical Activity</a>、
-      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>。
-      本站的改动：裁去（图 19.27 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；说明文字为本站编写。
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>、
+      <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/20-2-blood-flow-blood-pressure-and-resistance" target="_blank" rel="noopener">20.2 Blood Flow, Blood Pressure, and Resistance</a>。
+      本站的改动：裁去（图 19.27、19.29、20.12 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；图 19.29 加上"收缩压""舒张压"、图 20.12 加上"动脉血压"标注；说明文字为本站编写。<br>
+      "电子血压计"一图是 Amirhossein Ashrafzadeh 用示波器记录的家用电子血压计信号，来自
+      <a href="https://commons.wikimedia.org/wiki/File:Oscillometric_Blood_Pressure_Waveform.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>，
+      采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> 许可。本站裁去示波器的界面和英文、在上方加了空白并写上中文标注，改动后的图片同样按 CC BY-SA 4.0 提供。
     </p>`;
   root.querySelector('.an-tabs').onclick = (e) => {
     const b = e.target.closest('[data-fig]');
     if (b) show(root, b.dataset.fig);
   };
+  // 说明、补充文字里跳到另一幅图的链接
+  root.querySelector('.an-grid').addEventListener('click', (e) => {
+    const a = e.target.closest('[data-go]');
+    if (!a) return;
+    e.preventDefault();
+    show(root, a.dataset.go);
+    root.querySelector('.an-tabs')?.scrollIntoView({ block: 'nearest' });
+  });
   const svg = root.querySelector('#an-svg');
   svg.addEventListener('click', (e) => {
     const g = e.target.closest('.an-lab');
@@ -167,11 +214,14 @@ export function show(root, key) {
   root.querySelector('#an-sub').textContent = f.sub;
   root.querySelector('#an-note').textContent = f.note;
   const svg = root.querySelector('#an-svg');
-  const m = f.overlay ? 0 : M; // 图内标注的图两侧不留空
+  const m = f.overlay || f.plot ? 0 : M; // 图内标注的图两侧不留空
   svg.setAttribute('viewBox', `${-m} 0 ${f.w + 2 * m} ${f.h}`);
   svg.setAttribute('aria-label', f.title);
   svg.classList.toggle('tall', !!f.overlay); // 心动周期图又高又细，不限高度，靠滚动
   svg.innerHTML = figureSvg(key);
+  root.querySelector('#an-more').innerHTML = (f.more ?? [])
+    .map((x) => `<section><h5>${x.h}</h5>${x.html}<p class="an-src">出处：${sourceHtml(x.src)}</p></section>`)
+    .join('');
   root.dataset.fig = key;
   // 选中的结构这幅图上也有就保留，否则改选这幅图的默认项（解剖图都是左心室）
   select(root, figIds(key).has(current) ? current : (f.def ?? 'lv'));
@@ -196,5 +246,9 @@ export function select(root, id) {
   v.hidden = !valve;
   root.querySelector('#an-rel').innerHTML = rel;
   root.querySelector('#an-src').innerHTML = `出处：${sourceHtml(src)}`;
+  const go = root.querySelector('#an-go');
+  const link = AN_GO[id];
+  go.innerHTML = link ? `<a href="#" data-go="${link[0]}">${link[1]}</a>` : '';
+  go.hidden = !link;
   mark(root, id);
 }

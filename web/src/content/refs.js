@@ -1,6 +1,6 @@
 // 参考文献。讲解中的数值标准都通过 id 引用这里。
 // status：'listed' = 根据公开文献整理，尚未逐条核对原文；'verified' = 已核对原文。
-// 目前全部为 'listed'，页面上如实显示。
+// 血压测量的两篇（bpm2019、kal2017）已读全文，标为 'verified'；其余为 'listed'。
 
 export const REFS = {
   aha1: {
@@ -73,6 +73,16 @@ export const REFS = {
     text: 'Kusumoto FM, et al. 2018 ACC/AHA/HRS Guideline on the Evaluation and Management of Patients With Bradycardia and Cardiac Conduction Delay. Circulation. 2019;140:e382–e482.',
     note: '心动过缓与传导延迟指南：房室传导阻滞的分型',
     status: 'listed',
+  },
+  bpm2019: {
+    text: 'Muntner P, et al. Measurement of Blood Pressure in Humans: A Scientific Statement From the American Heart Association. Hypertension. 2019;73(5):e35–e66. doi:10.1161/HYP.0000000000000087',
+    note: '血压测量的方法（听诊法、示波法）与误差来源；已读全文（PMC11409525）',
+    status: 'verified',
+  },
+  kal2017: {
+    text: 'Kallioinen N, et al. Sources of inaccuracy in the measurement of adult patients\u2019 resting blood pressure in clinical settings: a systematic review. J Hypertens. 2017;35(3):421–441. doi:10.1097/HJH.0000000000001197',
+    note: '放气过快等因素对读数的影响方向和大小；已读全文（PMC5278896）',
+    status: 'verified',
   },
   cn2024: {
     text: '中国高血压防治指南修订委员会, 等. 中国高血压防治指南（2024 年修订版）. 中华高血压杂志（中英文）. 2024;32(7):603–700. DOI: 10.16439/j.issn.1673-7245.2024.07.002',

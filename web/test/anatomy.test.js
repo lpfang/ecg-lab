@@ -1,7 +1,7 @@
 // 心脏结构图：每条引线都指向有说明的结构，出处有效，图片存在，标注不重叠
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
-import { ANATOMY, FIGS, FIG_KEYS, REF_SHORT } from '../src/content/anatomy.js';
+import { ANATOMY, FIGS, FIG_KEYS, REF_SHORT, AN_GO } from '../src/content/anatomy.js';
 import { REFS } from '../src/content/refs.js';
 import { CHAPTERS } from '../src/content/handbook.js';
 import { spread, sourceHtml } from '../src/views/anatomy.js';
@@ -9,8 +9,43 @@ import { spread, sourceHtml } from '../src/views/anatomy.js';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
 describe('心脏结构图', () => {
-  it('四幅图：外观、内部、传导系统、心动周期', () => {
-    expect(FIG_KEYS).toEqual(['ext', 'int', 'cond', 'cycle']);
+  it('七幅图：外观、内部、传导系统、心动周期、压力曲线、血压计、电子血压计', () => {
+    expect(FIG_KEYS).toEqual(['ext', 'int', 'cond', 'cycle', 'press', 'bp', 'osc']);
+  });
+
+  it.each(FIG_KEYS.filter((k) => FIGS[k].plot))('%s（曲线图）：图片存在，标注都有说明、落在图内，默认选中项在图上', async (k) => {
+    const f = FIGS[k];
+    const { figIds, figureSvg } = await import('../src/views/anatomy.js');
+    expect(existsSync(new URL(`../public/${f.img}`, import.meta.url)), f.img).toBe(true);
+    const p = f.plot;
+    for (const [id, x, y] of [...p.labels, ...(p.vtext ?? []), ...(p.add ?? [])]) {
+      expect(ANATOMY[id], id).toBeTruthy();
+      expect(x).toBeGreaterThan(0);
+      expect(x).toBeLessThan(f.w);
+      expect(y).toBeGreaterThan(0);
+      expect(y).toBeLessThan(f.h);
+    }
+    expect(figIds(k).has(f.def)).toBe(true);
+    expect(figureSvg(k)).toContain(f.img);
+  });
+
+  it('跳到另一幅图的链接：起点和终点都存在', () => {
+    for (const [id, [fig, text]] of Object.entries(AN_GO)) {
+      expect(ANATOMY[id], id).toBeTruthy();
+      expect(FIG_KEYS, id).toContain(fig);
+      expect(text).toMatch(/→$/);
+    }
+    for (const k of FIG_KEYS) for (const m of FIGS[k].more ?? []) {
+      for (const [, go] of m.html.matchAll(/data-go="(\w+)"/g)) expect(FIG_KEYS).toContain(go);
+      expect(REFS[m.src], m.src).toBeTruthy();
+    }
+  });
+
+  it('血压测量的文献已收进参考文献，出处显示为简称', () => {
+    for (const k of ['bpm2019', 'kal2017']) {
+      expect(REFS[k], k).toBeTruthy();
+      expect(sourceHtml(k)).toContain(REF_SHORT[k]);
+    }
   });
 
   it('心动周期：图内标注都有说明，落在图内，默认选中项在图上', async () => {
@@ -30,7 +65,7 @@ describe('心脏结构图', () => {
     for (const [id] of f.overlay) expect(ANATOMY[id][5], id).toMatch(/瓣/);
   });
 
-  it.each(FIG_KEYS.filter((k) => !FIGS[k].overlay))('%s：图片存在，引线按 y 排好、落在图内，结构都有说明', (k) => {
+  it.each(FIG_KEYS.filter((k) => !FIGS[k].overlay && !FIGS[k].plot))('%s：图片存在，引线按 y 排好、落在图内，结构都有说明', (k) => {
     const f = FIGS[k];
     expect(existsSync(new URL(`../public/${f.img}`, import.meta.url)), f.img).toBe(true);
     for (const rows of [f.L, f.R]) {
@@ -69,8 +104,10 @@ describe('心脏结构图', () => {
     for (const c of linked) expect(FIG_KEYS).toContain(c.heart);
   });
 
-  it('页面注明 OpenStax 图片的 CC BY 4.0 许可', () => {
+  it('页面注明 OpenStax 图片的 CC BY 4.0 许可、Commons 图片的 CC BY-SA 4.0 许可', () => {
     const src = readFileSync(new URL('../src/views/anatomy.js', import.meta.url), 'utf8');
+    expect(src).toContain('CC BY-SA 4.0');
+    expect(src).toContain('creativecommons.org/licenses/by-sa/4.0');
     expect(src).toContain('CC BY 4.0');
     expect(src).toContain('creativecommons.org/licenses/by/4.0');
   });
@@ -79,6 +116,6 @@ describe('心脏结构图', () => {
 describe('切图时的选中项', () => {
   it('默认结构左心室在三幅解剖图上都有标注', async () => {
     const { figIds } = await import('../src/views/anatomy.js');
-    for (const k of FIG_KEYS.filter((k) => !FIGS[k].overlay)) expect(figIds(k).has('lv'), k).toBe(true);
+    for (const k of FIG_KEYS.filter((k) => !FIGS[k].overlay && !FIGS[k].plot)) expect(figIds(k).has('lv'), k).toBe(true);
   });
 });
