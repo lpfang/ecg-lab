@@ -14,9 +14,9 @@ export function spread(rows) {
   return ys;
 }
 
-/** 出处文字：refs.js 的 id 换成简称，悬停看完整文献 */
+/** 出处文字：refs.js 的 id 换成简称，鼠标移上去（或键盘移到上面）立即显示完整文献 */
 export function sourceHtml(src) {
-  return esc(src).replace(new RegExp(`\\b(${Object.keys(REF_SHORT).join('|')})\\b`, 'g'), (k) => `<abbr title="${esc(REFS[k].text)}">${REF_SHORT[k]}</abbr>`);
+  return esc(src).replace(new RegExp(`\\b(${Object.keys(REF_SHORT).join('|')})\\b`, 'g'), (k) => `<span class="ref-tip" tabindex="0" data-tip="${esc(REFS[k].text)}">${REF_SHORT[k]}</span>`);
 }
 
 /** 图内标注的图（心动周期）：标注直接写在原来英文的位置上 */

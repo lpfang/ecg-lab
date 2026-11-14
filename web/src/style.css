@@ -2356,9 +2356,41 @@ body.case-stale .case-info {
   font-size: 12px;
   color: var(--muted);
 }
-.an-src abbr {
+/* 出处简称：鼠标移上去立即弹出完整文献（浏览器自带的 title 提示要等一秒左右） */
+.ref-tip {
+  position: relative;
   text-decoration: underline dotted;
+  text-underline-offset: 2px;
   cursor: help;
+  outline: none;
+}
+.ref-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  z-index: 20;
+  width: max-content;
+  max-width: 320px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  visibility: hidden;
+}
+.ref-tip:hover::after,
+.ref-tip:focus-visible::after {
+  visibility: visible;
+}
+.ref-tip:focus-visible {
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #06675b;
 }
 .an-lab {
   cursor: pointer;
