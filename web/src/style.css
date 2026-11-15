@@ -205,6 +205,19 @@ dialog {
   border-radius: 8px;
   max-width: 820px;
 }
+/* 打开弹窗时，滚轮不再带动背景页面：
+   - 有模态弹窗时锁住页面滚动（滚动位置保留，关掉弹窗后还在原处）；
+   - 弹窗里的滚动区域滚到头时不再把滚动传出去 */
+html {
+  scrollbar-gutter: stable; /* 显示固定滚动条的系统上，锁住滚动时页面不左右跳 */
+}
+html:has(dialog:modal) {
+  overflow: hidden;
+}
+dialog,
+dialog * {
+  overscroll-behavior: contain;
+}
 dialog p {
   line-height: 1.6;
 }
