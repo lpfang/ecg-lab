@@ -389,7 +389,7 @@ function drawCaliper(ctx, lay, c, s) {
   const X = (t) => xOf(lay, cellAt(t), t);
   const Y = (mV) => row.baselineMm - mV * lay.gain;
   const top = row.top + 1;
-  const bottom = row.top + PAPER.rowMvSpan * lay.gain - 1;
+  const bottom = row.top + cells[0].heightMm - 1; // 用当前行的实际高度（同步排版行高比标准排版矮）
   const dt = c.b.t - c.a.t;
 
   ctx.strokeStyle = COLORS.caliper;
