@@ -136,7 +136,7 @@ export function figIds(key) {
   return new Set([...f.L, ...f.R, ...(f.inside ?? []).map((t) => [0, t.id])].map((r) => r[1]));
 }
 
-const HEART_INTRO = '先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上的中文标注查看说明。';
+const HEART_INTRO = '先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上带点线的中文名称，右边会显示它的说明。';
 const HEART_CREDIT = `<p class="an-credit muted small">
       图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27、19.29，
       采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可；原书
@@ -150,7 +150,7 @@ const HEART_CREDIT = `<p class="an-credit muted small">
 /** "量血压"窗口：听诊法、电子血压计的原理、电子血压计实测 */
 export const BP_VIEW = {
   keys: BP_KEYS,
-  intro: '血压计量的是手臂动脉里的压力。先看医生用听诊器怎样量，再看家里的电子血压计怎样量。点击图上的中文标注查看说明。',
+  intro: '血压计量的是手臂动脉里的压力。先看医生用听诊器怎样量，再看家里的电子血压计怎样量。点击图上带点线的中文名称，右边会显示它的说明。',
   credit: `<p class="an-credit muted small">
       "医生用听诊器量"一图来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 20.12，
       采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可；原书
@@ -185,7 +185,7 @@ export function buildAnatomy(root, key = 'ext', onChange = null, opts = {}) {
         <div class="an-more" data-an="more"></div>
       </div>
       <aside class="an-info" aria-live="polite">
-        <span class="muted small">说明</span>
+        <span class="muted small">说明 · 点图上带点线的名称可切换</span>
         <h4 data-an="zh"></h4><p class="muted" data-an="en" lang="en"></p>
         <p data-an="plain"></p>
         <p data-an="valve" class="muted" hidden></p>

@@ -2400,6 +2400,10 @@ body.case-stale .case-info {
   font-size: 25px;
   fill: #1f2937;
   font-weight: 600;
+  /* 平时就带点状下划线（与正文里的术语链接一致），提示可以点击 */
+  text-decoration: underline dotted #0f766e;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
 }
 .an-lab rect {
   fill: transparent;
@@ -2410,7 +2414,7 @@ body.case-stale .case-info {
   fill: #06675b;
 }
 .an-lab.on text {
-  text-decoration: underline;
+  text-decoration-style: solid;
 }
 .an-lab.on rect,
 .an-lab:focus-visible rect {
