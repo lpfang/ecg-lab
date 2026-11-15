@@ -163,3 +163,23 @@ describe('导览光标 {atrial}', () => {
     expect(cursorAt(m, s.cursor)).toBe(w.peak);
   });
 });
+
+describe('ST 占位符与逐搏边界可靠性', () => {
+  const ctxOf = (m) => ({ meta: m, lvh: null, lvhBy: {} });
+  it('QRS 终点不可靠的病例：{stj} 取两种算法 J 点读数的平均，并附来源说明', () => {
+    const m = meta('ptbxl-13913');
+    expect(m.annotations.unreliable?.QRS).toBeTruthy();
+    const algo = m.amplitudes.filter((a) => a.kind === 'algorithm').map((a) => a.values.V3.STJ);
+    const avg = algo.reduce((a, b) => a + b, 0) / algo.length;
+    const out = fillTemplate('V3 {stj:V3} mV', ctxOf(m));
+    expect(out).toContain(`+${avg.toFixed(2)} mV`);
+    expect(out).toContain('两种算法');
+    expect(fillTemplate('{st80:V3}', ctxOf(m))).toBe('—'); // J+80 依赖本站 J 点，不给
+  });
+  it('边界可靠的病例：{stj} 仍用本站读数，不加说明', () => {
+    const m = meta('ptbxl-33');
+    expect(m.annotations.unreliable?.QRS).toBeFalsy();
+    const v = m.amplitudes.find((a) => a.id === 'area').values.III.STJ;
+    expect(fillTemplate('{stj:III}', ctxOf(m))).toBe(`${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(2)}`);
+  });
+});

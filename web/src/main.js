@@ -457,8 +457,17 @@ function renderST(meta) {
   const q = jBad ? '?' : '';
   $('#st-table thead').innerHTML =
     '<tr><th>导联</th><th class="num src" title="J 点 = QRS 终点">J 点</th><th class="num src">J + 80 ms</th>' +
+    (jBad ? '<th class="num src" title="GE 12SL 与 Glasgow Uni-G 各自定位 J 点的读数平均">两种算法<br>J 点</th>' : '') +
     (gl ? '<th class="num src" title="Glasgow Uni-G">Glasgow<br>J + 80 ms</th>' : '') +
     '</tr>';
+  const algoJ = (l) => {
+    const xs = (meta.amplitudes ?? [])
+      .filter((a) => a.kind === 'algorithm')
+      .map((a) => a.values?.[l]?.STJ)
+      .filter((v) => v != null);
+    return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+  };
+  const clsAlgo = (v) => (v == null ? '' : v <= -0.05 ? 'dep' : v >= 0.1 ? 'elev' : '');
   const inT = own.values.II?.ST80inT ?? 0; // 各导联相同：J+80 落进 T 波的心搏比例
   const unconf = own.values.II?.ST80unconfirmed ?? 0; // 没有 T 波标注、无法确认的心搏比例（此时读数不着色）
   const st80 = (v) =>
@@ -472,6 +481,7 @@ function renderST(meta) {
     const g = gl?.values[l]?.ST80;
     return (
       `<tr><th>${l}</th><td class="num ${jBad ? 'muted' : cls(v.STJ)}"${jBad ? ' title="J 点（QRS 终点）位置不可靠"' : ''}>${fmt2(v.STJ)}${v.STJ != null ? q : ''}</td>${st80(v)}` +
+      (jBad ? `<td class="num ${clsAlgo(algoJ(l))}">${fmt2(algoJ(l))}</td>` : '') +
       // Glasgow 是固定时点读数，可能落在 T 波上：只列数值对照，不做异常着色
       (gl ? `<td class="num">${fmt2(g)}</td>` : '') +
       '</tr>'
@@ -479,7 +489,7 @@ function renderST(meta) {
   }).join('');
   $('#st-note').innerHTML =
     'ST 段相对于<a href="#" data-term="isoelectric">本次心跳 QRS 起点前的 PR 段</a>的偏移（mV），各心跳中位数。' +
-    '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记（Glasgow 一列不着色），<b>不是诊断标准</b>' +
+    '<span class="dep-k">蓝色</span> = 压低 ≥ 0.05 mV，<span class="elev-k">红色</span> = 抬高 ≥ 0.1 mV，仅为醒目标记（Glasgow J + 80 ms 一列不着色），<b>不是诊断标准</b>' +
     '（ST 异常的判定阈值随导联、性别、年龄不同）。勾选心电图上方的"参照基线"可以看到零点在哪里。' +
     (inT
       ? `<br>本例 ${Math.round(inT * 100)}% 的心跳在 J 点后 80 ms 已进入 T 波（心率快或 ST 段短时常见）。` +
@@ -490,7 +500,8 @@ function renderST(meta) {
       : '') +
     (jBad
       ? `<br><b>本例自动标注的 QRS 终点（J 点）不可靠</b>：逐跳 QRS 中位数约 ${jBad.beatMs} ms，两种算法约 ${jBad.algoMs} ms。` +
-        '本站两列的测量位置可能偏离真正的 J 点，读数带"?"，不做异常着色，仅供参考。'
+        '本站两列的测量位置可能偏离真正的 J 点，读数带"?"，不做异常着色，仅供参考。' +
+        '"两种算法 J 点"一列是 GE、Glasgow 各自定位 J 点给出的读数的平均（按同样的阈值着色），导览里的 ST 数值也取自这一列。'
       : '') +
     (unconf
       ? `<br>本例 ${Math.round(unconf * 100)}% 的心跳没有 T 波标注，无法确认 J 点后 80 ms 是否还在 ST 段。` +

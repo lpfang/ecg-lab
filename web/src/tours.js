@@ -646,6 +646,9 @@ export const TOURS = [
 
 const fmt2 = (v) => (v == null || Number.isNaN(v) ? '—' : v.toFixed(2));
 const fmt0 = (v) => (v == null || Number.isNaN(v) ? '—' : Math.round(v).toString());
+const signed = (v) => (v == null || Number.isNaN(v) ? '—' : `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(2)}`);
+export const ST_ALGO_NOTE =
+  '<span class="muted small">（本例 ST 数值取 GE、Glasgow 两种算法各自测得的 J 点读数的平均：本站自动标注的 QRS 终点存疑，见右栏"ST 段"页的说明。）</span>';
 
 function measure(meta, key) {
   const order = ['unig', '12sl', 'area', 'ludb'];
@@ -662,6 +665,14 @@ export function fillTemplate(text, ctx) {
   const pick = (src) => (src ? lvhBy?.[src] : lvh);
   const beats = meta.annotations?.beats ?? [];
   const own = meta.amplitudes?.find((a) => a.id === 'area')?.values;
+  const jBad = Boolean(meta.annotations?.unreliable?.QRS);
+  const algoStj = (lead) => {
+    const xs = (meta.amplitudes ?? [])
+      .filter((a) => a.kind === 'algorithm')
+      .map((a) => a.values?.[lead]?.STJ)
+      .filter((v) => v != null);
+    return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+  };
   const rr = beats.slice(1).map((b, i) => b.QRS.on - beats[i].QRS.on);
   const pd = beats.filter((b) => b.P).map((b) => b.P.off - b.P.on).sort((a, b) => a - b);
   const pp = () => {
@@ -709,10 +720,17 @@ export function fillTemplate(text, ctx) {
       return xs.length ? xs.map(fmt0).join('、') : '—';
     },
     // 带符号：负值 = 低于 PR 段零点（压低），正值 = 抬高。stj = J 点，st80 = J 点后 80 ms
-    stj: (lead) => (own?.[lead]?.STJ == null ? '—' : `${own[lead].STJ < 0 ? '−' : '+'}${Math.abs(own[lead].STJ).toFixed(2)}`),
-    st80: (lead) => (own?.[lead]?.ST80 == null ? '—' : `${own[lead].ST80 < 0 ? '−' : '+'}${Math.abs(own[lead].ST80).toFixed(2)}`),
+    // 本站自动标注的 QRS 终点不可靠时（unreliable.QRS），改用 GE、Glasgow 各自定位 J 点给出的读数的平均
+    stj: (lead) => signed(jBad ? algoStj(lead) : own?.[lead]?.STJ),
+    st80: (lead) => signed(jBad ? null : own?.[lead]?.ST80),
   };
-  return text.replace(/\{(\w+)(?::(\w+))?\}/g, (m, name, arg) => (table[name] ? table[name](arg) : m));
+  let usedStj = false;
+  const out = text.replace(/\{(\w+)(?::(\w+))?\}/g, (m, name, arg) => {
+    if (!table[name]) return m;
+    if (name === 'stj') usedStj = true;
+    return table[name](arg);
+  });
+  return jBad && usedStj ? out + ST_ALGO_NOTE : out;
 }
 
 /** 光标位置：第 beat 个心搏某时相的 frac 处（ms）；R = QRS 峰值 */
