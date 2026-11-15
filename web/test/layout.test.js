@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeLayout, hitTest, PAPER } from '../src/ecg/layout.js';
+import { computeLayout, hitTest, PAPER, caliperRow, LAYOUTS } from '../src/ecg/layout.js';
 import { qtcBazett, qtcFridericia } from '../src/ecg/measures.js';
 
 describe('心电图纸排版（mm / ms）', () => {
@@ -84,5 +84,23 @@ describe('QTc', () => {
   });
   it('缺值返回 null', () => {
     expect(qtcBazett(null, 800)).toBeNull();
+  });
+});
+
+describe('卡尺按导联和时间定位', () => {
+  const std = computeLayout({ durationMs: 10000, speed: 25, gain: 10, layout: LAYOUTS.std });
+  const sync = computeLayout({ durationMs: 10000, speed: 25, gain: 10, layout: LAYOUTS.sync });
+  it('标准排版：跨列的 II 导联卡尺落在节律条（第 4 行）', () => {
+    expect(caliperRow(std, 'II', 1000, 4000)).toBe(3);
+  });
+  it('标准排版：同一格内的 II 导联卡尺落在第 2 行', () => {
+    expect(caliperRow(std, 'II', 500, 1500)).toBe(1);
+  });
+  it('同步排版：II 导联卡尺落在 II 那一行（第 2 行），不是第 4 行 aVR', () => {
+    expect(caliperRow(sync, 'II', 1000, 4000)).toBe(1);
+    expect(sync.cells.find((c) => c.row === 3).lead).toBe('aVR');
+  });
+  it('导联不在该时刻显示时返回 null', () => {
+    expect(caliperRow(std, 'V1', 1000, 1500)).toBe(null);
   });
 });

@@ -1,5 +1,6 @@
 // 心电图手册：章节结构、演示病例与定位、交互演示的计算
 import { describe, it, expect } from 'vitest';
+import { computeLayout, LAYOUTS } from '../src/ecg/layout.js';
 import { readFileSync } from 'node:fs';
 import { HANDBOOK, CHAPTERS, chapterById } from '../src/content/handbook.js';
 import { TOURS, cursorAt } from '../src/tours.js';
@@ -47,7 +48,16 @@ describe('手册结构', () => {
       expect(t).toBeGreaterThan(0);
       expect(t).toBeLessThan(m.durationMs);
     }
-    if (d.scroll) expect(html).toMatch(new RegExp(`class="[^"]*\\b${d.scroll.slice(1)}\\b`));
+    if (d.scroll && d.scroll !== 'lead') expect(html).toMatch(new RegExp(`class="[^"]*\\b${d.scroll.slice(1)}\\b`));
+    if (d.view?.layout) expect(Object.keys(LAYOUTS)).toContain(d.view.layout);
+    // 演示把页面停在主图上时（不滚到对比卡片等别处），指定的导联在光标时刻必须看得见
+    // （标准排版里每个导联只显示 2.5 秒，II 另有 10 秒节律条）
+    if (d.lead && d.cursor && (!d.scroll || d.scroll === 'lead' || d.scroll === '.paper-wrap')) {
+      const m = readMeta(d.case);
+      const t = cursorAt(m, d.cursor);
+      const lay = computeLayout({ durationMs: m.durationMs, speed: 25, gain: 10, layout: LAYOUTS[d.view?.layout ?? 'std'] });
+      expect(lay.cells.some((c) => c.lead === d.lead && c.t0 <= t && t < c.t1), `${d.label}：${d.lead} 在 ${t} ms 不可见`).toBe(true);
+    }
     if (d.view?.mtab) expect(['intervals', 'lvh', 'st']).toContain(d.view.mtab);
   });
 

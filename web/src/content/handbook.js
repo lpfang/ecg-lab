@@ -88,7 +88,7 @@ export const HANDBOOK = [
             label: '左心室高电压',
             case: 'ptbxl-10171',
             lead: 'V1',
-            cursor: { beat: 3, phase: 'R', frac: 0 },
+            cursor: { beat: 9, phase: 'R', frac: 0 }, // 标准排版里 V1 显示 5.0–7.5 秒，光标要落在这一段
             view: { mtab: 'lvh' },
             note: 'V1 向下的 S 波很深，V5、V6 向上的 R 波很高。右栏"左室肥厚电压"页给出各项标准。',
           },
@@ -219,7 +219,7 @@ export const HANDBOOK = [
             label: '正常心电图的 I 导联',
             case: 'ptbxl-33',
             lead: 'I',
-            cursor: { beat: 3, phase: 'R', frac: 0 },
+            cursor: { beat: 1, phase: 'R', frac: 0 }, // 标准排版里 I 显示 0–2.5 秒
             note: '红框选中的 I 导联，就是手表能记录到的那个方向。',
           },
           {
@@ -634,8 +634,9 @@ export const HANDBOOK = [
             case: 'ptbxl-3090',
             lead: 'V2',
             cursor: { beat: 4, phase: 'P', frac: 0.5 },
-            scroll: '.compare-card',
-            note: '光标在提前出现的 P′ 波上。它很小：在 V2 导联是紧跟在前一个 T 波后面的约 1 小格高的凸起，II 导联几乎看不到。后面的 QRS 和其他心跳一样窄。可以切到"12 导联同步"排版，上下对照着看。',
+            view: { layout: 'sync' }, // 标准排版里 V2 只显示 5.0–7.5 秒，这个房早（4.4 秒）不在其中
+            scroll: 'lead',
+            note: '已切到"12 导联同步"排版，光标在提前出现的 P′ 波上。它很小：在 V2 导联是紧跟在前一个 T 波后面的约 1 小格高的凸起，II 导联几乎看不到。后面的 QRS 和其他心跳一样窄。',
           },
           {
             label: '室性早搏',

@@ -1,6 +1,6 @@
 import './style.css';
 import { loadIndex, loadCase } from './data.js';
-import { computeLayout, hitTest, LAYOUTS } from './ecg/layout.js';
+import { computeLayout, hitTest, LAYOUTS, caliperRow } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
 import { TOURS, fillTemplate, cursorTime, cursorAt, spotOf } from './tours.js';
@@ -103,6 +103,12 @@ function flush() {
   dirty.clear();
   if (parts.has('paper')) {
     state.layout = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: LAYOUTS[state.layoutId] });
+    // 卡尺按导联和时间定位：换排版（或导览只给了导联）时重新找它所在的行，找不到就清掉
+    const cal = state.caliper;
+    if (cal && cal.layout !== state.layout.id) {
+      const row = caliperRow(state.layout, cal.a.lead, cal.a.t, cal.b.t);
+      state.caliper = row == null ? null : { ...cal, row, layout: state.layout.id };
+    }
     drawPaper($('#paper'), state.layout, state.ecg, state.pxPerMm, { showWaves: state.showWaves });
     renderStatus();
     parts.add('overlay');
@@ -725,7 +731,7 @@ function onPointerDown(ev) {
   stopPlay();
   if (state.tool === 'caliper') {
     const p = { t: h.tMs, mV: h.mV, lead: h.cell.lead };
-    set({ caliper: { row: h.cell.row, a: p, b: p, march: $('#caliper-march').checked } }, 'overlay');
+    set({ caliper: { row: h.cell.row, layout: state.layout.id, a: p, b: p, march: $('#caliper-march').checked } }, 'overlay');
   } else {
     set({ cursorMs: h.tMs, selectedLead: h.cell.lead }, 'overlay', 'linked');
   }
@@ -1240,7 +1246,7 @@ async function goStep(i) {
   if (step.caliper && beats[step.caliper.to]) {
     const ta = beats[step.caliper.from].QRS.peak;
     const tb = beats[step.caliper.to].QRS.peak;
-    patch.caliper = { row: 3, a: { t: ta, mV: 0, lead: 'II' }, b: { t: tb, mV: 0, lead: 'II' }, march: !!step.caliper.march }; // 第 4 行是 II 导联节律条
+    patch.caliper = { row: null, layout: null, a: { t: ta, mV: 0, lead: 'II' }, b: { t: tb, mV: 0, lead: 'II' }, march: !!step.caliper.march }; // 行号在重画时按 II 导联和时间算出
     patch.tool = 'caliper';
   }
   set(patch, 'paper', 'linked');
@@ -1507,6 +1513,7 @@ async function runDemo(chId, i) {
       showRef: v.showRef ?? false,
       selectedLead: demo.lead ?? state.selectedLead,
       cursorMs: demo.cursor ? cursorAt(state.ecg.meta, demo.cursor) : state.cursorMs,
+      layoutId: v.layout ?? state.layoutId, // 演示要看的波形不在标准排版的格子里时，指定同步排版
       caliper: null,
       tool: 'cursor',
     },
@@ -1516,8 +1523,22 @@ async function runDemo(chId, i) {
   syncControls();
   setMtab(v.mtab ?? 'intervals');
   $('#hb-demo-note').textContent = demo.note;
+  if (demo.scroll === 'lead') {
+    // 等这一帧按新排版重画、波形图变高之后再滚，免得页面还不够长被截停
+    requestAnimationFrame(() => scrollToLead(state.selectedLead, state.cursorMs));
+    return;
+  }
   const target = document.querySelector(demo.scroll ?? '.paper-wrap');
   (target && !target.hidden ? target : $('.paper-wrap')).scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+
+/** 把某导联（含该时刻）的那一行滚到屏幕中间；排版在下一帧才重算，所以先按目标排版算一次 */
+function scrollToLead(lead, t) {
+  const lay = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: LAYOUTS[state.layoutId] });
+  const cell = lay.cells.find((c) => c.lead === lead && !c.rhythm && (t == null || (c.t0 <= t && t < c.t1)));
+  if (!cell) return $('.paper-wrap').scrollIntoView({ block: 'center', behavior: 'smooth' });
+  const top = $('#paper').getBoundingClientRect().top + window.scrollY + (cell.topMm + cell.heightMm / 2) * state.pxPerMm;
+  window.scrollTo({ top: top - window.innerHeight / 2, behavior: 'smooth' });
 }
 
 // ================================================================ 测验（题目为数据，判分按物理单位）

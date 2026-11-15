@@ -118,3 +118,17 @@ export function hitTest(lay, xMm, yMm) {
   }
   return null;
 }
+
+/**
+ * 卡尺所在的行：按导联和时间找，不写死行号（标准排版第 4 行是 II 节律条，同步排版第 4 行是 aVR）。
+ * 优先找能同时容纳两端时间的格子（标准排版里跨列的时间段会落到节律条上）；找不到返回 null
+ */
+export function caliperRow(lay, lead, ta, tb = ta) {
+  if (!lead) return null;
+  const lo = Math.min(ta, tb);
+  const hi = Math.max(ta, tb);
+  const cells = lay.cells.filter((c) => c.lead === lead);
+  const both = cells.find((c) => c.t0 <= lo && hi <= c.t1);
+  if (both) return both.row;
+  return cells.find((c) => c.t0 <= lo && lo < c.t1)?.row ?? null;
+}
