@@ -636,7 +636,7 @@ export const HANDBOOK = [
             cursor: { beat: 4, phase: 'P', frac: 0.5 },
             view: { layout: 'sync' }, // 标准排版里 V2 只显示 5.0–7.5 秒，这个房早（4.4 秒）不在其中
             scroll: 'lead',
-            note: '已切到"12 导联同步"排版，光标在提前出现的 P′ 波上。它很小：在 V2 导联是紧跟在前一个 T 波后面的约 1 小格高的凸起，II 导联几乎看不到。后面的 QRS 和其他心跳一样窄。',
+            note: '已切到"12 导联同步"排版，光标在提前出现的 P′ 波上。它很小：在 V2 导联是紧跟在前一个 T 波后面的凸起，标准增益下约 1 小格高，II 导联几乎看不到。后面的 QRS 和其他心跳一样窄。',
           },
           {
             label: '室性早搏',
@@ -705,7 +705,7 @@ export const HANDBOOK = [
             cursor: { beat: 3, phase: 'T', frac: 0.1 },
             view: { mtab: 'st' },
             scroll: '.measure-card',
-            note: 'V2–V6 和 I、II、aVL 的 J 点都抬高，V3 最高（本站约 1.0 mV，即 10 小格）；III 轻度压低。原报告记录 V2、V3 已出现 Q 波。',
+            note: 'V2–V6 和 I、II、aVL 的 J 点都抬高，V3 最高（两种算法测得约 1.0 mV，标准增益 10 mm/mV 下约 10 小格）；III 轻度压低。原报告记录 V2、V3 已出现 Q 波。',
           },
           {
             label: '下侧壁心梗累及后壁：V1–V3 的"镜像"',

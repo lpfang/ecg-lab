@@ -591,7 +591,7 @@ export const TOURS = [
         focus: ['.paper-wrap', '.measure-card'],
         spot: { leads: ['V2', 'V3', 'V4', 'I', 'aVL'], beat: 3 },
         plain:
-          '这位 68 岁男性：胸前的 V2–V6 和 I、II、aVL 都抬高，V3 抬高 {stj:V3} mV，约 10 小格。抬高的导联越多，受累的心肌往往越多。原报告记录 V2、V3 已出现 Q 波。',
+          '这位 68 岁男性：胸前的 V2–V6 和 I、II、aVL 都抬高，V3 抬高 {stj:V3} mV，在标准增益（10 mm/mV）下约 10 小格。抬高的导联越多，受累的心肌往往越多。原报告记录 V2、V3 已出现 Q 波。',
         pro: '前壁的 ST 段抬高型心梗（STEMI）几乎都由左前降支阻塞引起（AHA 2009）。AHA 2009 所说近段阻塞的典型表现是 V1–V4 与 I、aVL 抬高、II、III、aVF 压低；本例 II 反而抬高（{stj:II} mV），只有 III 轻度压低（{stj:III} mV），具体阻塞位置无法从心电图确定（无造影资料）。',
       },
       {
@@ -648,7 +648,7 @@ const fmt2 = (v) => (v == null || Number.isNaN(v) ? '—' : v.toFixed(2));
 const fmt0 = (v) => (v == null || Number.isNaN(v) ? '—' : Math.round(v).toString());
 const signed = (v) => (v == null || Number.isNaN(v) ? '—' : `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(2)}`);
 export const ST_ALGO_NOTE =
-  '<span class="muted small">（本例 ST 数值取 GE、Glasgow 两种算法各自测得的 J 点读数的平均：本站自动标注的 QRS 终点存疑，见右栏"ST 段"页的说明。）</span>';
+  '<span class="muted small">（"两种算法平均"：GE、Glasgow 两种算法各自定位 J 点测得的读数的平均。本例本站自动标注的 QRS 终点存疑，所以不用本站读数，见右栏"ST 段"页的说明。）</span>';
 
 function measure(meta, key) {
   const order = ['unig', '12sl', 'area', 'ludb'];
@@ -725,12 +725,14 @@ export function fillTemplate(text, ctx) {
     st80: (lead) => signed(jBad ? null : own?.[lead]?.ST80),
   };
   let usedStj = false;
-  const out = text.replace(/\{(\w+)(?::(\w+))?\}/g, (m, name, arg) => {
+  // J 点存疑的病例：{stj} 后面紧跟标注来源（"… mV（两种算法平均）"），段末再说明原因
+  const out = text.replace(/\{(\w+)(?::(\w+))?\}( mV)?/g, (m, name, arg, unit = '') => {
     if (!table[name]) return m;
-    if (name === 'stj') usedStj = true;
-    return table[name](arg);
+    if (name !== 'stj' || !jBad) return table[name](arg) + unit;
+    usedStj = true;
+    return `${table[name](arg)}${unit}（两种算法平均）`;
   });
-  return jBad && usedStj ? out + ST_ALGO_NOTE : out;
+  return usedStj ? out + ST_ALGO_NOTE : out;
 }
 
 /** 光标位置：第 beat 个心搏某时相的 frac 处（ms）；R = QRS 峰值 */

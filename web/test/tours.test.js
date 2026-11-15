@@ -172,7 +172,7 @@ describe('ST 占位符与逐搏边界可靠性', () => {
     const algo = m.amplitudes.filter((a) => a.kind === 'algorithm').map((a) => a.values.V3.STJ);
     const avg = algo.reduce((a, b) => a + b, 0) / algo.length;
     const out = fillTemplate('V3 {stj:V3} mV', ctxOf(m));
-    expect(out).toContain(`+${avg.toFixed(2)} mV`);
+    expect(out).toContain(`+${avg.toFixed(2)} mV（两种算法平均）`);
     expect(out).toContain('两种算法');
     expect(fillTemplate('{st80:V3}', ctxOf(m))).toBe('—'); // J+80 依赖本站 J 点，不给
   });
