@@ -901,6 +901,11 @@ function openAnatomy(fig, fromChapter = null) {
       openBpm(key, { heart: from });
     },
   });
+  // 来源章节也写进网址，刷新后"返回手册"按钮还在
+  const u = new URL(location.href);
+  if (fromChapter) u.searchParams.set('heartfrom', fromChapter);
+  else u.searchParams.delete('heartfrom');
+  history.replaceState(null, '', u);
   $('#anatomy').showModal();
   $('#anatomy-body').scrollTop = 0;
 }
@@ -1439,6 +1444,7 @@ function closeDlg(id) {
     const u = new URL(location.href);
     u.searchParams.delete(DLG_PARAM[id]);
     if (id === 'bpm') u.searchParams.delete('bpfrom');
+    if (id === 'anatomy') u.searchParams.delete('heartfrom');
     history.replaceState(null, '', u);
   }
 }
@@ -2010,6 +2016,7 @@ function bindControls() {
   $('#anatomy').addEventListener('close', () => {
     const u = new URL(location.href);
     u.searchParams.delete('heart');
+    u.searchParams.delete('heartfrom');
     history.replaceState(null, '', u);
   });
   $('#heart-btn').onclick = () => openAnatomy('ext');
@@ -2253,7 +2260,7 @@ async function boot() {
   const wantHeart = new URLSearchParams(location.search).get('heart');
   // 导览只是侧边面板，图窗口可以叠在上面：刷新时先恢复导览，再打开当时的图
   const showHeart = wantHeart && !wantQuiz && !wantRead && !wantDrug;
-  if (showHeart) openAnatomy(wantHeart);
+  if (showHeart) openAnatomy(wantHeart, new URLSearchParams(location.search).get('heartfrom'));
   const wantBp = new URLSearchParams(location.search).get('bp');
   const showBp = wantBp && !wantQuiz && !wantRead && !wantDrug && !wantHeart;
   if (showBp) openBpm(wantBp, parseBpFrom(new URLSearchParams(location.search).get('bpfrom')));
@@ -2262,6 +2269,7 @@ async function boot() {
   if (wantHeart && !showHeart) u.searchParams.delete('heart');
   if (wantBp && !showBp) u.searchParams.delete('bp');
   if (!showBp) u.searchParams.delete('bpfrom');
+  if (!showHeart) u.searchParams.delete('heartfrom');
   if (u.href !== location.href) history.replaceState(null, '', u);
 }
 
