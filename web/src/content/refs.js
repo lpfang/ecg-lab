@@ -76,7 +76,7 @@ export const REFS = {
   },
   svt2015: {
     text: 'Page RL, Joglar JA, Caldwell MA, et al. 2015 ACC/AHA/HRS Guideline for the Management of Adult Patients With Supraventricular Tachycardia. Circulation. 2016;133(14):e506–e574. doi:10.1161/CIR.0000000000000311',
-    note: '室上性心动过速指南，第 7 节为心房扑动：心电图特征、与房颤的关系、抗凝、峡部消融；已读该节原文',
+    note: '室上性心动过速指南：术语定义（室上速不含房颤）、流行病学、窄 QRS 心动过速的鉴别、AVNRT（第 5 节）、心房扑动（第 7 节）；已读相关段落原文',
     status: 'verified',
   },
   va2017: {

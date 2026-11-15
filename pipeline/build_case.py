@@ -412,7 +412,7 @@ def ecgdeli_annotations(ecg_id: int, fs: float, duration_ms: float, issues: list
     }
 
 
-RHYTHM_CODES = ["AFIB", "AFLT", "STACH", "SBRAD", "SARRH", "SR"]
+RHYTHM_CODES = ["AFIB", "AFLT", "PSVT", "SVTAC", "STACH", "SBRAD", "SARRH", "SR"]
 
 
 def drop_p(ann: dict | None, types: tuple = ("P",)) -> dict | None:
@@ -453,7 +453,8 @@ def load_ptbxl(rec: str) -> dict:
 
     codes = {d["code"] for d in diagnoses}
     rhythm = next((r for r in RHYTHM_CODES if r in codes), "SR")
-    no_p = rhythm in ("AFIB", "AFLT")  # 房颤 / 房扑：没有窦性 P 波，PR 间期不适用
+    # 房颤 / 房扑 / 室上速：没有窦性 P 波，PR 间期不适用（室上速的心房波常藏在 QRS、T 里，自动标注不可信）
+    no_p = rhythm in ("AFIB", "AFLT", "PSVT", "SVTAC")
 
     algos = []
     amps = []
@@ -471,7 +472,7 @@ def load_ptbxl(rec: str) -> dict:
             amps.append({"id": key, "label": label, "kind": "algorithm", "values": a})
     if no_p:
         issues.append({"level": "info", "lead": None,
-                       "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"})
+                       "msg": "心房颤动 / 扑动 / 室上性心动过速：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"})
     if rhythm == "AFLT":
         issues.append({"level": "info", "lead": None,
                        "msg": "心房扑动：扑动波与 T 波重叠，自动标注的 T 波已舍弃；算法给出的 QT 仅供参考"})
