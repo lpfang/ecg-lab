@@ -51,3 +51,24 @@ describe('S 波：R′ 比 R 高时不漏掉中间的深 S', () => {
     expect(v.V1.S).toBeGreaterThan(0.5);
   });
 });
+
+describe('逐搏边界核对（pipeline check_boundaries）', () => {
+  const med = (xs) => {
+    const s = [...xs].sort((a, b) => a - b);
+    const n = s.length;
+    return n % 2 ? s[n >> 1] : (s[n / 2 - 1] + s[n / 2]) / 2;
+  };
+  const TOL = { QRS: 25, QT: 40 };
+  const span = { QRS: (b) => b.QRS.off - b.QRS.on, QT: (b) => (b.T ? b.T.off - b.QRS.on : null) };
+  // 防止改了标注却没重建：逐搏中位数与算法相差超过阈值的病例，必须带 unreliable 标记，反之不带
+  it.each(ids.filter((id) => id.startsWith('ptbxl-')))('%s 的 unreliable 标记与数据一致', (id) => {
+    const m = meta(id);
+    const algos = m.measurements.filter((x) => x.kind === 'algorithm').map((x) => x.values);
+    for (const k of ['QRS', 'QT']) {
+      const xs = m.annotations.beats.filter((b) => b.QRS).map(span[k]).filter((v) => v != null);
+      const ref = algos.map((a) => a[`${k}_ms`]).filter(Boolean);
+      const bad = xs.length > 0 && ref.length > 0 && Math.abs(med(xs) - med(ref)) >= TOL[k];
+      expect(Boolean(m.annotations.unreliable?.[k]), k).toBe(bad);
+    }
+  });
+});

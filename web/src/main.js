@@ -253,12 +253,19 @@ function nowText(ctx, tTxt) {
   const b = ctx.beat;
   const ms = (x) => (x == null || Number.isNaN(x) ? '—' : `${Math.round(x)} ms`);
   // 每个时相都给一条本次心搏的实测，行数固定
+  // 自动标注的逐搏边界与两种算法相差太大时（见 pipeline check_boundaries），不给该项逐搏读数
+  const bad = state.ecg.meta.annotations?.unreliable ?? {};
+  const badText = (name, u) =>
+    `本例自动标注的 ${name} 边界${u.beatMs > u.algoMs ? '偏宽' : '偏窄'}（逐跳中位数约 ${u.beatMs} ms，` +
+    `两种算法约 ${u.algoMs} ms），这里不给逐跳读数，请以测量表为准；图上的波段着色也只表示大致位置`;
   const beatFacts = {
     P: `本次心搏 P 波时限 ${ms(b.P && b.P.off - b.P.on)}`,
     PR: `本次心搏 PR 间期 ${ms(b.P && b.QRS.on - b.P.on)}`,
-    QRS: `本次心搏 QRS 时限 ${ms(b.QRS.off - b.QRS.on)}`,
-    ST: `本次心搏 ST 段时长 ${ms(b.T && b.T.on - b.QRS.off)}`,
-    T: `本次心搏 QT 间期 ${ms(b.T && b.T.off - b.QRS.on)}`,
+    QRS: bad.QRS ? badText('QRS', bad.QRS) : `本次心搏 QRS 时限 ${ms(b.QRS.off - b.QRS.on)}`,
+    ST: bad.QRS
+      ? '本例自动标注的 QRS 终点（J 点）不可靠，这里不给 ST 段时长'
+      : `本次心搏 ST 段时长 ${ms(b.T && b.T.on - b.QRS.off)}`,
+    T: bad.QT ? badText('QT', bad.QT) : `本次心搏 QT 间期 ${ms(b.T && b.T.off - b.QRS.on)}`,
     TP: (() => {
       if (state.cursorMs < b.QRS.on) {
         const prev = state.ecg.meta.annotations.beats[ctx.loc.index - 1];
@@ -444,7 +451,10 @@ function renderST(meta) {
     $('#st-note').textContent = '本例没有可用的 ST 数据。';
     return;
   }
-  const cls = (v) => (v == null ? '' : v <= -0.05 ? 'dep' : v >= 0.1 ? 'elev' : '');
+  // 自动标注的 QRS 终点不可靠时，J 点和 J+80 都可能取错位置：读数带"?"，不做阈值着色
+  const jBad = meta.annotations?.unreliable?.QRS;
+  const cls = (v) => (jBad || v == null ? '' : v <= -0.05 ? 'dep' : v >= 0.1 ? 'elev' : '');
+  const q = jBad ? '?' : '';
   $('#st-table thead').innerHTML =
     '<tr><th>导联</th><th class="num src" title="J 点 = QRS 终点">J 点</th><th class="num src">J + 80 ms</th>' +
     (gl ? '<th class="num src" title="Glasgow Uni-G">Glasgow<br>J + 80 ms</th>' : '') +
@@ -454,14 +464,14 @@ function renderST(meta) {
   const st80 = (v) =>
     v.ST80 == null && inT
       ? `<td class="num muted" title="多数心搏的 J+80 ms 已落在 T 波上，这个时点读到的不是 ST 段">T 波内</td>`
-      : unconf
-        ? `<td class="num muted" title="固定时点读数：多数心搏没有 T 波标注，无法确认是否还在 ST 段">${fmt2(v.ST80)}?</td>`
+      : unconf || jBad
+        ? `<td class="num muted" title="${jBad ? 'J 点（QRS 终点）位置不可靠' : '固定时点读数：多数心搏没有 T 波标注，无法确认是否还在 ST 段'}">${fmt2(v.ST80)}?</td>`
         : `<td class="num ${cls(v.ST80)}">${fmt2(v.ST80)}</td>`;
   $('#st-table tbody').innerHTML = ST_LEADS.map((l) => {
     const v = own.values[l] ?? {};
     const g = gl?.values[l]?.ST80;
     return (
-      `<tr><th>${l}</th><td class="num ${cls(v.STJ)}">${fmt2(v.STJ)}</td>${st80(v)}` +
+      `<tr><th>${l}</th><td class="num ${jBad ? 'muted' : cls(v.STJ)}"${jBad ? ' title="J 点（QRS 终点）位置不可靠"' : ''}>${fmt2(v.STJ)}${v.STJ != null ? q : ''}</td>${st80(v)}` +
       // Glasgow 是固定时点读数，可能落在 T 波上：只列数值对照，不做异常着色
       (gl ? `<td class="num">${fmt2(g)}</td>` : '') +
       '</tr>'
@@ -474,13 +484,17 @@ function renderST(meta) {
     (inT
       ? `<br>本例 ${Math.round(inT * 100)}% 的心跳在 J 点后 80 ms 已进入 T 波（心率快或 ST 段短时常见）。` +
         (own.values.II?.ST80 == null
-          ? '本站这一列不给数值，请以 J 点读数为准。'
+          ? `本站这一列不给数值${jBad ? '。' : '，请以 J 点读数为准。'}`
           : '本站"J + 80 ms"只用了还没进入 T 波的心跳。') +
         'Glasgow 一列是算法按固定时点给出的，仅供对照。'
       : '') +
+    (jBad
+      ? `<br><b>本例自动标注的 QRS 终点（J 点）不可靠</b>：逐跳 QRS 中位数约 ${jBad.beatMs} ms，两种算法约 ${jBad.algoMs} ms。` +
+        '本站两列的测量位置可能偏离真正的 J 点，读数带"?"，不做异常着色，仅供参考。'
+      : '') +
     (unconf
       ? `<br>本例 ${Math.round(unconf * 100)}% 的心跳没有 T 波标注，无法确认 J 点后 80 ms 是否还在 ST 段。` +
-        '本站"J + 80 ms"一列是固定时点读数（带"?"），不做异常着色，请以 J 点读数为准。'
+        `本站"J + 80 ms"一列是固定时点读数（带"?"），不做异常着色${jBad ? '。' : '，请以 J 点读数为准。'}`
       : '');
 }
 

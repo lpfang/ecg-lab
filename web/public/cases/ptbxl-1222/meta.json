@@ -2121,6 +2121,16 @@
      "conducts": 7
     }
    ]
+  },
+  "unreliable": {
+   "QRS": {
+    "beatMs": 141,
+    "algoMs": 97
+   },
+   "QT": {
+    "beatMs": 616,
+    "algoMs": 444
+   }
   }
  },
  "quality": {
@@ -2255,6 +2265,16 @@
    "level": "info",
    "lead": null,
    "msg": "P 波为本站手工标注：共 10 个，下传 8 个，未下传 2 个"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QRS 中位数 141 ms，两种算法 97 ms，相差 ≥ 25 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QT 中位数 616 ms，两种算法 444 ms，相差 ≥ 40 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
   },
   {
    "level": "warn",

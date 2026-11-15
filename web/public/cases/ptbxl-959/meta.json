@@ -2060,6 +2060,12 @@
      "conducts": null
     }
    ]
+  },
+  "unreliable": {
+   "QT": {
+    "beatMs": 741,
+    "algoMs": 611
+   }
   }
  },
  "quality": {
@@ -2189,6 +2195,11 @@
    "level": "info",
    "lead": null,
    "msg": "P 波为本站手工标注：共 16 个，下传 0 个，未下传 16 个"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QT 中位数 741 ms，两种算法 611 ms，相差 ≥ 40 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
   },
   {
    "level": "warn",

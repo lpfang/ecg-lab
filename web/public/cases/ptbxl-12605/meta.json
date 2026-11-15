@@ -2474,7 +2474,17 @@
   "annotatedRangeMs": [
    674.0,
    9252.0
-  ]
+  ],
+  "unreliable": {
+   "QRS": {
+    "beatMs": 146,
+    "algoMs": 97
+   },
+   "QT": {
+    "beatMs": 443,
+    "algoMs": 393
+   }
+  }
  },
  "quality": {
   "perLead": {
@@ -2598,6 +2608,16 @@
    "level": "info",
    "lead": null,
    "msg": "ECGDeli 自动标注中 3 个波不合理已舍弃：QRS@2ms（被记录首尾截断）；T@114ms（T 波起点早于 QRS 终点）；T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QRS 中位数 146 ms，两种算法 97 ms，相差 ≥ 25 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QT 中位数 443 ms，两种算法 393 ms，相差 ≥ 40 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
   },
   {
    "level": "info",

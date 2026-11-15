@@ -716,11 +716,41 @@ def apply_atrial(case_id: str, ann: dict | None, issues: list) -> None:
                    "msg": f"P 波为本站手工标注：共 {len(waves)} 个，下传 {n_c} 个，未下传 {len(waves) - n_c} 个"})
 
 
+# 逐搏边界与算法测量的核对：逐搏中位数与两种算法中位数相差达到这个值，就认为本例这项逐搏边界不可靠
+BOUNDARY_TOL_MS = {"QRS": 25, "QT": 40}
+
+
+def check_boundaries(ann: dict | None, measurements: list, issues: list) -> None:
+    """自动标注（ECGDeli 全局点）组装的逐搏 QRS / QT，与两种算法的全局测量对比。
+    偏差大时在 annotations.unreliable 里记下 {项目: {beatMs, algoMs}}，网页据此不显示该项逐搏读数、
+    J 点 ST 不做阈值着色。不改动边界本身：没有人工复核，无法判断哪一侧的点不准。"""
+    if not ann or not ann.get("beats"):
+        return
+    algos = [m["values"] for m in measurements if m["kind"] == "algorithm"]
+    span = {"QRS": lambda b: b["QRS"]["off"] - b["QRS"]["on"],
+            "QT": lambda b: b["T"]["off"] - b["QRS"]["on"] if "T" in b else None}
+    out = {}
+    for key, tol in BOUNDARY_TOL_MS.items():
+        xs = [v for b in ann["beats"] if "QRS" in b and (v := span[key](b)) is not None]
+        ref = [a[f"{key}_ms"] for a in algos if a.get(f"{key}_ms")]
+        if not xs or not ref:
+            continue
+        bm, am = float(np.median(xs)), float(np.median(ref))
+        if abs(bm - am) >= tol:
+            out[key] = {"beatMs": round(bm), "algoMs": round(am)}
+            issues.append({"level": "warn", "lead": None,
+                           "msg": f"自动标注的逐搏 {key} 中位数 {bm:.0f} ms，两种算法 {am:.0f} ms，相差 ≥ {tol} ms："
+                                  "逐搏边界不可靠，网页不显示该项逐搏读数"})
+    if out:
+        ann["unreliable"] = out
+
+
 def build(db: str, rec: str) -> dict:
     case_id = f"{db}-{rec}"
     log(f"[{case_id}]")
     c = LOADERS[db](rec)
     apply_atrial(case_id, c["annotations"], c["issues"])
+    check_boundaries(c["annotations"], c["measurements"], c["issues"])
     sig_uV, fs = c["sig_uV"], c["fs"]
     issues = c["issues"]
     qual = quality(sig_uV, c["raw"], fs, c["adc_limits"], issues)

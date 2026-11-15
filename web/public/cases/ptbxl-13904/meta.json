@@ -2672,7 +2672,13 @@
   "annotatedRangeMs": [
    140.0,
    9722.0
-  ]
+  ],
+  "unreliable": {
+   "QT": {
+    "beatMs": 462,
+    "algoMs": 416
+   }
+  }
  },
  "quality": {
   "perLead": {
@@ -2796,6 +2802,11 @@
    "level": "info",
    "lead": null,
    "msg": "ECGDeli 自动标注中 1 个波不合理已舍弃：T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QT 中位数 462 ms，两种算法 416 ms，相差 ≥ 40 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
   },
   {
    "level": "warn",

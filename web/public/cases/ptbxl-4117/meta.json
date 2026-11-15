@@ -3373,7 +3373,13 @@
   "annotatedRangeMs": [
    314.0,
    9562.0
-  ]
+  ],
+  "unreliable": {
+   "QRS": {
+    "beatMs": 114,
+    "algoMs": 83
+   }
+  }
  },
  "quality": {
   "perLead": {
@@ -3436,7 +3442,7 @@
   {
    "level": "info",
    "lead": null,
-   "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"
+   "msg": "心房颤动 / 扑动 / 室上性心动过速：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"
   },
   {
    "level": "info",
@@ -3502,6 +3508,11 @@
    "level": "info",
    "lead": null,
    "msg": "ECGDeli 自动标注中 1 个波不合理已舍弃：T@9996ms（被记录首尾截断）"
+  },
+  {
+   "level": "warn",
+   "lead": null,
+   "msg": "自动标注的逐搏 QRS 中位数 114 ms，两种算法 83 ms，相差 ≥ 25 ms：逐搏边界不可靠，网页不显示该项逐搏读数"
   }
  ],
  "source": {
