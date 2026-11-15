@@ -33,6 +33,7 @@
 | 本站文件 | 说明 |
 |---|---|
 | osc-schematic.svg | 示波法示意图，由 pipeline/figures/draw-osc-schematic.py 生成。原理依据 Babbs CF, Biomed Eng Online 2012;11:56 |
+| mi-regions.svg | 心梗定位示意图，由 pipeline/figures/draw-mi-regions.py 生成。部位与导联的对应依据第四版全球心肌梗死定义（Thygesen 2018）表 3 的导联分组和 AHA 2009 ECG 标准化建议第六部分 |
 
 ## 重新生成
 
@@ -41,6 +42,7 @@
 ```bash
 python3 pipeline/figures/erase-19-27.py 原图.jpg 输出.jpg
 python3 pipeline/figures/draw-osc-schematic.py web/public/anatomy/osc-schematic.svg
+python3 pipeline/figures/draw-mi-regions.py web/public/anatomy/mi-regions.svg
 ```
 
 抹字脚本只输出 JPEG，再转成 webp 放进 `web/public/anatomy/`。19.6、19.9、19.18 只是裁边，没有脚本。

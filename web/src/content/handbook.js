@@ -676,6 +676,10 @@ export const HANDBOOK = [
 <li>AHA 2009 建议不要把导联本身叫"前壁导联""下壁导联"，因为 V1–V2 的 ST 段压低可能反映的是心脏背面；描述受损的<b>心肌部位</b>仍然可以。</li>
 <li>"后壁"一词有争议：第四版定义改称"下基底部"（注明以前叫后壁），AHA 2009 则保留"后壁"。</li>
 </ul>
+<figure class="hb-fig">
+<a href="anatomy/mi-regions.svg" target="_blank" rel="noopener" title="在新标签页打开大图"><img src="anatomy/mi-regions.svg" width="1600" height="1130" loading="lazy" alt="心梗定位示意图：左为水平切面，胸前导联 V1–V9 与 V4R 环绕胸廓，左心室分为前间壁、前壁、侧壁、后壁；右为额面，肢体导联六轴，标出下壁和高侧壁"></a>
+<figcaption>本站绘制的示意图（点击图片可在新标签页放大）。电极和它"正对"的心肌壁用同一种颜色。左图只画了左心室和右心室的一个横切面，右图只画了心脏的轮廓，位置、大小和分界都做了简化，不是精确解剖。下壁对应 II、III、aVF，右心室看 V3R、V4R，后壁看 V7–V9 或 V1–V3 的压低，这几条有指南依据（第四版全球心肌梗死定义、AHA 2009）；前间壁、前壁、侧壁具体对应哪几个导联是教学上的习惯分组，指南没有给出逐条对应表（AHA 2009 只说前壁的表现出现在 V1–V6 的部分或全部导联）。"下基底部"指下壁靠近心底的一段，2018 年的第四版定义用这个名字，以前叫"后壁"。每个人的心脏位置和冠状动脉走行都不一样，实际受累范围要结合其他检查判断。</figcaption>
+</figure>
 
 <h3>对应性改变</h3>
 <p>ST 段抬高的同时，从"对面"看的导联常出现 ST 段压低，称为<b>对应性改变</b>（镜像改变）。例如 III 抬高常伴 aVL 压低；V1–V3 压低相当于背后导联的抬高。有对应性改变有助于区分急性心梗与心包炎、早期复极（第四版定义第 27 节）。</p>
@@ -696,7 +700,7 @@ export const HANDBOOK = [
             cursor: { beat: 3, phase: 'T', frac: 0.1 },
             view: { mtab: 'st' },
             scroll: '.measure-card',
-            note: 'II、III、aVF 的 J 点抬高（本站 0.19、0.30、0.25 mV），I、aVL 压低（−0.12、−0.22 mV）。III 比 II 高、I 和 aVL 压低，符合 AHA 2009 所说更像右冠状动脉阻塞的表现（本例没有造影资料）。',
+            note: 'II、III、aVF 的 J 点抬高（两种算法平均 0.19、0.30、0.24 mV），I、aVL 压低（−0.11、−0.20 mV）。III 比 II 高、I 和 aVL 压低，符合 AHA 2009 所说更像右冠状动脉阻塞的表现（本例没有造影资料）。',
           },
           {
             label: '急性前壁和侧壁心肌梗死',
@@ -714,7 +718,7 @@ export const HANDBOOK = [
             cursor: { beat: 3, phase: 'T', frac: 0.1 },
             view: { mtab: 'st' },
             scroll: '.measure-card',
-            note: 'II、III、aVF 和 V5、V6 抬高；V1–V3 的 ST 段明显压低（V2 本站 −0.34 mV）。原报告诊断"累及后壁"：常规导联看不到后壁的抬高，压低可能是它的镜像。V1–V3 压低本身并不特异（也可能是前壁缺血），本例没有记录 V7–V9。',
+            note: 'II、III、aVF 和 V5、V6 抬高；V1–V3 的 ST 段明显压低（V2 两种算法平均 −0.32 mV）。原报告诊断"累及后壁"：常规导联看不到后壁的抬高，压低可能是它的镜像。V1–V3 压低本身并不特异（也可能是前壁缺血），本例没有记录 V7–V9。',
           },
           {
             label: '亚急性前壁心肌梗死：T 波已倒置',
@@ -723,7 +727,7 @@ export const HANDBOOK = [
             cursor: { beat: 3, phase: 'T', frac: 0.5 },
             view: { mtab: 'st' },
             scroll: '.measure-card',
-            note: 'V1–V4 的 ST 段仍轻度抬高（V2 本站约 0.2 mV），原报告记录 I、aVL、V1–V5 的 T 波已倒置（aVR 的 T 波本来就向下）。和前面的急性病例比，这是演变中的一个阶段。',
+            note: 'V1–V4 的 ST 段仍轻度抬高（V2 两种算法测得约 0.2 mV），原报告记录 I、aVL、V1–V5 的 T 波已倒置（aVR 的 T 波本来就向下）。和前面的急性病例比，这是演变中的一个阶段。',
           },
         ],
         tours: ['mi'],
