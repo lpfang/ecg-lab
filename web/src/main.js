@@ -926,8 +926,20 @@ function openBpm(fig, from = null) {
       openAnatomy(key);
     },
   });
+  // 来源也写进网址，刷新后"返回"按钮还在
+  const u = new URL(location.href);
+  if (from?.drug) u.searchParams.set('bpfrom', `drug:${from.drug}`);
+  else if (from?.heart) u.searchParams.set('bpfrom', `heart:${from.heart}`);
+  else u.searchParams.delete('bpfrom');
+  history.replaceState(null, '', u);
   $('#bpm').showModal();
   $('#bpm-body').scrollTop = 0;
+}
+
+/** 网址里的 bpfrom（heart:图 / drug:章节）还原成 openBpm 的 from */
+function parseBpFrom(v) {
+  const m = /^(heart|drug):(.+)$/.exec(v ?? '');
+  return m ? { [m[1]]: m[2] } : null;
 }
 
 function openGlossary() {
@@ -1426,6 +1438,7 @@ function closeDlg(id) {
   if (DLG_PARAM[id]) {
     const u = new URL(location.href);
     u.searchParams.delete(DLG_PARAM[id]);
+    if (id === 'bpm') u.searchParams.delete('bpfrom');
     history.replaceState(null, '', u);
   }
 }
@@ -2005,6 +2018,7 @@ function bindControls() {
   $('#bpm').addEventListener('close', () => {
     const u = new URL(location.href);
     u.searchParams.delete('bp');
+    u.searchParams.delete('bpfrom');
     history.replaceState(null, '', u);
   });
   $('#bpm-back').onclick = () => {
@@ -2242,11 +2256,12 @@ async function boot() {
   if (showHeart) openAnatomy(wantHeart);
   const wantBp = new URLSearchParams(location.search).get('bp');
   const showBp = wantBp && !wantQuiz && !wantRead && !wantDrug && !wantHeart;
-  if (showBp) openBpm(wantBp);
+  if (showBp) openBpm(wantBp, parseBpFrom(new URLSearchParams(location.search).get('bpfrom')));
   // 没恢复的窗口，参数也去掉，地址栏和页面保持一致
   const u = new URL(location.href);
   if (wantHeart && !showHeart) u.searchParams.delete('heart');
   if (wantBp && !showBp) u.searchParams.delete('bp');
+  if (!showBp) u.searchParams.delete('bpfrom');
   if (u.href !== location.href) history.replaceState(null, '', u);
 }
 
