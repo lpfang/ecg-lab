@@ -1,3 +1,4 @@
+import { asset } from '../version.js';
 // 心脏结构图：原图 + 可点击的中文标注。数据见 content/anatomy.js。
 import { ANATOMY, FIGS, REF_SHORT, AN_GO, HEART_KEYS, BP_KEYS } from '../content/anatomy.js';
 import { REFS } from '../content/refs.js';
@@ -22,7 +23,7 @@ export function sourceHtml(src) {
 /** 图内标注的图（心动周期）：标注直接写在原来英文的位置上 */
 function overlaySvg(f) {
   const g = (id, inner, extra = '') => `<g class="an-lab an-ov" data-id="${id}" tabindex="0" role="button" aria-label="${ANATOMY[id][0]}"${extra}>${inner}</g>`;
-  let s = `<image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
+  let s = `<image href="${asset(f.img)}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
   const { cx, cy, r, top, bottom, left, right } = f.ring;
   const arc = (id, sweep) => `<path id="${id}" d="M${cx - r} ${cy} A${r} ${r} 0 0 ${sweep} ${cx + r} ${cy}" fill="none"/>`;
   s += `<defs>${arc('an-arc-top', 1)}${arc('an-arc-bot', 0)}</defs>`;
@@ -56,7 +57,7 @@ function plotSvg(f) {
     const x0 = anchor === 'start' ? x - fs / 4 : anchor === 'end' ? x - w + fs / 4 : x - w / 2;
     return `<rect x="${x0}" y="${y - fs}" width="${w}" height="${rows * lh + fs / 4}" rx="${fs / 5}"/>`;
   };
-  let s = `<g style="font-size:${fs}px"><image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
+  let s = `<g style="font-size:${fs}px"><image href="${asset(f.img)}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
   for (const [x1, y1, x2, y2] of p.lines ?? []) s += `<path class="an-pl-line" d="M${x1} ${y1} L${x2} ${y2}"/>`;
   for (const [id, x, y, lines, anchor, color] of p.labels) {
     let t = box(x, y, Math.max(...lines.map((l) => l.length)), lines.length, anchor);
@@ -78,7 +79,7 @@ export function figureSvg(key) {
   const f = FIGS[key];
   if (f.overlay) return overlaySvg(f);
   if (f.plot) return plotSvg(f);
-  let s = `<image href="${f.img}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
+  let s = `<image href="${asset(f.img)}" x="0" y="0" width="${f.w}" height="${f.h}"/>`;
   const label = (id, x, y, left, name = ANATOMY[id][0]) => {
     const w = name.length * 26 + 10;
     s +=

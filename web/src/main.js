@@ -1,5 +1,6 @@
 import './style.css';
 import { loadIndex, loadCase } from './data.js';
+import { checkFreshBuild, versionAssets } from './version.js';
 import { computeLayout, hitTest, LAYOUTS, caliperRow } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
@@ -1404,6 +1405,7 @@ function openHandbook(id) {
     (refs ? `<details class="refs"><summary>出处</summary><ul>${refs}</ul><p class="muted">出处根据公开文献整理，尚未逐条核对原文。</p></details>` : '') +
     '<p class="muted small hb-disclaimer">本手册未经心血管专科医生审定，仅供学习，不能用于诊断。</p>';
   linkTerms($('#hb-body .hb-text'), ch.terms ?? [], (t) => termRegex(termNames(t)));
+  versionAssets($('#hb-body'));
   $('#term-pop').hidden = true;
   if (ch.widget === 'axis') axisWidget($('#hb-widget'), 60);
   if (ch.widget === 'mi') miWidget($('#hb-widget'), MI_TERRITORIES, MI_GRID, MI_EXTRA);
@@ -2264,6 +2266,8 @@ function bindControls() {
 }
 
 async function boot() {
+  // 缓存里的旧首页：发现有新版本就跳过去（与初始化并行，不拖慢首屏）
+  checkFreshBuild();
   bindControls();
   try {
     state.index = await loadIndex();

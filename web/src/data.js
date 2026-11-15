@@ -1,8 +1,8 @@
 // 病例数据加载。数据 URL 带构建号，避免发版后读到旧缓存。
 
-/* global __BUILD_ID__ */
-const V = typeof __BUILD_ID__ !== 'undefined' ? __BUILD_ID__ : 'dev';
-const url = (p) => `./cases/${p}?v=${V}`;
+import { asset } from './version.js';
+
+const url = (p) => asset(`./cases/${p}`);
 
 async function getJson(p) {
   const r = await fetch(url(p));
