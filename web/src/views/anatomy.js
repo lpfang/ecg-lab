@@ -138,11 +138,12 @@ export function figIds(key) {
 const HEART_INTRO = '先认识心脏，再看心电图：心电图记录的是心肌"通电"产生的电压变化。点击图上的中文标注查看说明。';
 const HEART_CREDIT = `<p class="an-credit muted small">
       图片来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 19.6、19.9、19.18、19.27、19.29，
-      采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
+      采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可；原书
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noopener">19.1 Heart Anatomy</a>、
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-2-cardiac-muscle-and-electrical-activity" target="_blank" rel="noopener">19.2 Cardiac Muscle and Electrical Activity</a>、
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle" target="_blank" rel="noopener">19.3 Cardiac Cycle</a>。
-      本站的改动：裁去（图 19.27、19.29 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；图 19.29 加上"收缩压""舒张压"标注；说明文字为本站编写。
+      本站的改动：裁去（图 19.27、19.29 为抹去）英文标注，改为可点击的中文标注（图 19.9 顶部的 Aorta 改写为"主动脉"）；去掉图 19.18 左上角的小示意图；图 19.29 加上"收缩压""舒张压"标注；说明文字为本站编写。改动后的图片同样按 CC BY-NC-SA 4.0 提供，仅用于非商业用途。<br>
+      Access for free at <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/1-introduction" target="_blank" rel="noopener">openstax.org/books/anatomy-and-physiology-2e</a>。
     </p>`;
 
 /** "量血压"窗口：听诊法、电子血压计的原理、电子血压计实测 */
@@ -151,9 +152,9 @@ export const BP_VIEW = {
   intro: '血压计量的是手臂动脉里的压力。先看医生用听诊器怎样量，再看家里的电子血压计怎样量。点击图上的中文标注查看说明。',
   credit: `<p class="an-credit muted small">
       "医生用听诊器量"一图来自 OpenStax《Anatomy and Physiology 2e》（J. Gordon Betts 等，2022）图 20.12，
-      采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> 许可；原书
+      采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可；原书
       <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/20-2-blood-flow-blood-pressure-and-resistance" target="_blank" rel="noopener">20.2 Blood Flow, Blood Pressure, and Resistance</a>。
-      本站抹去英文标注，改为可点击的中文标注，加上"动脉血压"标注。<br>
+      本站抹去英文标注，改为可点击的中文标注，加上"动脉血压"标注；改动后的图片同样按 CC BY-NC-SA 4.0 提供，仅用于非商业用途。Access for free at <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/1-introduction" target="_blank" rel="noopener">openstax.org/books/anatomy-and-physiology-2e</a>。<br>
       "电子血压计的原理"示意图为本站绘制，原理依据 Babbs 2012。<br>
       "电子血压计实测"一图是 Amirhossein Ashrafzadeh 用示波器记录的家用电子血压计信号，来自
       <a href="https://commons.wikimedia.org/wiki/File:Oscillometric_Blood_Pressure_Waveform.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>，

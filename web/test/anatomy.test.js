@@ -70,6 +70,10 @@ describe('心脏结构图', () => {
       expect(y + lines.length * 52).toBeLessThan(f.h);
     }
     for (const side of ['top', 'bottom', 'left', 'right']) expect(ANATOMY[f.ring[side][0]], side).toBeTruthy();
+    // 圆环四段各是一项：心房、心室的收缩期和舒张期分开选中，名称和圆环上的字一致
+    const ring = ['top', 'bottom', 'left', 'right'].map((s) => f.ring[s]);
+    expect(new Set(ring.map((r) => r[0])).size).toBe(4);
+    for (const [id, text] of ring) expect(ANATOMY[id][0], id).toBe(text);
     expect(figIds('cycle').has(f.def)).toBe(true);
     // 六个阶段都写了瓣膜状态
     for (const [id] of f.overlay) expect(ANATOMY[id][5], id).toMatch(/瓣/);
@@ -114,12 +118,14 @@ describe('心脏结构图', () => {
     for (const c of linked) expect(FIG_KEYS).toContain(c.heart);
   });
 
-  it('页面注明 OpenStax 图片的 CC BY 4.0 许可、Commons 图片的 CC BY-SA 4.0 许可', () => {
+  it('页面注明 OpenStax 图片的 CC BY-NC-SA 4.0 许可和 OpenStax 要求的署名，Commons 图片的 CC BY-SA 4.0 许可', () => {
     const src = readFileSync(new URL('../src/views/anatomy.js', import.meta.url), 'utf8');
     expect(src).toContain('CC BY-SA 4.0');
     expect(src).toContain('creativecommons.org/licenses/by-sa/4.0');
-    expect(src).toContain('CC BY 4.0');
-    expect(src).toContain('creativecommons.org/licenses/by/4.0');
+    expect(src).not.toContain('licenses/by/4.0');
+    // 两个窗口各有一段 OpenStax 署名
+    expect(src.match(/licenses\/by-nc-sa\/4\.0/g)).toHaveLength(2);
+    expect(src.match(/Access for free at/g)).toHaveLength(2);
   });
 });
 
