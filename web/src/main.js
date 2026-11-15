@@ -1,6 +1,6 @@
 import './style.css';
 import { loadIndex, loadCase } from './data.js';
-import { computeLayout, hitTest } from './ecg/layout.js';
+import { computeLayout, hitTest, LAYOUTS } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
 import { TOURS, fillTemplate, cursorTime, cursorAt, spotOf } from './tours.js';
@@ -80,6 +80,7 @@ const state = {
   quizMark: null, // 测验：未标注区域遮罩、作答后显示的标准答案
   spot: null, // 导览聚光灯（心电图内）：{leads, t0?, t1?}
   cmpMode: lsGet('ecg-lab:cmpMode', 'overlay'), // 与正常对照：'overlay' 重叠 | 'side' 并排
+  layoutId: LAYOUTS[lsGet('ecg-lab:layout', 'std')] ? lsGet('ecg-lab:layout', 'std') : 'std', // 'std' 标准 3×4 | 'sync' 12 导联同步
   layout: null,
 };
 
@@ -101,7 +102,7 @@ function flush() {
   const parts = new Set(dirty);
   dirty.clear();
   if (parts.has('paper')) {
-    state.layout = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain });
+    state.layout = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: LAYOUTS[state.layoutId] });
     drawPaper($('#paper'), state.layout, state.ecg, state.pxPerMm, { showWaves: state.showWaves });
     renderStatus();
     parts.add('overlay');
@@ -1108,6 +1109,7 @@ function syncControls() {
   $('#show-ref').checked = state.showRef;
   $('#speed').value = String(state.speed);
   document.querySelectorAll('[data-tool]').forEach((x) => x.classList.toggle('on', x.dataset.tool === state.tool));
+  document.querySelectorAll('[data-layout]').forEach((x) => x.classList.toggle('on', x.dataset.layout === state.layoutId));
   $('#overlay').classList.toggle('caliper', state.tool === 'caliper');
   $('#caliper-march').checked = !!state.caliper?.march;
 }
@@ -1935,6 +1937,14 @@ function bindControls() {
     state.caliper && set({ caliper: { ...state.caliper, march: e.target.checked } }, 'overlay');
   $('#caliper-clear').onclick = () => set({ caliper: null }, 'overlay');
   $('#play-btn').onclick = () => (state.playing ? stopPlay() : startPlay());
+  for (const b of document.querySelectorAll('[data-layout]')) {
+    b.classList.toggle('on', b.dataset.layout === state.layoutId);
+    b.onclick = () => {
+      lsSet('ecg-lab:layout', b.dataset.layout);
+      set({ layoutId: b.dataset.layout }, 'paper');
+      syncControls();
+    };
+  }
   for (const b of document.querySelectorAll('[data-rate]')) {
     b.onclick = () => {
       state.playRate = Number(b.dataset.rate);

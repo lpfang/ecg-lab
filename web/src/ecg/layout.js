@@ -12,6 +12,21 @@ export const STANDARD_3x4 = {
   rhythm: ['II'],
 };
 
+/**
+ * 12 导联同步排版：每个导联一行，都是完整 10 秒，上下是同一时刻。
+ * 行高比标准排版矮（2 mV），一屏能放下 12 行；波名标在 II 导联那一行
+ */
+export const SYNC_12 = {
+  id: '12sync',
+  columns: 1,
+  rows: ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'].map((l) => [l]),
+  rhythm: [],
+  rowMvSpan: 2,
+  labelLead: 'II',
+};
+
+export const LAYOUTS = { std: STANDARD_3x4, sync: SYNC_12 };
+
 export const PAPER = {
   minorMm: 1,
   majorMm: 5,
@@ -40,7 +55,7 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
   const marginLeftMm = Math.max(P.minMarginLeftMm, P.calPulseLeadMm + calPulseWidthMm + P.calPulseGapMm);
   const traceWidthMm = (durationMs / 1000) * speed;
   const colMs = durationMs / layout.columns;
-  const rowHeightMm = P.rowMvSpan * gain;
+  const rowHeightMm = (layout.rowMvSpan ?? P.rowMvSpan) * gain;
   const allRows = [
     ...layout.rows.map((leads) => ({ leads, rhythm: false })),
     ...layout.rhythm.map((lead) => ({ leads: [lead], rhythm: true })),
@@ -58,6 +73,8 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
         row: r,
         col: c,
         rhythm: row.rhythm,
+        // 标波名（P、QRS、T）和手工标注的 P 波：标准排版标在节律条上，同步排版标在 labelLead 那一行
+        labels: row.rhythm || lead === layout.labelLead,
         t0,
         t1,
         xMm: marginLeftMm + (t0 / 1000) * speed,
@@ -75,6 +92,7 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
   // 行间隙矩形（绘图时涂成空白），横贯整张纸
   const gaps = rows.slice(1).map((row) => ({ x: 0, y: row.top - P.rowGapMm, w: widthMm, h: P.rowGapMm }));
   return {
+    id: layout.id,
     widthMm,
     heightMm,
     rows,

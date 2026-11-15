@@ -57,7 +57,7 @@ export function drawPaper(canvas, lay, ecg, pxPerMm, opts = {}) {
   const waves = opts.showWaves ? ecg.meta.annotations?.waves : null;
   for (const cell of lay.cells) drawCell(ctx, lay, cell, ecg, s, waves?.[cell.lead]);
   const atrial = ecg.meta.annotations?.atrial;
-  if (atrial) for (const cell of lay.cells) if (cell.rhythm) drawAtrial(ctx, lay, cell, ecg.meta.annotations, s);
+  if (atrial) for (const cell of lay.cells) if (cell.labels) drawAtrial(ctx, lay, cell, ecg.meta.annotations, s);
   // 分割线画在最上面：画在下面会被波段底色冲淡
   drawColumnDividers(ctx, lay, s);
 }
@@ -167,7 +167,7 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
     ctx.stroke();
   }
   // 节律条上标出波名：P、T 在第一行，QRS 在第二行（PR 段很短，同一行会挤在一起）
-  if (cell.rhythm) {
+  if (cell.labels) {
     ctx.font = `600 2.6px system-ui, sans-serif`;
     ctx.textAlign = 'center';
     for (const w of inCell) {
@@ -277,7 +277,7 @@ export function drawOverlay(canvas, lay, ecg, pxPerMm, st) {
         ctx.lineTo(xOf(lay, cell, z), y);
         ctx.stroke();
         ctx.setLineDash([]);
-        if (label && cell.rhythm) {
+        if (label && cell.labels) {
           ctx.fillStyle = color;
           ctx.font = '2.4px system-ui, sans-serif';
           ctx.fillText(label, xOf(lay, cell, z) + 0.8, y + (label.startsWith('TP') ? 2.6 : -0.6));
