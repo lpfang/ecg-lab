@@ -18,9 +18,9 @@
 | os-19-6-anterior.webp | 19.6 | 19.1 Heart Anatomy | https://openstax.org/apps/archive/20260604.144757/resources/cb38dd834e8826a56e8ca566a629460d056d2e83 | 裁去两侧英文标注 |
 | os-19-9-interior.webp | 19.9 | 19.1 Heart Anatomy | https://openstax.org/apps/archive/20260604.144757/resources/c9d5c770b3ddb5014230220f12028905df9b896e | 裁去两侧英文标注 |
 | os-19-18-conduction.webp | 19.18 | 19.2 Cardiac Muscle and Electrical Activity | https://openstax.org/apps/archive/20260604.144757/resources/ab4103111b36720e9c0b2ac83f5ef1b73e8a1686 | 裁去英文标注和左上角小图 |
-| os-19-27-cycle.webp | 19.27 | 19.3 Cardiac Cycle | https://openstax.org/apps/archive/20260604.144757/resources/9c7bc663283f8f56000369b313fff985bde8e87a | 抹去英文（web/proto/img/erase-19-27.py） |
-| os-19-29-pressure.webp | 19.29 | 19.3 Cardiac Cycle | https://openstax.org/apps/archive/20260604.144757/resources/50cae05c0d2f7819e2d0aebbe9b6a00eadf87306 | 抹去英文（web/proto/img/erase-19-29.py） |
-| os-20-12-bp.webp | 20.12 | 20.2 Blood Flow, Blood Pressure, and Resistance | https://openstax.org/apps/archive/20260604.144757/resources/fdcac85ed1a77bc08ac2d0a29a2d68822a732d50 | 抹去英文（web/proto/img/erase-20-12.py） |
+| os-19-27-cycle.webp | 19.27 | 19.3 Cardiac Cycle | https://openstax.org/apps/archive/20260604.144757/resources/9c7bc663283f8f56000369b313fff985bde8e87a | 抹去英文（pipeline/figures/erase-19-27.py） |
+| os-19-29-pressure.webp | 19.29 | 19.3 Cardiac Cycle | https://openstax.org/apps/archive/20260604.144757/resources/50cae05c0d2f7819e2d0aebbe9b6a00eadf87306 | 抹去英文（pipeline/figures/erase-19-29.py） |
+| os-20-12-bp.webp | 20.12 | 20.2 Blood Flow, Blood Pressure, and Resistance | https://openstax.org/apps/archive/20260604.144757/resources/fdcac85ed1a77bc08ac2d0a29a2d68822a732d50 | 抹去英文（pipeline/figures/erase-20-12.py） |
 
 ## Wikimedia Commons
 
@@ -32,4 +32,15 @@
 
 | 本站文件 | 说明 |
 |---|---|
-| osc-schematic.svg | 示波法示意图，由 web/proto/img/draw-osc-schematic.py 生成。原理依据 Babbs CF, Biomed Eng Online 2012;11:56 |
+| osc-schematic.svg | 示波法示意图，由 pipeline/figures/draw-osc-schematic.py 生成。原理依据 Babbs CF, Biomed Eng Online 2012;11:56 |
+
+## 重新生成
+
+脚本在 `pipeline/figures/`，需要 Python 3、opencv-python 和 numpy。在仓库根目录运行。原图从上表的地址下载。
+
+```bash
+python3 pipeline/figures/erase-19-27.py 原图.jpg 输出.jpg
+python3 pipeline/figures/draw-osc-schematic.py web/public/anatomy/osc-schematic.svg
+```
+
+抹字脚本只输出 JPEG，再转成 webp 放进 `web/public/anatomy/`。19.6、19.9、19.18 只是裁边，没有脚本。

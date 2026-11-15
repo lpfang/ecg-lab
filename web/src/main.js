@@ -2237,9 +2237,17 @@ async function boot() {
   const wantDrug = new URLSearchParams(location.search).get('drug');
   if (wantDrug && !wantQuiz && !wantRead) openDrugbook(wantDrug);
   const wantHeart = new URLSearchParams(location.search).get('heart');
-  if (wantHeart && !wantTour && !wantQuiz && !wantRead && !wantDrug) openAnatomy(wantHeart);
+  // 导览只是侧边面板，图窗口可以叠在上面：刷新时先恢复导览，再打开当时的图
+  const showHeart = wantHeart && !wantQuiz && !wantRead && !wantDrug;
+  if (showHeart) openAnatomy(wantHeart);
   const wantBp = new URLSearchParams(location.search).get('bp');
-  if (wantBp && !wantTour && !wantQuiz && !wantRead && !wantDrug && !wantHeart) openBpm(wantBp);
+  const showBp = wantBp && !wantQuiz && !wantRead && !wantDrug && !wantHeart;
+  if (showBp) openBpm(wantBp);
+  // 没恢复的窗口，参数也去掉，地址栏和页面保持一致
+  const u = new URL(location.href);
+  if (wantHeart && !showHeart) u.searchParams.delete('heart');
+  if (wantBp && !showBp) u.searchParams.delete('bp');
+  if (u.href !== location.href) history.replaceState(null, '', u);
 }
 
 function toast(msg) {

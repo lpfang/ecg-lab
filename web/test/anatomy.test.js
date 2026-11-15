@@ -47,7 +47,7 @@ describe('心脏结构图', () => {
     }
     for (const k of FIG_KEYS) for (const m of FIGS[k].more ?? []) {
       for (const [, go] of m.html.matchAll(/data-go="(\w+)"/g)) expect(FIG_KEYS).toContain(go);
-      expect(REFS[m.src], m.src).toBeTruthy();
+      for (const k of m.src.split('；')) expect(REFS[k], k).toBeTruthy();
     }
   });
 
