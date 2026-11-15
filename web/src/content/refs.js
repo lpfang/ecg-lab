@@ -79,6 +79,31 @@ export const REFS = {
     note: '室上性心动过速指南，第 7 节为心房扑动：心电图特征、与房颤的关系、抗凝、峡部消融；已读该节原文',
     status: 'verified',
   },
+  va2017: {
+    text: 'Al-Khatib SM, Stevenson WG, et al. 2017 AHA/ACC/HRS Guideline for Management of Patients With Ventricular Arrhythmias and the Prevention of Sudden Cardiac Death. Circulation. 2018;138(13):e272–e391. doi:10.1161/CIR.0000000000000549',
+    note: '室性心律失常指南：第 2.1.1 节室早的常见程度与风险，室早性心肌病；已读相关段落原文',
+    status: 'verified',
+  },
+  ahaPremature: {
+    text: 'American Heart Association. Premature Contractions – PACs and PVCs. heart.org，2024-09-24 审阅. https://www.heart.org/en/health-topics/arrhythmia/about-arrhythmia/premature-contractions-pacs-and-pvcs',
+    note: 'AHA 面向公众的早搏介绍：常见程度、诱因、症状、检查与处理；已读全文',
+    status: 'verified',
+  },
+  koester2020: {
+    text: 'Koester JE, Ibrahim R, Cancel M, et al. The Ubiquitous Premature Ventricular Complex. Cureus. 2020;12(1):e6585. doi:10.7759/cureus.6585',
+    note: '室早综述（开放获取，PMC7001138）：室早的心电图特征、代偿间歇；已读相关段落原文',
+    status: 'verified',
+  },
+  yu2026pac: {
+    text: 'Yu, Qi, Wang, et al. Pediatric premature atrial contractions: Clinical characteristics, diagnosis, and management—A literature review. Am Heart J Plus. 2026;68:100811. doi:10.1016/j.ahjo.2026.100811',
+    note: '房早综述（开放获取，PMC13382053；对象为儿童，引用的是其中通用的心电图特征）：P′ 形态、窄 QRS、差异性传导、不完全代偿；已读相关段落原文',
+    status: 'verified',
+  },
+  kafali2022: {
+    text: 'Candaş Kafalı H, Ergül Y, Brugada J. Common Supraventricular and Ventricular Arrhythmias in Children. Turk Arch Pediatr. 2022;57(5):476–488. doi:10.5152/TurkArchPediatr.2022.22099',
+    note: '儿童常见心律失常综述（开放获取，PMC9524439）：房早伴差异性传导时 QRS 可增宽；已读相关段落原文',
+    status: 'verified',
+  },
   bpm2019: {
     text: 'Muntner P, et al. Measurement of Blood Pressure in Humans: A Scientific Statement From the American Heart Association. Hypertension. 2019;73(5):e35–e66. doi:10.1161/HYP.0000000000000087',
     note: '血压测量的方法（听诊法、示波法）与误差来源；已读全文（PMC11409525）',

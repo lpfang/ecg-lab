@@ -27,6 +27,9 @@ TOPICS = {
     "1avb": dict(need={"1AVB"}, allow={"SR", "NORM"}),
     "afib": dict(need={"AFIB"}, allow={"NORM", "NDT", "NST_"}),
     "aflt": dict(need={"AFLT"}, allow={"NORM", "NDT", "NST_"}),
+    # 早搏：本身就是"额外心搏"，不按 extra_beats 质量标记排除
+    "pvc": dict(need={"PVC"}, allow={"SR", "NORM"}, extra_ok=True, show=15),
+    "pac": dict(need={"PAC"}, allow={"SR", "NORM"}, extra_ok=True, show=15),
     "lvh": dict(need={"LVH"}, allow={"SR", "VCLVH"}),
     "lvh_strain": dict(need={"LVH"}, any_of={"ISC_", "ISCAL", "ISCLA", "STD_", "INVT", "NDT"},
                        allow={"SR", "VCLVH", "ISC_", "ISCAL", "ISCLA", "STD_", "INVT", "NDT", "LAO/LAE"}),
@@ -71,7 +74,8 @@ def main(topics):
         spec = TOPICS[topic]
         cands = []
         for r in db:
-            if r["validated_by_human"] != "True" or any(r[k].strip() for k in FLAGS):
+            flags = [k for k in FLAGS if not (spec.get("extra_ok") and k == "extra_beats")]
+            if r["validated_by_human"] != "True" or any(r[k].strip() for k in flags):
                 continue
             scp = {k: v for k, v in ast.literal_eval(r["scp_codes"]).items()}
             codes = set(scp)
@@ -107,7 +111,7 @@ def main(topics):
             cands.append((score, eid, r, b, scp))
         cands.sort(key=lambda c: c[0])
         print(f"\n=== {topic}：{len(cands)} 条候选")
-        for score, eid, r, b, scp in cands[:6]:
+        for score, eid, r, b, scp in cands[:int(spec.get("show", 6))]:
             sex = {"0": "男", "1": "女"}.get(r["sex"].split(".")[0], "?")
             fmt = lambda v: "—" if v is None else f"{v:.0f}"  # noqa: E731
             print(f"  {eid:>6} {sex} {r['age'][:2]:>2}岁  HR {fmt(b['HR__Global'])} PR {fmt(b['PR_Int_Global'])} "
