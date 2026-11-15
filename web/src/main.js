@@ -267,7 +267,7 @@ function nowText(ctx, tTxt) {
     (state.ecg.meta.rhythm === 'AFIB'
       ? '<p class="af-note">本例为<a href="#" data-term="afib">心房颤动</a>：心房没有统一的"通电"，没有 P 波，QRS 之前只有细小不规则的颤动波，所以这里没有"P 波""PR 段"时相。</p>'
       : state.ecg.meta.rhythm === 'AFLT'
-        ? '<p class="af-note">本例为心房扑动：心房以很快而规则的节律"通电"，没有正常 P 波，代之以锯齿状的扑动波（F 波），所以这里没有"P 波""PR 段"时相。</p>'
+        ? '<p class="af-note">本例为<a href="#" data-term="aflt">心房扑动</a>：心房以很快而规则的节律"通电"，没有正常 P 波，代之以锯齿状的扑动波（F 波），所以这里没有"P 波""PR 段"时相。扑动波和 T 波叠在一起，分不清 T 波从哪里开始、到哪里结束，所以本站也没有标 T 波，算法给出的 QT 值仅供参考。</p>'
         : '') +
     avNote(blockedPAt(state.cursorMs)) +
     `<p class="muted small">${beatFacts}（${state.ecg.meta.annotations?.atrial && ['P', 'PR'].includes(ctx.loc.phase) ? 'P 波为手工标注' : '自动标注'}）</p>` +

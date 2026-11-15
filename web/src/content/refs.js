@@ -74,6 +74,11 @@ export const REFS = {
     note: '心动过缓与传导延迟指南：房室传导阻滞的分型',
     status: 'listed',
   },
+  svt2015: {
+    text: 'Page RL, Joglar JA, Caldwell MA, et al. 2015 ACC/AHA/HRS Guideline for the Management of Adult Patients With Supraventricular Tachycardia. Circulation. 2016;133(14):e506–e574. doi:10.1161/CIR.0000000000000311',
+    note: '室上性心动过速指南，第 7 节为心房扑动：心电图特征、与房颤的关系、抗凝、峡部消融；已读该节原文',
+    status: 'verified',
+  },
   bpm2019: {
     text: 'Muntner P, et al. Measurement of Blood Pressure in Humans: A Scientific Statement From the American Heart Association. Hypertension. 2019;73(5):e35–e66. doi:10.1161/HYP.0000000000000087',
     note: '血压测量的方法（听诊法、示波法）与误差来源；已读全文（PMC11409525）',

@@ -26,6 +26,7 @@ TOPICS = {
     "stach": dict(need={"STACH"}, allow={"NORM"}),
     "1avb": dict(need={"1AVB"}, allow={"SR", "NORM"}),
     "afib": dict(need={"AFIB"}, allow={"NORM", "NDT", "NST_"}),
+    "aflt": dict(need={"AFLT"}, allow={"NORM", "NDT", "NST_"}),
     "lvh": dict(need={"LVH"}, allow={"SR", "VCLVH"}),
     "lvh_strain": dict(need={"LVH"}, any_of={"ISC_", "ISCAL", "ISCLA", "STD_", "INVT", "NDT"},
                        allow={"SR", "VCLVH", "ISC_", "ISCAL", "ISCLA", "STD_", "INVT", "NDT", "LAO/LAE"}),
@@ -92,7 +93,7 @@ def main(topics):
             for k, tol in (("PR_Int_Global", 20), ("QRS_Dur_Global", 12), ("QT_Int_Global", 20)):
                 if a.get(k) is not None and b.get(k) is not None:
                     diffs.append(abs(a[k] - b[k]) / tol)
-                elif topic != "afib" or k != "PR_Int_Global":
+                elif topic not in ("afib", "aflt") or k != "PR_Int_Global":
                     diffs.append(1.0)
             if max(diffs, default=0) > 1:
                 continue

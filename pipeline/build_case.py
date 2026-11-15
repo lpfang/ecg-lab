@@ -415,13 +415,15 @@ def ecgdeli_annotations(ecg_id: int, fs: float, duration_ms: float, issues: list
 RHYTHM_CODES = ["AFIB", "AFLT", "STACH", "SBRAD", "SARRH", "SR"]
 
 
-def drop_p(ann: dict | None) -> dict | None:
-    """去掉 P 波（房颤时 ECGDeli 会把颤动波误标为 P 波）"""
+def drop_p(ann: dict | None, types: tuple = ("P",)) -> dict | None:
+    """去掉 P 波（房颤时 ECGDeli 会把颤动波误标为 P 波）。
+    房扑另去掉 T 波：扑动波与 T 波重叠，自动标注的 T 波区间里其实是扑动波，起止不可信"""
     if not ann:
         return ann
-    ann["waves"] = {l: [w for w in ws if w["type"] != "P"] for l, ws in ann["waves"].items()}
+    ann["waves"] = {l: [w for w in ws if w["type"] not in types] for l, ws in ann["waves"].items()}
     for b in ann["beats"]:
-        b.pop("P", None)
+        for t in types:
+            b.pop(t, None)
     if ann["beats"]:
         ann["annotatedRangeMs"][0] = ann["beats"][0]["QRS"]["on"]
     return ann
@@ -470,6 +472,9 @@ def load_ptbxl(rec: str) -> dict:
     if no_p:
         issues.append({"level": "info", "lead": None,
                        "msg": "心房颤动 / 扑动：没有窦性 P 波，PR 间期不适用，算法给出的 PR、P 波时限与自动标注的 P 波已舍弃"})
+    if rhythm == "AFLT":
+        issues.append({"level": "info", "lead": None,
+                       "msg": "心房扑动：扑动波与 T 波重叠，自动标注的 T 波已舍弃；算法给出的 QT 仅供参考"})
     # 两种算法差异较大时报告
     if len(algos) == 2:
         for k, tol in [("PR_ms", 20), ("QRS_ms", 12), ("QT_ms", 20)]:
@@ -491,7 +496,8 @@ def load_ptbxl(rec: str) -> dict:
         "measurements": algos,
         "amplitudes": amps,
         "rhythm": rhythm,
-        "annotations": drop_p(ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues)) if no_p
+        "annotations": drop_p(ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues),
+                              ("P", "T") if rhythm == "AFLT" else ("P",)) if no_p
         else ecgdeli_annotations(ecg_id, fs, wrec.sig_len / fs * 1000, issues),
         "amplitudeNormalized": False,
         "source": PTBXL_SOURCE | {"record": f"ecg_id {ecg_id}", "derived": PTBXL_PLUS,
