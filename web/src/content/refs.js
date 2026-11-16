@@ -99,6 +99,16 @@ export const REFS = {
     note: '室颤的机制、心电图表现（时间和形态都不规则的极快速基线波动）、在心脏骤停首发心律中的比例（早期约 75%，近年约 40%）、后果与处理；已读全文',
     status: 'verified',
   },
+  merckTdP: {
+    text: 'Mitchell LB. Long QT Syndrome and Torsades de Pointes Ventricular Tachycardia. Merck Manual Professional Version. Reviewed/revised Sept 2024, modified Jun 2026. https://www.merckmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/long-qt-syndrome-and-torsades-de-pointes-ventricular-tachycardia',
+    note: '《默沙东诊疗手册》专业版：尖端扭转发作持续到引起血流动力学障碍时给非同步电击（双相 120–200 J），诱发室颤时必须非同步除颤；电击后常早期复发；静脉硫酸镁、纠正低钾、起搏或异丙肾上腺素提高心率；已读治疗部分',
+    status: 'verified',
+  },
+  aha2025als: {
+    text: 'Wigginton JG, Agarwal S, Bartos JA, et al. Part 9: Adult Advanced Life Support: 2025 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2025;152(16 Suppl 2):S538–S577. doi:10.1161/CIR.0000000000001376',
+    note: 'AHA 2025 成人高级生命支持指南（作者、卷页与 DOI 据 Europe PMC 题录核对）。据转述，其中建议成人持续性多形性室速立即非同步电击；原文网站需人机验证，本站未读原文，正文的电击说法依据上面已读的默沙东专业版',
+    status: 'listed',
+  },
   drew2010: {
     text: 'Drew BJ, Ackerman MJ, Funk M, et al. Prevention of torsade de pointes in hospital settings: a scientific statement from the American Heart Association and the American College of Cardiology Foundation. Circulation. 2010;121(8):1047–1060. doi:10.1161/CIRCULATIONAHA.109.192704',
     note: 'AHA/ACCF 关于尖端扭转型室速的科学声明（PMC3056123）：心电图特征、频率 160–240 次/分、"短–长–短"起始、住院患者的危险因素（表 2：QTc > 500 ms、低钾、低镁、利尿剂、女性、高龄等）、静脉硫酸镁；已读全文',
