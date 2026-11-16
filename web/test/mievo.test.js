@@ -47,3 +47,9 @@ describe('心梗演变示意动画', () => {
     expect(REFS.aha6).toBeTruthy();
   });
 });
+
+describe('患者篇说明', () => {
+  it('每个阶段都有大白话说明', () => {
+    for (const s of MI_EVOLUTION) expect(s.plain?.length).toBeGreaterThan(10);
+  });
+});

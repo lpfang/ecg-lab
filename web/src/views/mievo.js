@@ -68,7 +68,8 @@ function pathFor(w, beats = 2) {
   return d;
 }
 
-export function miEvolutionWidget(root, stages) {
+/** mode = 'pro'（专业篇）或 'plain'（患者篇，用 stage.plain 说明） */
+export function miEvolutionWidget(root, stages, mode = 'pro') {
   root.innerHTML = `
     <div class="hbw-evo">
       <svg class="hbw-evo-svg" viewBox="0 0 ${W_MM} ${H_MM}" role="img" aria-label="心梗心电图演变示意动画"></svg>
@@ -135,7 +136,7 @@ export function miEvolutionWidget(root, stages) {
       b.classList.toggle('on', on);
       b.setAttribute('aria-selected', on);
     });
-    info.innerHTML = `<p><b>${cur + 1}. ${st.zh}</b> <span class="muted">（${st.when}）</span></p><p>${st.text}</p>`;
+    info.innerHTML = `<p><b>${cur + 1}. ${st.zh}</b> <span class="muted">（${st.when}）</span></p><p>${mode === 'plain' ? st.plain : st.text}</p>`;
     cancelAnimationFrame(raf);
     labels.replaceChildren();
     alt.style.display = 'none';

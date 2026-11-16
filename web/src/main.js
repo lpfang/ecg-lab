@@ -1498,7 +1498,7 @@ function openHandbook(id) {
   if (ch.widget === 'axis') axisWidget($('#hb-widget'), 60);
   if (ch.widget === 'mi') miWidget($('#hb-widget'), MI_TERRITORIES, MI_GRID, MI_EXTRA);
   const evo = $('#hb-body [data-mi-evo]');
-  if (evo) miEvolutionWidget(evo, MI_EVOLUTION);
+  if (evo) miEvolutionWidget(evo, MI_EVOLUTION, evo.dataset.miEvo || 'pro');
   if (ch.widget === 'qtc') {
     // 用当前病例预填（有 QT 和心率时）
     const m = state.ecg?.meta;
