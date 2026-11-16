@@ -2205,6 +2205,51 @@ body.case-stale .case-info {
   color: #fff;
 }
 
+/* 心电图手册：心梗演变示意动画 */
+.hbw-evo {
+  max-width: 720px;
+  margin: 8px 0 12px;
+}
+.hbw-evo-svg {
+  width: 100%;
+  height: auto;
+  background: #fffaf8;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: block;
+}
+.hbw-evo-grid line.m { stroke: #f5c9c4; stroke-width: 0.06; }
+.hbw-evo-grid line.M { stroke: #e8a39b; stroke-width: 0.14; }
+.hbw-evo-trace { fill: none; stroke: #111; stroke-width: 0.32; stroke-linejoin: round; }
+.hbw-evo-ref { fill: none; stroke: #9ca3af; stroke-width: 0.22; stroke-dasharray: 0.8 0.6; }
+.hbw-evo-alt { fill: none; stroke: #b91c1c; stroke-width: 0.24; stroke-dasharray: 1 0.7; }
+.hbw-evo-lab { font-size: 1.7px; fill: #b91c1c; font-weight: 700; paint-order: stroke; stroke: #fffaf8; stroke-width: 0.5px; }
+.hbw-evo-lead { stroke: #b91c1c; stroke-width: 0.14; }
+.hbw-evo-note { font-size: 1.3px; fill: #78716c; }
+.hbw-evo-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 6px;
+}
+.hbw-evo-steps button span {
+  display: inline-block;
+  min-width: 1.4em;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.hbw-evo-steps button.on {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+.hbw-evo-ctl {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.hbw-evo-info p { margin: 4px 0; }
+
 /* 心电图手册：急症提示 */
 .hb-urgent {
   background: #fef2f2;
