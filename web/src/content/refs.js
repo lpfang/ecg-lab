@@ -96,7 +96,7 @@ export const REFS = {
   },
   merckVF: {
     text: 'Mitchell LB. Ventricular Fibrillation (VF). Merck Manual Professional Version. Full review Sept 2024. https://www.merckmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/ventricular-fibrillation-vf',
-    note: '室颤的机制、心电图表现（时间和形态都不规则的极快速基线波动）、在心脏骤停首发心律中的比例（早期约 75%，近年约 40%）、后果与处理；已读全文',
+    note: '室颤的机制、心电图表现（时间和形态都不规则的极快速基线波动）、后果与处理；已读全文',
     status: 'verified',
   },
   merckTdP: {
