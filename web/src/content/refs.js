@@ -91,7 +91,7 @@ export const REFS = {
   },
   merckVT: {
     text: 'Mitchell LB. Ventricular Tachycardia (VT). Merck Manual Professional Version. Full review Sept 2024. https://www.merckmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/ventricular-tachycardia-vt',
-    note: '《默沙东诊疗手册》专业版（同行评审）：室速的定义（≥ 3 个连续室性心搏、≥ 120 次/分）、持续性与非持续性、单形与多形、宽 QRS 心动过速的鉴别；已读全文。2017 AHA/ACC/HRS 指南原文网站需人机验证，本站未读其定义部分',
+    note: '《默沙东诊疗手册》专业版（同行评审）：室速的定义（≥ 3 个连续室性心搏、≥ 120 次/分）、无脉室速需除颤、持续性与非持续性、单形与多形、宽 QRS 心动过速的鉴别；已读全文。2017 AHA/ACC/HRS 指南原文网站需人机验证，本站未读其定义部分',
     status: 'verified',
   },
   merckVF: {
