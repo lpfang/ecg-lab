@@ -134,10 +134,22 @@ export const REFS = {
     note: '美国 2025 高血压指南（取代 2017 版）',
     status: 'listed',
   },
+  govGeneric2016: {
+    text: '国务院办公厅关于开展仿制药质量和疗效一致性评价的意见（国办发〔2016〕8 号），2016',
+    url: 'https://www.gov.cn/zhengce/content/2016-03/05/content_5049364.htm',
+    note: '通过一致性评价的品种，医疗机构应优先采购并在临床中优先选用',
+    status: 'verified',
+  },
+  govGeneric2018: {
+    text: '国务院办公厅关于改革完善仿制药供应保障及使用政策的意见（国办发〔2018〕20 号），2018',
+    url: 'https://www.gov.cn/zhengce/content/2018-04/03/content_5279546.htm',
+    note: '将与原研药质量和疗效一致的仿制药纳入与原研药可相互替代药品目录',
+    status: 'verified',
+  },
   esc2024: {
     text: 'McEvoy JW, et al. 2024 ESC Guidelines for the management of elevated blood pressure and hypertension. Eur Heart J. 2024;45(38):3912–4018. doi:10.1093/eurheartj/ehae178',
-    note: '欧洲 2024 指南。本站未能读到全文，相关内容来自指南作者在 Hypertension 2025;82:432–444 发表的解读，引用时已注明',
-    status: 'listed',
+    note: '欧洲 2024 指南。本站未能读到全文；引用的推荐条目已逐条核对 ESC 官方教学幻灯片（Slide Set）中列出的推荐原文和推荐级别（2026-11-15）',
+    status: 'verified',
   },
   nmpaLabel: {
     text: '国家食品药品监督管理局. 药品说明书和标签管理规定（局令第 24 号）. 2006.',

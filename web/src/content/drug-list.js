@@ -82,7 +82,7 @@ export const DRUGS = [
     "alias": [
       "盐酸贝那普利"
     ],
-    "plain": "常用的普利类药，一般每天 1 次。",
+    "plain": "常用的普利类药，一般每天 1 次，部分人分 2 次。",
     "forms": "片剂 5 mg、10 mg、20 mg",
     "dose": "5～40 mg/日，分 1～2 次",
     "cn": {
@@ -254,14 +254,14 @@ export const DRUGS = [
     "alias": [
       "盐酸咪达普利"
     ],
-    "plain": "日本研发的普利类药，每天 1 次。美国没有上市。",
+    "plain": "普利类药，每天 1 次。美国没有上市。",
     "forms": "片剂 5 mg、10 mg",
     "dose": "2.5～10 mg/日，每日 1 次",
     "cn": {
       "brands": [
         "达爽"
       ],
-      "originator": "田边制药",
+      "originator": "田边制药（通常的说法，未逐一核实）",
       "holder": "远大医药（天津）有限公司生产（持有人未核实）",
       "nrdl": "医保乙类"
     },
@@ -439,6 +439,9 @@ export const DRUGS = [
         "Atacand"
       ]
     },
+    "notes": [
+      "国内必洛斯说明书：一般每日 4～8 mg，必要时可增至 12 mg，比指南范围低；以说明书和医嘱为准。"
+    ],
     "sources": [
       "https://pharm.ncmi.cn/zysjk/ypjkyp/202312/t20231205_398739.html",
       "https://www.315jiage.cn/n79727",
@@ -632,7 +635,7 @@ export const DRUGS = [
       "苯磺酸左氨氯地平",
       "马来酸左氨氯地平"
     ],
-    "plain": "氨氯地平分子有“左手”“右手”两种结构，起降压作用的主要是左旋的那一种。把它单独分离出来做成药，所以剂量是氨氯地平的一半。中国企业 1999 年首先获批。",
+    "plain": "氨氯地平分子有“左手”“右手”两种结构，起降压作用的主要是左旋的那一种。把它单独分离出来做成药，所以剂量是氨氯地平的一半。1999 年由施慧达药业在国内首先获批。",
     "forms": "片剂 2.5 mg（苯磺酸盐、马来酸盐）",
     "dose": "2.5～5 mg/日，每日 1 次",
     "cn": {
@@ -651,7 +654,7 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "左旋氨氯地平 2.5 mg 和氨氯地平 5 mg 大致相当，两种药不要同时吃，也不要按片数换算。"
+      "左旋氨氯地平 2.5 mg 和氨氯地平 5 mg 大致相当，两种药不要同时吃；换药按医嘱，不要自己按毫克数或片数折算。"
     ],
     "sources": [
       "https://bydrug.pharmcube.com/news/detail/9faf73744eb6745cd58d8da2edea92f6",
@@ -715,7 +718,7 @@ export const DRUGS = [
     },
     "notes": [
       "不同型号的用法不同，以自己药盒里的说明书为准。",
-      "整片吞服，不要嚼碎。"
+      "吞服，不要嚼碎；Ⅰ、Ⅱ 型说明书允许沿中线掰开，以自己药盒里的说明书为准。"
     ],
     "sources": [
       "https://ypk.39.net/508386/manual",
@@ -1074,6 +1077,9 @@ export const DRUGS = [
         "Lozol（原研已停产，有仿制药）"
       ]
     },
+    "notes": [
+      "可能引起低钠、低钾，多见于老年女性，和剂量有关（美国说明书）。"
+    ],
     "sources": [
       "https://ypk.39.net/505765/manual/",
       "https://m.360lj.com/product/instruction/724594.html",
@@ -1145,7 +1151,7 @@ export const DRUGS = [
     },
     "us": {
       "brands": [
-        "Lasix"
+        "Lasix（片剂的上市状态在两个官方数据库中记录不一致，未核实）"
       ]
     },
     "notes": [
@@ -1234,7 +1240,7 @@ export const DRUGS = [
       "brands": [
         "力美通"
       ],
-      "originator": "原研辉瑞（Inspra）未在国内上市",
+      "originator": "2023 年获批时原研辉瑞（Inspra）未在国内上市",
       "holder": "远大医药（2023 年获批时为国内唯一产品）"
     },
     "us": {
@@ -1243,7 +1249,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "美国说明书：不能和酮康唑、伊曲康唑、克拉霉素等强效 CYP3A 抑制剂（某些抗真菌药、抗生素）合用；开始时血钾 > 5.5 或肌酐清除率 ≤ 30 mL/分者禁用。"
+      "美国说明书：不能和酮康唑、伊曲康唑、克拉霉素等强效 CYP3A 抑制剂（某些抗真菌药、抗生素）合用；开始时血钾 > 5.5 或肌酐清除率 ≤ 30 mL/分者禁用。",
+      "用于高血压时，美国说明书另外规定：同时服用补钾药或保钾利尿剂（如阿米洛利、氨苯蝶啶）、肌酐清除率 < 50 mL/分、血肌酐男性 > 2.0 / 女性 > 1.8 mg/dL、2 型糖尿病伴微量白蛋白尿者禁用。和普利类、沙坦类合用要注意血钾升高。"
     ],
     "sources": [
       "https://www.jiemian.com/article/9869637.html",
@@ -1334,7 +1341,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "和琥珀酸美托洛尔缓释片都叫“倍他乐克”，但剂型、用法不同，不能按片数直接换算。"
+      "和琥珀酸美托洛尔缓释片都叫“倍他乐克”，但剂型、用法不同，不能按片数直接换算。",
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
     ],
     "sources": [
       "https://ypk.39.net/502450/manual",
@@ -1369,7 +1377,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "缓释片 47.5 mg 相当于酒石酸美托洛尔 50 mg（美国 Toprol-XL 说明书），但两种剂型用法不同，换药要听医生的。"
+      "缓释片 47.5 mg 相当于酒石酸美托洛尔 50 mg（美国 Toprol-XL 说明书），但两种剂型用法不同，换药要听医生的。",
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
     ],
     "sources": [
       "http://static.sse.com.cn/stock/disclosure/announcement/c/202311/001335_20231129_N5EX.pdf",
@@ -1405,7 +1414,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "含比索洛尔的复方：比索洛尔氨氯地平片（中国指南表 16）。"
+      "含比索洛尔的复方：比索洛尔氨氯地平片（中国指南表 16）。",
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
     ],
     "sources": [
       "https://www.pharnexcloud.com/zixun/sd_39055",
@@ -1436,7 +1446,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "美国指南把阿替洛尔列为孕期有害的药物。"
+      "美国指南把阿替洛尔列为孕期有害的药物。",
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
     ],
     "sources": [
       "https://ypk.39.net/506520/manual/",
@@ -1466,6 +1477,9 @@ export const DRUGS = [
         "Coreg CR"
       ]
     },
+    "notes": [
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
+    ],
     "sources": [
       "https://ypk.39.net/503803/",
       "https://db.yaozh.com/orangebook/433.html",
@@ -1491,6 +1505,9 @@ export const DRUGS = [
         "Trandate（已停产，有仿制药）"
       ]
     },
+    "notes": [
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
+    ],
     "sources": [
       "https://swin.zy91.com/pages/m-instruction/m.instruction.html?webHisId=39504&hospitalCode=1",
       "https://wapypk.39.net/1000009473/manual/",
@@ -1517,6 +1534,9 @@ export const DRUGS = [
     "us": {
       "note": "美国未上市"
     },
+    "notes": [
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
+    ],
     "sources": [
       "https://m.360lj.com/product/instruction/720933.html",
       "https://ypk.39.net/769016/",
@@ -1546,7 +1566,8 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "哮喘患者禁用 β 受体阻滞剂；COPD 患者不推荐非选择性的（中国指南）。"
+      "哮喘患者禁用 β 受体阻滞剂；COPD 患者不推荐非选择性的（中国指南）。",
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
     ],
     "sources": [
       "https://www.haodf.com/citiao/yaopin-yansuanpunailuoerpia1/jieshao.html",
@@ -1572,6 +1593,9 @@ export const DRUGS = [
         "Bystolic"
       ]
     },
+    "notes": [
+      "长期服用不能突然停药，要在医生指导下逐渐减量（中国指南）。"
+    ],
     "cnStatus": "unavailable",
     "sources": [
       "https://m.1blv.com/answerDetail/18787.html",
@@ -1592,7 +1616,7 @@ export const DRUGS = [
       "甲磺酸多沙唑嗪"
     ],
     "plain": "扩张血管的 α 受体阻滞剂，也能缓解前列腺增生引起的排尿困难。",
-    "forms": "普通片；缓释片 4 mg（国内通用名为“甲磺酸多沙唑嗪缓释片”）",
+    "forms": "普通片（国内厂家未核实）；缓释片 4 mg（国内通用名为“甲磺酸多沙唑嗪缓释片”）",
     "dose": "普通片 0.5～8 mg/日；缓释片 1～16 mg/日；每日 1 次",
     "cn": {
       "brands": [
@@ -1640,6 +1664,9 @@ export const DRUGS = [
         "Hytrin（已停产，有仿制药）"
       ]
     },
+    "notes": [
+      "第一次服药从 1 mg 开始、睡前吃，防止站起来时头晕、晕倒（说明书）；停药几天后重新吃，要从小剂量重新开始（美国说明书）。"
+    ],
     "sources": [
       "https://dxy.com/medicine/6037",
       "https://ypk.39.net/2309438/manual/",
@@ -1856,7 +1883,7 @@ export const DRUGS = [
       ]
     },
     "notes": [
-      "不能和普利类、沙坦类、沙库巴曲缬沙坦联用（中国指南表 18）。",
+      "不能和普利类、沙坦类、沙库巴曲缬沙坦联用（中国指南表 18 列为不推荐的联合）。",
       "妊娠禁用（美国说明书黑框警告）。"
     ],
     "cnStatus": "uncertain",
@@ -1886,7 +1913,8 @@ export const DRUGS = [
       "note": "2024 年 3 月在美国获批"
     },
     "notes": [
-      "妊娠禁用（中国指南；美国说明书黑框警告：胚胎-胎儿毒性）。"
+      "妊娠禁用（中国指南；美国说明书黑框警告：胚胎-胎儿毒性）。",
+      "美国说明书还提醒：可能引起水肿、贫血，用药前和用药期间要查肝功能。"
     ],
     "cnStatus": "uncertain",
     "sources": [
@@ -1957,13 +1985,13 @@ export const DRUGS = [
     "inn": "irbesartan/hydrochlorothiazide",
     "plain": "沙坦类 + 利尿剂。",
     "forms": "厄贝沙坦 150 或 300 mg / 氢氯噻嗪 12.5 mg",
-    "dose": "1 片/日（表 16）",
+    "dose": "150/12.5 mg 规格：1 片/日（表 16）",
     "cn": {
       "brands": [
         "安博诺"
       ],
       "originator": "赛诺菲",
-      "holder": "Sanofi-aventis groupe（进口）；2025 年起另有赛诺菲（杭州）国产版",
+      "holder": "Sanofi-aventis groupe（进口）；2025 年起另有赛诺菲（杭州）国产版（国产版是否用“安博诺”商品名未核实）",
       "vbp": "第一批国家集采"
     },
     "us": {
@@ -2104,7 +2132,7 @@ export const DRUGS = [
       ],
       "originator": "信立泰",
       "holder": "深圳信立泰药业股份有限公司",
-      "nrdl": "2024 年纳入医保乙类（限原发性高血压）"
+      "nrdl": "2024 年谈判纳入医保乙类（限原发性高血压），协议期至 2026 年底，之后是否续约未核实"
     },
     "us": {
       "note": "美国未上市"
@@ -2289,7 +2317,7 @@ export const DRUGS = [
     "dose": "每次 1～2 片，每日 3 次（说明书）",
     "cn": {
       "note": "国产多家生产",
-      "nrdl": "医保乙类"
+      "nrdl": "医保乙类（据药品网站，未在目录原文核实）"
     },
     "notes": [
       "国家基层指南：传统复方制剂根据情况仍可使用。",
@@ -2322,7 +2350,8 @@ export const DRUGS = [
     },
     "notes": [
       "说明书：活动性溃疡、溃疡性结肠炎、抑郁症、严重肾功能障碍者禁用。",
-      "含氢氯噻嗪：痛风患者不宜用。"
+      "含氢氯噻嗪：痛风患者不宜用。",
+      "含氨苯蝶啶（保钾利尿剂）：不要和螺内酯、补钾药同时用；和普利类、沙坦类一起用要查血钾（中国指南；美国氨苯蝶啶说明书有高钾血症黑框警告）。"
     ],
     "sources": [
       "https://drugs.dxy.cn/pc/drug/y9QLdx2B57TTOSE4yYM3nEA",
@@ -2340,7 +2369,7 @@ export const DRUGS = [
     "dose": "每次 1 片，每日 3 次（说明书；中国指南表 16 为 1～3 片，每日 2～3 次）",
     "cn": {
       "note": "国产多家生产（处方药）",
-      "nrdl": "医保乙类"
+      "nrdl": "医保乙类（据药品网站，未在目录原文核实）"
     },
     "notes": [
       "含可乐定：不能突然停药，要在医生指导下逐渐减量。",
