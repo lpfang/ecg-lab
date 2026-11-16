@@ -90,3 +90,20 @@ describe('本站重新定位的 QRS / T 边界（pipeline apply_boundaries）', 
     }
   });
 });
+
+describe('重新定位边界后的逐导联标注', () => {
+  const withB = ids.filter((id) => meta(id).annotations?.boundaries?.items.includes('qrs'));
+  it.each(withB)('%s：峰值都在起止区间内，QRS 不与同导联的 P、T 波重叠', (id) => {
+    for (const [lead, ws] of Object.entries(meta(id).annotations.waves)) {
+      const qrs = ws.filter((w) => w.type === 'QRS');
+      for (const w of ws) {
+        if (w.peak != null) {
+          expect(w.peak, `${lead} ${w.type}`).toBeGreaterThanOrEqual(w.on);
+          expect(w.peak, `${lead} ${w.type}`).toBeLessThanOrEqual(w.off);
+        }
+        if (w.type === 'P' || w.type === 'T')
+          for (const q of qrs) expect(w.on < q.off && q.on < w.off, `${lead} ${w.type} ${w.on}–${w.off}`).toBe(false);
+      }
+    }
+  });
+});

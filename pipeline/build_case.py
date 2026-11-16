@@ -752,15 +752,44 @@ def apply_boundaries(case_id: str, ann: dict | None, issues: list) -> None:
         if "T" in b and not (b["T"]["on"] < b["T"]["peak"] < b["T"]["off"]):
             raise ValueError(f"{case_id}: 心搏 {bi} 的 T 波起点 / 峰值 / 终点顺序不对")
         # 各导联着色：与这一搏对应的 QRS、T 波改用同一组时间
-        for ws in ann["waves"].values():
+        qon, qoff = b["QRS"]["on"], b["QRS"]["off"]
+        for lead, ws in ann["waves"].items():
             for w in ws:
-                if w["type"] == "QRS" and abs(w["peak"] - b["QRS"]["peak"]) <= 60 and man.get("qrs"):
-                    w["on"], w["off"] = b["QRS"]["on"], b["QRS"]["off"]
+                same_beat = ((w["peak"] is not None and abs(w["peak"] - b["QRS"]["peak"]) <= 60)
+                             or (w["on"] < old_q[1] and old_q[0] < w["off"]))  # 峰值相近，或与原全局 QRS 区间重叠
+                if man.get("qrs") and w["type"] == "QRS" and same_beat:
+                    w["on"], w["off"] = qon, qoff
                 elif (w["type"] == "T" and old_t is not None and man.get("t") and m.get("tOff")
                       and abs(w["off"] - old_t) <= 120 and w["on"] >= old_q[0]):
                     w["off"] = m["tOff"]
-                    w["on"] = max(w["on"], b["QRS"]["off"])
-                    w["peak"] = m["tPeak"] if w["on"] < m["tPeak"] < w["off"] else None
+                    w["on"] = max(w["on"], qoff)
+                    w["peak"] = m["tPeak"]
+            if man.get("qrs"):
+                # 本导联的 P、T 波不能伸进这一搏的新 QRS 区间：截到 QRS 起止点；截完仍重叠的去掉
+                keep = []
+                for w in ws:
+                    if w["type"] == "P" and w["on"] < qon < w["off"]:
+                        w["off"] = qon
+                    elif w["type"] == "T" and w["on"] < qoff < w["off"]:
+                        w["on"] = qoff
+                    if w["type"] in ("P", "T") and w["on"] < qoff and qon < w["off"]:
+                        continue  # 截完仍与 QRS 重叠（如起点落在 QRS 里的"P 波"），是错标，去掉
+                    keep.append(w)
+                ws[:] = keep
+            # 局部峰值落在（新的）起止区间外的，不再保留
+            for w in ws:
+                if w["peak"] is not None and not (w["on"] <= w["peak"] <= w["off"]):
+                    w["peak"] = None
+    # 生成数据检查：每个导联里，保留的峰值都在自己的起止区间内；QRS 不与同导联的 P、T 波重叠
+    for lead, ws in ann["waves"].items():
+        q = [w for w in ws if w["type"] == "QRS"]
+        for w in ws:
+            if w["peak"] is not None and not (w["on"] <= w["peak"] <= w["off"]):
+                raise ValueError(f"{case_id} {lead}: {w['type']} 峰值 {w['peak']} 不在 {w['on']}–{w['off']} 内")
+            if w["type"] in ("P", "T") and man.get("qrs"):
+                for x in q:
+                    if w["on"] < x["off"] and x["on"] < w["off"]:
+                        raise ValueError(f"{case_id} {lead}: {w['type']} {w['on']}–{w['off']} 与 QRS {x['on']}–{x['off']} 重叠")
     parts = [x for x, k in (("QRS 起止点", "qrs"), ("T 波终点", "t")) if man.get(k)]
     ann["boundaries"] = {"items": [k for k in ("qrs", "t") if man.get(k)], "method": man["method"]}
     ann["source"] += f"；{'、'.join(parts)}为本站重新定位（见下方说明）"
