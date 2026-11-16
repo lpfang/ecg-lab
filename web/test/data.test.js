@@ -28,7 +28,8 @@ describe('validateMeta', () => {
 
 describe('ST（J + 80 ms）', () => {
   it('多数心搏落进 T 波的病例不给 J+80 数值，并标出比例', () => {
-    for (const id of ['ptbxl-4117', 'ptbxl-9355']) {
+    // 心率快、ST 段短的病例（4117 房颤约 130 次/分，6303 窦速约 118 次/分）
+    for (const id of ['ptbxl-4117', 'ptbxl-6303']) {
       const v = meta(id).amplitudes.find((a) => a.id === 'area').values;
       expect(v.II.ST80, id).toBeNull();
       expect(v.II.ST80inT, id).toBeGreaterThan(0.5);

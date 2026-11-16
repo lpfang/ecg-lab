@@ -24,6 +24,7 @@ import build_case as bc  # noqa: E402
 
 FRAC = 0.03          # QRS 起止阈值占速度峰值的比例（在 10 个自动标注可靠的病例上校准）
 HOLD_MS = 12         # 速度持续低于阈值这么久，才算离开 QRS
+FRAC_AF = 0.05       # 房颤、房扑：颤动波 / 扑动波抬高了基线的速度，阈值提高到 5%（在 4117、8215 上核对）
 SMOOTH_MS = 10
 
 
@@ -46,6 +47,7 @@ def velocity(x, fs):
 
 def propose(meta, fs, x):
     v = velocity(x, fs)
+    frac = FRAC_AF if meta.get("rhythm") in ("AFIB", "AFLT") else FRAC
     beats = meta["annotations"]["beats"]
     peaks = [b["QRS"]["peak"] for b in beats]
     n = x.shape[1]
@@ -62,7 +64,7 @@ def propose(meta, fs, x):
         # 基线：本搏 R 峰前 300–150 ms 中速度较低的部分（TP / PR 段）
         b0, b1 = max(prev_p + idx(250), p - idx(330)), p - idx(150)
         base = np.percentile(v[b0:b1], 30) if b1 > b0 else np.percentile(v, 10)
-        thr = base + FRAC * (vmax - base)
+        thr = base + frac * (vmax - base)
         hold = idx(HOLD_MS)
         # 起点：从 R 峰往前，找到速度"持续"低于阈值的位置（避免停在 QRS 中间的切迹上）
         on = p
