@@ -72,3 +72,20 @@ describe('逐搏边界核对（pipeline check_boundaries）', () => {
     }
   });
 });
+
+describe('本站重新定位的 QRS / T 边界（pipeline apply_boundaries）', () => {
+  const withB = ids.filter((id) => meta(id).annotations?.boundaries);
+  it('至少有一批病例完成了重新定位', () => expect(withB.length).toBeGreaterThanOrEqual(5));
+  it.each(withB)('%s：重新定位的项目不再被标为不可靠，波形顺序合理', (id) => {
+    const a = meta(id).annotations;
+    for (const k of a.boundaries.items) expect(a.unreliable?.[k === 'qrs' ? 'QRS' : 'QT']).toBeFalsy();
+    for (const b of a.beats) {
+      expect(b.QRS.on).toBeLessThan(b.QRS.peak);
+      expect(b.QRS.peak).toBeLessThan(b.QRS.off);
+      if (b.T) {
+        expect(b.T.on).toBeGreaterThanOrEqual(b.QRS.off);
+        expect(b.T.on).toBeLessThan(b.T.off);
+      }
+    }
+  });
+});

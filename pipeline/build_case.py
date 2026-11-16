@@ -675,6 +675,8 @@ def apply_atrial(case_id: str, ann: dict | None, issues: list) -> None:
     if not f.exists() or not ann:
         return
     man = json.loads(f.read_text(encoding="utf-8"))
+    if "p" not in man:  # 只有 QRS / T 边界、没有手工 P 波的病例
+        return
     beats = ann["beats"]
     auto_p = [b["P"] for b in beats if "P" in b]
     pre = float(np.median([p["peak"] - p["on"] for p in auto_p])) if auto_p else 50.0
@@ -716,6 +718,56 @@ def apply_atrial(case_id: str, ann: dict | None, issues: list) -> None:
                    "msg": f"P 波为本站手工标注：共 {len(waves)} 个，下传 {n_c} 个，未下传 {len(waves) - n_c} 个"})
 
 
+def apply_boundaries(case_id: str, ann: dict | None, issues: list) -> None:
+    """合并本站重新定位的 QRS 起止点 / T 波终点（自动标注的逐搏边界与算法相差太大的病例）。
+
+    pipeline/manual/<id>.json 的 "boundaries"：{method, qrs: bool, t: bool, beats: [{peak, on, off, tOff, tPeak}]}
+      由 pipeline/manual/propose_boundaries.py 粗定位、逐搏画图核对后写入；qrs / t 表示替换哪一项。
+      按 QRS 峰值（±60 ms）对应到自动标注的心搏；全局边界，各导联的 QRS / T 波着色也改用同一组时间。
+    """
+    f = MANUAL / f"{case_id}.json"
+    if not f.exists() or not ann or not ann.get("beats"):
+        return
+    man = json.loads(f.read_text(encoding="utf-8")).get("boundaries")
+    if not man:
+        return
+    beats = ann["beats"]
+    done_q = done_t = 0
+    for m in man["beats"]:
+        bi = min(range(len(beats)), key=lambda i: abs(beats[i]["QRS"]["peak"] - m["peak"]))
+        b = beats[bi]
+        if abs(b["QRS"]["peak"] - m["peak"]) > 60:
+            raise ValueError(f"{case_id}: 手工边界 peak={m['peak']} 找不到对应的心搏")
+        old_q = (b["QRS"]["on"], b["QRS"]["off"])
+        if man.get("qrs"):
+            b["QRS"]["on"], b["QRS"]["off"] = m["on"], m["off"]
+            done_q += 1
+        old_t = b.get("T", {}).get("off")
+        if man.get("t") and m.get("tOff") and "T" in b:
+            b["T"]["off"] = m["tOff"]
+            b["T"]["peak"] = m["tPeak"]  # 自动标注的 T 波整体偏晚时，峰值也一起换
+            done_t += 1
+        if "T" in b and b["T"]["on"] < b["QRS"]["off"]:
+            b["T"]["on"] = b["QRS"]["off"]
+        if "T" in b and not (b["T"]["on"] < b["T"]["peak"] < b["T"]["off"]):
+            raise ValueError(f"{case_id}: 心搏 {bi} 的 T 波起点 / 峰值 / 终点顺序不对")
+        # 各导联着色：与这一搏对应的 QRS、T 波改用同一组时间
+        for ws in ann["waves"].values():
+            for w in ws:
+                if w["type"] == "QRS" and abs(w["peak"] - b["QRS"]["peak"]) <= 60 and man.get("qrs"):
+                    w["on"], w["off"] = b["QRS"]["on"], b["QRS"]["off"]
+                elif (w["type"] == "T" and old_t is not None and man.get("t") and m.get("tOff")
+                      and abs(w["off"] - old_t) <= 120 and w["on"] >= old_q[0]):
+                    w["off"] = m["tOff"]
+                    w["on"] = max(w["on"], b["QRS"]["off"])
+                    w["peak"] = m["tPeak"] if w["on"] < m["tPeak"] < w["off"] else None
+    parts = [x for x, k in (("QRS 起止点", "qrs"), ("T 波终点", "t")) if man.get(k)]
+    ann["boundaries"] = {"items": [k for k in ("qrs", "t") if man.get(k)], "method": man["method"]}
+    ann["source"] += f"；{'、'.join(parts)}为本站重新定位（见下方说明）"
+    issues.append({"level": "info", "lead": None,
+                   "msg": f"{'、'.join(parts)}为本站重新定位：QRS {done_q} 搏，T 波终点 {done_t} 搏。方法：{man['method']}"})
+
+
 # 逐搏边界与算法测量的核对：逐搏中位数与两种算法中位数相差达到这个值，就认为本例这项逐搏边界不可靠
 BOUNDARY_TOL_MS = {"QRS": 25, "QT": 40}
 
@@ -750,6 +802,7 @@ def build(db: str, rec: str) -> dict:
     log(f"[{case_id}]")
     c = LOADERS[db](rec)
     apply_atrial(case_id, c["annotations"], c["issues"])
+    apply_boundaries(case_id, c["annotations"], c["issues"])
     check_boundaries(c["annotations"], c["measurements"], c["issues"])
     sig_uV, fs = c["sig_uV"], c["fs"]
     issues = c["issues"]

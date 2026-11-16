@@ -167,7 +167,7 @@ describe('导览光标 {atrial}', () => {
 describe('ST 占位符与逐搏边界可靠性', () => {
   const ctxOf = (m) => ({ meta: m, lvh: null, lvhBy: {} });
   it('QRS 终点不可靠的病例：{stj} 取两种算法 J 点读数的平均，并附来源说明', () => {
-    const m = meta('ptbxl-13913');
+    const m = meta('ptbxl-11944');
     expect(m.annotations.unreliable?.QRS).toBeTruthy();
     const algo = m.amplitudes.filter((a) => a.kind === 'algorithm').map((a) => a.values.V3.STJ);
     const avg = algo.reduce((a, b) => a + b, 0) / algo.length;

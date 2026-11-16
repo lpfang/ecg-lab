@@ -242,6 +242,16 @@ function avNote(blocked) {
     : '<p class="af-note">本例有部分 P 波没有下传到心室（节律条底部的红色 ✕），蓝色横线上的数字是每次下传的 PR 间期。</p>';
 }
 
+/** 此刻面板里逐搏读数的来源：手工 P 波、本站重新定位的 QRS / T 边界，或自动标注 */
+function beatSource(phase) {
+  const ann = state.ecg.meta.annotations ?? {};
+  const bnd = ann.boundaries?.items ?? [];
+  if (ann.atrial && ['P', 'PR'].includes(phase)) return 'P 波为手工标注';
+  if (['QRS', 'ST'].includes(phase) && bnd.includes('qrs')) return 'QRS 起止点为本站重新定位';
+  if (phase === 'T' && bnd.includes('t')) return 'QRS 起点与 T 波终点为本站重新定位';
+  return '自动标注';
+}
+
 function nowText(ctx, tTxt) {
   if (state.cursorMs == null) return '<p class="muted">点击心电图上的任意位置，看看那一刻心脏在做什么。</p>';
   if (!ctx.loc) {
@@ -288,7 +298,7 @@ function nowText(ctx, tTxt) {
           : '') +
     (ECTOPIC[state.caseId]?.[ctx.loc.index] ? `<p class="af-note">${ECTOPIC[state.caseId][ctx.loc.index]}</p>` : '') +
     avNote(blockedPAt(state.cursorMs)) +
-    `<p class="muted small">${beatFacts}（${state.ecg.meta.annotations?.atrial && ['P', 'PR'].includes(ctx.loc.phase) ? 'P 波为手工标注' : '自动标注'}）</p>` +
+    `<p class="muted small">${beatFacts}（${beatSource(ctx.loc.phase)}）</p>` +
     (info.term ? `<p class="small"><a href="#" data-term="${info.term}">了解「${TERMS[info.term].zh}」→</a></p>` : '')
   );
 }
