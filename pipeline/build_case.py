@@ -16,6 +16,8 @@
     ludb   LUDB v1.0.1（医生逐导联手工标注波形起止点）。
            注意：LUDB 的幅度被逐导联归一化（每导联峰峰值 = 1 mV），不是真实 mV，
            只能用于时间相关的教学（波形定位、间期），见 docs/数据核查.md
+    ningbo Challenge 2021 宁波子集（12 导联、500 Hz、10 秒；只有记录级诊断码，标签噪声大，逐条画图核对后登记
+           在 NINGBO_GROUP）。前端按 meta.capabilities 关闭逐搏标注与自动测量
     vfdb   MIT-BIH 恶性室性心律失常库 v1.0.0（两通道、250 Hz、35 分钟监护记录）。
            写成 记录号@起点秒，截取 10 秒"监护条带"（meta.kind = 'strip'）；只有节律标注，
            导联身份未注明，前端关闭逐搏标注、间期、电压判据等分析面板
@@ -643,6 +645,71 @@ def load_ludb(rec: str) -> dict:
     }
 
 
+# ---------------------------------------------------------------- 宁波（Challenge 2021，12 导联 10 秒，标签噪声大）
+
+NINGBO_URL = "https://physionet.org/files/challenge-2021/1.0.3/training/ningbo/"
+# 宁波子集在 Challenge 2021 中按编号分在 g1…g46 子目录，不能由编号推算，逐条登记
+NINGBO_GROUP = {"JS45546": "g35"}
+SNOMED_LABEL = {"425856008": "Paroxysmal ventricular tachycardia"}
+NINGBO_SOURCE = {
+    "name": "PhysioNet/Computing in Cardiology Challenge 2021 v1.0.3：Ningbo First Hospital 12-lead ECG Database",
+    "url": "https://physionet.org/content/challenge-2021/1.0.3/",
+    "license": "Creative Commons Attribution 4.0 International",
+    "citation": (
+        "Reyna M, Sadr N, Gu A, Perez Alday EA, Liu C, Seyedi S, Shah A, Clifford G. Will Two Do? Varying "
+        "Dimensions in Electrocardiography: The PhysioNet/Computing in Cardiology Challenge 2021 (version 1.0.3). "
+        "PhysioNet. 2022. https://doi.org/10.13026/34va-7q14 ；原始数据：Zheng J, Chu H, Struppa D, et al. "
+        "Optimal multi-stage arrhythmia classification approach. Sci Rep. 2020;10:2898"
+    ),
+    "annotation": "只有记录级诊断码（SNOMED CT），没有逐搏标注；挑战赛组织方说明部分数据和标签可能有错，本站逐条画图核对",
+}
+
+
+def load_ningbo(rec: str) -> dict:
+    group = NINGBO_GROUP.get(rec)
+    if not group:
+        sys.exit(f"宁波记录 {rec} 未登记子目录（NINGBO_GROUP）")
+    base = RAW / "ningbo" / rec
+    for ext in ("hea", "mat"):
+        dest = base.with_suffix(f".{ext}")
+        if not (dest.exists() and dest.stat().st_size > 0):
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            log(f"  下载 {group}/{rec}.{ext}")
+            req = urllib.request.Request(NINGBO_URL + f"{group}/{rec}.{ext}", headers={"User-Agent": "ecg-lab-pipeline"})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = r.read()
+            if not data:
+                raise RuntimeError(f"下载结果为空：{rec}.{ext}")
+            dest.write_bytes(data)
+    sig_uV, raw, fs, wrec = read_signal(base)
+    issues: list = [{"level": "info", "lead": None,
+                     "msg": "宁波数据集只有记录级诊断码、没有逐搏标注；本站不提供间期、电压判据、ST 等自动测量"}]
+    meta = {k.strip(): v.strip() for k, v in (c.split(":", 1) for c in wrec.comments if ":" in c)}
+    age = meta.get("Age")
+    sex = {"Male": "M", "Female": "F"}.get(meta.get("Sex"))
+    codes = [c for c in meta.get("Dx", "").split(",") if c]
+    return {
+        "sig_uV": sig_uV, "raw": raw, "fs": fs, "nSamples": wrec.sig_len,
+        "adc_limits": (-32768, 32767),
+        "issues": issues,
+        # Age 0 在该子集中表示未知
+        "patient": {"age": None if not age or age in ("0", "NaN") else age, "sex": sex},
+        "diagnoses": [{"code": f"SNOMED {c}", "likelihood": None, "description": SNOMED_LABEL.get(c, c), "class": ""}
+                      for c in codes],
+        "reportOriginal": None,
+        "validatedByCardiologist": False,
+        "measurements": [],
+        "amplitudes": [],
+        "rhythm": None,
+        "annotations": None,
+        "amplitudeNormalized": False,
+        # 版式仍是 12 导联；没有可靠逐搏依据的分析关闭。心率换算保留：本例是规整的心动过速
+        "capabilities": {"beats": False, "linked": False, "intervals": False, "lvh": False, "st": False,
+                         "compare": False, "rate": True},
+        "source": NINGBO_SOURCE | {"record": rec, "physionet": PHYSIONET_CITATION},
+    }
+
+
 # ---------------------------------------------------------------- 监护条带（长时间监护记录中截取 10 秒）
 
 # 数据库的节律标注（.atr 的 aux 字符串）→ 中文。只收录本站用到的几种；遇到未收录的照原样显示
@@ -773,7 +840,7 @@ def write_strip(db: str, spec: str) -> dict:
 # ---------------------------------------------------------------- 输出
 
 
-LOADERS = {"ptbxl": load_ptbxl, "ludb": load_ludb}
+LOADERS = {"ptbxl": load_ptbxl, "ludb": load_ludb, "ningbo": load_ningbo}
 STRIP_LOADERS = set(STRIP_SOURCES)
 
 
@@ -995,6 +1062,7 @@ def build(db: str, rec: str) -> dict:
         "leads": LEADS,
         "signal": {"file": "signal.i16", "dtype": "int16le", "unit": "uV", "layout": "lead-major"},
         "amplitudeNormalized": c["amplitudeNormalized"],
+        **({"capabilities": c["capabilities"]} if c.get("capabilities") else {}),
         "patient": c["patient"],
         "diagnoses": c["diagnoses"],
         "reportOriginal": c["reportOriginal"],

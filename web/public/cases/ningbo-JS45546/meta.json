@@ -1,0 +1,143 @@
+{
+ "id": "ningbo-JS45546",
+ "fs": 500.0,
+ "nSamples": 5000,
+ "durationMs": 10000.0,
+ "leads": [
+  "I",
+  "II",
+  "III",
+  "aVR",
+  "aVL",
+  "aVF",
+  "V1",
+  "V2",
+  "V3",
+  "V4",
+  "V5",
+  "V6"
+ ],
+ "signal": {
+  "file": "signal.i16",
+  "dtype": "int16le",
+  "unit": "uV",
+  "layout": "lead-major"
+ },
+ "amplitudeNormalized": false,
+ "capabilities": {
+  "beats": false,
+  "linked": false,
+  "intervals": false,
+  "lvh": false,
+  "st": false,
+  "compare": false,
+  "rate": true
+ },
+ "patient": {
+  "age": "37",
+  "sex": "M"
+ },
+ "diagnoses": [
+  {
+   "code": "SNOMED 425856008",
+   "likelihood": null,
+   "description": "Paroxysmal ventricular tachycardia",
+   "class": ""
+  }
+ ],
+ "reportOriginal": null,
+ "validatedByCardiologist": false,
+ "measurements": [],
+ "amplitudes": [],
+ "rhythm": null,
+ "annotations": null,
+ "quality": {
+  "perLead": {
+   "I": {
+    "baselineWander_uV": 300,
+    "saturated": 0
+   },
+   "II": {
+    "baselineWander_uV": 378,
+    "saturated": 0
+   },
+   "III": {
+    "baselineWander_uV": 249,
+    "saturated": 0
+   },
+   "aVR": {
+    "baselineWander_uV": 332,
+    "saturated": 0
+   },
+   "aVL": {
+    "baselineWander_uV": 161,
+    "saturated": 0
+   },
+   "aVF": {
+    "baselineWander_uV": 256,
+    "saturated": 0
+   },
+   "V1": {
+    "baselineWander_uV": 452,
+    "saturated": 0
+   },
+   "V2": {
+    "baselineWander_uV": 810,
+    "saturated": 0
+   },
+   "V3": {
+    "baselineWander_uV": 544,
+    "saturated": 0
+   },
+   "V4": {
+    "baselineWander_uV": 537,
+    "saturated": 0
+   },
+   "V5": {
+    "baselineWander_uV": 310,
+    "saturated": 0
+   },
+   "V6": {
+    "baselineWander_uV": 412,
+    "saturated": 0
+   }
+  },
+  "einthoven": {
+   "II=I+III": 0.0002,
+   "aVF=(II+III)/2": 0.0009,
+   "aVR=-(I+II)/2": 0.0007
+  }
+ },
+ "issues": [
+  {
+   "level": "info",
+   "lead": null,
+   "msg": "宁波数据集只有记录级诊断码、没有逐搏标注；本站不提供间期、电压判据、ST 等自动测量"
+  },
+  {
+   "level": "warn",
+   "lead": "V2",
+   "msg": "基线漂移较大（0.81 mV）"
+  },
+  {
+   "level": "warn",
+   "lead": "V3",
+   "msg": "基线漂移较大（0.54 mV）"
+  },
+  {
+   "level": "warn",
+   "lead": "V4",
+   "msg": "基线漂移较大（0.54 mV）"
+  }
+ ],
+ "source": {
+  "name": "PhysioNet/Computing in Cardiology Challenge 2021 v1.0.3：Ningbo First Hospital 12-lead ECG Database",
+  "url": "https://physionet.org/content/challenge-2021/1.0.3/",
+  "license": "Creative Commons Attribution 4.0 International",
+  "citation": "Reyna M, Sadr N, Gu A, Perez Alday EA, Liu C, Seyedi S, Shah A, Clifford G. Will Two Do? Varying Dimensions in Electrocardiography: The PhysioNet/Computing in Cardiology Challenge 2021 (version 1.0.3). PhysioNet. 2022. https://doi.org/10.13026/34va-7q14 ；原始数据：Zheng J, Chu H, Struppa D, et al. Optimal multi-stage arrhythmia classification approach. Sci Rep. 2020;10:2898",
+  "annotation": "只有记录级诊断码（SNOMED CT），没有逐搏标注；挑战赛组织方说明部分数据和标签可能有错，本站逐条画图核对",
+  "record": "JS45546",
+  "physionet": "Pollard, T., Moody, B. E., Lehman, L., Gow, B., Fernandes, C., Xie, C., Johnson, A., Mark, R. G., & Heldt, T. (2026). PhysioNet as a global platform for biomedical research. Nature Health. https://doi.org/10.1038/s44360-026-00096-z"
+ },
+ "contentReviewed": false
+}

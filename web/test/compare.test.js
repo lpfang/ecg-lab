@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { medianBeat, medianAt } from '../src/ecg/median.js';
 import { COMPARE, NORMAL_REF, refFor } from '../src/content/compare.js';
-import { load } from './helpers.js';
+import { load, readMeta } from './helpers.js';
 
 const CASES = new URL('../public/cases/', import.meta.url);
 const LEADS = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'];
@@ -72,6 +72,7 @@ describe('与正常对照的配置', () => {
     for (const c of index) {
       if (c.quizOnly) continue; // 测验专用病例（LUDB，幅度被归一化）不参与对照
       if (c.kind === 'strip') continue; // 监护条带只有 2 个未注明的通道，没有逐搏标注，不做对照
+      if (readMeta(c.id).capabilities?.compare === false) continue; // 病例配置关闭了对照（如宁波，没有逐搏标注）
       if (c.group === '正常') expect(COMPARE[c.id]).toBeUndefined();
       else expect(COMPARE[c.id], c.id).toBeTruthy();
     }

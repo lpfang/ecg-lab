@@ -121,8 +121,16 @@ function applyCapabilities(meta) {
   $('.measure-card').hidden = !Object.values(tabs).some(Boolean);
   const cur = document.querySelector('[data-mtab].on')?.dataset.mtab;
   if (cur && !tabs[cur]) setMtab(Object.keys(tabs).find((k) => tabs[k]) ?? 'intervals');
-  $('#strip-card').hidden = !strip;
+  // 说明卡：监护条带讲条带；其余关掉了部分分析的病例（如宁波 12 导联）讲为什么没有自动读数
+  const limited = !strip && Object.values(c).some((v) => !v);
+  $('#strip-card').hidden = !strip && !limited;
+  $('#strip-only').hidden = !strip;
+  $('#limited-only').hidden = !limited;
+  $('#strip-head').innerHTML = strip
+    ? '监护记录片段 <span class="en">Monitoring strip</span>'
+    : '本例没有自动读数 <span class="en">No automatic measurements</span>';
   if (strip) renderStripCard(meta);
+  else $('#strip-what').textContent = '';
 }
 
 const fmtClock = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;

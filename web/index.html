@@ -153,8 +153,9 @@
 
         <!-- 监护条带病例的说明：代替"此刻"、对照、向量等面板 -->
         <section class="card strip-card" id="strip-card" hidden>
-          <h3>监护记录片段 <span class="en">Monitoring strip</span></h3>
+          <h3 id="strip-head">监护记录片段 <span class="en">Monitoring strip</span></h3>
           <p id="strip-what"></p>
+          <div id="strip-only">
           <p>
             红色竖虚线是<b>数据库的节律标注</b>，表示数据库认定的节律改变起点；本例没有逐个心搏的标注和测量。
             上下两行是同一时刻，可以用卡尺量时间差和高度差（按数据库记录的增益换算成 mV）。
@@ -165,6 +166,17 @@
             <a href="#" data-hb-read="s-rhythm">读专业篇：室速、室颤、尖端扭转 →</a>
             <a href="#" data-hb-read="p-arrest">患者篇：心脏骤停怎么办 →</a>
           </p>
+          </div>
+          <div id="limited-only">
+          <p>
+            本例只有数据库给出的记录级诊断，没有逐个心搏的标注，所以本站不提供"此刻心脏在做什么"、导联轴、3D 向量和间期、左室肥厚电压、ST 段等自动读数。
+            波形本身是真实的 12 导联记录，可以切换排版、用卡尺量时间和高度（mV）。
+          </p>
+          <p class="muted small">
+            <a href="#" data-hb-read="s-rhythm">读专业篇：室速、室颤、尖端扭转 →</a>
+            <a href="#" data-hb-read="p-arrest">患者篇：心脏骤停怎么办 →</a>
+          </p>
+          </div>
         </section>
 
         <section class="card now-card">
