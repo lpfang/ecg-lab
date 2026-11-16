@@ -71,6 +71,7 @@ describe('与正常对照的配置', () => {
   it('除正常组外，每个病例都有对照配置', () => {
     for (const c of index) {
       if (c.quizOnly) continue; // 测验专用病例（LUDB，幅度被归一化）不参与对照
+      if (c.kind === 'strip') continue; // 监护条带只有 2 个未注明的通道，没有逐搏标注，不做对照
       if (c.group === '正常') expect(COMPARE[c.id]).toBeUndefined();
       else expect(COMPARE[c.id], c.id).toBeTruthy();
     }

@@ -27,6 +27,27 @@ export const SYNC_12 = {
 
 export const LAYOUTS = { std: STANDARD_3x4, sync: SYNC_12 };
 
+/**
+ * 监护条带：每个通道一行，都是完整 10 秒、共用同一时间轴（上下是同一时刻）。
+ * 通道名由病例给出（如"通道 1"），不是标准导联名
+ */
+export function stripLayout(leads, leadLabels = {}) {
+  return {
+    id: 'strip',
+    columns: 1,
+    rows: leads.map((l) => [l]),
+    rhythm: [],
+    leadLabels,
+    labelLead: leads[0],
+  };
+}
+
+/** 病例应使用的排版：监护条带用条带排版，其余用用户选择的 12 导联排版 */
+export function layoutFor(meta, layoutId) {
+  if (meta?.kind === 'strip') return stripLayout(meta.leads, meta.leadLabels);
+  return LAYOUTS[layoutId] ?? STANDARD_3x4;
+}
+
 export const PAPER = {
   minorMm: 1,
   majorMm: 5,
@@ -70,6 +91,7 @@ export function computeLayout({ durationMs, speed, gain, layout = STANDARD_3x4 }
       const t1 = row.rhythm ? durationMs : (c + 1) * colMs;
       cells.push({
         lead,
+        name: layout.leadLabels?.[lead] ?? lead, // 图上显示的名字
         row: r,
         col: c,
         rhythm: row.rhythm,

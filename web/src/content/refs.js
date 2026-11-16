@@ -89,6 +89,36 @@ export const REFS = {
     note: 'AHA 面向公众的早搏介绍：常见程度、诱因、症状、检查与处理；已读全文',
     status: 'verified',
   },
+  merckVT: {
+    text: 'Mitchell LB. Ventricular Tachycardia (VT). Merck Manual Professional Version. Full review Sept 2024. https://www.merckmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/ventricular-tachycardia-vt',
+    note: '《默沙东诊疗手册》专业版（同行评审）：室速的定义（≥ 3 个连续室性心搏、≥ 120 次/分）、持续性与非持续性、单形与多形、宽 QRS 心动过速的鉴别；已读全文。2017 AHA/ACC/HRS 指南原文网站需人机验证，本站未读其定义部分',
+    status: 'verified',
+  },
+  merckVF: {
+    text: 'Mitchell LB. Ventricular Fibrillation (VF). Merck Manual Professional Version. Full review Sept 2024. https://www.merckmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/ventricular-fibrillation-vf',
+    note: '室颤的机制、心电图表现（时间和形态都不规则的极快速基线波动）、在心脏骤停首发心律中的比例（早期约 75%，近年约 40%）、后果与处理；已读全文',
+    status: 'verified',
+  },
+  drew2010: {
+    text: 'Drew BJ, Ackerman MJ, Funk M, et al. Prevention of torsade de pointes in hospital settings: a scientific statement from the American Heart Association and the American College of Cardiology Foundation. Circulation. 2010;121(8):1047–1060. doi:10.1161/CIRCULATIONAHA.109.192704',
+    note: 'AHA/ACCF 关于尖端扭转型室速的科学声明（PMC3056123）：心电图特征、频率 160–240 次/分、"短–长–短"起始、住院患者的危险因素（表 2：QTc > 500 ms、低钾、低镁、利尿剂、女性、高龄等）、静脉硫酸镁；已读全文',
+    status: 'verified',
+  },
+  aha2025bls: {
+    text: 'Kleinman ME, Buick JE, Huber N, et al. Part 7: Adult Basic Life Support: 2025 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2025;152:S448–S478. doi:10.1161/CIR.0000000000001369',
+    note: 'AHA 2025 成人基础生命支持指南（作者、卷页与 DOI 据 Europe PMC 题录核对）：识别心脏骤停、启动急救、高质量心肺复苏、使用 AED。原文网站需人机验证，本站只读了摘要；具体操作数值依据下面两份已读的公众急救资料',
+    status: 'listed',
+  },
+  sjaCpr: {
+    text: 'St John Ambulance. How to do CPR. https://www.sja.org.uk/first-aid-advice/cpr/（英国 NHS 网站的心肺复苏页面转到此处）',
+    note: '面向公众的成人心肺复苏步骤：无反应且无正常呼吸即开始、偶尔的叹息样呼吸不算、按压深度 5–6 cm、100–120 次/分、单人时不要离开病人去找 AED、可只做按压；已读全文',
+    status: 'verified',
+  },
+  hljCpr: {
+    text: '张喜艳. 遇到心搏骤停者，你会心肺复苏和使用AED吗？黑龙江省人民政府网站（健康中国栏目），2026-01-12. https://www.hlj.gov.cn/hljapp/c116063/202601/c00_31904829.shtml',
+    note: '中文公众急救科普：拨打 120 并取 AED、按压深度 5～6 厘米、频率 100～120 次/分、30:2、AED 使用步骤；已读全文（文中关于抢救成功率的统计数字未引用）',
+    status: 'verified',
+  },
   koester2020: {
     text: 'Koester JE, Ibrahim R, Cancel M, et al. The Ubiquitous Premature Ventricular Complex. Cureus. 2020;12(1):e6585. doi:10.7759/cureus.6585',
     note: '室早综述（开放获取，PMC7001138）：室早的心电图特征、代偿间歇；已读相关段落原文',

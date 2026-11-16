@@ -1,7 +1,7 @@
 import './style.css';
-import { loadIndex, loadCase } from './data.js';
+import { loadIndex, loadCase, capabilitiesOf } from './data.js';
 import { checkFreshBuild, versionAssets } from './version.js';
-import { computeLayout, hitTest, LAYOUTS, caliperRow } from './ecg/layout.js';
+import { computeLayout, hitTest, LAYOUTS, layoutFor, caliperRow } from './ecg/layout.js';
 import { drawPaper, drawOverlay } from './ecg/paper.js';
 import { QTC_FORMULAS } from './ecg/measures.js';
 import { TOURS, fillTemplate, cursorTime, cursorAt, spotOf } from './tours.js';
@@ -97,13 +97,67 @@ function set(patch, ...parts) {
   invalidate(...parts);
 }
 
+/** 当前病例可用的分析（监护条带关掉逐搏标注、联动视图、测量表等） */
+function caps() {
+  return capabilitiesOf(state.ecg?.meta);
+}
+
+/** 显示名：监护条带的通道显示为"通道 1"，标准导联照原样 */
+function leadName(lead) {
+  return state.ecg?.meta.leadLabels?.[lead] ?? lead;
+}
+
+/**
+ * 按病例可用的分析显示或隐藏面板。只跟着已经画出来的病例走（加载失败时不调用，界面保持上一个病例的样子）
+ */
+function applyCapabilities(meta) {
+  const c = capabilitiesOf(meta);
+  const strip = meta.kind === 'strip';
+  document.body.classList.toggle('strip-case', strip);
+  for (const k of Object.keys(c)) document.body.classList.toggle(`no-${k}`, !c[k]);
+  // 测量卡：三个分页都不可用时整张隐藏；否则只隐藏不可用的分页，并切到第一个可用的
+  const tabs = { intervals: c.intervals, lvh: c.lvh, st: c.st };
+  document.querySelectorAll('[data-mtab]').forEach((b) => (b.hidden = !tabs[b.dataset.mtab]));
+  $('.measure-card').hidden = !Object.values(tabs).some(Boolean);
+  const cur = document.querySelector('[data-mtab].on')?.dataset.mtab;
+  if (cur && !tabs[cur]) setMtab(Object.keys(tabs).find((k) => tabs[k]) ?? 'intervals');
+  $('#strip-card').hidden = !strip;
+  if (strip) renderStripCard(meta);
+}
+
+const fmtClock = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
+
+function renderStripCard(meta) {
+  const st = meta.strip;
+  const fs = meta.fs;
+  const t0 = st.startSample / fs;
+  $('#strip-what').innerHTML =
+    `取自原记录 ${fmtClock(t0)}–${fmtClock(st.endSample / fs)}（整条记录约 ${Math.round(st.recordSamples / fs / 60)} 分钟）的 10 秒，` +
+    `${meta.leads.length} 个通道，原数据库未注明分别是哪个导联。`;
+}
+
+/** 监护条带的"诊断标签"：数据库的节律标注（片段开始时的节律 + 片段内的节律改变） */
+function stripDiagHtml(meta) {
+  const st = meta.strip;
+  return (
+    (st.rhythmAtStart ? `<li>片段开始时：${esc(st.rhythmAtStart.label)}<span class="en">${esc(st.rhythmAtStart.code.replace(/^\(/, ''))}</span></li>` : '') +
+    st.marks
+      .map(
+        (m) =>
+          `<li>第 ${(m.tMs / 1000).toFixed(2)} 秒起：${esc(m.label)}<span class="en">${esc(m.code.replace(/^\(/, ''))}</span>` +
+          `<span class="muted">（原记录 ${(m.sample / meta.fs).toFixed(3)} 秒）</span></li>`,
+      )
+      .join('')
+  );
+}
+
 function flush() {
   frame = 0;
   if (!state.ecg) return;
   const parts = new Set(dirty);
   dirty.clear();
   if (parts.has('paper')) {
-    state.layout = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: LAYOUTS[state.layoutId] });
+    state.layout = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: layoutFor(state.ecg.meta, state.layoutId) });
     // 卡尺按导联和时间定位：换排版（或导览只给了导联）时重新找它所在的行，找不到就清掉
     const cal = state.caliper;
     if (cal && cal.layout !== state.layout.id) {
@@ -119,7 +173,7 @@ function flush() {
     renderCaliperReadout();
     if (quiz.set) renderQuizPick();
   }
-  if (parts.has('linked')) renderLinked();
+  if (parts.has('linked') && caps().linked) renderLinked();
   if (parts.has('paper') || parts.has('compare')) drawCompare();
 }
 
@@ -687,17 +741,23 @@ function renderCaseInfo(meta, entry) {
   $('#case-title').textContent = entry?.title ?? meta.id;
   $('#case-summary').textContent = entry?.summary ?? '';
   const sex = { F: '女', M: '男' }[meta.patient.sex] ?? meta.patient.sex ?? '—';
-  $('#case-patient').textContent = `${meta.patient.age ?? '—'} 岁 · ${sex}`;
-  $('#case-diag').innerHTML = meta.diagnoses
+  $('#case-patient').textContent =
+    meta.patient.age == null && meta.patient.sex == null ? '年龄、性别：数据库未提供' : `${meta.patient.age ?? '—'} 岁 · ${sex}`;
+  const strip = meta.kind === 'strip';
+  $('#diag-title').textContent = strip ? '数据库节律标注' : '数据库诊断标签';
+  $('#diag-title-en').textContent = strip ? 'Rhythm annotations' : 'Diagnostic labels';
+  $('#case-diag').innerHTML = strip ? stripDiagHtml(meta) : meta.diagnoses
     .map(
       (d) =>
         `<li>${d.code ? `<code>${esc(d.code)}</code> ` : ''}${esc(scpLabel(d))}<span class="en">${esc(d.description)}</span>` +
         `${d.likelihood ? `<span class="muted">（可信度 ${esc(d.likelihood)}%）</span>` : ''}</li>`,
     )
     .join('');
-  $('#case-validated').textContent = meta.validatedByCardiologist
-    ? '诊断标签经心内科医生确认（数据库标注）。'
-    : '诊断标签未经人工确认。';
+  $('#case-validated').textContent = strip
+    ? '数据库只标出节律改变的起点，没有逐个心搏的标注；本站逐段画图核对过标注前后的波形，未请医生复核。'
+    : meta.validatedByCardiologist
+      ? '诊断标签经心内科医生确认（数据库标注）。'
+      : '诊断标签未经人工确认。';
   $('#amp-warning').hidden = !meta.amplitudeNormalized;
   $('#wave-source').textContent = meta.annotations?.source ?? '本例没有波形标注';
   const atrial = meta.annotations?.atrial;
@@ -717,7 +777,12 @@ function renderCaseInfo(meta, entry) {
     `<a href="${safeUrl(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>（${esc(x.license)}）` +
     `<br><span class="cite">${esc(x.citation)}</span>`;
   $('#case-source').innerHTML =
-    `<p>${ref(s)}<br>记录：${esc(s.record)}。${esc(s.annotation)}。</p>` +
+    `<p>${ref(s)}<br>记录：${esc(s.record)}${
+      meta.strip
+        ? `，截取 ${(meta.strip.startSample / meta.fs).toFixed(0)}–${(meta.strip.endSample / meta.fs).toFixed(0)} 秒` +
+          `（采样点 ${meta.strip.startSample}–${meta.strip.endSample}，${meta.fs} Hz）`
+        : ''
+    }。${esc(s.annotation)}。</p>` +
     (s.derived ? `<p>${ref(s.derived)}</p>` : '') +
     `<p class="cite">${esc(s.physionet)}</p>`;
 }
@@ -746,7 +811,10 @@ function renderCaliperReadout() {
   $('#caliper-text').innerHTML =
     `时间差 <b>${dt.toFixed(0)} ms</b>` +
     // 测验中不替用户换算心率（会直接给出心率题的答案）
-    (dt > 200 && !quiz.set ? `（若为 RR 间期，心率 = 60000 ÷ ${dt.toFixed(0)} = <b>${(60000 / dt).toFixed(0)} 次/分</b>）` : '') +
+    (!caps().rate
+      ? '<span class="muted">（本病例不自动换算心率：监护片段没有逐搏标注，量的两点是不是一个完整的心动周期要自己判断；室颤的波动不是心搏，不能这样算心率）</span>'
+      : '') +
+    (dt > 200 && !quiz.set && caps().rate ? `（若为 RR 间期，心率 = 60000 ÷ ${dt.toFixed(0)} = <b>${(60000 / dt).toFixed(0)} 次/分</b>）` : '') +
     height;
 }
 
@@ -776,7 +844,7 @@ function onPointerMove(ev) {
   const h = pointerHit(ev);
   const out = $('#hover-readout');
   out.textContent = h
-    ? `${h.cell.lead} 导联 · ${(h.tMs / 1000).toFixed(3)} s · 光标高度 ${h.mV.toFixed(2)}${
+    ? `${leadName(h.cell.lead)}${state.ecg?.meta.kind === 'strip' ? '' : ' 导联'} · ${(h.tMs / 1000).toFixed(3)} s · 光标高度 ${h.mV.toFixed(2)}${
         state.ecg?.meta.amplitudeNormalized ? '（相对幅度）' : ' mV'
       }`
     : '点击波形放置时间光标';
@@ -829,7 +897,7 @@ function playRange() {
 }
 
 function startPlay() {
-  if (!state.ecg) return;
+  if (!state.ecg || !caps().linked) return; // 没有联动视图的病例（监护条带）不播放
   const caseId = state.caseId;
   const range = playRange();
   if (state.cursorMs == null || state.cursorMs < range[0] || state.cursorMs >= range[1]) state.cursorMs = range[0];
@@ -1092,11 +1160,12 @@ async function selectCase(id, retry = () => selectCase(id)) {
         caliper: null,
         // 默认光标放在第 3 个心搏的 R 波上，让联动视图一开始就有内容
         cursorMs: first ? first.QRS.peak ?? first.QRS.on : null,
-        selectedLead: 'II',
+        selectedLead: ecg.meta.leads.includes('II') ? 'II' : ecg.meta.leads[0],
       },
       'paper',
       'linked',
     );
+    applyCapabilities(ecg.meta);
     renderCaseInfo(ecg.meta, state.index.cases.find((c) => c.id === id));
     renderMeasurements(ecg.meta);
     renderLVH(ecg.meta);
@@ -1571,7 +1640,7 @@ async function runDemo(chId, i) {
 
 /** 把某导联（含该时刻）的那一行滚到屏幕中间；排版在下一帧才重算，所以先按目标排版算一次 */
 function scrollToLead(lead, t) {
-  const lay = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: LAYOUTS[state.layoutId] });
+  const lay = computeLayout({ durationMs: state.ecg.durationMs, speed: state.speed, gain: state.gain, layout: layoutFor(state.ecg.meta, state.layoutId) });
   const cell = lay.cells.find((c) => c.lead === lead && !c.rhythm && (t == null || (c.t0 <= t && t < c.t1)));
   if (!cell) return $('.paper-wrap').scrollIntoView({ block: 'center', behavior: 'smooth' });
   const top = $('#paper').getBoundingClientRect().top + window.scrollY + (cell.topMm + cell.heightMm / 2) * state.pxPerMm;

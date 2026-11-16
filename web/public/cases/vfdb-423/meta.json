@@ -1,0 +1,81 @@
+{
+ "id": "vfdb-423",
+ "kind": "strip",
+ "fs": 250.0,
+ "nSamples": 2500,
+ "durationMs": 10000.0,
+ "leads": [
+  "CH1",
+  "CH2"
+ ],
+ "leadLabels": {
+  "CH1": "通道 1",
+  "CH2": "通道 2"
+ },
+ "signal": {
+  "file": "signal.i16",
+  "dtype": "int16le",
+  "unit": "uV",
+  "layout": "lead-major"
+ },
+ "amplitudeNormalized": false,
+ "capabilities": {
+  "beats": false,
+  "linked": false,
+  "intervals": false,
+  "lvh": false,
+  "st": false,
+  "compare": false,
+  "rate": false
+ },
+ "patient": {
+  "age": null,
+  "sex": null
+ },
+ "diagnoses": [],
+ "reportOriginal": null,
+ "validatedByCardiologist": false,
+ "measurements": [],
+ "amplitudes": [],
+ "rhythm": null,
+ "annotations": null,
+ "strip": {
+  "record": "423",
+  "rawLeadNames": [
+   "ECG",
+   "ECG"
+  ],
+  "recordSamples": 525000,
+  "startSample": 223500,
+  "endSample": 226000,
+  "rhythmAtStart": {
+   "code": "(N",
+   "label": "窦性心律"
+  },
+  "marks": [
+   {
+    "sample": 224615,
+    "tMs": 4460.0,
+    "code": "(VT",
+    "label": "室性心动过速"
+   }
+  ]
+ },
+ "issues": [
+  {
+   "level": "info",
+   "lead": null,
+   "msg": "两通道监护片段：原数据库未注明导联身份，没有逐搏标注；本站不提供间期、电轴、电压判据等测量"
+  }
+ ],
+ "source": {
+  "name": "MIT-BIH Malignant Ventricular Ectopy Database (VFDB) v1.0.0",
+  "url": "https://physionet.org/content/vfdb/1.0.0/",
+  "license": "Open Data Commons Attribution License v1.0",
+  "citation": "Greenwald SD. Development and analysis of a ventricular fibrillation detector. M.S. thesis, MIT Dept. of Electrical Engineering and Computer Science, 1986. https://dspace.mit.edu/handle/1721.1/92988",
+  "annotation": "数据库只给出节律改变的起点（节律标注），没有逐搏标注；原数据库未注明两个通道分别是哪个导联",
+  "record": "423",
+  "physionet": "Pollard, T., Moody, B. E., Lehman, L., Gow, B., Fernandes, C., Xie, C., Johnson, A., Mark, R. G., & Heldt, T. (2026). PhysioNet as a global platform for biomedical research. Nature Health. https://doi.org/10.1038/s44360-026-00096-z"
+ },
+ "contentReviewed": false
+}

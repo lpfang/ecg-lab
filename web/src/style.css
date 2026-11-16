@@ -2579,3 +2579,25 @@ body.case-stale .case-info {
   color: #6b7280;
   line-height: 1.6;
 }
+
+/* 病例不提供的分析（meta.capabilities，监护条带等）：对应面板和控件隐藏 */
+body.no-linked .now-card,
+body.no-linked .below,
+body.no-linked #play-btn,
+body.no-linked [data-rate],
+body.no-linked label:has(#show-ref),
+body.no-compare .compare-card,
+body.no-beats label:has(#show-waves),
+body.strip-case [data-layout] {
+  display: none !important;
+}
+body.strip-case .seg:has(> [data-layout]),
+body.strip-case .seg:has(> [data-rate]) {
+  display: none;
+}
+.strip-card p {
+  margin: 0.4em 0;
+}
+.strip-card a {
+  margin-right: 1em;
+}

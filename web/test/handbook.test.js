@@ -1,6 +1,6 @@
 // 心电图手册：章节结构、演示病例与定位、交互演示的计算
 import { describe, it, expect } from 'vitest';
-import { computeLayout, LAYOUTS } from '../src/ecg/layout.js';
+import { computeLayout, LAYOUTS, layoutFor } from '../src/ecg/layout.js';
 import { readFileSync } from 'node:fs';
 import { HANDBOOK, CHAPTERS, chapterById } from '../src/content/handbook.js';
 import { TOURS, cursorAt } from '../src/tours.js';
@@ -40,7 +40,7 @@ describe('手册结构', () => {
     const c = index.find((x) => x.id === d.case);
     expect(c, d.case).toBeTruthy();
     expect(c.quizOnly).toBeFalsy();
-    if (d.lead) expect(LEADS).toContain(d.lead);
+    if (d.lead) expect(c.kind === 'strip' ? readMeta(d.case).leads : LEADS).toContain(d.lead);
     expect(d.note.length).toBeGreaterThan(8);
     if (d.cursor) {
       const m = readMeta(d.case);
@@ -55,7 +55,7 @@ describe('手册结构', () => {
     if (d.lead && d.cursor && (!d.scroll || d.scroll === 'lead' || d.scroll === '.paper-wrap')) {
       const m = readMeta(d.case);
       const t = cursorAt(m, d.cursor);
-      const lay = computeLayout({ durationMs: m.durationMs, speed: 25, gain: 10, layout: LAYOUTS[d.view?.layout ?? 'std'] });
+      const lay = computeLayout({ durationMs: m.durationMs, speed: 25, gain: 10, layout: layoutFor(m, d.view?.layout ?? 'std') });
       expect(lay.cells.some((c) => c.lead === d.lead && c.t0 <= t && t < c.t1), `${d.label}：${d.lead} 在 ${t} ms 不可见`).toBe(true);
     }
     if (d.view?.mtab) expect(['intervals', 'lvh', 'st']).toContain(d.view.mtab);

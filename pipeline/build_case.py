@@ -1,7 +1,7 @@
 """把公开心电数据库中的一条记录处理成前端用的静态资源。
 
 用法：
-    pipeline/.venv/bin/python pipeline/build_case.py ptbxl 33 [ludb 142 ...]
+    pipeline/.venv/bin/python pipeline/build_case.py ptbxl 33 [ludb 142 ...] [vfdb 426@642 ...]
 
 输出（web/public/cases/）：
     index.json                 所有病例列表（order.json 可指定顺序）
@@ -16,6 +16,9 @@
     ludb   LUDB v1.0.1（医生逐导联手工标注波形起止点）。
            注意：LUDB 的幅度被逐导联归一化（每导联峰峰值 = 1 mV），不是真实 mV，
            只能用于时间相关的教学（波形定位、间期），见 docs/数据核查.md
+    vfdb   MIT-BIH 恶性室性心律失常库 v1.0.0（两通道、250 Hz、35 分钟监护记录）。
+           写成 记录号@起点秒，截取 10 秒"监护条带"（meta.kind = 'strip'）；只有节律标注，
+           导联身份未注明，前端关闭逐搏标注、间期、电压判据等分析面板
 
 原则（见 docs/迁移经验-心电图教学.md）：
     - 增益、基线、导联顺序一律从头文件读取，不做假设
@@ -640,10 +643,138 @@ def load_ludb(rec: str) -> dict:
     }
 
 
+# ---------------------------------------------------------------- 监护条带（长时间监护记录中截取 10 秒）
+
+# 数据库的节律标注（.atr 的 aux 字符串）→ 中文。只收录本站用到的几种；遇到未收录的照原样显示
+RHYTHM_LABEL = {
+    "(N": "窦性心律", "(NSR": "窦性心律", "(VT": "室性心动过速", "(VF": "心室颤动", "(VFIB": "心室颤动",
+    "(VFL": "心室扑动", "(ASYS": "心脏停搏", "(NOISE": "噪声", "(AFIB": "心房颤动",
+}
+
+STRIP_SOURCES = {
+    "vfdb": {
+        "path": "vfdb/1.0.0",
+        "name": "MIT-BIH Malignant Ventricular Ectopy Database (VFDB) v1.0.0",
+        "url": "https://physionet.org/content/vfdb/1.0.0/",
+        "license": "Open Data Commons Attribution License v1.0",
+        "citation": (
+            "Greenwald SD. Development and analysis of a ventricular fibrillation detector. M.S. thesis, "
+            "MIT Dept. of Electrical Engineering and Computer Science, 1986. https://dspace.mit.edu/handle/1721.1/92988"
+        ),
+        "annotation": "数据库只给出节律改变的起点（节律标注），没有逐搏标注；原数据库未注明两个通道分别是哪个导联",
+        "adcBits": 12,
+    },
+}
+
+STRIP_SECONDS = 10
+
+
+def build_strip(db: str, spec: str) -> dict:
+    """从长时间监护记录中截取 10 秒。spec = '记录号@起点秒'，如 '426@642'。
+    不重采样、不滤波；保存原始记录号、起止采样点和数据库节律标注的原始采样点，条带内时间由它们推算。"""
+    rec, _, start = spec.partition("@")
+    if not start:
+        sys.exit(f"监护条带需写成 记录号@起点秒，如 {db} 426@642")
+    src = STRIP_SOURCES[db]
+    case_id = f"{db}-{rec}"
+    log(f"[{case_id}] 起点 {start} s")
+    base = RAW / db / rec
+    for ext in ["hea", "dat", "atr"]:
+        download(f"{src['path']}/{rec}.{ext}", base.with_suffix(f".{ext}"))
+    head = wfdb.rdheader(str(base))
+    fs = float(head.fs)
+    s0 = round(float(start) * fs)
+    n = int(STRIP_SECONDS * fs)
+    s1 = s0 + n
+    if s0 < 0 or s1 > head.sig_len:
+        sys.exit(f"窗口 {s0}–{s1} 超出记录范围 0–{head.sig_len}")
+    wrec = wfdb.rdrecord(str(base), sampfrom=s0, sampto=s1, physical=False)
+    if any(u.lower() != "mv" for u in wrec.units):
+        raise RuntimeError(f"单位不是 mV：{wrec.units}")
+    raw = wrec.d_signal.T.astype(np.int64)
+    gains = np.array(wrec.adc_gain, dtype=float)[:, None]
+    baselines = np.array(wrec.baseline, dtype=float)[:, None]
+    sig_uV = (raw - baselines) / gains * 1000.0
+    if np.abs(sig_uV).max() > 32767:
+        raise RuntimeError("信号超出 Int16 µV 范围")
+    leads = [f"CH{i + 1}" for i in range(raw.shape[0])]
+
+    issues: list = []
+    lo, hi = -(2 ** (src["adcBits"] - 1)), 2 ** (src["adcBits"] - 1) - 1
+    for li, lead in enumerate(leads):
+        sat = int(np.sum((raw[li] <= lo) | (raw[li] >= hi)))
+        if sat:
+            issues.append({"level": "error", "lead": lead, "msg": f"{sat} 个采样点饱和（达到 ADC 极限）"})
+        if np.std(sig_uV[li]) < 20:
+            issues.append({"level": "error", "lead": lead, "msg": "信号近似平线，疑似导联脱落"})
+    issues.append({"level": "info", "lead": None,
+                   "msg": "两通道监护片段：原数据库未注明导联身份，没有逐搏标注；本站不提供间期、电轴、电压判据等测量"})
+
+    ann = wfdb.rdann(str(base), "atr")
+    rh = [(int(s), a.strip("\x00").strip()) for s, a in zip(ann.sample, ann.aux_note) if a.strip("\x00").strip()]
+    before = [a for s, a in rh if s < s0]
+    marks = [{"sample": s, "tMs": round((s - s0) / fs * 1000, 1), "code": a, "label": RHYTHM_LABEL.get(a, a)}
+             for s, a in rh if s0 <= s < s1]
+    at_start = before[-1] if before else None
+    if at_start == "(NOISE":
+        issues.append({"level": "warn", "lead": None, "msg": "窗口起点落在数据库标注的噪声段内"})
+    for m in marks:
+        log(f"  节律标注 {m['code']} @ 原记录 {m['sample'] / fs:.3f} s（样本 {m['sample']}），条带内 {m['tMs'] / 1000:.3f} s")
+
+    return {
+        "id": case_id,
+        "kind": "strip",
+        "fs": fs,
+        "nSamples": n,
+        "durationMs": n / fs * 1000,
+        "leads": leads,
+        "leadLabels": {l: f"通道 {i + 1}" for i, l in enumerate(leads)},
+        "signal": {"file": "signal.i16", "dtype": "int16le", "unit": "uV", "layout": "lead-major"},
+        "amplitudeNormalized": False,
+        # 监护条带不提供的分析：前端据此关闭对应面板（版式由 kind 决定，与这里分开）
+        "capabilities": {"beats": False, "linked": False, "intervals": False, "lvh": False, "st": False,
+                         "compare": False, "rate": False},
+        "patient": {"age": None, "sex": None},
+        "diagnoses": [],
+        "reportOriginal": None,
+        "validatedByCardiologist": False,
+        "measurements": [],
+        "amplitudes": [],
+        "rhythm": None,
+        "annotations": None,
+        "strip": {
+            "record": rec,
+            "rawLeadNames": list(wrec.sig_name),
+            "recordSamples": int(head.sig_len),
+            "startSample": s0,
+            "endSample": s1,
+            "rhythmAtStart": {"code": at_start, "label": RHYTHM_LABEL.get(at_start, at_start)} if at_start else None,
+            "marks": marks,
+        },
+        "issues": issues,
+        "source": {k: v for k, v in src.items() if k not in ("path", "adcBits")}
+        | {"record": rec, "physionet": PHYSIONET_CITATION},
+        "contentReviewed": False,
+    }, sig_uV
+
+
+def write_strip(db: str, spec: str) -> dict:
+    meta, sig_uV = build_strip(db, spec)
+    d = OUT / meta["id"]
+    changed = write_if_changed(d / "signal.i16", np.round(sig_uV).astype("<i2").tobytes())
+    changed |= write_if_changed(d / "meta.json", dumps(meta))
+    log(f"  {'已更新' if changed else '无变化'}")
+    for i in meta["issues"]:
+        if i["level"] != "info":
+            log(f"  [{i['level']}] {i['lead'] or '-'}: {i['msg']}")
+    return meta
+
+
 # ---------------------------------------------------------------- 输出
 
 
 LOADERS = {"ptbxl": load_ptbxl, "ludb": load_ludb}
+STRIP_LOADERS = set(STRIP_SOURCES)
 
 
 def write_if_changed(path: Path, data: bytes) -> bool:
@@ -907,6 +1038,8 @@ def update_index():
             "group": info.get("group", "其他"),
             "patient": meta["patient"],
             "amplitudeNormalized": meta["amplitudeNormalized"],
+            # 监护条带：列表里注明，前端据此选版式
+            **({"kind": meta["kind"]} if meta.get("kind") else {}),
             # 只在测验中使用、不出现在病例列表里（如 LUDB：幅度被归一化，只能用于时间相关题目）
             **({"quizOnly": True} if info.get("quizOnly") else {}),
         })
@@ -921,9 +1054,12 @@ def main(argv):
         print(__doc__)
         sys.exit(1)
     for db, rec in zip(argv[::2], argv[1::2]):
-        if db not in LOADERS:
-            sys.exit(f"未知数据源 {db}，可选：{', '.join(LOADERS)}")
-        build(db, rec)
+        if db in STRIP_LOADERS:
+            write_strip(db, rec)
+        elif db in LOADERS:
+            build(db, rec)
+        else:
+            sys.exit(f"未知数据源 {db}，可选：{', '.join([*LOADERS, *STRIP_LOADERS])}")
     update_index()
 
 

@@ -60,6 +60,37 @@ export function drawPaper(canvas, lay, ecg, pxPerMm, opts = {}) {
   if (atrial) for (const cell of lay.cells) if (cell.labels) drawAtrial(ctx, lay, cell, ecg.meta.annotations, s);
   // 分割线画在最上面：画在下面会被波段底色冲淡
   drawColumnDividers(ctx, lay, s);
+  const marks = ecg.meta.strip?.marks;
+  if (marks?.length) drawRhythmMarks(ctx, lay, marks, s);
+}
+
+export const MARK_COLOR = '#be123c';
+
+/**
+ * 数据库节律标注（监护条带）：在标注时刻画一条贯穿各行的竖虚线，第一行上方写"数据库标注：××开始"。
+ * 竖线只表示数据库给出的位置，不是本站判定的起点
+ */
+function drawRhythmMarks(ctx, lay, marks, s) {
+  ctx.save();
+  ctx.strokeStyle = MARK_COLOR;
+  ctx.fillStyle = MARK_COLOR;
+  ctx.lineWidth = 1.6 / s;
+  ctx.setLineDash([1.6, 1]);
+  for (const m of marks) {
+    for (const cell of lay.cells) {
+      if (m.tMs < cell.t0 || m.tMs >= cell.t1) continue;
+      const x = xOf(lay, cell, m.tMs);
+      ctx.beginPath();
+      ctx.moveTo(x, cell.topMm);
+      ctx.lineTo(x, cell.topMm + cell.heightMm);
+      ctx.stroke();
+      if (cell.row === 0) {
+        ctx.font = '600 3px system-ui, sans-serif';
+        ctx.fillText(`数据库标注：${m.label}开始`, x + 1, cell.topMm + 4);
+      }
+    }
+  }
+  ctx.restore();
 }
 
 /** 12 导联各行中，左右两列之间的垂直分割线（节律条是连续的一条，不画） */
@@ -180,7 +211,7 @@ function drawCell(ctx, lay, cell, ecg, s, waves) {
 
   ctx.fillStyle = COLORS.label;
   ctx.font = `600 3.2px system-ui, sans-serif`;
-  ctx.fillText(cell.lead, cell.xMm + 1, cell.topMm + (cell.rhythm ? 7 : 4));
+  ctx.fillText(cell.name ?? cell.lead, cell.xMm + 1, cell.topMm + (cell.rhythm ? 7 : 4));
 
 }
 

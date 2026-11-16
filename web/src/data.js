@@ -25,11 +25,24 @@ export function validateMeta(meta, id) {
   if (!(meta.fs > 0)) bad(`采样率 fs = ${meta.fs}`);
   if (!Number.isInteger(meta.nSamples) || meta.nSamples < 2) bad(`采样点数 nSamples = ${meta.nSamples}`);
   if (!Array.isArray(meta.leads) || !meta.leads.length) bad('缺少导联列表');
-  for (const l of meta.leads) if (!LEAD_NAMES.has(l)) bad(`未知导联 ${l}`);
   if (new Set(meta.leads).size !== meta.leads.length) bad('导联重复');
-  // 标准版面和向量环要用全部 12 个导联
-  const missing = [...LEAD_NAMES].filter((l) => !meta.leads.includes(l));
-  if (missing.length) bad(`缺少导联 ${missing.join('、')}`);
+  if (meta.kind === 'strip') {
+    // 监护条带：1–4 个未注明导联身份的通道，只用条带排版，不进 12 导联版面和向量环
+    if (meta.leads.length > 4) bad(`监护条带通道过多（${meta.leads.length}）`);
+    for (const l of meta.leads) if (!/^CH\d$/.test(l)) bad(`未知通道 ${l}`);
+    const st = meta.strip;
+    if (!st || !Array.isArray(st.marks)) bad('缺少监护条带信息 strip');
+    if (!(st.endSample - st.startSample === meta.nSamples)) bad('条带起止采样点与采样点数不符');
+    for (const m of st.marks)
+      if (!(m.tMs >= 0 && m.tMs < (meta.nSamples / meta.fs) * 1000) || typeof m.label !== 'string')
+        bad(`节律标注位置有误（${m.tMs} ms）`);
+  } else {
+    if (meta.kind != null) bad(`未知病例类型 ${meta.kind}`);
+    for (const l of meta.leads) if (!LEAD_NAMES.has(l)) bad(`未知导联 ${l}`);
+    // 标准版面和向量环要用全部 12 个导联
+    const missing = [...LEAD_NAMES].filter((l) => !meta.leads.includes(l));
+    if (missing.length) bad(`缺少导联 ${missing.join('、')}`);
+  }
   // 下面的解码器只认这一种格式：小端 Int16、单位 µV、导联优先
   const sig = meta.signal ?? {};
   if (sig.dtype !== 'int16le') bad(`数据类型 ${sig.dtype}（只支持 int16le）`);
@@ -48,6 +61,12 @@ export function validateMeta(meta, id) {
   if (!(Math.abs(meta.durationMs - dur) <= 1000 / meta.fs + 1))
     bad(`时长 ${meta.durationMs} ms 与采样点数不符（应约 ${dur} ms）`);
   return meta;
+}
+
+/** 病例可用的分析：缺省全部可用；监护条带等在 meta.capabilities 里关掉没有可靠依据的部分 */
+export const CAPABILITIES = ['beats', 'linked', 'intervals', 'lvh', 'st', 'compare', 'rate'];
+export function capabilitiesOf(meta) {
+  return Object.fromEntries(CAPABILITIES.map((k) => [k, meta?.capabilities?.[k] !== false]));
 }
 
 export async function loadCase(id) {

@@ -751,6 +751,7 @@ export function spotOf(spot, beats, durationMs) {
 
 /** 导览光标：{atrial: i} 停在第 i 个手工标注的 P 波峰上；其余同 cursorTime */
 export function cursorAt(meta, spec) {
+  if (spec?.ms != null) return spec.ms; // 直接给时刻（ms）：用于没有逐搏标注的监护条带
   if (spec?.atrial != null) return meta.annotations?.atrial?.waves?.[spec.atrial]?.peak ?? null;
   return cursorTime(meta.annotations?.beats ?? [], spec);
 }
