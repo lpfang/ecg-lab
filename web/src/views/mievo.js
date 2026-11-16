@@ -151,7 +151,7 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
     const t0 = performance.now();
     const DUR = 700;
     const step = (now) => {
-      if (!root.isConnected) return;
+      if (!root.isConnected || root.closest('dialog')?.open === false) return;
       const k = Math.min(1, (now - t0) / DUR);
       const e = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
       shownW = lerpW(from, to, e);
@@ -170,7 +170,8 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
     if (cur === stages.length - 1) show(0);
     playBtn.textContent = '❚❚ 暂停';
     timer = setInterval(() => {
-      if (!root.isConnected) return stop();
+      // 节点被移除，或所在对话框已关闭（保险：不只依赖外部清理）
+      if (!root.isConnected || root.closest('dialog')?.open === false) return stop();
       if (cur === stages.length - 1) return stop();
       show(cur + 1);
     }, 2600);
@@ -189,4 +190,10 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
   });
   render(stages[0].w, stages[0]);
   show(0);
+  /** 清理：停止自动播放和正在进行的波形过渡，画面停在当前帧。手册关闭或换章时调用 */
+  return () => {
+    stop();
+    cancelAnimationFrame(raf);
+    raf = 0;
+  };
 }

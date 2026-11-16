@@ -1444,6 +1444,13 @@ const hb = { chapter: null, demoToken: 0, demoLoading: false, demoFailed: false,
 
 const HEART_LINK = { ext: '看图认识心脏外观和冠状动脉', int: '看图认识心脏的四个腔室和心壁', cond: '看图认识心脏的传导系统' };
 
+/** 手册里心梗演变动画的清理函数（停止自动播放和波形过渡） */
+let stopMiEvo = null;
+function stopHandbookAnim() {
+  stopMiEvo?.();
+  stopMiEvo = null;
+}
+
 function openHandbook(id) {
   const ch = chapterById(id) ?? chapterById(hb.chapter) ?? HANDBOOK[0].chapters[0];
   hb.chapter = ch.id;
@@ -1465,6 +1472,7 @@ function openHandbook(id) {
     .join('');
   const tours = (ch.tours ?? []).map((tid) => TOURS.find((t) => t.id === tid)).filter(Boolean);
   const label = (id) => state.index?.cases.find((c) => c.id === id)?.title ?? id;
+  stopHandbookAnim();
   $('#hb-body').innerHTML =
     `<h2>${esc(ch.title)} <span class="en">${esc(ch.en)}</span></h2>` +
     `<div class="hb-text">${ch.body}</div>` +
@@ -1498,7 +1506,7 @@ function openHandbook(id) {
   if (ch.widget === 'axis') axisWidget($('#hb-widget'), 60);
   if (ch.widget === 'mi') miWidget($('#hb-widget'), MI_TERRITORIES, MI_GRID, MI_EXTRA);
   const evo = $('#hb-body [data-mi-evo]');
-  if (evo) miEvolutionWidget(evo, MI_EVOLUTION, evo.dataset.miEvo || 'pro');
+  if (evo) stopMiEvo = miEvolutionWidget(evo, MI_EVOLUTION, evo.dataset.miEvo || 'pro');
   if (ch.widget === 'qtc') {
     // 用当前病例预填（有 QT 和心率时）
     const m = state.ecg?.meta;
@@ -1578,6 +1586,7 @@ function closeDlg(id) {
 }
 
 function closeHandbook() {
+  stopHandbookAnim();
   closeDlg('handbook');
 }
 
@@ -2195,6 +2204,7 @@ function bindControls() {
   });
   $('#handbook-close').onclick = closeHandbook;
   $('#handbook').addEventListener('close', () => {
+    stopHandbookAnim();
     const u = new URL(location.href);
     u.searchParams.delete('read');
     history.replaceState(null, '', u);
