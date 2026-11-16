@@ -105,10 +105,11 @@ export const REFS = {
     status: 'verified',
   },
   aha2025als: {
-    text: 'Wigginton JG, Agarwal S, Bartos JA, et al. Part 9: Adult Advanced Life Support: 2025 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2025;152(16 Suppl 2):S538–S577. doi:10.1161/CIR.0000000000001376',
-    note: 'AHA 2025 成人高级生命支持指南（作者、卷页与 DOI 据 Europe PMC 题录核对）。据转述，其中建议成人持续性多形性室速立即非同步电击；原文网站需人机验证，本站未读原文，正文的电击说法依据上面已读的默沙东专业版',
-    status: 'listed',
+    text: 'Wigginton JG, Agarwal S, Bartos JA, et al. Part 9: Adult Advanced Life Support: 2025 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2025;152(16 Suppl 2):S538–S577. doi:10.1161/CIR.0000000000001376. 官方全文：https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support',
+    note: 'AHA 2025 成人高级生命支持指南。已在官方全文核对"多形性室速"一节推荐第 1 条（推荐级别 1，证据水平 B-NR）：成人持续性多形性室速立即非同步电击；配套说明：不论 QT 长短都视为不稳定，QRS 逐搏变化无法可靠同步，需高能量非同步电击，电击不能防止复发',
+    status: 'verified',
   },
+
   drew2010: {
     text: 'Drew BJ, Ackerman MJ, Funk M, et al. Prevention of torsade de pointes in hospital settings: a scientific statement from the American Heart Association and the American College of Cardiology Foundation. Circulation. 2010;121(8):1047–1060. doi:10.1161/CIRCULATIONAHA.109.192704',
     note: 'AHA/ACCF 关于尖端扭转型室速的科学声明（PMC3056123）：心电图特征、频率 160–240 次/分、"短–长–短"起始、住院患者的危险因素（表 2：QTc > 500 ms、低钾、低镁、利尿剂、女性、高龄等）、静脉硫酸镁；已读全文',
