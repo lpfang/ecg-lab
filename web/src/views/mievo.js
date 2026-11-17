@@ -73,7 +73,7 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
   root.innerHTML = `
     <div class="hbw-evo">
       <svg class="hbw-evo-svg" viewBox="0 0 ${W_MM} ${H_MM}" role="img" aria-label="心梗心电图演变示意动画"></svg>
-      <div class="hbw-evo-steps" role="tablist">${stages
+      <div class="hbw-evo-steps" role="group" aria-label="演变阶段">${stages
         .map((s, i) => `<button type="button" data-evo="${i}"><span>${i + 1}</span>${s.zh}</button>`)
         .join('')}</div>
       <div class="hbw-evo-ctl">
@@ -134,7 +134,7 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
     root.querySelectorAll('[data-evo]').forEach((b) => {
       const on = +b.dataset.evo === cur;
       b.classList.toggle('on', on);
-      b.setAttribute('aria-selected', on);
+      b.setAttribute('aria-pressed', on);
     });
     info.innerHTML = `<p><b>${cur + 1}. ${st.zh}</b> <span class="muted">（${st.when}）</span></p><p>${mode === 'plain' ? st.plain : st.text}</p>`;
     cancelAnimationFrame(raf);
