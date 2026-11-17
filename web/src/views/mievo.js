@@ -99,6 +99,8 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
 
   const info = root.querySelector('.hbw-evo-info');
   const playBtn = root.querySelector('[data-evo-act="play"]');
+  const prevBtn = root.querySelector('[data-evo-act="prev"]');
+  const nextBtn = root.querySelector('[data-evo-act="next"]');
   const reduce = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = 0;
   let shownW = stages[0].w;
@@ -136,6 +138,9 @@ export function miEvolutionWidget(root, stages, mode = 'pro') {
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on);
     });
+    // 第一阶段不能再往前，最后一阶段不能再往后
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === stages.length - 1;
     info.innerHTML = `<p><b>${cur + 1}. ${st.zh}</b> <span class="muted">（${st.when}）</span></p><p>${mode === 'plain' ? st.plain : st.text}</p>`;
     cancelAnimationFrame(raf);
     labels.replaceChildren();
